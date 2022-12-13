@@ -23,4 +23,13 @@ List cus_name=['Barath','Ram','vig'];
   late EmployeeDataSource employeeDataSource;
   List dataGridRows = [];
 
+  var values={};
   List values_dict=[];
+  
+
+
+  // order page
+  List item_list=[];
+  
+
+var list = <TextEditingController>[];

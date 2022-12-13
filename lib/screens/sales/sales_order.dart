@@ -211,9 +211,11 @@ class _sales_orderState extends State<sales_order> {
   }
 
   Widget itemtable(Size size) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: SizedBox(
+    return 
+    // Padding(
+    //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    //     child:
+         SizedBox(
           height: size.height /5,
           child: SfDataGrid(
             source: employeeDataSource,
@@ -244,36 +246,37 @@ class _sales_orderState extends State<sales_order> {
 
             allowSwiping: true,
             isScrollbarAlwaysShown: true,
-            // swipeMaxOffset: 100.0,
-            // columnWidthMode: ColumnWidthMode.fill,
+            swipeMaxOffset: 100.0,
+            columnWidthMode: ColumnWidthMode.fill,
             columns: <GridColumn>[
               GridColumn(
-                  columnName: 'id',
+                  columnName: '',
                   label: Container(
-                      padding: EdgeInsets.all(15.0),
-                      child: Text(
-                        'ID',
-                        overflow: TextOverflow.ellipsis,
-                      ))),
-              GridColumn(
-                  columnName: 'name',
-                  label: Container(
-                      padding: EdgeInsets.all(15.0),
+                      padding: EdgeInsets.all(20.0),
                       child: Text(
                         'Name',
                         overflow: TextOverflow.ellipsis,
                       ))),
               GridColumn(
-                  columnName: 'designation',
+                  columnName: '',
                   label: Container(
-                      padding: EdgeInsets.all(15.0),
+                      padding: EdgeInsets.all(20.0),
                       child: Text(
-                        'Designation',
+                        'QTY',
                         overflow: TextOverflow.ellipsis,
                       ))),
+              // GridColumn(
+              //     columnName: 'designation',
+              //     label: Container(
+              //         padding: EdgeInsets.all(20.0),
+              //         child: Text(
+              //           'Designation',
+              //           overflow: TextOverflow.ellipsis,
+              //         ))),
             ],
           ),
-        ));
+        // )
+        );
   }
 
   Widget addbutton(Size size) {
@@ -301,12 +304,10 @@ class EmployeeDataSource extends DataGridSource {
   EmployeeDataSource({required List employeeData}) {
     _employeeData = employeeData
         .map<DataGridRow>((e) => DataGridRow(cells: [
-              DataGridCell(columnName: 'id', value: e['ID'].toString()),
+              DataGridCell(columnName:'', value: e['name'].toString()),
               DataGridCell<String>(
-                  columnName: 'name', value: e['Name'].toString()),
-              DataGridCell<String>(
-                  columnName: 'designation',
-                  value: e['Designation'].toString()),
+                  columnName:'', value: e['qty'].toString()),
+             
             ]))
         .toList();
   }
