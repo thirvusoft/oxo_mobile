@@ -103,9 +103,9 @@ class _form_child_tableState extends State<form_child_table> {
                   context,
                   MaterialPageRoute(builder: (context) => sales_order()),
                 );
-              values_dict.add({
-                'ID':test1.text,'Name':test2.text,'Designation':test3.text,'Salary':test4.text
-              });
+              // values_dict.add({
+              //   'ID':test1.text,'Name':test2.text,'Designation':test3.text,'Salary':test4.text
+              // });
               print('111111111111111111111111111111');
               print(values_dict);
 
