@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/screens/login.dart';
+import 'package:oxo/screens/sales/home_page.dart';
 import 'package:oxo/screens/sales/order.dart';
 import 'package:oxo/screens/sales/sales_order.dart';
 import 'package:oxo/screens/splashscreen.dart';
@@ -27,7 +28,7 @@ class MyHomePage extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
 
-      home: order(),
+      home: Login(),
     );
   }
 }

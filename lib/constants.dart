@@ -33,3 +33,6 @@ List cus_name=['Barath','Ram','vig'];
   
 
 var list = <TextEditingController>[];
+
+
+var item;

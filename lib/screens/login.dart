@@ -3,40 +3,43 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:oxo/constants.dart';
-class SignInThree extends StatefulWidget {
+import 'package:oxo/screens/sales/order.dart';
+
+class Login extends StatefulWidget {
   @override
-  State<SignInThree> createState() => _SignInThreeState();
+  State<Login> createState() => _LoginState();
 }
 
-class _SignInThreeState extends State<SignInThree> {
-
+class _LoginState extends State<Login> {
+  var login_loading = false;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: const Color(0xFF21899C),
-      resizeToAvoidBottomInset: false,
-      body:SingleChildScrollView(child:  SafeArea(
-        child: SizedBox(
-          height: size.height,
-          child: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              Positioned(
-                bottom: 20.0,
-                child: Column(
-                  children: <Widget>[
-                    buildCard(size),
-                    buildFooter(size),
-                  ],
-                ),
+        backgroundColor: const Color(0xFF21899C),
+        resizeToAvoidBottomInset: false,
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: SizedBox(
+              height: size.height,
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Positioned(
+                    bottom: 20.0,
+                    child: Column(
+                      children: <Widget>[
+                        buildCard(size),
+                        buildFooter(size),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 
   Widget buildCard(Size size) {
@@ -72,7 +75,7 @@ class _SignInThreeState extends State<SignInThree> {
           ),
 
           //sign in button
-          signInButton(size),
+          LogInButton(size),
         ],
       ),
     );
@@ -146,9 +149,7 @@ class _SignInThreeState extends State<SignInThree> {
               maxLength: 10,
               keyboardType: TextInputType.number,
               cursorColor: const Color(0xFF151624),
-           
               decoration: InputDecoration(
-          
                 counterText: "",
                 hintText: 'Enter mobile number',
                 hintStyle: GoogleFonts.inter(
@@ -160,7 +161,6 @@ class _SignInThreeState extends State<SignInThree> {
                     ? const Color.fromRGBO(248, 247, 251, 1)
                     : Colors.transparent,
                 enabledBorder: OutlineInputBorder(
-                  
                     borderRadius: BorderRadius.circular(40),
                     borderSide: BorderSide(
                       color: emailController.text.isEmpty
@@ -196,7 +196,6 @@ class _SignInThreeState extends State<SignInThree> {
                         ),
                 ),
               ),
-                
             ),
           ),
         ));
@@ -215,14 +214,12 @@ class _SignInThreeState extends State<SignInThree> {
                 fontSize: 16.0,
                 color: const Color(0xFF151624),
               ),
-              
               cursorColor: const Color(0xFF151624),
               obscureText: true,
               keyboardType: TextInputType.visiblePassword,
-                    validator: 
-              
-              (value) {
-                    focusedBorder: OutlineInputBorder(
+              validator: (value) {
+                focusedBorder:
+                OutlineInputBorder(
                     borderRadius: BorderRadius.circular(40),
                     borderSide: const BorderSide(
                       color: Color.fromRGBO(44, 185, 176, 1),
@@ -283,21 +280,40 @@ class _SignInThreeState extends State<SignInThree> {
         ));
   }
 
-  Widget signInButton(Size size) {
+  Widget LogInButton(Size size) {
     return Container(
       height: size.height / 13,
       width: size.width * 0.7,
       child: ElevatedButton(
-        onPressed: () {if (formkey_mobile.currentState!.validate() && (formkey_pass.currentState!.validate()));},
+        onPressed: () {
+          setState(() {
+            login_loading = true;
+          });
+
+          if (formkey_mobile.currentState!.validate() &&
+              (formkey_pass.currentState!.validate())) ;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => order()),
+                );
+        },
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 20.0),
           primary: Color(0xFF21899C),
           shape: StadiumBorder(),
         ),
-        child: Text(
-          "Log In",
-          style: TextStyle(color: Colors.white, fontSize: 18),
-        ),
+        child: (login_loading)
+            ? SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 1.5,
+                ))
+            : Text(
+                "Log In",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
       ),
     );
   }

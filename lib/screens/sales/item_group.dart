@@ -8,7 +8,6 @@ import 'package:oxo/screens/sales/order.dart';
 import '../../constants.dart';
 
 class item_group extends StatefulWidget {
-  const item_group({super.key});
 
   @override
   State<item_group> createState() => _item_groupState();
@@ -23,34 +22,35 @@ class _item_groupState extends State<item_group> {
         automaticallyImplyLeading: false,
         backgroundColor: Color.fromRGBO(44, 185, 176, 1),
         title: Text(
-          '',
+          item,
           style: GoogleFonts.poppins(
             textStyle:
                 TextStyle(fontSize: 20, letterSpacing: .2, color: Colors.white),
           ),
         ),
         actions: [
-          ElevatedButton.icon(
+         IconButton(
             onPressed: () {
                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => order()),
                 );
-                values_dict.add(values);
-                print(values);
-                print(values_dict);
+                // values_dict.add(values);
+
             },
-            style: ElevatedButton.styleFrom(
-             
-              primary: Color(0xFF21899C),
-              
+             style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              primary: Color.fromRGBO(44, 185, 176, 1),
             ),
             icon: Icon(
               Icons.add,
               size: 24.0,
             ),
-            label: Text('Add Item'),
+            
           ),
+          Text("Add Item")
         ],
       ),
       body: SingleChildScrollView(
@@ -134,46 +134,20 @@ class _item_groupState extends State<item_group> {
                                   maxLines: 1,
                                   keyboardType: TextInputType.number,
                                    onChanged: ((qty) {
-                                    // var des={};
-                                    // des["name"]=  item_list[index]["name"];
-                                    // des["qty"]=qty.toString();
-                                    // values_dict.add(des);
-                                    // print(values_dict);
-                                    // print(values_dict.contains(item_list[index]["name"]));
-                                    // if(values_dict.contains(item_list[index]["name"]))
-                                    // {print("object");
-                                    //   print(des["name"]);
-                                    //   print(values_dict);
-                                    //   des.update(des["name"], des["qty"]);
-                                    // print(des);
-                                   // }
-                                    // print(values_dict[index]["name"]);
-                                    // if(values_dict)
-                                    //   int qty = int.parse(value);
+                        
 
-
-                                    //     print(qty);
-                                    //   var item_name =
-                                    //       item_list[index]["name"];
-                                    //   if (qty != '') {
-                                    //     print(qty);
-                                    //     print('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
-                                    //     print(item_name);
-                                    //     print("xcxcxcxcxcxcxcxcxcxcxcxcx");
-                                    //     print(values.runtimeType);
+                                      var item_name =
+                                          item_list[index]["name"];
+                                      if (qty != '') {
                                         
-                                    //     values[item_name]=qty;
-                                       
-                                    //     // print(values_dict[item_name]);
-                                    //     print('gggggggg');
-                                    //   } else {
-                                    //     values[item_name] = 0;
-                                    //   }
-                                    //   print(values);
-                                    //   item_list[index]["item_qty"] = qty;
-                                    //   print(values);
+                                        values[item_name]=qty;
+
+                                      } else {
+                                        values[item_name] = 0;
+                                      }
+                                      item_list[index]["item_qty"] = qty;
+    
                                      
-                                    //   print(values_dict);
                                     }),
                                   
                           

@@ -18,36 +18,73 @@ class order extends StatefulWidget {
 
 class _orderState extends State<order> {
   @override
+  initState() {
+    all_item();
+  }
+
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
         home: DefaultTabController(
-            length: 4,
-            child: Scaffold(
-              appBar: AppBar(
-                automaticallyImplyLeading: false,
-                backgroundColor: Color.fromRGBO(44, 185, 176, 1),
-                title: Text(
-                  'Sales Order',
-                  style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        fontSize: 20, letterSpacing: .2, color: Colors.white),
-                  ),
-                ),
-                      actions: [
-          ElevatedButton.icon(
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+          title: Text(
+            'Sales Order',
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 20, letterSpacing: .2, color: Colors.white),
+            ),
+          ),
+          bottom: TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.person), text: "MEN'S RANGE"),
+              Tab(icon: Icon(Icons.person_outline), text: "WOMEN RANGE"),
+              Tab(icon: Icon(Icons.person_pin), text: "KID'S RANGE"),
+              Tab(icon: Icon(Icons.person_pin_sharp), text: "PREMIUM RANGE")
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            mens(size),
+            women(size),
+            kids(size),
+            primium(size),
+          ],
+        ),
+      ),
+    ));
+  }
+
+  Widget mens(Size size) {
+    return Stack(children: [
+      Container(
+        child: Center(child: itemlist()),
+      ),
+      Padding(
+        padding: EdgeInsets.only(right: 10, bottom: 7),
+        child: Container(
+          alignment: Alignment.bottomRight,
+          child: ElevatedButton.icon(
             onPressed: () {
-               Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => sales_order()),
-                );
-                values_dict.add(values);
-                print(values);
-                print(values_dict);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => sales_order()),
+              );
+              values_dict = [];
+              values.forEach((key, value) {
+                values_dict.add({'name': key, 'qty': value});
+              });
             },
             style: ElevatedButton.styleFrom(
-             
-              primary: Color(0xFF21899C),
-              
+              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              primary: Color.fromRGBO(44, 185, 176, 1),
             ),
             icon: Icon(
               Icons.add,
@@ -55,77 +92,126 @@ class _orderState extends State<order> {
             ),
             label: Text('View order item'),
           ),
-        ],
-                bottom: TabBar(
-                  tabs: [
-                    Tab(icon: Icon(Icons.person), text: "MEN'S RANGE"),
-                    Tab(icon: Icon(Icons.person_outline), text: "WOMEN RANGE"),
-                    Tab(icon: Icon(Icons.person_pin), text: "KID'S RANGE"),
-                    Tab(
-                        icon: Icon(Icons.person_pin_sharp),
-                        text: "PRIMIUM RANGE")
-                  ],
-                ),
-              ),
-              body: TabBarView(
-                children: [
-                  mens(),
-                  women(),
-                  kids(),
-                  primium(),
-                ],
-              ),
-            )));
-  }
-
-  Widget mens() {
-    return Container(
-      child: Center(
-          child: ElevatedButton(
-        onPressed: () {
-          all_item();
-        },
-        child: Text(
-          'item',
-          style: TextStyle(fontSize: 35.0),
-        ),
-      )),
-    );
-  }
-
-  Widget women() {
-    return Container(
-      child: Center(
-        child: Text(
-          'It is a second layout tab, which is responsible for taking pictures from your mobile.22222222',
-          style: TextStyle(fontSize: 35.0),
         ),
       ),
-    );
+    ]);
   }
 
-  Widget kids() {
-    return Container(
-      child: Center(child: itemlist()),
-    );
-  }
-
-  Widget primium() {
-    return Container(
-      child: Center(
-        child: Text(
-          'It is a second layout tab, which is responsible for taking pictures from your mobile.444444444',
-          style: TextStyle(fontSize: 35.0),
+  Widget women(Size size) {
+    return Stack(children: [
+      Container(
+        child: Center(child: itemlist()),
+      ),
+      Padding(
+        padding: EdgeInsets.only(right: 10, bottom: 7),
+        child: Container(
+          alignment: Alignment.bottomRight,
+          child: ElevatedButton.icon(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => sales_order()),
+              );
+              values_dict = [];
+              values.forEach((key, value) {
+                values_dict.add({'name': key, 'qty': value});
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              primary: Color.fromRGBO(44, 185, 176, 1),
+            ),
+            icon: Icon(
+              Icons.add,
+              size: 24.0,
+            ),
+            label: Text('View order item'),
+          ),
         ),
       ),
-    );
+    ]);
+  }
+
+  Widget kids(Size size) {
+    return Stack(children: [
+      Container(
+        child: Center(child: itemlist()),
+      ),
+      Padding(
+        padding: EdgeInsets.only(right: 10, bottom: 7),
+        child: Container(
+          alignment: Alignment.bottomRight,
+          child: ElevatedButton.icon(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => sales_order()),
+              );
+              values_dict = [];
+              values.forEach((key, value) {
+                values_dict.add({'name': key, 'qty': value});
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              primary: Color.fromRGBO(44, 185, 176, 1),
+            ),
+            icon: Icon(
+              Icons.add,
+              size: 24.0,
+            ),
+            label: Text('View order item'),
+          ),
+        ),
+      ),
+    ]);
+  }
+
+  Widget primium(Size size) {
+    return Stack(children: [
+      Container(
+        child: Center(child: itemlist()),
+      ),
+      Padding(
+        padding: EdgeInsets.only(right: 10, bottom: 7),
+        child: Container(
+          alignment: Alignment.bottomRight,
+          child: ElevatedButton.icon(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => sales_order()),
+              );
+              values_dict = [];
+              values.forEach((key, value) {
+                values_dict.add({'name': key, 'qty': value});
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              primary: Color.fromRGBO(44, 185, 176, 1),
+            ),
+            icon: Icon(
+              Icons.add,
+              size: 24.0,
+            ),
+            label: Text('View order item'),
+          ),
+        ),
+      ),
+    ]);
   }
 
   Widget itemlist() {
-
     return Container(
       child: ListView.builder(
-          itemCount:item_list.length ,
+          itemCount: item_list.length,
           shrinkWrap: true,
           itemBuilder: (context, int index) {
             list.add(TextEditingController());
@@ -167,6 +253,9 @@ class _orderState extends State<order> {
                       ),
                     ),
                     onTap: () {
+                      setState(() {
+                        item = item_list[index]["name"];
+                      });
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => item_group()),
@@ -181,7 +270,7 @@ class _orderState extends State<order> {
   }
 
   Future all_item() async {
-   item_list=[];
+    item_list = [];
     var response = await http.get(
         Uri.parse(
             """https://demo14prime.thirvusoft.co.in/api/method/frappe.client.get_list?doctype=Item&fields=["name","standard_rate"]"""),
@@ -194,7 +283,6 @@ class _orderState extends State<order> {
           item_list.add((json.decode(response.body)['message'][i]));
         }
       });
-      print(item_list);
     } else {
       return json.decode(response.body)['message'];
     }
