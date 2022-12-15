@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/constants.dart';
+import 'package:oxo/screens/sales/home_page.dart';
 import 'package:oxo/screens/sales/order.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -96,56 +97,6 @@ class _sales_orderState extends State<sales_order> {
         ],
       ),
     );
-  }
-
-  Widget customername(Size size) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-        child: SizedBox(
-            height: size.height,
-            child: Row(children: [
-              Expanded(
-                  child: SearchField(
-                controller: customer_name,
-                suggestions: cus_name
-                    .map((String) => SearchFieldListItem(String))
-                    .toList(),
-                suggestionState: Suggestion.expand,
-                textInputAction: TextInputAction.next,
-                hasOverlay: false,
-                searchStyle: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black.withOpacity(0.8),
-                ),
-                searchInputDecoration: InputDecoration(
-                  hintText: 'Select customer name',
-                  hintStyle: GoogleFonts.inter(
-                    fontSize: 16.0,
-                    color: const Color(0xFF151624).withOpacity(0.5),
-                  ),
-                  filled: true,
-                  fillColor: customer_name.text.isEmpty
-                      ? const Color.fromRGBO(248, 247, 251, 1)
-                      : Colors.transparent,
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        color: customer_name.text.isEmpty
-                            ? Colors.transparent
-                            : const Color.fromRGBO(44, 185, 176, 1),
-                      )),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                        color: Color.fromRGBO(44, 185, 176, 1),
-                      )),
-                ),
-              )),
-              SizedBox(
-                width: 10,
-                height: 10,
-              ),
-            ])));
   }
 
   Widget deliverydate(Size size) {
@@ -258,7 +209,7 @@ class _sales_orderState extends State<sales_order> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding:  EdgeInsets.only(left:8.0),
+                        padding: EdgeInsets.only(left: 8.0),
                         child: ElevatedButton.icon(
                           onPressed: () {
                             Navigator.push(
@@ -286,32 +237,24 @@ class _sales_orderState extends State<sales_order> {
                     ),
                     Expanded(
                       child: Padding(
-                        padding:  EdgeInsets.only(right:8.0),
-        
-            child:  AnimatedButton(
-                  text: 'Submit',
-                  color: Color.fromRGBO(44, 185, 176, 1),
-                  
-                  pressEvent: () {
-                    AwesomeDialog(
-                      context: context,
-                      animType: AnimType.leftSlide,
-                      headerAnimationLoop: false,
-                      dialogType: DialogType.success,
-                      title: 'Order Submited Sucessfully',
-                      btnOkOnPress: () {
-                        Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => order()),
-                            );
-                      },
-                      btnOkIcon: Icons.check_circle,
-                      onDismissCallback: (type) {
-                        
-                      },
-                    ).show();
-                  },
-                ),
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            customer_creation();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5.0, vertical: 15.0),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0)),
+                            primary: Color.fromRGBO(44, 185, 176, 1),
+                          ),
+                          icon: Icon(
+                            Icons.check,
+                            size: 24.0,
+                          ),
+                          label: Text('Submit'),
+                        ),
                       ),
                     ),
                   ],
@@ -374,7 +317,179 @@ class _sales_orderState extends State<sales_order> {
             ));
   }
 
+  // Widget alert(Size size) {
+  //   return Padding(
+  //       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+  //       child:
+  //   );
+  // }
 
+  Future customer_creation() async {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Dealer Details'),
+        actions: <Widget>[
+          SearchField(
+            controller: customer_name,
+            suggestions:
+                cus_name.map((String) => SearchFieldListItem(String)).toList(),
+            suggestionState: Suggestion.expand,
+            textInputAction: TextInputAction.next,
+            hasOverlay: false,
+            searchStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black.withOpacity(0.8),
+            ),
+            searchInputDecoration: InputDecoration(
+              hintText: 'Select Dealer name',
+              hintStyle: GoogleFonts.inter(
+                fontSize: 16.0,
+                color: const Color(0xFF151624).withOpacity(0.5),
+              ),
+              filled: true,
+              fillColor: customer_name.text.isEmpty
+                  ? const Color.fromRGBO(248, 247, 251, 1)
+                  : Colors.transparent,
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: customer_name.text.isEmpty
+                        ? Colors.transparent
+                        : const Color.fromRGBO(44, 185, 176, 1),
+                  )),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: Color.fromRGBO(44, 185, 176, 1),
+                  )),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+            width: 10,
+          ),
+          SearchField(
+            controller: distributor_name,
+            suggestions:
+                cus_name.map((String) => SearchFieldListItem(String)).toList(),
+            suggestionState: Suggestion.expand,
+            textInputAction: TextInputAction.next,
+            hasOverlay: false,
+            searchStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black.withOpacity(0.8),
+            ),
+            searchInputDecoration: InputDecoration(
+              hintText: 'Select Distributor name',
+              hintStyle: GoogleFonts.inter(
+                fontSize: 16.0,
+                color: const Color(0xFF151624).withOpacity(0.5),
+              ),
+              filled: true,
+              fillColor: distributor_name.text.isEmpty
+                  ? const Color.fromRGBO(248, 247, 251, 1)
+                  : Colors.transparent,
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: distributor_name.text.isEmpty
+                        ? Colors.transparent
+                        : const Color.fromRGBO(44, 185, 176, 1),
+                  )),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: Color.fromRGBO(44, 185, 176, 1),
+                  )),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+            width: 10,
+          ),
+          TextFormField(
+            textInputAction: TextInputAction.next,
+            controller: delivery_date,
+            validator: (x) {
+              if (x!.isEmpty) {
+                return " Date can't be empty";
+              }
+
+              return null;
+            },
+            decoration: InputDecoration(
+              hintText: 'Delivery Date',
+              hintStyle: GoogleFonts.inter(
+                fontSize: 16.0,
+                color: const Color(0xFF151624).withOpacity(0.5),
+              ),
+              filled: true,
+              fillColor: delivery_date.text.isEmpty
+                  ? const Color.fromRGBO(248, 247, 251, 1)
+                  : Colors.transparent,
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: delivery_date.text.isEmpty
+                        ? Colors.transparent
+                        : const Color.fromRGBO(44, 185, 176, 1),
+                  )),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: Color.fromRGBO(44, 185, 176, 1),
+                  )),
+            ),
+            style: TextStyle(),
+            readOnly: true,
+            onTap: () async {
+              var date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2101));
+
+              builder:
+              (BuildContext context, Widget child) {
+                return Theme(
+                  data: ThemeData().copyWith(
+                      colorScheme: ColorScheme.dark(
+                          primary: Color(0xff19183e),
+                          surface: Color(0xff19183e))),
+                  child: child,
+                );
+              };
+              delivery_date.text = date.toString().substring(0, 10);
+            },
+          ),
+          SizedBox(height: 10,),
+          AnimatedButton(
+                          text: 'Submit',
+                          color: Color.fromRGBO(44, 185, 176, 1),
+                          pressEvent: () {
+                            AwesomeDialog(
+                              context: context,
+                              animType: AnimType.leftSlide,
+                              headerAnimationLoop: false,
+                              dialogType: DialogType.success,
+                              title: 'Orderd Sucessfully',
+                              btnOkOnPress: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => home_page()),
+                                );
+                              },
+                              btnOkIcon: Icons.check_circle,
+                              onDismissCallback: (type) {},
+                            ).show();
+                          },
+                        ),
+        ],
+      ),
+    );
+  }
 }
 
 class EmployeeDataSource extends DataGridSource {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:oxo/screens/sales/order.dart';
@@ -29,28 +30,27 @@ class _item_groupState extends State<item_group> {
           ),
         ),
         actions: [
-         IconButton(
+         ElevatedButton.icon(
             onPressed: () {
-               Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => order()),
-                );
-                // values_dict.add(values);
-
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => order()),
+              );
+              values_dict = [];
+              values.forEach((key, value) {
+                values_dict.add({'name': key, 'qty': value});
+              });
             },
-             style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
+            style: ElevatedButton.styleFrom(
               primary: Color.fromRGBO(44, 185, 176, 1),
             ),
             icon: Icon(
               Icons.add,
               size: 24.0,
             ),
-            
+            label: Text('Add item'),
           ),
-          Text("Add Item")
+       
         ],
       ),
       body: SingleChildScrollView(
@@ -70,22 +70,25 @@ class _item_groupState extends State<item_group> {
   Widget item_varients(Size size) {
     return Container(
       height: size.height * 0.9,
-      child: Center(child: itemlist()),
+      child: itemlist(),
     );
   }
 
   Widget itemlist() {
-    return Container(
+     return AnimationLimiter(
+    child: Container(
       child: ListView.builder(
-          itemCount: item_list.length,
+          itemCount: item_list_mens.length,
           shrinkWrap: true,
           itemBuilder: (context, int index) {
             list.add(TextEditingController());
 
             int count = index + 1;
-            return Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: Container(
+            return AnimationConfiguration.staggeredList(position: index,
+              duration:  Duration(milliseconds: 300),
+            child:SlideAnimation( verticalOffset: 50.0,child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: FadeInAnimation(child:Container(
                     width: 50,
                     child: Card(
                         color: Color(0xffffffff),
@@ -105,14 +108,14 @@ class _item_groupState extends State<item_group> {
                                 ),
                               )),
                           title: Text(
-                            item_list[index]["name"],
+                            item_list_mens[index]["item_code"],
                             style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                   letterSpacing: .1, color: Color(0xff19183e)),
                             ),
                           ),
                           subtitle: Text(
-                            item_list[index]["standard_rate"].toString(),
+                            item_list_mens[index]["standard_rate"].toString(),
                             style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                   letterSpacing: .1, color: Color(0xff19183e)),
@@ -137,7 +140,7 @@ class _item_groupState extends State<item_group> {
                         
 
                                       var item_name =
-                                          item_list[index]["name"];
+                                          item_list_mens[index]["item_code"];
                                       if (qty != '') {
                                         
                                         values[item_name]=qty;
@@ -145,7 +148,7 @@ class _item_groupState extends State<item_group> {
                                       } else {
                                         values[item_name] = 0;
                                       }
-                                      item_list[index]["item_qty"] = qty;
+                                      item_list_mens[index]["item_qty"] = qty;
     
                                      
                                     }),
@@ -184,13 +187,12 @@ class _item_groupState extends State<item_group> {
                               ),
                             ),
                           ]),
-                        ))));
+                        )))))));
           }),
-    );
+    ));
   }
 
   Future all_item() async {
-    print("itemm_pageeee1111");
     var response = await http.get(
         Uri.parse(
             """https://demo14prime.thirvusoft.co.in/api/method/frappe.client.get_list?doctype=Item&fields=["name","standard_rate"]"""),
@@ -203,11 +205,11 @@ class _item_groupState extends State<item_group> {
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
       setState(() {
-        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
-          item_list.add((json.decode(response.body)['message'][i]));
+        for (var i = 0; i < json.decode(response.body)['message1'].length; i++) {
+          item_list_mens.add((json.decode(response.body)['message1'][i]));
         }
       });
-      print(item_list);
+      print(item_list_mens);
     } else {
       return json.decode(response.body)['message'];
     }
