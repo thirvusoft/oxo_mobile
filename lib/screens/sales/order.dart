@@ -80,7 +80,7 @@ class _orderState extends State<order> {
               );
               values_dict = [];
               values.forEach((key, value) {
-                values_dict.add({'name': key, 'qty': value});
+                values_dict.add({'item_code': key, 'qty': value});
               });
             },
             style: ElevatedButton.styleFrom(
@@ -257,19 +257,20 @@ class _orderState extends State<order> {
                                         color: Color(0xff19183e)),
                                   ),
                                 ),
-                                subtitle: Text(
-                                  item_list_mens[index]["standard_rate"]
-                                      .toString(),
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        letterSpacing: .1,
-                                        color: Color(0xff19183e)),
-                                  ),
-                                ),
+                                // subtitle: Text(
+                                //   item_list_mens[index]["standard_rate"]
+                                //       .toString(),
+                                //   style: GoogleFonts.poppins(
+                                //     textStyle: TextStyle(
+                                //         letterSpacing: .1,
+                                //         color: Color(0xff19183e)),
+                                //   ),
+                                // ),
                                 onTap: () {
                                   setState(() {
                                     item = item_list_mens[index]["item_code"];
                                   });
+                                  varient_item(item);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -331,19 +332,20 @@ class _orderState extends State<order> {
                                         color: Color(0xff19183e)),
                                   ),
                                 ),
-                                subtitle: Text(
-                                  item_list_womens[index]["standard_rate"]
-                                      .toString(),
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        letterSpacing: .1,
-                                        color: Color(0xff19183e)),
-                                  ),
-                                ),
+                                // subtitle: Text(
+                                //   item_list_womens[index]["standard_rate"]
+                                //       .toString(),
+                                //   style: GoogleFonts.poppins(
+                                //     textStyle: TextStyle(
+                                //         letterSpacing: .1,
+                                //         color: Color(0xff19183e)),
+                                //   ),
+                                // ),
                                 onTap: () {
                                   setState(() {
                                     item = item_list_womens[index]["item_code"];
                                   });
+                                  varient_item(item);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -403,19 +405,20 @@ class _orderState extends State<order> {
                                         color: Color(0xff19183e)),
                                   ),
                                 ),
-                                subtitle: Text(
-                                  item_list_kids[index]["standard_rate"]
-                                      .toString(),
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        letterSpacing: .1,
-                                        color: Color(0xff19183e)),
-                                  ),
-                                ),
+                                // subtitle: Text(
+                                //   item_list_kids[index]["standard_rate"]
+                                //       .toString(),
+                                //   style: GoogleFonts.poppins(
+                                //     textStyle: TextStyle(
+                                //         letterSpacing: .1,
+                                //         color: Color(0xff19183e)),
+                                //   ),
+                                // ),
                                 onTap: () {
                                   setState(() {
                                     item = item_list_kids[index]["item_code"];
                                   });
+                                  varient_item(item);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -475,19 +478,23 @@ class _orderState extends State<order> {
                                         color: Color(0xff19183e)),
                                   ),
                                 ),
-                                subtitle: Text(
-                                  item_list_premimum[index]["standard_rate"]
-                                      .toString(),
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        letterSpacing: .1,
-                                        color: Color(0xff19183e)),
-                                  ),
-                                ),
+                                // subtitle: Text(
+                                //   item_list_premimum[index]["standard_rate"]
+                                //       .toString(),
+                                //   style: GoogleFonts.poppins(
+                                //     textStyle: TextStyle(
+                                //         letterSpacing: .1,
+                                //         color: Color(0xff19183e)),
+                                //   ),
+                                // ),
                                 onTap: () {
+                                  
                                   setState(() {
                                     item = item_list_premimum[index]["item_code"];
+                                    
                                   });
+                                
+                                  varient_item(item);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -536,17 +543,38 @@ class _orderState extends State<order> {
             i++) {
           item_list_premimum.add((json.decode(response.body)['message4'][i]));
         }
-      });
-      print("99999999999999999999999999999999999");
-      print(item_list_mens);
-      print("99999999999999999999999999999999999");
-      print(item_list_womens);
-      print("99999999999999999999999999999999999");
-      print(item_list_kids);
-      print("99999999999999999999999999999999999");
-      print(item_list_premimum);
+      });;
     } else {
       return json.decode(response.body)['message'];
     }
   }
+
+
+
+
+
+  Future varient_item(item) async{
+    print("object");
+  varient_item_list=[];
+  var response =await http.get(
+    Uri.parse(
+      """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.varient_list?template_name=${item}"""),
+      // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+    );
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      await Future.delayed(Duration(milliseconds: 500));
+      setState(() {
+        for (var i = 0;
+            i < json.decode(response.body)['message'].length;
+            i++) {
+          varient_item_list.add((json.decode(response.body)['message'][i]));
+        }
+      });
+
+
+    } 
+  
+}
 }

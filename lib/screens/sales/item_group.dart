@@ -32,13 +32,14 @@ class _item_groupState extends State<item_group> {
         actions: [
          ElevatedButton.icon(
             onPressed: () {
+              list.clear();
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => order()),
               );
               values_dict = [];
               values.forEach((key, value) {
-                values_dict.add({'name': key, 'qty': value});
+                values_dict.add({'item_code': key, 'qty': value});
               });
             },
             style: ElevatedButton.styleFrom(
@@ -78,7 +79,7 @@ class _item_groupState extends State<item_group> {
      return AnimationLimiter(
     child: Container(
       child: ListView.builder(
-          itemCount: item_list_mens.length,
+          itemCount: varient_item_list.length,
           shrinkWrap: true,
           itemBuilder: (context, int index) {
             list.add(TextEditingController());
@@ -108,14 +109,14 @@ class _item_groupState extends State<item_group> {
                                 ),
                               )),
                           title: Text(
-                            item_list_mens[index]["item_code"],
+                            varient_item_list[index]["item_code"],
                             style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                   letterSpacing: .1, color: Color(0xff19183e)),
                             ),
                           ),
                           subtitle: Text(
-                            item_list_mens[index]["standard_rate"].toString(),
+                            varient_item_list[index]["standard_rate"].toString(),
                             style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                   letterSpacing: .1, color: Color(0xff19183e)),
@@ -140,7 +141,7 @@ class _item_groupState extends State<item_group> {
                         
 
                                       var item_name =
-                                          item_list_mens[index]["item_code"];
+                                          varient_item_list[index]["item_code"];
                                       if (qty != '') {
                                         
                                         values[item_name]=qty;
@@ -148,7 +149,7 @@ class _item_groupState extends State<item_group> {
                                       } else {
                                         values[item_name] = 0;
                                       }
-                                      item_list_mens[index]["item_qty"] = qty;
+                                      varient_item_list[index]["qty"] = qty;
     
                                      
                                     }),
@@ -192,26 +193,8 @@ class _item_groupState extends State<item_group> {
     ));
   }
 
-  Future all_item() async {
-    var response = await http.get(
-        Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/frappe.client.get_list?doctype=Item&fields=["name","standard_rate"]"""),
-        headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
-    // );
-    print("itemm_pageeee4565");
-    print(response.runtimeType);
-    print("itemm_pageeee");
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
-      setState(() {
-        for (var i = 0; i < json.decode(response.body)['message1'].length; i++) {
-          item_list_mens.add((json.decode(response.body)['message1'][i]));
-        }
-      });
-      print(item_list_mens);
-    } else {
-      return json.decode(response.body)['message'];
-    }
-  }
-}
+
+
+
+
+ }

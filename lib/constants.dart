@@ -39,7 +39,8 @@ List cus_name=['Barath','Ram','vig'];
   List item_list_womens=[];
   List item_list_kids=[];
   List item_list_premimum=[];
-  
+ List varient_item_list=[];
+
 
 var list = <TextEditingController>[];
 
@@ -48,4 +49,21 @@ var item;
 // submit
 GlobalKey<FormState> formkey_salesorder = GlobalKey<FormState>();
 TextEditingController name = TextEditingController();
-List dealer_name=["barath","ram",];
+List dealer_name=[];
+
+
+// dealer
+
+List territory=[];
+List state=[];
+TextEditingController dealername = TextEditingController();
+TextEditingController dealermobile = TextEditingController();
+TextEditingController dealeraddress = TextEditingController();
+TextEditingController dealerterritory = TextEditingController();
+TextEditingController dealercity = TextEditingController();
+TextEditingController dealerstate = TextEditingController();
+TextEditingController dealerpincode = TextEditingController();
+GlobalKey<FormState> address_key = GlobalKey<FormState>();
+GlobalKey<FormState> mobile_key = GlobalKey<FormState>();
+GlobalKey<FormState> name_key = GlobalKey<FormState>();
+
