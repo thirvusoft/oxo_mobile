@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/constants.dart';
+import 'package:oxo/screens/sales/home_page.dart';
+import 'package:oxo/screens/sales/order.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:http/http.dart' as http;
 
 import 'item_form.dart';
 
@@ -16,6 +23,7 @@ class sales_order extends StatefulWidget {
 class _sales_orderState extends State<sales_order> {
   @override
   void initState() {
+    dealername_list();
     super.initState();
 
     employeeDataSource = EmployeeDataSource(employeeData: values_dict);
@@ -40,7 +48,6 @@ class _sales_orderState extends State<sales_order> {
         body: SingleChildScrollView(
           child: SafeArea(
             child: SizedBox(
-              height: size.height,
               child: Stack(
                 alignment: Alignment.center,
                 children: <Widget>[
@@ -48,7 +55,7 @@ class _sales_orderState extends State<sales_order> {
                     // bottom: 20.0,
                     child: Column(
                       children: <Widget>[
-                        customer_details(size),
+                        // customer_details(size),
                         item(size)
                         // buildFooter(size),
                       ],
@@ -61,27 +68,25 @@ class _sales_orderState extends State<sales_order> {
         ));
   }
 
-  Widget customer_details(Size size) {
-    return Container(
-      child: Column(
-        children: [
-          SizedBox(
-            height: size.height * 0.02,
-          ),
-          customername(size),
-          SizedBox(
-            height: size.height * 0.02,
-          ),
-          deliverydate(size),
-          SizedBox(
-            height: size.height * 0.02,
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget customer_details(Size size) {
+  //   return Container(
+  //     child: Column(
+  //       children: [
+  //         SizedBox(
+  //           height: size.height * 0.02,
+  //         ),
+  //         customername(size),
+  //         SizedBox(
+  //           height: size.height * 0.02,
+  //         ),
+  //         deliverydate(size),
 
-    Widget item(Size size) {
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  Widget item(Size size) {
     return Container(
       child: Column(
         children: [
@@ -89,62 +94,13 @@ class _sales_orderState extends State<sales_order> {
           SizedBox(
             height: size.height * 0.02,
           ),
-          addbutton(size),
-          SizedBox(
-            height: size.height * 0.02,
-          ),
+          // addbutton(size),
+          // SizedBox(
+          //   height: size.height * 0.02,
+          // ),
         ],
       ),
     );
-  }
-
-  Widget customername(Size size) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-        child: SizedBox(
-            // height: size.height / 10,
-            child: Row(children: [
-          Expanded(
-              child: SearchField(
-            controller: customer_name,
-            suggestions:
-                cus_name.map((String) => SearchFieldListItem(String)).toList(),
-            suggestionState: Suggestion.expand,
-            textInputAction: TextInputAction.next,
-            hasOverlay: false,
-            searchStyle: TextStyle(
-              fontSize: 15,
-              color: Colors.black.withOpacity(0.8),
-            ),
-            searchInputDecoration: InputDecoration(
-              hintText: 'Select customer name',
-              hintStyle: GoogleFonts.inter(
-                fontSize: 16.0,
-                color: const Color(0xFF151624).withOpacity(0.5),
-              ),
-              filled: true,
-              fillColor: customer_name.text.isEmpty
-                  ? const Color.fromRGBO(248, 247, 251, 1)
-                  : Colors.transparent,
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    color: customer_name.text.isEmpty
-                        ? Colors.transparent
-                        : const Color.fromRGBO(44, 185, 176, 1),
-                  )),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
-                    color: Color.fromRGBO(44, 185, 176, 1),
-                  )),
-            ),
-          )),
-          SizedBox(
-            width: 10,
-            height: 10,
-          ),
-        ])));
   }
 
   Widget deliverydate(Size size) {
@@ -211,92 +167,379 @@ class _sales_orderState extends State<sales_order> {
   }
 
   Widget itemtable(Size size) {
-    return 
-    // Padding(
-    //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-    //     child:
-         SizedBox(
-          height: size.height /5,
-          child: SfDataGrid(
-            source: employeeDataSource,
+    return
+        // Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        //     child:
+        SizedBox(
+            height: size.height * 0.9,
+            child: SfDataGridTheme(
+              data: SfDataGridThemeData(
+                  headerColor: Color.fromARGB(255, 248, 255, 254)),
 
-            startSwipeActionsBuilder:
-                (BuildContext context, DataGridRow row, int rowIndex) {
-              return GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                      color: Colors.greenAccent,
-                      child: Center(
-                        child: Icon(Icons.add),
-                      )));
-            },
-            endSwipeActionsBuilder:
-                (BuildContext context, DataGridRow row, int rowIndex) {
-              return GestureDetector(
-                  onTap: () {
-                    employeeDataSource._employeeData.removeAt(rowIndex);
-                    employeeDataSource.updateDataGridSource();
-                  },
-                  child: Container(
-                      color: Colors.redAccent,
-                      child: Center(
-                        child: Icon(Icons.delete),
-                      )));
-            },
+              child: SfDataGrid(
+                source: employeeDataSource,
+                startSwipeActionsBuilder:
+                    (BuildContext context, DataGridRow row, int rowIndex) {
+                  return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => order()),
+                        );
+                      },
+                      child: Container(
+                          color: Color.fromRGBO(44, 185, 176, 1),
+                          child: Center(
+                            child: Icon(Icons.add),
+                          )));
+                },
+                footerFrozenRowsCount: 1,
+                endSwipeActionsBuilder:
+                    (BuildContext context, DataGridRow row, int rowIndex) {
+                  return GestureDetector(
+                      onTap: () {
+                        employeeDataSource._employeeData.removeAt(rowIndex);
+                        employeeDataSource.updateDataGridSource();
+                      },
+                      child: Container(
+                          color: Colors.redAccent,
+                          child: Center(
+                            child: Icon(Icons.delete),
+                          )));
+                },
+                footerHeight: 80.0,
+                footer: Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => order()),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5.0, vertical: 15.0),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0)),
+                            primary: Color.fromRGBO(44, 185, 176, 1),
+                          ),
+                          icon: Icon(
+                            Icons.add,
+                            size: 24.0,
+                          ),
+                          label: Text('Add item'),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            customer_creation();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5.0, vertical: 15.0),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0)),
+                            primary: Color.fromRGBO(44, 185, 176, 1),
+                          ),
+                          icon: Icon(
+                            Icons.check,
+                            size: 24.0,
+                          ),
+                          label: Text('Submit'),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
 
-            allowSwiping: true,
-            isScrollbarAlwaysShown: true,
-            swipeMaxOffset: 100.0,
-            columnWidthMode: ColumnWidthMode.fill,
-            columns: <GridColumn>[
-              GridColumn(
-                  columnName: '',
-                  label: Container(
-                      padding: EdgeInsets.all(20.0),
-                      child: Text(
-                        'Name',
-                        overflow: TextOverflow.ellipsis,
-                      ))),
-              GridColumn(
-                  columnName: '',
-                  label: Container(
-                      padding: EdgeInsets.all(20.0),
-                      child: Text(
-                        'QTY',
-                        overflow: TextOverflow.ellipsis,
-                      ))),
-              // GridColumn(
-              //     columnName: 'designation',
-              //     label: Container(
-              //         padding: EdgeInsets.all(20.0),
-              //         child: Text(
-              //           'Designation',
-              //           overflow: TextOverflow.ellipsis,
-              //         ))),
-            ],
-          ),
-        // )
-        );
+                // Expanded(child:    ElevatedButton.icon(
+                //   onPressed: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(builder: (context) => order()),
+                //     );
+                //   },
+                //   style: ElevatedButton.styleFrom(
+                //     padding:
+                //         EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+                //     shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(10.0)),
+                //     primary: Color.fromRGBO(44, 185, 176, 1),
+                //   ),
+                //   icon: Icon(
+                //     Icons.add,
+                //     size: 24.0,
+                //   ),
+                //   label: Text('Add item'),
+                // ),),
+
+                allowSwiping: true,
+                isScrollbarAlwaysShown: true,
+                columnWidthMode: ColumnWidthMode.fill,
+                columns: <GridColumn>[
+                  GridColumn(
+                      columnName: 'name',
+                      label: Container(
+                          padding: EdgeInsets.all(20.0),
+                          child: Text(
+                            'Item name',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ))),
+                  GridColumn(
+                      columnName: 'qty',
+                      label: Container(
+                          padding: EdgeInsets.all(20.0),
+                          child: Text(
+                            'Quantity',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ))),
+                  // GridColumn(
+                  //     columnName: 'designation',
+                  //     label: Container(
+                  //         padding: EdgeInsets.all(20.0),
+                  //         child: Text(
+                  //           'Designation',
+                  //           overflow: TextOverflow.ellipsis,
+                  //         ))),
+                ],
+              ),
+              // )
+            ));
   }
 
-  Widget addbutton(Size size) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: SizedBox(
-            height: size.height / 12,
-            child: Center(
-                child: TextButton(
-              child: Text(
-                'Add',
-                style: TextStyle(fontWeight: FontWeight.bold),
+  // Widget alert(Size size) {
+  //   return Padding(
+  //       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+  //       child:
+  //   );
+  // }
+
+  Future customer_creation() async {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Dealer Details'),
+        actions: <Widget>[
+          SearchField(
+            controller: customer_name,
+            suggestions:
+                dealer_name.map((String) => SearchFieldListItem(String)).toList(),
+            suggestionState: Suggestion.expand,
+            textInputAction: TextInputAction.next,
+            hasOverlay: false,
+            searchStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black.withOpacity(0.8),
+            ),
+            searchInputDecoration: InputDecoration(
+              hintText: 'Select Dealer name',
+              hintStyle: GoogleFonts.inter(
+                fontSize: 16.0,
+                color: const Color(0xFF151624).withOpacity(0.5),
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => form_child_table()),
+              filled: true,
+              fillColor: customer_name.text.isEmpty
+                  ? const Color.fromRGBO(248, 247, 251, 1)
+                  : Colors.transparent,
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: customer_name.text.isEmpty
+                        ? Colors.transparent
+                        : const Color.fromRGBO(44, 185, 176, 1),
+                  )),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: Color.fromRGBO(44, 185, 176, 1),
+                  )),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+            width: 10,
+          ),
+          SearchField(
+            controller: distributor_name,
+            suggestions:
+                cus_name.map((String) => SearchFieldListItem(String)).toList(),
+            suggestionState: Suggestion.expand,
+            textInputAction: TextInputAction.next,
+            hasOverlay: false,
+            searchStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black.withOpacity(0.8),
+            ),
+            searchInputDecoration: InputDecoration(
+              hintText: 'Select Distributor name',
+              hintStyle: GoogleFonts.inter(
+                fontSize: 16.0,
+                color: const Color(0xFF151624).withOpacity(0.5),
+              ),
+              filled: true,
+              fillColor: distributor_name.text.isEmpty
+                  ? const Color.fromRGBO(248, 247, 251, 1)
+                  : Colors.transparent,
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: distributor_name.text.isEmpty
+                        ? Colors.transparent
+                        : const Color.fromRGBO(44, 185, 176, 1),
+                  )),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: Color.fromRGBO(44, 185, 176, 1),
+                  )),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+            width: 10,
+          ),
+          TextFormField(
+            textInputAction: TextInputAction.next,
+            controller: delivery_date,
+            validator: (x) {
+              if (x!.isEmpty) {
+                return " Date can't be empty";
+              }
+
+              return null;
+            },
+            decoration: InputDecoration(
+              hintText: 'Delivery Date',
+              hintStyle: GoogleFonts.inter(
+                fontSize: 16.0,
+                color: const Color(0xFF151624).withOpacity(0.5),
+              ),
+              filled: true,
+              fillColor: delivery_date.text.isEmpty
+                  ? const Color.fromRGBO(248, 247, 251, 1)
+                  : Colors.transparent,
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: delivery_date.text.isEmpty
+                        ? Colors.transparent
+                        : const Color.fromRGBO(44, 185, 176, 1),
+                  )),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: Color.fromRGBO(44, 185, 176, 1),
+                  )),
+            ),
+            style: TextStyle(),
+            readOnly: true,
+            onTap: () async {
+              var date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2101));
+
+              builder:
+              (BuildContext context, Widget child) {
+                return Theme(
+                  data: ThemeData().copyWith(
+                      colorScheme: ColorScheme.dark(
+                          primary: Color(0xff19183e),
+                          surface: Color(0xff19183e))),
+                  child: child,
                 );
-              },
-            ))));
+              };
+              delivery_date.text = date.toString().substring(0, 10);
+            },
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          AnimatedButton(
+            text: 'Submit',
+            color: Color.fromRGBO(44, 185, 176, 1),
+            pressEvent: () {
+              sales_order(customer_name.text, delivery_date.text, values_dict);
+              Navigator.pop(context);
+
+            },
+            
+            
+          ),
+        ],
+      ),
+    );
+  }
+    Future dealername_list() async {
+    dealer_name = [];
+
+    var response = await http.get(
+        Uri.parse(
+            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.customer_list"""));
+        // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      await Future.delayed(Duration(milliseconds: 500));
+      setState(() {
+        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
+          dealer_name.add((json.decode(response.body)['message'][i]));
+        }
+      });
+    }
+  }
+
+  Future sales_order(customer_name, delivery_date, values_dict) async {
+    print("object");
+    print(values_dict);
+    values_dict=jsonEncode(values_dict);
+     print(values_dict);
+    var response = await http.get(
+      Uri.parse(
+          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order?cus_name=${customer_name}&due_date=${delivery_date}&items=${values_dict}"""),
+      // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+    );
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      await Future.delayed(Duration(milliseconds: 500));
+      setState(() {
+        AwesomeDialog(
+          context: context,
+          animType: AnimType.leftSlide,
+          headerAnimationLoop: false,
+          dialogType: DialogType.success,
+          title: 'Orderd Sucessfully',
+          btnOkOnPress: () {
+            values_dict=[];
+            values={};
+            print(values_dict);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => home_page()),
+            );
+            
+          },
+          btnOkIcon: Icons.check_circle,
+          onDismissCallback: (type) {},
+        ).show();
+      });
+    }
   }
 }
 
@@ -304,10 +547,10 @@ class EmployeeDataSource extends DataGridSource {
   EmployeeDataSource({required List employeeData}) {
     _employeeData = employeeData
         .map<DataGridRow>((e) => DataGridRow(cells: [
-              DataGridCell(columnName:'', value: e['name'].toString()),
+              DataGridCell(
+                  columnName: 'name', value: e['item_code'].toString()),
               DataGridCell<String>(
-                  columnName:'', value: e['qty'].toString()),
-             
+                  columnName: 'qty', value: e['qty'].toString()),
             ]))
         .toList();
   }
