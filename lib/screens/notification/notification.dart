@@ -1,20 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
-class notification extends StatefulWidget {
-  const notification({super.key});
+import 'notificationservice.dart';
+
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<notification> createState() => _notificationState();
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class _notificationState extends State<notification> {
-  void notification(){}
+class _MainScreenState extends State<MainScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    tz.initializeTimeZones();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child:ElevatedButton(onPressed:notification, child:Text('Notify')),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  NotificationService().cancelAllNotifications();
+                },
+                child: Text('cancel')),
+            ElevatedButton(
+                onPressed: () {
+                  NotificationService().showNotification(1, "title", "body", 10);
+                },
+                child: Text('show'))
+          ],
+        ),
       ),
     );
   }

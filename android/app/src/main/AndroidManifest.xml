@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.oxo">
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permision.RECEIVE_BOOT_COMPLETED"/>
    <application
         android:label="oxo"
         android:name="${applicationName}"
