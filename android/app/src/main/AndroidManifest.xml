@@ -2,6 +2,7 @@
     package="com.example.oxo">
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permision.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="oxo"
         android:name="${applicationName}"

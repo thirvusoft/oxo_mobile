@@ -141,7 +141,6 @@ class _LoginState extends State<Login> {
         child: SizedBox(
           height: size.height / 12,
           child: Form(
-            autovalidateMode: AutovalidateMode.always,
             key: formkey_mobile,
             child: TextFormField(
               controller: mobilenumcontroller,
@@ -338,6 +337,8 @@ class _LoginState extends State<Login> {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
+      user_name= json.decode(response.body)['full_name'];
+      print(user_name);
       setState(() {
         login_loading = false;
       });

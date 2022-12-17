@@ -23,6 +23,7 @@ class _sales_orderState extends State<sales_order> {
   @override
   void initState() {
     dealername_list();
+    distributor_list();
     super.initState();
 
     employeeDataSource = EmployeeDataSource(employeeData: values_dict);
@@ -67,23 +68,6 @@ class _sales_orderState extends State<sales_order> {
         ));
   }
 
-  // Widget customer_details(Size size) {
-  //   return Container(
-  //     child: Column(
-  //       children: [
-  //         SizedBox(
-  //           height: size.height * 0.02,
-  //         ),
-  //         customername(size),
-  //         SizedBox(
-  //           height: size.height * 0.02,
-  //         ),
-  //         deliverydate(size),
-
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget item(Size size) {
     return Container(
@@ -375,7 +359,7 @@ class _sales_orderState extends State<sales_order> {
           SearchField(
             controller: distributor_name,
             suggestions:
-                cus_name.map((String) => SearchFieldListItem(String)).toList(),
+                distributor.map((String) => SearchFieldListItem(String)).toList(),
             suggestionState: Suggestion.expand,
             textInputAction: TextInputAction.next,
             hasOverlay: false,
@@ -473,7 +457,7 @@ class _sales_orderState extends State<sales_order> {
             text: 'Submit',
             color: Color.fromRGBO(44, 185, 176, 1),
             pressEvent: () {
-              sales_order(customer_name.text, delivery_date.text, values_dict);
+              sales_order(customer_name.text, delivery_date.text, values_dict,distributor_name.text,user_name);
               Navigator.pop(context);
 
             },
@@ -503,14 +487,39 @@ class _sales_orderState extends State<sales_order> {
     }
   }
 
-  Future sales_order(customer_name, delivery_date, values_dict) async {
+    Future distributor_list() async{
+    print("object");
+  distributor=[];
+  var response =await http.get(
+    Uri.parse(
+            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.distributor"""),
+      // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+    );
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      await Future.delayed(Duration(milliseconds: 500));
+      setState(() {
+        for (var i = 0;
+            i < json.decode(response.body)['message'].length;
+            i++) {
+          distributor.add((json.decode(response.body)['message'][i]));
+        }
+      });
+
+
+    } 
+  
+}
+
+  Future sales_order(customer_name, delivery_date, values_dict,distributor_name,user_name) async {
     print("object");
     print(values_dict);
     values_dict=jsonEncode(values_dict);
      print(values_dict);
     var response = await http.get(
       Uri.parse(
-          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order?cus_name=${customer_name}&due_date=${delivery_date}&items=${values_dict}"""),
+          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order?cus_name=${customer_name}&due_date=${delivery_date}&items=${values_dict}&distributor=${distributor_name}&sales_person=${user_name}"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
     print(response.statusCode);
@@ -538,6 +547,28 @@ class _sales_orderState extends State<sales_order> {
           onDismissCallback: (type) {},
         ).show();
       });
+    }
+    else{
+              AwesomeDialog(
+          context: context,
+          animType: AnimType.leftSlide,
+          headerAnimationLoop: false,
+          dialogType: DialogType.success,
+          title: (json.decode(response.body)['message']),
+          btnOkOnPress: () {
+            values_dict=[];
+            values={};
+            print(values_dict);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => home_page()),
+            );
+            
+          },
+          btnOkIcon: Icons.check_circle,
+          onDismissCallback: (type) {},
+        ).show();
+
     }
   }
 }
