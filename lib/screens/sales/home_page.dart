@@ -34,8 +34,8 @@ class _home_pageState extends State<home_page> {
         body: Center(
           child: Column(
             children: <Widget>[
-              Expanded(child: getCardItem()),
-              Expanded(child: getCardItem2()),
+              getCardItem(),
+             getCardItem2(),
             ],
           ),
         ));
@@ -60,57 +60,58 @@ Widget getCardItem() {
           ),
         ],
       ),
-      child: Expanded(
-        child: Column(
-          children: [
-            Padding(padding: EdgeInsets.only(top:20)),
-            Row(
-              
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-               
-                Container(
-                  child: Icon(Icons.supervisor_account,
-                      size: 70, color:Color.fromRGBO(44, 185, 176, 1),),
-                  // padding: const EdgeInsets.all(10),
-                ),
-                // Container(
-                //   child: Text(
-                //     "20",
-                //     style: TextStyle(
-                //       color: Colors.blueAccent,
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Container(
-              // decoration: const BoxDecoration(
-              //     color:Color.fromRGBO(44, 185, 176, 1),
-              //     borderRadius: BorderRadius.only(
-              //         bottomRight: Radius.circular(12),
-              //         bottomLeft: Radius.circular(12))),
-              child: ElevatedButton(
-                child: Text('Add Dealer'),
-                onPressed: () {Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => dealer()),
-                        );},
-                 style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 15.0), backgroundColor: Color(0xFF21899C),
-          shape: StadiumBorder(),
-        ),
+        child: Container(
+          child: Column(
+            children: [
+              Padding(padding: EdgeInsets.only(top:20)),
+              Row(
+                
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                 
+                  Container(
+                    child: Icon(Icons.supervisor_account,
+                        size: 70, color:Color.fromRGBO(44, 185, 176, 1),),
+                    // padding: const EdgeInsets.all(10),
+                  ),
+                  // Container(
+                  //   child: Text(
+                  //     "20",
+                  //     style: TextStyle(
+                  //       color: Colors.blueAccent,
+                  //     ),
+                  //   ),
+                  // ),
+                ],
               ),
-              padding: const EdgeInsets.all(12),
-            )
-          ],
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                // decoration: const BoxDecoration(
+                //     color:Color.fromRGBO(44, 185, 176, 1),
+                //     borderRadius: BorderRadius.only(
+                //         bottomRight: Radius.circular(12),
+                //         bottomLeft: Radius.circular(12))),
+                child: ElevatedButton(
+                  child: Text('Add Dealer'),
+                  onPressed: () {Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => dealer()),
+                          );},
+                   style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 15.0), backgroundColor: Color(0xFF21899C),
+            shape: StadiumBorder(),
+          ),
+                ),
+                padding: const EdgeInsets.all(12),
+              )
+            ],
+          ),
         ),
       ),
     ),
-  ));
+  );
 }
 
 Widget getCardItem2() {
@@ -132,58 +133,60 @@ Widget getCardItem2() {
           ),
         ],
       ),
-      child:  Expanded(
-        child: Column(
-          children: [
-            Padding(padding: EdgeInsets.only(top:30)),
-            Row(
-              
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-               
-                Container(
-                  child: Icon(Icons.shopping_cart,
-                      size: 70, color:Color.fromRGBO(44, 185, 176, 1),),
-                  // padding: const EdgeInsets.all(10),
-                ),
-                // Container(
-                //   child: Text(
-                //     "20",
-                //     style: TextStyle(
-                //       color: Colors.blueAccent,
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              // decoration: const BoxDecoration(
-              //     color:Color.fromRGBO(44, 185, 176, 1),
-              //     borderRadius: BorderRadius.only(
-              //         bottomRight: Radius.circular(12),
-              //         bottomLeft: Radius.circular(12))),
-              child: ElevatedButton(
-                child: Text('Create Order'),
-                onPressed: () {
-                  Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => order()),
-                        );},
-                 style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 15.0), backgroundColor: Color(0xFF21899C),
-          shape: StadiumBorder(),
-        ),
+    
+        child: Container(
+          child: Column(
+            children: [
+              Padding(padding: EdgeInsets.only(top:30)),
+              Row(
+                
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                 
+                  Container(
+                    child: Icon(Icons.shopping_cart,
+                        size: 70, color:Color.fromRGBO(44, 185, 176, 1),),
+                    // padding: const EdgeInsets.all(10),
+                  ),
+                  // Container(
+                  //   child: Text(
+                  //     "20",
+                  //     style: TextStyle(
+                  //       color: Colors.blueAccent,
+                  //     ),
+                  //   ),
+                  // ),
+                ],
               ),
-              padding: const EdgeInsets.all(12),
-            )
-          ],
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                // decoration: const BoxDecoration(
+                //     color:Color.fromRGBO(44, 185, 176, 1),
+                //     borderRadius: BorderRadius.only(
+                //         bottomRight: Radius.circular(12),
+                //         bottomLeft: Radius.circular(12))),
+                child: ElevatedButton(
+                  child: Text('Create Order'),
+                  onPressed: () {
+                    Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => order()),
+                          );},
+                   style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 15.0), backgroundColor: Color(0xFF21899C),
+            shape: StadiumBorder(),
+          ),
+                ),
+                padding: const EdgeInsets.all(12),
+              )
+            ],
+          ),
         ),
       ),
     ),
-  ));
+  );
 }
 
 

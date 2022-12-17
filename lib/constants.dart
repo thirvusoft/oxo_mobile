@@ -5,7 +5,7 @@ TextEditingController mobilenumcontroller = TextEditingController();
 TextEditingController passController = TextEditingController();
 GlobalKey<FormState> formkey_mobile = GlobalKey<FormState>();
 GlobalKey<FormState> formkey_pass = GlobalKey<FormState>();
-
+var user_name;
 
 // sales order
 
@@ -50,7 +50,7 @@ var item;
 GlobalKey<FormState> formkey_salesorder = GlobalKey<FormState>();
 TextEditingController name = TextEditingController();
 List dealer_name=[];
-
+List distributor=[];
 
 // dealer
 

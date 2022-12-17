@@ -29,7 +29,7 @@ class MyHomePage extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
 
-      home: Login(),
+      home: home_page(),
     );
   }
 }
