@@ -117,7 +117,8 @@ Widget getCardItem() {
                 //         bottomLeft: Radius.circular(12))),
                 child: ElevatedButton(
                   child: Text('Add Dealer'),
-                  onPressed: () {Navigator.push(
+                  onPressed: () {
+                    Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => dealer()),
                           );},
@@ -191,6 +192,7 @@ Widget getCardItem2() {
                 child: ElevatedButton(
                   child: Text('Create Order'),
                   onPressed: () {
+
                     Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => order()),
