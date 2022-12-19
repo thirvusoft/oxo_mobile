@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:oxo/screens/add_dealer.dart/dealer.dart';
+import 'package:oxo/screens/sales/order.dart';
 import 'package:oxo/screens/sales/sales_order.dart';
 
 TextEditingController mobilenumcontroller = TextEditingController();
@@ -67,3 +69,32 @@ GlobalKey<FormState> address_key = GlobalKey<FormState>();
 GlobalKey<FormState> mobile_key = GlobalKey<FormState>();
 GlobalKey<FormState> name_key = GlobalKey<FormState>();
 
+
+
+List dashboard_home_list = [
+  {
+    "name": "Add Dealer",
+    "test": Color.fromARGB(255, 144, 192, 213),
+    "page": dealer(),
+    "icon":Icons.person
+  },
+  {
+    "name": "Order Creation",
+    "test": Color.fromARGB(255, 145, 222, 77),
+    "page": order(),
+     "icon":Icons.person
+     },
+     {
+    "name": "Distributor",
+    "test":  Color.fromARGB(255, 33, 223, 223),
+    "page": order(),
+     "icon":Icons.person,
+     },
+
+ {
+    "name": "Location Pin",
+    "test": Color.fromARGB(255, 107, 64, 198),
+    "page": order(),
+     "icon":Icons.person
+     }
+];
