@@ -520,8 +520,7 @@ class _sales_orderState extends State<sales_order> {
     var response = await http.get(
       Uri.parse(
           """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order?cus_name=${customer_name}&due_date=${delivery_date}&items=${values_dict}&distributor=${distributor_name}&sales_person=${user_name}"""),
-      // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
-    );
+      headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {

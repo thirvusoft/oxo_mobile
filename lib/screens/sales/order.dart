@@ -28,196 +28,149 @@ class _orderState extends State<order> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: DefaultTabController(
-          length: 4,
-          child: Scaffold(
-            appBar: AppBar(
-              automaticallyImplyLeading: false,
-              backgroundColor: Color.fromRGBO(44, 185, 176, 1),
-              title: Center(
-                child: Text(
-                  'Sales Order',
-                  style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        fontSize: 20, letterSpacing: .2, color: Colors.white),
+            length: 4,
+            child: Scaffold(
+              appBar: AppBar(
+                automaticallyImplyLeading: false,
+                backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+                title: Center(
+                  child: Text(
+                    'Sales Order',
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 20, letterSpacing: .2, color: Colors.white),
+                    ),
                   ),
                 ),
+                bottom: TabBar(
+                  tabs: [
+                    Tab(icon: Icon(Icons.person), text: "MEN'S RANGE"),
+                    Tab(icon: Icon(Icons.person_outline), text: "WOMEN RANGE"),
+                    Tab(icon: Icon(Icons.person_pin), text: "KID'S RANGE"),
+                    Tab(
+                        icon: Icon(Icons.person_pin_sharp),
+                        text: "PREMIUM RANGE")
+                  ],
+                ),
               ),
-              bottom: TabBar(
-                tabs: [
-                  Tab(icon: Icon(Icons.person), text: "MEN'S RANGE"),
-                  Tab(icon: Icon(Icons.person_outline), text: "WOMEN RANGE"),
-                  Tab(icon: Icon(Icons.person_pin), text: "KID'S RANGE"),
-                  Tab(icon: Icon(Icons.person_pin_sharp), text: "PREMIUM RANGE")
-                ],
+              body: Container(
+                child: TabBarView(
+                  children: [
+                    mens(size),
+                    women(size),
+                    kids(size),
+                    primium(size),
+                  ],
+                ),
               ),
-            ),
-            body: TabBarView(
-              children: [
-                mens(size),
-                women(size),
-                kids(size),
-                primium(size),
-              ],
-            ),
-          ),
-        ));
+            )));
   }
 
   Widget mens(Size size) {
-    return Stack(children: [
-      Container(
-        child: itemlist(),
-      ),
-      Padding(
-        padding: EdgeInsets.only(right: 10, bottom: 7),
-        child: Container(
-          alignment: Alignment.bottomRight,
-          child: ElevatedButton.icon(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => sales_order()),
-              );
-              values_dict = [];
-              values.forEach((key, value) {
-                values_dict.add({'item_code': key, 'qty': value});
-              });
-            },
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              primary: Color.fromRGBO(44, 185, 176, 1),
-            ),
-            icon: Icon(
-              Icons.add,
-              size: 24.0,
-            ),
-            label: Text('View order item'),
+    return Column(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.all(15),
+          child: Theme(
+            data: Theme.of(context).copyWith(accentColor: Colors.white),
+            child: Container(
+                height: 48.0,
+                alignment: Alignment.center,
+                child: TextField(
+                  controller: searchcontroller_men,
+                  onChanged: (value) {
+                    setState(() {
+                      value.trimLeft();
+                      icon_nameOnSearch_men = [];
+                      for (var i = 0; i < item_list_mens.length; i++) {
+                        var des = {};
+                        des["item_code"] = item_list_mens[i]["item_code"];
+                        item_search_list_men.add(des);
+                        if ((item_search_list_men[i]["item_code"]
+                            .toLowerCase()
+                            .contains(value.trim().toLowerCase()))) {
+                          var d = {};
+                          d["item_code"] = item_search_list_men[i]["item_code"];
+                          icon_nameOnSearch_men.add(d);
+                        }
+                      }
+                    });
+                  },
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                      ),
+                      contentPadding: EdgeInsets.all(15),
+                      hintText: "Search",
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Color.fromARGB(252, 4, 0, 0),
+                      )),
+                )),
           ),
         ),
-      ),
-    ]);
-  }
-
-  Widget women(Size size) {
-    return Stack(children: [
-      Container(
-        child: itemlist2(),
-      ),
-      Padding(
-        padding: EdgeInsets.only(right: 10, bottom: 7),
-        child: Container(
-          alignment: Alignment.bottomRight,
-          child: ElevatedButton.icon(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => sales_order()),
-              );
-              values_dict = [];
-              values.forEach((key, value) {
-                values_dict.add({'name': key, 'qty': value});
-              });
-            },
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              primary: Color.fromRGBO(44, 185, 176, 1),
+        Expanded(
+            child: Container(
+          child: itemlist(),
+        )),
+        Container(
+          child: Padding(
+            padding: EdgeInsets.only(right: 10, bottom: 7),
+            child: Container(
+              alignment: Alignment.bottomRight,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => sales_order()),
+                  );
+                  values_dict = [];
+                  values.forEach((key, value) {
+                    values_dict.add({'item_code': key, 'qty': value});
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  primary: Color.fromRGBO(44, 185, 176, 1),
+                ),
+                icon: Icon(
+                  Icons.add,
+                  size: 24.0,
+                ),
+                label: Text('View order item'),
+              ),
             ),
-            icon: Icon(
-              Icons.add,
-              size: 24.0,
-            ),
-            label: Text('View order item'),
           ),
-        ),
-      ),
-    ]);
-  }
-
-  Widget kids(Size size) {
-    return Stack(children: [
-      Container(
-        child: itemlist3(),
-      ),
-      Padding(
-        padding: EdgeInsets.only(right: 10, bottom: 7),
-        child: Container(
-          alignment: Alignment.bottomRight,
-          child: ElevatedButton.icon(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => sales_order()),
-              );
-              values_dict = [];
-              values.forEach((key, value) {
-                values_dict.add({'name': key, 'qty': value});
-              });
-            },
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              primary: Color.fromRGBO(44, 185, 176, 1),
-            ),
-            icon: Icon(
-              Icons.add,
-              size: 24.0,
-            ),
-            label: Text('View order item'),
-          ),
-        ),
-      ),
-    ]);
-  }
-
-  Widget primium(Size size) {
-    return Stack(children: [
-      Container(
-        child: itemlist4(),
-      ),
-      Padding(
-        padding: EdgeInsets.only(right: 10, bottom: 7),
-        child: Container(
-          alignment: Alignment.bottomRight,
-          child: ElevatedButton.icon(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => sales_order()),
-              );
-              values_dict = [];
-              values.forEach((key, value) {
-                values_dict.add({'name': key, 'qty': value});
-              });
-            },
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              primary: Color.fromRGBO(44, 185, 176, 1),
-            ),
-            icon: Icon(
-              Icons.add,
-              size: 24.0,
-            ),
-            label: Text('View order item'),
-          ),
-        ),
-      ),
-    ]);
+        )
+      ],
+    );
   }
 
   Widget itemlist() {
     return AnimationLimiter(
         child: Container(
       child: ListView.builder(
-          itemCount: item_list_mens.length,
+          itemCount: searchcontroller_men.text.isNotEmpty
+              ? icon_nameOnSearch_men.length
+              : item_list_mens.length,
           shrinkWrap: true,
           itemBuilder: (context, int index) {
+            var row = [];
+            if (icon_nameOnSearch_men.length != 0) {
+              row = icon_nameOnSearch_men;
+            } else {
+              row = item_list_mens;
+            }
             list.add(TextEditingController());
 
             int count = index + 1;
@@ -250,25 +203,18 @@ class _orderState extends State<order> {
                                       ),
                                     )),
                                 title: Text(
-                                  item_list_mens[index]["item_code"],
+                                  searchcontroller_men.text.isEmpty
+                                      ? row[index]['item_code']
+                                      : row[index]['item_code'],
                                   style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         letterSpacing: .1,
                                         color: Color(0xff19183e)),
                                   ),
                                 ),
-                                // subtitle: Text(
-                                //   item_list_mens[index]["standard_rate"]
-                                //       .toString(),
-                                //   style: GoogleFonts.poppins(
-                                //     textStyle: TextStyle(
-                                //         letterSpacing: .1,
-                                //         color: Color(0xff19183e)),
-                                //   ),
-                                // ),
                                 onTap: () {
                                   setState(() {
-                                    item = item_list_mens[index]["item_code"];
+                                    item = row[index]["item_code"];
                                   });
                                   varient_item(item);
                                   Navigator.push(
@@ -285,14 +231,294 @@ class _orderState extends State<order> {
     ));
   }
 
+  Widget women(Size size) {
+    return Column(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.all(15),
+          child: Theme(
+            data: Theme.of(context).copyWith(accentColor: Colors.white),
+            child: Container(
+                height: 48.0,
+                alignment: Alignment.center,
+                child: TextField(
+                  controller: searchcontroller_women,
+                  onChanged: (value) {
+                    setState(() {
+                      value.trimLeft();
+                      icon_nameOnSearch_women = [];
+                      for (var i = 0; i < item_list_womens.length; i++) {
+                        var des2 = {};
+                        des2["item_code"] = item_list_womens[i]["item_code"];
+                        item_search_list_women.add(des2);
+                        if ((item_search_list_women[i]["item_code"]
+                            .toLowerCase()
+                            .contains(value.trim().toLowerCase()))) {
+                          var d2 = {};
+                          d2["item_code"] =
+                              item_search_list_women[i]["item_code"];
+                          icon_nameOnSearch_women.add(d2);
+                        }
+                      }
+                    });
+                  },
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                      ),
+                      contentPadding: EdgeInsets.all(15),
+                      hintText: "Search",
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Color.fromARGB(252, 4, 0, 0),
+                      )),
+                )),
+          ),
+        ),
+        Expanded(
+            child: Container(
+          child: itemlist2(),
+        )),
+        Container(
+          child: Padding(
+            padding: EdgeInsets.only(right: 10, bottom: 7),
+            child: Container(
+              alignment: Alignment.bottomRight,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => sales_order()),
+                  );
+                  values_dict = [];
+                  values.forEach((key, value) {
+                    values_dict.add({'item_code': key, 'qty': value});
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  primary: Color.fromRGBO(44, 185, 176, 1),
+                ),
+                icon: Icon(
+                  Icons.add,
+                  size: 24.0,
+                ),
+                label: Text('View order item'),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget kids(Size size) {
+    return Column(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.all(15),
+          child: Theme(
+            data: Theme.of(context).copyWith(accentColor: Colors.white),
+            child: Container(
+                height: 48.0,
+                alignment: Alignment.center,
+                child: TextField(
+                  controller: searchcontroller_kids,
+                  onChanged: (value) {
+                    setState(() {
+                      value.trimLeft();
+                      icon_nameOnSearch_kids = [];
+                      for (var i = 0; i < item_list_kids.length; i++) {
+                        var des3 = {};
+                        des3["item_code"] = item_list_kids[i]["item_code"];
+                        item_search_list_kid.add(des3);
+                        if ((item_search_list_kid[i]["item_code"]
+                            .toLowerCase()
+                            .contains(value.trim().toLowerCase()))) {
+                          var d3 = {};
+                          d3["item_code"] =
+                              item_search_list_kid[i]["item_code"];
+                          icon_nameOnSearch_kids.add(d3);
+                        }
+                      }
+                    });
+                  },
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                      ),
+                      contentPadding: EdgeInsets.all(15),
+                      hintText: "Search",
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Color.fromARGB(252, 4, 0, 0),
+                      )),
+                )),
+          ),
+        ),
+        Expanded(
+            child: Container(
+          child: itemlist3(),
+        )),
+        Container(
+          child: Padding(
+            padding: EdgeInsets.only(right: 10, bottom: 7),
+            child: Container(
+              alignment: Alignment.bottomRight,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => sales_order()),
+                  );
+                  values_dict = [];
+                  values.forEach((key, value) {
+                    values_dict.add({'item_code': key, 'qty': value});
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  primary: Color.fromRGBO(44, 185, 176, 1),
+                ),
+                icon: Icon(
+                  Icons.add,
+                  size: 24.0,
+                ),
+                label: Text('View order item'),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget primium(Size size) {
+    return Column(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.all(15),
+          child: Theme(
+            data: Theme.of(context).copyWith(accentColor: Colors.white),
+            child: Container(
+                height: 48.0,
+                alignment: Alignment.center,
+                child: TextField(
+                  controller: searchcontroller_premimum,
+                  onChanged: (value) {
+                    setState(() {
+                      value.trimLeft();
+                      icon_nameOnSearch_premimum = [];
+                      for (var i = 0; i < item_list_premimum.length; i++) {
+                        var des4 = {};
+                        des4["item_code"] = item_list_premimum[i]["item_code"];
+                        item_search_list_premimum.add(des4);
+                        if ((item_search_list_premimum[i]["item_code"]
+                            .toLowerCase()
+                            .contains(value.trim().toLowerCase()))) {
+                          var d4 = {};
+                          d4["item_code"] =
+                              item_search_list_premimum[i]["item_code"];
+                          icon_nameOnSearch_premimum.add(d4);
+                        }
+                      }
+                    });
+                  },
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                      ),
+                      contentPadding: EdgeInsets.all(15),
+                      hintText: "Search",
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Color.fromARGB(252, 4, 0, 0),
+                      )),
+                )),
+          ),
+        ),
+        Expanded(
+            child: Container(
+          child: itemlist4(),
+        )),
+        Container(
+          child: Padding(
+            padding: EdgeInsets.only(right: 10, bottom: 7),
+            child: Container(
+              alignment: Alignment.bottomRight,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => sales_order()),
+                  );
+                  values_dict = [];
+                  values.forEach((key, value) {
+                    values_dict.add({'item_code': key, 'qty': value});
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  primary: Color.fromRGBO(44, 185, 176, 1),
+                ),
+                icon: Icon(
+                  Icons.add,
+                  size: 24.0,
+                ),
+                label: Text('View order item'),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
 
   Widget itemlist2() {
     return AnimationLimiter(
         child: Container(
       child: ListView.builder(
-          itemCount: item_list_womens.length,
+          itemCount: searchcontroller_women.text.isNotEmpty
+              ? icon_nameOnSearch_women.length
+              : item_list_womens.length,
           shrinkWrap: true,
           itemBuilder: (context, int index) {
+            var row = [];
+            if (icon_nameOnSearch_women.length != 0) {
+              row = icon_nameOnSearch_women;
+            } else {
+              row = item_list_womens;
+            }
             list.add(TextEditingController());
 
             int count = index + 1;
@@ -325,25 +551,18 @@ class _orderState extends State<order> {
                                       ),
                                     )),
                                 title: Text(
-                                  item_list_womens[index]["item_code"],
+                                  searchcontroller_women.text.isEmpty
+                                      ? row[index]['item_code']
+                                      : row[index]['item_code'],
                                   style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         letterSpacing: .1,
                                         color: Color(0xff19183e)),
                                   ),
                                 ),
-                                // subtitle: Text(
-                                //   item_list_womens[index]["standard_rate"]
-                                //       .toString(),
-                                //   style: GoogleFonts.poppins(
-                                //     textStyle: TextStyle(
-                                //         letterSpacing: .1,
-                                //         color: Color(0xff19183e)),
-                                //   ),
-                                // ),
                                 onTap: () {
                                   setState(() {
-                                    item = item_list_womens[index]["item_code"];
+                                    item = row[index]["item_code"];
                                   });
                                   varient_item(item);
                                   Navigator.push(
@@ -359,13 +578,22 @@ class _orderState extends State<order> {
           }),
     ));
   }
-    Widget itemlist3() {
+
+  Widget itemlist3() {
     return AnimationLimiter(
         child: Container(
       child: ListView.builder(
-          itemCount: item_list_kids.length,
+          itemCount: searchcontroller_kids.text.isNotEmpty
+              ? icon_nameOnSearch_kids.length
+              : item_list_kids.length,
           shrinkWrap: true,
           itemBuilder: (context, int index) {
+            var row = [];
+            if (icon_nameOnSearch_kids.length != 0) {
+              row = icon_nameOnSearch_kids;
+            } else {
+              row = item_list_kids;
+            }
             list.add(TextEditingController());
 
             int count = index + 1;
@@ -398,25 +626,18 @@ class _orderState extends State<order> {
                                       ),
                                     )),
                                 title: Text(
-                                  item_list_kids[index]["item_code"],
+                                  searchcontroller_kids.text.isEmpty
+                                      ? row[index]['item_code']
+                                      : row[index]['item_code'],
                                   style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         letterSpacing: .1,
                                         color: Color(0xff19183e)),
                                   ),
                                 ),
-                                // subtitle: Text(
-                                //   item_list_kids[index]["standard_rate"]
-                                //       .toString(),
-                                //   style: GoogleFonts.poppins(
-                                //     textStyle: TextStyle(
-                                //         letterSpacing: .1,
-                                //         color: Color(0xff19183e)),
-                                //   ),
-                                // ),
                                 onTap: () {
                                   setState(() {
-                                    item = item_list_kids[index]["item_code"];
+                                    item = row[index]["item_code"];
                                   });
                                   varient_item(item);
                                   Navigator.push(
@@ -432,13 +653,22 @@ class _orderState extends State<order> {
           }),
     ));
   }
-    Widget itemlist4() {
+
+  Widget itemlist4() {
     return AnimationLimiter(
         child: Container(
       child: ListView.builder(
-          itemCount: item_list_premimum.length,
+          itemCount: searchcontroller_premimum.text.isNotEmpty
+              ? icon_nameOnSearch_premimum.length
+              : item_list_premimum.length,
           shrinkWrap: true,
           itemBuilder: (context, int index) {
+            var row = [];
+            if (icon_nameOnSearch_premimum.length != 0) {
+              row = icon_nameOnSearch_premimum;
+            } else {
+              row = item_list_premimum;
+            }
             list.add(TextEditingController());
 
             int count = index + 1;
@@ -471,29 +701,19 @@ class _orderState extends State<order> {
                                       ),
                                     )),
                                 title: Text(
-                                  item_list_premimum[index]["item_code"],
+                                  searchcontroller_premimum.text.isEmpty
+                                      ? row[index]['item_code']
+                                      : row[index]['item_code'],
                                   style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         letterSpacing: .1,
                                         color: Color(0xff19183e)),
                                   ),
                                 ),
-                                // subtitle: Text(
-                                //   item_list_premimum[index]["standard_rate"]
-                                //       .toString(),
-                                //   style: GoogleFonts.poppins(
-                                //     textStyle: TextStyle(
-                                //         letterSpacing: .1,
-                                //         color: Color(0xff19183e)),
-                                //   ),
-                                // ),
                                 onTap: () {
-                                  
                                   setState(() {
-                                    item = item_list_premimum[index]["item_code"];
-                                    
+                                    item = row[index]["item_code"];
                                   });
-                                
                                   varient_item(item);
                                   Navigator.push(
                                     context,
@@ -543,22 +763,21 @@ class _orderState extends State<order> {
             i++) {
           item_list_premimum.add((json.decode(response.body)['message4'][i]));
         }
-      });;
+      });
+      ;
     } else {
       return json.decode(response.body)['message'];
     }
   }
 
-
-
-
-
-  Future varient_item(item) async{
+  Future varient_item(item) async {
     print("object");
-  varient_item_list=[];
-  var response =await http.get(
-    Uri.parse(
-      """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.varient_list?template_name=${item}"""),
+    varient_item_list = [];
+    row_varient=[];
+    icon_nameOnSearch_varient = [];
+    var response = await http.get(
+      Uri.parse(
+          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.varient_list?template_name=${item}"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
     print(response.statusCode);
@@ -566,15 +785,10 @@ class _orderState extends State<order> {
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
       setState(() {
-        for (var i = 0;
-            i < json.decode(response.body)['message'].length;
-            i++) {
+        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           varient_item_list.add((json.decode(response.body)['message'][i]));
         }
       });
-
-
-    } 
-  
-}
+    }
+  }
 }
