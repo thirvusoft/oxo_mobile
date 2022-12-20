@@ -50,6 +50,9 @@ dependencies:
   fluttertoast: ^8.1.2
   flutter_local_notifications: ^12.0.4
   timezone: ^0.9.0
+  location: ^4.4.0
+  geolocator: ^9.0.2
+  google_maps_flutter: ^2.2.2
 
 
 

@@ -224,7 +224,7 @@ class _LoginState extends State<Login> {
                 color: const Color(0xFF151624),
               ),
               cursorColor: const Color(0xFF151624),
-              obscureText: true,
+              obscureText: false,
               keyboardType: TextInputType.visiblePassword,
               validator: (value) {
                 focusedBorder:
@@ -337,7 +337,7 @@ class _LoginState extends State<Login> {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      user_name= json.decode(response.body)['full_name'];
+      user_name = json.decode(response.body)['full_name'];
       print(user_name);
       setState(() {
         login_loading = false;
@@ -358,7 +358,7 @@ class _LoginState extends State<Login> {
           backgroundColor: Color.fromARGB(255, 15, 194, 62),
           textColor: Colors.white,
           fontSize: 15.0);
-    } else if (response.statusCode == 500){
+    } else if (response.statusCode == 500) {
       setState(() {
         login_loading = false;
       });
