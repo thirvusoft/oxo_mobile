@@ -103,3 +103,8 @@ TextEditingController status_search = TextEditingController();
 List icon_nameOnSearch_status=[];
 List item_search_list_status =[];
 List sales_order_status=[];
+
+
+TextEditingController customer_name_home_page = TextEditingController();
+List distributor_home=[];
+var distributorname;

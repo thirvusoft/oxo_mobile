@@ -17,7 +17,7 @@ class _order_statusState extends State<order_status> {
   late Timer timer;
 
   void initState() {
-    timer = Timer.periodic(Duration(seconds: 1), (Timer t) => orderstatus());
+    timer = Timer.periodic(Duration(seconds: 1), (Timer t) => orderstatus(distributorname));
 
     
   }
@@ -194,13 +194,13 @@ class _order_statusState extends State<order_status> {
 
 
 
-  Future orderstatus() async {
+  Future orderstatus(distributor) async {
     sales_order_status = [];
 
 
     var response = await http.get(
         Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order_list"""),
+            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order_list?distributor=${distributor}"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
 
     if (response.statusCode == 200) {
@@ -224,7 +224,7 @@ class _order_statusState extends State<order_status> {
 
     var response = await http.get(
         Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order?doc_name=${doc_name}"""),
+            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order_status"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
 
     if (response.statusCode == 200) {
