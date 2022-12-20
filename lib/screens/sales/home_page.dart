@@ -37,7 +37,7 @@ class _home_pageState extends State<home_page> {
         
           child: 
           Container(child:Column(children: [
-          Padding( padding: EdgeInsets.only(top:size.width /5,),child:
+          Padding( padding: EdgeInsets.only(top:size.width /5),child:
           Row(
             children: <Widget>[
                getCardItem(),
@@ -68,8 +68,8 @@ Widget getCardItem() {
 
    
     child: Container(
-      height: 190,
-      width: 190,
+      height:180 ,
+      width: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
@@ -123,7 +123,7 @@ Widget getCardItem() {
                             MaterialPageRoute(builder: (context) => dealer()),
                           );},
                    style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 15.0), backgroundColor: Color(0xFF21899C),
+            padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0), backgroundColor: Color(0xFF21899C),
             shape: StadiumBorder(),
           ),
                 ),
@@ -141,8 +141,8 @@ Widget getCardItem2() {
       child: Padding(
     padding: const EdgeInsets.only(left: 30),
     child: Container(
-      height: 190,
-      width: 190,
+      height: 180,
+      width: 180,
       decoration:BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
@@ -198,7 +198,7 @@ Widget getCardItem2() {
                             MaterialPageRoute(builder: (context) => order()),
                           );},
                    style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 15.0), backgroundColor: Color(0xFF21899C),
+            padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0), backgroundColor: Color(0xFF21899C),
             shape: StadiumBorder(),
           ),
                 ),
@@ -217,8 +217,8 @@ Widget getCardItem3() {
 
    
     child: Container(
-      height: 190,
-      width: 190,
+      height: 180,
+      width: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
@@ -271,7 +271,7 @@ Widget getCardItem3() {
                             MaterialPageRoute(builder: (context) => dealer()),
                           );},
                    style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 15.0), backgroundColor: Color(0xFF21899C),
+            padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0), backgroundColor: Color(0xFF21899C),
             shape: StadiumBorder(),
           ),
                 ),
@@ -288,8 +288,8 @@ Widget getCardItem4() {
       child: Padding(
     padding: const EdgeInsets.only(left: 30),
     child: Container(
-      height: 190,
-      width: 190,
+      height: 180,
+      width: 180,
       decoration:BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
@@ -344,7 +344,7 @@ Widget getCardItem4() {
                             MaterialPageRoute(builder: (context) => order()),
                           );},
                    style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 15.0), backgroundColor: Color(0xFF21899C),
+            padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0), backgroundColor: Color(0xFF21899C),
             shape: StadiumBorder(),
           ),
                 ),
