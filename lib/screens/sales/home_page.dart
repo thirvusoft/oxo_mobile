@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/screens/add_dealer.dart/dealer.dart';
 import 'package:oxo/screens/sales/order.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:oxo/screens/distributor/distributor.dart';
 import '../../constants.dart';
 
 class home_page extends StatefulWidget {
@@ -340,9 +340,9 @@ Widget getCardItem4() {
                   child: Text('Distributor'),
                   onPressed: () {
                     Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => order()),
-                          );},
+                    context,
+                    MaterialPageRoute(builder: (context) => order_status()),
+                  );},
                    style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0), backgroundColor: Color(0xFF21899C),
             shape: StadiumBorder(),
