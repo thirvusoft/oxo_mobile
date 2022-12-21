@@ -34,35 +34,8 @@ class _location_pinState extends State<location_pin> {
     _controller.complete(controller);
   }
 
-  final List<Marker> _list = [
-    Marker(
-        markerId: MarkerId('1'),
-        position: LatLng(11.0212, 76.9934),
-        infoWindow: InfoWindow(
-          title: 'Nava India',
-        )),
-    Marker(
-        markerId: MarkerId('2'),
-        position: LatLng(11.0882, 77.6647),
-        infoWindow: InfoWindow(
-          title: 'Nathakadaiyur',
-        )),
-    Marker(
-        markerId: MarkerId('3'),
-        position: LatLng(10.7867, 76.6548),
-        infoWindow: InfoWindow(
-          title: 'Palakkad',
-        )),
-    Marker(
-        markerId: MarkerId('4'),
-        position: LatLng(11.3410, 77.7172),
-        onTap: () {},
-        infoWindow: InfoWindow(
-          title: 'Erode',
-        )),
-  ];
-
-  static const LatLng _center = const LatLng(11.1271, 78.6569);
+  static LatLng _center =
+      LatLng(location[0]["latitude"], location[0]["longitude"]);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +47,7 @@ class _location_pinState extends State<location_pin> {
               target: _center,
               zoom: 7,
             ),
-            mapType: _currentMapType,
+            mapType: MapType.hybrid,
             markers: Set<Marker>.of(_markers),
           ),
           // Padding(
@@ -110,22 +83,26 @@ class _location_pinState extends State<location_pin> {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           location.add((json.decode(response.body)['message'][i]));
         }
-        print(location);
+        print("xxxxxxxx");
+        print(location[0]["latitude"]);
+        print("xxxxxxxx");
         for (int i = 0; i <= location.length; i++) {
-          print("test");
           print(location[i]["latitude"]);
           print(location[i]["longitude"]);
           print(location[i]["longitude"].runtimeType);
-          _markers.add(Marker(
-            markerId: MarkerId(location[i]["name"].toString()),
-            position: LatLng(location[i]["latitude"], location[i]["longitude"]),
-            onTap: () {},
-            // infoWindow: InfoWindow(
-            //   title: 'Really cool place',
-            //   snippet: '5 Star Rating',
-            // ),
-            icon: BitmapDescriptor.defaultMarker,
-          ));
+          setState(() {
+            _markers.add(Marker(
+              markerId: MarkerId(location[i]["name"].toString()),
+              position:
+                  LatLng(location[i]["latitude"], location[i]["longitude"]),
+              onTap: () {},
+              infoWindow: InfoWindow(
+                title: location[i]["name"],
+                // snippet: '5 Star Rating',
+              ),
+              icon: BitmapDescriptor.defaultMarker,
+            ));
+          });
         }
         print(location);
       });
