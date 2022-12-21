@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oxo/constants.dart';
+import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +20,12 @@ class dealer extends StatefulWidget {
 
 class _dealerState extends State<dealer> {
   @override
-  var login_loading_dealer=false;
+  var login_loading_dealer = false;
   void initState() {
     // TODO: implement initState
     territory_list();
     state_list();
+    _getCurrentLocation();
   }
 
   @override
@@ -102,7 +105,7 @@ class _dealerState extends State<dealer> {
               child: TextFormField(
                 controller: dealermobile,
                 maxLength: 10,
-                 keyboardType: TextInputType.number,
+                keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter mobile number';
@@ -110,7 +113,7 @@ class _dealerState extends State<dealer> {
                   return null;
                 },
                 decoration: InputDecoration(
-                  counterText: "",
+                    counterText: "",
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -277,28 +280,23 @@ class _dealerState extends State<dealer> {
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
       child: SizedBox(
         child: AnimatedButton(
-          
-          text: 'Submit',
-          color: Color.fromRGBO(44, 185, 176, 1),
-          pressEvent: () {
-
-            if (name_key.currentState!.validate() &&
-                mobile_key.currentState!.validate() &&
-                address_key.currentState!.validate()) {
-              customer_creation(
-                  dealername.text,
-                  dealermobile.text,
-                  dealeraddress.text,
-                  dealerterritory.text,
-                  dealercity.text,
-                  dealerstate.text,
-                  dealerpincode.text);
-            }
-             
-
-          }
-        ),
-        
+            text: 'Submit',
+            color: Color.fromRGBO(44, 185, 176, 1),
+            pressEvent: () {
+              if (name_key.currentState!.validate() &&
+                  mobile_key.currentState!.validate() &&
+                  address_key.currentState!.validate()) {
+                _getCurrentLocation();
+                customer_creation(
+                    dealername.text,
+                    dealermobile.text,
+                    dealeraddress.text,
+                    dealerterritory.text,
+                    dealercity.text,
+                    dealerstate.text,
+                    dealerpincode.text);
+              }
+            }),
       ),
     );
   }
@@ -312,45 +310,46 @@ class _dealerState extends State<dealer> {
     state,
     pincode,
   ) async {
+    print(current_position);
+    print("lllll");
+    print("lllll");
+    // print(current_position.trim());
+    // double location = double.parse(current_position);
+    // print(location);
+
     var response = await http.get(
         Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.new_customer?full_name=${full_name}&phone_number=${phone_number}&address=${address}&territory=${territory}&city=${city}&state=${state}&pincode=${pincode}
-            """),
+            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.new_customer?full_name=${full_name}&phone_number=${phone_number}&address=${address}&territory=${territory}&city=${city}&state=${state}&pincode=${pincode}&latitude=${current_position.latitude}&longitude=${current_position.longitude}"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-
       await Future.delayed(Duration(milliseconds: 500));
       dealername.clear();
-            dealermobile.clear();
-            dealeraddress.clear();
-            dealerterritory.clear();
-            dealercity.clear();
-            dealerstate.clear();
-            dealerpincode.clear();
+      dealermobile.clear();
+      dealeraddress.clear();
+      dealerterritory.clear();
+      dealercity.clear();
+      dealerstate.clear();
+      dealerpincode.clear();
       setState(() {
         AwesomeDialog(
           context: context,
           animType: AnimType.leftSlide,
           headerAnimationLoop: false,
           dialogType: DialogType.success,
-          title: 'Orderd Sucessfully',
+          title: (json.decode(response.body)['message']),
           btnOkOnPress: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => home_page()),
             );
-
-           
           },
           btnOkIcon: Icons.check_circle,
           onDismissCallback: (type) {},
         ).show();
       });
-    }
-    else if (response.statusCode == 500){
-
+    } else if (response.statusCode == 500) {
       Fluttertoast.showToast(
           msg: (json.decode(response.body)['message']),
           toastLength: Toast.LENGTH_SHORT,
@@ -400,5 +399,37 @@ class _dealerState extends State<dealer> {
         }
       });
     }
+  }
+
+  Position? _position;
+  void _getCurrentLocation() async {
+    print("yyyyyyyyyyyyyyyyyyyyy");
+    Position position = await _determinePosition();
+    setState(() {
+      _position = position;
+      print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      print(_position);
+      current_position = _position!;
+
+      print(current_position.latitude);
+      print(current_position.longitude);
+    });
+  }
+
+  Future<Position> _determinePosition() async {
+    LocationPermission permission;
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition();
   }
 }

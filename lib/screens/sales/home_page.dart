@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:oxo/screens/distributor/distributor.dart';
 import 'package:searchfield/searchfield.dart';
 import '../../constants.dart';
+import '../Location Pin/locationpin.dart';
 
 class home_page extends StatefulWidget {
   const home_page({super.key});
@@ -280,7 +281,8 @@ class _home_pageState extends State<home_page> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => dealer()),
+                      MaterialPageRoute(builder: (context) => location_pin()),
+
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -295,8 +297,9 @@ class _home_pageState extends State<home_page> {
             ],
           ),
         ),
-      ),
-    ));
+     ),
+  ));
+
   }
 
   Widget getCardItem4() {
@@ -373,6 +376,7 @@ class _home_pageState extends State<home_page> {
       ),
     );
   }
+
 
   Future customer_creation() async {
     return showDialog<String>(
@@ -459,4 +463,5 @@ class _home_pageState extends State<home_page> {
       });
     }
   }
+
 }
