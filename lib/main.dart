@@ -6,6 +6,7 @@ import 'package:oxo/screens/sales/home_page.dart';
 import 'package:oxo/screens/sales/order.dart';
 import 'package:oxo/screens/sales/sales_order.dart';
 import 'package:oxo/screens/splashscreen.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async {
   runApp(MyHomePage());
@@ -26,7 +27,8 @@ class MyHomePage extends StatelessWidget {
         primarySwatch: createMaterialColor(Color(0xFF21899C)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: home_page(),
+      home: Login(),
+      builder: EasyLoading.init(),
     );
   }
 }

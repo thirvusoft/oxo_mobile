@@ -85,11 +85,13 @@ GlobalKey<FormState> address_key = GlobalKey<FormState>();
 GlobalKey<FormState> mobile_key = GlobalKey<FormState>();
 GlobalKey<FormState> name_key = GlobalKey<FormState>();
 TextEditingController status_search = TextEditingController();
-List icon_nameOnSearch_status=[];
-List item_search_list_status =[];
-List sales_order_status=[];
-
+List icon_nameOnSearch_status = [];
+List item_search_list_status = [];
+List sales_order_status = [];
 
 TextEditingController customer_name_home_page = TextEditingController();
-List distributor_home=[];
+List distributor_home = [];
 var distributorname;
+List location = [];
+Position? current_position;
+bool status = true;

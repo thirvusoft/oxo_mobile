@@ -319,7 +319,7 @@ class _dealerState extends State<dealer> {
 
     var response = await http.get(
         Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.new_customer?full_name=${full_name}&phone_number=${phone_number}&address=${address}&territory=${territory}&city=${city}&state=${state}&pincode=${pincode}&latitude=${current_position.latitude}&longitude=${current_position.longitude}"""),
+            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.new_customer?full_name=${full_name}&phone_number=${phone_number}&address=${address}&territory=${territory}&city=${city}&state=${state}&pincode=${pincode}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     print(response.statusCode);
     print(response.body);
@@ -411,8 +411,8 @@ class _dealerState extends State<dealer> {
       print(_position);
       current_position = _position!;
 
-      print(current_position.latitude);
-      print(current_position.longitude);
+      print(current_position!.latitude);
+      print(current_position!.longitude);
     });
   }
 

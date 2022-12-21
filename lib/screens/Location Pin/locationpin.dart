@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:oxo/constants.dart';
@@ -16,6 +16,8 @@ class location_pin extends StatefulWidget {
 class _location_pinState extends State<location_pin> {
   void initState() {
     location_list();
+    EasyLoading.show(status: 'Loading...');
+
     //
   }
 
@@ -39,30 +41,32 @@ class _location_pinState extends State<location_pin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: _center,
-              zoom: 7,
+      body: (location.isEmpty)
+          ? (Container())
+          : Stack(
+              children: <Widget>[
+                GoogleMap(
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: _center,
+                    zoom: 7,
+                  ),
+                  mapType: MapType.hybrid,
+                  markers: Set<Marker>.of(_markers),
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(16.0),
+                //   child: Align(
+                //     alignment: Alignment.topRight,
+                //     child: FloatingActionButton(
+                //       onPressed: _onMapTypeButtonPressed,
+                //       materialTapTargetSize: MaterialTapTargetSize.padded,
+                //       child: const Icon(Icons.map, size: 36.0),
+                //     ),
+                //   ),
+                // ),
+              ],
             ),
-            mapType: MapType.hybrid,
-            markers: Set<Marker>.of(_markers),
-          ),
-          // Padding(
-          //   padding: const EdgeInsets.all(16.0),
-          //   child: Align(
-          //     alignment: Alignment.topRight,
-          //     child: FloatingActionButton(
-          //       onPressed: _onMapTypeButtonPressed,
-          //       materialTapTargetSize: MaterialTapTargetSize.padded,
-          //       child: const Icon(Icons.map, size: 36.0),
-          //     ),
-          //   ),
-          // ),
-        ],
-      ),
     );
   }
 
@@ -80,6 +84,8 @@ class _location_pinState extends State<location_pin> {
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
       setState(() {
+        status = false;
+        EasyLoading.dismiss();
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           location.add((json.decode(response.body)['message'][i]));
         }

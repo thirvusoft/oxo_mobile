@@ -26,7 +26,9 @@ class _home_pageState extends State<home_page> {
 
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    double width = MediaQuery.of(context).size.width;
 
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -47,8 +49,8 @@ class _home_pageState extends State<home_page> {
               Padding(
                 padding: EdgeInsets.only(top: size.width / 5),
                 child: Row(children: <Widget>[
-                  getCardItem(),
-                  getCardItem2(),
+                  getCardItem(height),
+                  getCardItem2(height),
                 ]),
               ),
               SizedBox(
@@ -60,8 +62,8 @@ class _home_pageState extends State<home_page> {
                   top: size.width / 5,
                 ),
                 child: Row(children: <Widget>[
-                  getCardItem3(),
-                  getCardItem4(),
+                  getCardItem3(height),
+                  getCardItem4(height),
                 ]),
               ))
             ],
@@ -69,10 +71,10 @@ class _home_pageState extends State<home_page> {
         )));
   }
 
-  Widget getCardItem() {
+  Widget getCardItem(height) {
     return Center(
-       child: Padding(
-        padding: const EdgeInsets.only(left: 10),
+        child: Padding(
+      padding: const EdgeInsets.only(left: 10),
       child: Container(
         height: 180,
         width: 180,
@@ -146,10 +148,10 @@ class _home_pageState extends State<home_page> {
     ));
   }
 
-  Widget getCardItem2() {
+  Widget getCardItem2(height) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(left: 30),
+        padding: EdgeInsets.only(left: height / 45),
         child: Container(
           height: 180,
           width: 180,
@@ -224,9 +226,10 @@ class _home_pageState extends State<home_page> {
     );
   }
 
-  Widget getCardItem3() {
-    return Center(child: Padding(
-        padding: const EdgeInsets.only(left: 10),
+  Widget getCardItem3(height) {
+    return Center(
+        child: Padding(
+      padding: const EdgeInsets.only(left: 10),
       child: Container(
         height: 180,
         width: 180,
@@ -282,7 +285,6 @@ class _home_pageState extends State<home_page> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => location_pin()),
-
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -297,15 +299,14 @@ class _home_pageState extends State<home_page> {
             ],
           ),
         ),
-     ),
-  ));
-
+      ),
+    ));
   }
 
-  Widget getCardItem4() {
+  Widget getCardItem4(height) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(left: 30),
+        padding: EdgeInsets.only(left: height / 45),
         child: Container(
           height: 180,
           width: 180,
@@ -376,7 +377,6 @@ class _home_pageState extends State<home_page> {
       ),
     );
   }
-
 
   Future customer_creation() async {
     return showDialog<String>(
@@ -463,5 +463,4 @@ class _home_pageState extends State<home_page> {
       });
     }
   }
-
 }
