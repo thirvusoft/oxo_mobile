@@ -84,32 +84,12 @@ TextEditingController dealerpincode = TextEditingController();
 GlobalKey<FormState> address_key = GlobalKey<FormState>();
 GlobalKey<FormState> mobile_key = GlobalKey<FormState>();
 GlobalKey<FormState> name_key = GlobalKey<FormState>();
+TextEditingController status_search = TextEditingController();
+List icon_nameOnSearch_status=[];
+List item_search_list_status =[];
+List sales_order_status=[];
 
-List dashboard_home_list = [
-  {
-    "name": "Add Dealer",
-    "test": Color.fromARGB(255, 144, 192, 213),
-    "page": dealer(),
-    "icon": Icons.person
-  },
-  {
-    "name": "Order Creation",
-    "test": Color.fromARGB(255, 145, 222, 77),
-    "page": order(),
-    "icon": Icons.person
-  },
-  {
-    "name": "Distributor",
-    "test": Color.fromARGB(255, 33, 223, 223),
-    "page": order(),
-    "icon": Icons.person,
-  },
-  {
-    "name": "Location Pin",
-    "test": Color.fromARGB(255, 107, 64, 198),
-    "page": order(),
-    "icon": Icons.person
-  }
-];
-late Position current_position;
-List location = [];
+
+TextEditingController customer_name_home_page = TextEditingController();
+List distributor_home=[];
+var distributorname;

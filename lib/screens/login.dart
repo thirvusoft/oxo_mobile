@@ -17,6 +17,8 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   var login_loading = false;
+    bool _isObscure = true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +226,7 @@ class _LoginState extends State<Login> {
                 color: const Color(0xFF151624),
               ),
               cursorColor: const Color(0xFF151624),
-              obscureText: false,
+              obscureText: _isObscure,
               keyboardType: TextInputType.visiblePassword,
               validator: (value) {
                 focusedBorder:
@@ -275,18 +277,24 @@ class _LoginState extends State<Login> {
                     borderRadius: BorderRadius.circular(100.0),
                     color: const Color.fromRGBO(44, 185, 176, 1),
                   ),
-                  child: passController.text.isEmpty
-                      ? const Center()
-                      : const Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 13,
+                  
+                child: Center(child:IconButton(padding: EdgeInsets.only(bottom: 0),
+                  icon: Icon(
+                          _isObscure ? (Icons.visibility ):(Icons.visibility_off),
+                          color:  Colors.white,
+                          size: 18,
+                          
                         ),
+                          onPressed: () {
+                      setState(() {
+                        _isObscure = !_isObscure;
+                      });
+                    }
                 ),
               ),
             ),
           ),
-        ));
+        ))));
   }
 
   Widget LogInButton(Size size) {
