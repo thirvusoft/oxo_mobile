@@ -38,7 +38,8 @@ class _item_groupState extends State<item_group> {
               );
               values_dict = [];
               values.forEach((key, value) {
-                values_dict.add({'item_code': key, 'qty': value});
+                values_dict.add({'item_code': key, 'qty': value[1], 'rate':value[0]});
+                print(values_dict);
               });
             },
             style: ElevatedButton.styleFrom(
@@ -186,7 +187,7 @@ class _item_groupState extends State<item_group> {
                                         style: GoogleFonts.poppins(
                                           textStyle: TextStyle(
                                               letterSpacing: .1,
-                                              color: Color(0xff19183e)),
+                                              color:Color.fromRGBO(44, 185, 176, 1)),
                                         ),
                                       ),
                                       // controller: list[index],
@@ -210,13 +211,22 @@ class _item_groupState extends State<item_group> {
                                                 var item_name =
                                                     varient_item_list[index]
                                                         ["item_code"];
+                                                    var item_rate=varient_item_list[index]
+                                                        ["standard_rate"];
+                                                        print(item_rate);
                                                 if (qty != '') {
-                                                  values[item_name] = qty;
+                                                  List <String> test=[];
+                                                  test.add(item_rate.toString());
+                                                   test.add(qty.toString());
+                                                  values[item_name]=test;
+                                                  values[item_name] = test;
                                                 } else {
                                                   values[item_name] = 0;
                                                 }
                                                 varient_item_list[index]
                                                     ["qty"] = qty;
+                                                    print('111111111111111111111111111111111111111111111111111111111111111111111111111');
+                                                    print(values);
                                               }),
                                               cursorColor:
                                                   const Color(0xFF151624),

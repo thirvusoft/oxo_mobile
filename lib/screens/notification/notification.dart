@@ -34,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: Text('cancel')),
             ElevatedButton(
                 onPressed: () {
-                  NotificationService().showNotification(1, "title", "body", 10);
+                  NotificationService().showNotification(1, "Appointment", "The Dealer fix the appointment for the date 12.12.2022 ",1);
                 },
                 child: Text('show'))
           ],

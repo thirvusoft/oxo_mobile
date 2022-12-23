@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,7 +26,8 @@ class _sales_orderState extends State<sales_order> {
     dealername_list();
     distributor_list();
     super.initState();
-
+print('00000000000000000000000000000000000000000000000000000000000000000000000000000');
+print(values_dict);
     employeeDataSource = EmployeeDataSource(employeeData: values_dict);
   }
 
@@ -274,6 +276,7 @@ class _sales_orderState extends State<sales_order> {
                 columns: <GridColumn>[
                   GridColumn(
                       columnName: 'name',
+                      
                       label: Container(
                           padding: EdgeInsets.all(20.0),
                           child: Text(
@@ -289,7 +292,18 @@ class _sales_orderState extends State<sales_order> {
                             'Quantity',
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(fontWeight: FontWeight.bold),
-                          ))),
+                          )),
+
+                          ),
+                              GridColumn(
+                      columnName: 'rate',
+                      label: Container(
+                          padding: EdgeInsets.all(20.0),
+                          child: Text(
+                            '₹ / Item',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )))
                   // GridColumn(
                   //     columnName: 'designation',
                   //     label: Container(
@@ -535,7 +549,8 @@ class _sales_orderState extends State<sales_order> {
           btnOkOnPress: () {
             values_dict=[];
             values={};
-            print(values_dict);
+
+                        print(values_dict);
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => home_page()),
@@ -552,7 +567,7 @@ class _sales_orderState extends State<sales_order> {
           context: context,
           animType: AnimType.leftSlide,
           headerAnimationLoop: false,
-          dialogType: DialogType.success,
+          dialogType: DialogType.error,
           title: (json.decode(response.body)['message']),
           btnOkOnPress: () {
             values_dict=[];
@@ -574,14 +589,20 @@ class _sales_orderState extends State<sales_order> {
 
 class EmployeeDataSource extends DataGridSource {
   EmployeeDataSource({required List employeeData}) {
+     print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
+    print(employeeData);
     _employeeData = employeeData
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell(
                   columnName: 'name', value: e['item_code'].toString()),
               DataGridCell<String>(
                   columnName: 'qty', value: e['qty'].toString()),
+              DataGridCell<String>(
+                  columnName: 'rate', value: e['rate'].toString()),
+                  
             ]))
         .toList();
+        print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
   }
 
   List<DataGridRow> _employeeData = [];

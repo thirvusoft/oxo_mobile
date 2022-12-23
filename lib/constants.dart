@@ -95,3 +95,10 @@ var distributorname;
 List location = [];
 Position? current_position;
 bool status = true;
+
+// Appointment
+
+List customer_list=[];
+List icon_nameOnSearch_customer = [];
+List item_search_list_customer = [];
+TextEditingController customer_search = TextEditingController();

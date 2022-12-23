@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:oxo/screens/add_dealer.dart/Appointment/customer_list.dart';
 import 'package:oxo/screens/add_dealer.dart/dealer.dart';
 import 'package:oxo/screens/sales/order.dart';
 import 'package:http/http.dart' as http;
@@ -42,7 +43,8 @@ class _home_pageState extends State<home_page> {
                 ),
               ),
             )),
-        body: Center(
+        body: SingleChildScrollView(child:
+        Center(
             child: Container(
           child: Column(
             children: [
@@ -65,10 +67,22 @@ class _home_pageState extends State<home_page> {
                   getCardItem3(height),
                   getCardItem4(height),
                 ]),
+              )),
+                 SizedBox(
+                height: 10,
+              ),
+              Container(
+                  child: Padding(
+                padding: EdgeInsets.only(
+                  top: size.width / 5,
+                ),
+                child: Row(children: <Widget>[
+                  getCardItem5(height),
+                ]),
               ))
             ],
           ),
-        )));
+        ))));
   }
 
   Widget getCardItem(height) {
@@ -378,6 +392,83 @@ class _home_pageState extends State<home_page> {
     );
   }
 
+  Widget getCardItem5(height) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.only(left: height / 45),
+        child: Container(
+          height: 180,
+          width: 180,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(.5),
+                spreadRadius: 10,
+                blurRadius: 20,
+                offset: Offset(0, 10),
+              ),
+            ],
+          ),
+          child: Container(
+            child: Column(
+              children: [
+                Padding(padding: EdgeInsets.only(top: 30)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Icon(
+                        Icons.delivery_dining_outlined,
+                        size: 70,
+                        color: Color.fromRGBO(44, 185, 176, 1),
+                      ),
+                      // padding: const EdgeInsets.all(10),
+                    ),
+                    // Container(
+                    //   child: Text(
+                    //     "20",
+                    //     style: TextStyle(
+                    //       color: Colors.blueAccent,
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  // decoration: const BoxDecoration(
+                  //     color:Color.fromRGBO(44, 185, 176, 1),
+                  //     borderRadius: BorderRadius.only(
+                  //         bottomRight: Radius.circular(12),
+                  //         bottomLeft: Radius.circular(12))),
+                  child: ElevatedButton(
+                    child: Text('Fix Appointment'),
+                      onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => customerlist()),
+                    );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 25.0, vertical: 15.0),
+                      backgroundColor: Color(0xFF21899C),
+                      shape: StadiumBorder(),
+                    ),
+                  ),
+                  // padding: const EdgeInsets.all(12),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
   Future customer_creation() async {
     return showDialog<String>(
       context: context,
@@ -426,7 +517,6 @@ class _home_pageState extends State<home_page> {
           onPressed: () {
             distributor_list();
             print(distributorname);
-            distributorname = customer_name_home_page.text;
             print(distributorname);
 
             Navigator.push(
@@ -463,4 +553,8 @@ class _home_pageState extends State<home_page> {
       });
     }
   }
+
+
+
+
 }
