@@ -14,7 +14,6 @@ class customerlist extends StatefulWidget {
 
 class _customerlistState extends State<customerlist> {
    initState(){
-      customer_delear_list();
     }
   Widget build(BuildContext context) {
    
@@ -168,22 +167,5 @@ class _customerlistState extends State<customerlist> {
 
 
 
-  Future customer_delear_list() async {
-    customer_list = [];
-    var response = await http.get(
-      Uri.parse(
-          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.customer_list"""),
-      // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
-    );
-    print(response.statusCode);
-    print(response.body);
-    if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
-      setState(() {
-        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
-          customer_list.add((json.decode(response.body)['message'][i]));
-        }
-      });
-    }
-  }
+
 }

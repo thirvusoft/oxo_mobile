@@ -30,14 +30,15 @@ class NotificationService {
       id,
       title,
       body,
-      tz.TZDateTime.now(tz.local).add(Duration(seconds: 3)),
+      tz.TZDateTime.now(tz.local).add(Duration(minutes: 1)),
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'main_channel',
           'Main Channel',
           importance: Importance.max,
           priority: Priority.max,
-          icon: '@mipmap/ic_launcher'
+          icon: '@mipmap/ic_launcher',
+          styleInformation: BigTextStyleInformation(''),
         ),
 
       ),

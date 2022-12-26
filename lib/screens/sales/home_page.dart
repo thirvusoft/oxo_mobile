@@ -1,15 +1,20 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:oxo/screens/add_dealer.dart/Appointment/customer_list.dart';
+import 'package:oxo/screens/Appointment/customer_list.dart';
 import 'package:oxo/screens/add_dealer.dart/dealer.dart';
 import 'package:oxo/screens/sales/order.dart';
 import 'package:http/http.dart' as http;
 import 'package:oxo/screens/distributor/distributor.dart';
 import 'package:searchfield/searchfield.dart';
 import '../../constants.dart';
+import '../Appointment/appointment.dart';
 import '../Location Pin/locationpin.dart';
+import '../notification/notificationservice.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 class home_page extends StatefulWidget {
   const home_page({super.key});
@@ -20,9 +25,19 @@ class home_page extends StatefulWidget {
 
 class _home_pageState extends State<home_page> {
   @override
+  late Timer timer_notify;
+  late Timer appointment_notify;
+
   void initState() {
     // TODO: implement initState
     distributor_list();
+    timer_notify = Timer.periodic(Duration(minutes: 1), (Timer t) => notification());
+    appointment_notify = Timer.periodic(Duration(minutes: 1), (Timer t) => appointmentnotification());
+
+
+ 
+    tz.initializeTimeZones();
+
   }
 
   Widget build(BuildContext context) {
@@ -450,7 +465,7 @@ class _home_pageState extends State<home_page> {
                       onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => customerlist()),
+                      MaterialPageRoute(builder: (context) => appointment()),
                     );
                     },
                     style: ElevatedButton.styleFrom(
@@ -554,7 +569,50 @@ class _home_pageState extends State<home_page> {
     }
   }
 
+Future notification() async {
+    notification_list = [];
+    var response = await http.get(
+      Uri.parse(
+          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.notification"""),
+      // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+    );
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      await Future.delayed(Duration(milliseconds: 500));
+      setState(() {
+        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
+          notification_list.add((json.decode(response.body)['message'][i]));
+        }
+      });
+      // NotificationService().showNotification(1, "Delivery Status","These Orders are not yet deliveried  "+notification_list.toString(),3);
+      
+    }
+  }
 
+  Future appointmentnotification() async {
+    appointment_notification = [];
+    var response = await http.get(
+      Uri.parse(
+          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.appointment_notification"""),
+      // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+    );
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      await Future.delayed(Duration(milliseconds: 500));
+      setState(() {
+        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
+          appointment_notification.add((json.decode(response.body)['message'][i]['name']));
+          time=((json.decode(response.body)['message'][i]['scheduled_time']));
+          notify_appointment.add(appointment_notify);
+
+        }
+      });
+      NotificationService().showNotification(1, "Today's Appointment","Today's Appointments are "+appointment_notification.toString()+time,3);
+      
+    }
+  }
 
 
 }
