@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:oxo/constants.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
@@ -31,6 +32,7 @@ class _dealerState extends State<dealer> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    var currentAddress;
 
     return Scaffold(
         appBar: AppBar(
@@ -319,7 +321,7 @@ class _dealerState extends State<dealer> {
 
     var response = await http.get(
         Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.new_customer?full_name=${full_name}&phone_number=${phone_number}&address=${address}&territory=${territory}&city=${city}&state=${state}&pincode=${pincode}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}"""),
+            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.new_customer?full_name=${full_name}&phone_number=${phone_number}&address=${address}&territory=${territory}&city=${city}&state=${state}&pincode=${pincode}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     print(response.statusCode);
     print(response.body);
@@ -389,8 +391,7 @@ class _dealerState extends State<dealer> {
         Uri.parse(
             """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.state"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
-    print(response.statusCode);
-    print(response.body);
+
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
       setState(() {
@@ -403,16 +404,11 @@ class _dealerState extends State<dealer> {
 
   Position? _position;
   void _getCurrentLocation() async {
-    print("yyyyyyyyyyyyyyyyyyyyy");
     Position position = await _determinePosition();
+    _getAddressFromLatLng(position);
     setState(() {
       _position = position;
-      print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-      print(_position);
       current_position = _position!;
-
-      print(current_position!.latitude);
-      print(current_position!.longitude);
     });
   }
 
@@ -431,5 +427,20 @@ class _dealerState extends State<dealer> {
     }
 
     return await Geolocator.getCurrentPosition();
+  }
+
+  Future<void> _getAddressFromLatLng(Position position) async {
+    await placemarkFromCoordinates(position.latitude, position.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        currentAddress =
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+
+        auto_pincode = ' ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
   }
 }
