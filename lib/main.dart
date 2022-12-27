@@ -27,7 +27,7 @@ class MyHomePage extends StatelessWidget {
         primarySwatch: createMaterialColor(Color(0xFF21899C)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Login(),
+      home: home_page(),
       builder: EasyLoading.init(),
     );
   }

@@ -95,3 +95,10 @@ var distributorname;
 List location = [];
 Position? current_position;
 bool status = true;
+var address1;
+
+Position? positions;
+Position? position1;
+
+var currentAddress;
+var auto_pincode;
