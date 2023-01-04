@@ -2,16 +2,16 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
-class NotificationService {
-  static final NotificationService _notificationService = NotificationService._internal();
+class Appointment_NotificationService {
+  static final Appointment_NotificationService _notificationService = Appointment_NotificationService._internal();
 
-  factory NotificationService() {
+  factory Appointment_NotificationService() {
     return _notificationService;
   }
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  NotificationService._internal();
+  Appointment_NotificationService._internal();
 
   Future<void> initNotification() async {
     final AndroidInitializationSettings initializationSettingsAndroid =
@@ -25,7 +25,7 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  Future<void> showNotification(int id, String title, String body, int seconds) async {
+  Future<void> appointment_showNotification(int id, String title, String body, int seconds) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
       id,
       title,

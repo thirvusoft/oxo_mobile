@@ -12,6 +12,7 @@ import 'package:searchfield/searchfield.dart';
 import '../../constants.dart';
 import '../Appointment/appointment.dart';
 import '../Location Pin/locationpin.dart';
+import '../notification/appointment_notification.dart';
 import '../notification/notificationservice.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -31,8 +32,8 @@ class _home_pageState extends State<home_page> {
   void initState() {
     // TODO: implement initState
     distributor_list();
-    timer_notify = Timer.periodic(Duration(minutes: 1), (Timer t) => notification());
-    appointment_notify = Timer.periodic(Duration(minutes: 1), (Timer t) => appointmentnotification());
+    timer_notify = Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
+    appointment_notify = Timer.periodic(Duration(seconds: 10), (Timer t) => appointmentnotification());
 
 
  
@@ -585,7 +586,7 @@ Future notification() async {
           notification_list.add((json.decode(response.body)['message'][i]));
         }
       });
-      // NotificationService().showNotification(1, "Delivery Status","These Orders are not yet deliveried  "+notification_list.toString(),3);
+      NotificationService().showNotification(1, "Delivery Status","These Orders are not yet deliveried  "+notification_list.toString(),3);
       
     }
   }
@@ -609,7 +610,7 @@ Future notification() async {
 
         }
       });
-      NotificationService().showNotification(1, "Today's Appointment","Today's Appointments are "+appointment_notification.toString()+time,3);
+      Appointment_NotificationService().appointment_showNotification(1, "Today's Appointment","Today's Appointments are "+appointment_notification.toString()+time,3);
       
     }
   }
