@@ -41,6 +41,10 @@ class _location_pinState extends State<location_pin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Location'),
+      ),
       body: (location.isEmpty)
           ? (Container())
           : Stack(
@@ -51,36 +55,19 @@ class _location_pinState extends State<location_pin> {
                     target: _center,
                     zoom: 7,
                   ),
-                  mapType: MapType.hybrid,
+                  mapType: MapType.normal,
                   markers: Set<Marker>.of(_markers),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.all(16.0),
-                //   child: Align(
-                //     alignment: Alignment.topRight,
-                //     child: FloatingActionButton(
-                //       onPressed: _onMapTypeButtonPressed,
-                //       materialTapTargetSize: MaterialTapTargetSize.padded,
-                //       child: const Icon(Icons.map, size: 36.0),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
     );
   }
 
   Future location_list() async {
-    print(
-        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-    location = [];
-
     var response = await http.get(
         Uri.parse(
             """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.location_list"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
       setState(() {
@@ -89,28 +76,22 @@ class _location_pinState extends State<location_pin> {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           location.add((json.decode(response.body)['message'][i]));
         }
-        print("xxxxxxxx");
-        print(location[0]["latitude"]);
-        print("xxxxxxxx");
-        for (int i = 0; i <= location.length; i++) {
-          print(location[i]["latitude"]);
-          print(location[i]["longitude"]);
-          print(location[i]["longitude"].runtimeType);
+
+        for (int j = 0; j <= location.length; j++) {
           setState(() {
             _markers.add(Marker(
-              markerId: MarkerId(location[i]["name"].toString()),
+              markerId: MarkerId(location[j]["name"].toString()),
               position:
-                  LatLng(location[i]["latitude"], location[i]["longitude"]),
+                  LatLng(location[j]["latitude"], location[j]["longitude"]),
               onTap: () {},
               infoWindow: InfoWindow(
-                title: location[i]["name"],
-                // snippet: '5 Star Rating',
+                title: location[j]["name"],
+                snippet: location[j]["pincode"],
               ),
               icon: BitmapDescriptor.defaultMarker,
             ));
           });
         }
-        print(location);
       });
     }
   }
