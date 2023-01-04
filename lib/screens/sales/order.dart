@@ -133,7 +133,7 @@ class _orderState extends State<order> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add({'item_code': key, 'qty': value});
+                    values_dict.add({'item_code': key, 'qty': value[1],'rate':value[0]});
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -299,7 +299,7 @@ class _orderState extends State<order> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add({'item_code': key, 'qty': value});
+                     values_dict.add({'item_code': key, 'qty': value[1],'rate':value[0]});
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -390,7 +390,7 @@ class _orderState extends State<order> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add({'item_code': key, 'qty': value});
+                     values_dict.add({'item_code': key, 'qty': value[1],'rate':value[0]});
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -481,7 +481,7 @@ class _orderState extends State<order> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add({'item_code': key, 'qty': value});
+                     values_dict.add({'item_code': key, 'qty': value[1],'rate':value[0]});
                   });
                 },
                 style: ElevatedButton.styleFrom(

@@ -95,6 +95,30 @@ var distributorname;
 List location = [];
 Position? current_position;
 bool status = true;
+
+
+
+
+List customer_list=[];
+List icon_nameOnSearch_customer = [];
+List item_search_list_customer = [];
+TextEditingController customer_search = TextEditingController();
+
+
+
+
+List notification_list=[];
+
+
+
+TextEditingController appointment_delear_name = TextEditingController();
+GlobalKey<FormState> appointment_name_key = GlobalKey<FormState>();
+TextEditingController appointment_emailid = TextEditingController();
+
+List appointment_notification=[];
+var time;
+List notify_appointment=[];
+
 var address1;
 
 Position? positions;
