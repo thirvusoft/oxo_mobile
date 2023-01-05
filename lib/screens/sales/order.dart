@@ -68,7 +68,8 @@ class _orderState extends State<order> {
               ),
             )));
   }
-    Widget mens(Size size) {
+
+  Widget mens(Size size) {
     return Column(
       children: <Widget>[
         Container(
@@ -79,35 +80,35 @@ class _orderState extends State<order> {
                 height: 48.0,
                 alignment: Alignment.center,
                 child: TextField(
-                 controller: searchcontroller_men,
-                      onChanged: (value) {
-                  setState(() {
-                    value.trimLeft();
-                    icon_nameOnSearch_men = [];
-                    for (var i = 0; i < item_list_mens.length; i++) {
-                      var des = {};
-                      des["item_code"] = item_list_mens[i]["item_code"];
-                      item_search_list_men.add(des);
-                      if ((item_search_list_men[i]["item_code"]
-                          .toLowerCase()
-                          .contains(value.trim().toLowerCase()))) {
-                        var d = {};
-                        d["item_code"] = item_search_list_men[i]["item_code"];
-                        icon_nameOnSearch_men.add(d);
+                  controller: searchcontroller_men,
+                  onChanged: (value) {
+                    setState(() {
+                      value.trimLeft();
+                      icon_nameOnSearch_men = [];
+                      for (var i = 0; i < item_list_mens.length; i++) {
+                        var des = {};
+                        des["item_code"] = item_list_mens[i]["item_code"];
+                        item_search_list_men.add(des);
+                        if ((item_search_list_men[i]["item_code"]
+                            .toLowerCase()
+                            .contains(value.trim().toLowerCase()))) {
+                          var d = {};
+                          d["item_code"] = item_search_list_men[i]["item_code"];
+                          icon_nameOnSearch_men.add(d);
+                        }
                       }
-                    }
-                  });
-                },
+                    });
+                  },
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color(0xFFEB455F), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color(0xFFEB455F), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
                       contentPadding: EdgeInsets.all(15),
                       hintText: "Search",
@@ -128,15 +129,14 @@ class _orderState extends State<order> {
             child: Container(
               alignment: Alignment.bottomRight,
               child: ElevatedButton.icon(
-                  onPressed: () {
+                onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => sales_order()),
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add(
-                        {'item_code': key, 'qty': value[1]});
+                    values_dict.add({'item_code': key, 'qty': value[1]});
                   });
                   values_dict.removeAt(index_value);
                 },
@@ -159,6 +159,7 @@ class _orderState extends State<order> {
       ],
     );
   }
+
   Widget itemlist() {
     return AnimationLimiter(
         child: Container(
@@ -205,7 +206,7 @@ class _orderState extends State<order> {
                                         color: Colors.white,
                                       ),
                                     )),
-                               title: Text(
+                                title: Text(
                                   searchcontroller_men.text.isEmpty
                                       ? row[index]['item_code']
                                       : row[index]['item_code'],
@@ -219,14 +220,13 @@ class _orderState extends State<order> {
                                   setState(() {
                                     item = row[index]["item_code"];
                                   });
-                                  
+
                                   varient_item(item);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => item_group()),
                                   );
-                                
                                 },
                               ),
                             ),
@@ -235,7 +235,7 @@ class _orderState extends State<order> {
           }),
     ));
   }
-  
+
   Widget women(Size size) {
     return Column(
       children: <Widget>[
@@ -270,13 +270,13 @@ class _orderState extends State<order> {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color(0xFFEB455F), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color(0xFFEB455F), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
                       contentPadding: EdgeInsets.all(15),
                       hintText: "Search",
@@ -304,8 +304,7 @@ class _orderState extends State<order> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add(
-                        {'item_code': key, 'qty': value[1]});
+                    values_dict.add({'item_code': key, 'qty': value[1]});
                   });
                   values_dict.removeAt(index_value);
                 },
@@ -363,13 +362,13 @@ class _orderState extends State<order> {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color(0xFFEB455F), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color(0xFFEB455F), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
                       contentPadding: EdgeInsets.all(15),
                       hintText: "Search",
@@ -397,8 +396,7 @@ class _orderState extends State<order> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add(
-                        {'item_code': key, 'qty': value[1]});
+                    values_dict.add({'item_code': key, 'qty': value[1]});
                   });
                   values_dict.removeAt(index_value);
                 },
@@ -456,13 +454,13 @@ class _orderState extends State<order> {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color(0xFFEB455F), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color(0xFFEB455F), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
                       contentPadding: EdgeInsets.all(15),
                       hintText: "Search",
@@ -490,8 +488,7 @@ class _orderState extends State<order> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add(
-                        {'item_code': key, 'qty': value[1]});
+                    values_dict.add({'item_code': key, 'qty': value[1]});
                   });
                   values_dict.removeAt(index_value);
                 },
@@ -746,11 +743,10 @@ class _orderState extends State<order> {
     item_list_kids = [];
     item_list_premimum = [];
 
-    var response = await http.get(
-        Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.template_list"""));
+    var response = await http.get(Uri.parse(
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.template_list"""));
 
-print(response.body);
+    print(response.body);
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
       setState(() {

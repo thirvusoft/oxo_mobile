@@ -24,7 +24,7 @@ class MyHomePage extends StatelessWidget {
       routes: {
         'test': (context) => sales_order(),
         'bottom': (context) => MainPage(),
-        'homepage':(context) => home_page(),
+        'homepage': (context) => home_page(),
       },
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
@@ -35,7 +35,7 @@ class MyHomePage extends StatelessWidget {
         primarySwatch: createMaterialColor(Color(0xFFEB455F)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Login(),
+      home: home_page(),
       // builder: EasyLoading.init(),
     );
   }
