@@ -32,7 +32,7 @@ class _orderState extends State<order> {
             child: Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading: false,
-                backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+                // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
                 title: Center(
                   child: Text(
                     'Sales Order',
@@ -43,6 +43,8 @@ class _orderState extends State<order> {
                   ),
                 ),
                 bottom: TabBar(
+                  isScrollable: true,
+                  indicatorColor: Colors.white,
                   tabs: [
                     Tab(icon: Icon(Icons.person), text: "MEN'S RANGE"),
                     Tab(icon: Icon(Icons.person_outline), text: "WOMEN RANGE"),
@@ -116,10 +118,9 @@ class _orderState extends State<order> {
                 )),
           ),
         ),
-        Expanded(
-            child: Container(
+        Container(
           child: itemlist(),
-        )),
+        ),
         Container(
           child: Padding(
             padding: EdgeInsets.only(right: 10, bottom: 7),
@@ -133,7 +134,8 @@ class _orderState extends State<order> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add({'item_code': key, 'qty': value[1],'rate':value[0]});
+                    values_dict.add(
+                        {'item_code': key, 'qty': value[1], 'rate': value[0]});
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -299,7 +301,8 @@ class _orderState extends State<order> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                     values_dict.add({'item_code': key, 'qty': value[1],'rate':value[0]});
+                    values_dict.add(
+                        {'item_code': key, 'qty': value[1], 'rate': value[0]});
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -390,7 +393,8 @@ class _orderState extends State<order> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                     values_dict.add({'item_code': key, 'qty': value[1],'rate':value[0]});
+                    values_dict.add(
+                        {'item_code': key, 'qty': value[1], 'rate': value[0]});
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -481,7 +485,8 @@ class _orderState extends State<order> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                     values_dict.add({'item_code': key, 'qty': value[1],'rate':value[0]});
+                    values_dict.add(
+                        {'item_code': key, 'qty': value[1], 'rate': value[0]});
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -773,7 +778,7 @@ class _orderState extends State<order> {
   Future varient_item(item) async {
     print("object");
     varient_item_list = [];
-    row_varient=[];
+    row_varient = [];
     icon_nameOnSearch_varient = [];
     var response = await http.get(
       Uri.parse(

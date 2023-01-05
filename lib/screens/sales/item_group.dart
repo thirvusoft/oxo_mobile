@@ -20,7 +20,7 @@ class _item_groupState extends State<item_group> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+        // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
         title: Text(
           item,
           style: GoogleFonts.poppins(

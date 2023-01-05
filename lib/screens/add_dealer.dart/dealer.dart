@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
@@ -37,7 +38,7 @@ class _dealerState extends State<dealer> {
     return Scaffold(
         appBar: AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+            // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
             title: Center(
               child: Text(
                 'Dealer Creation',
@@ -74,7 +75,7 @@ class _dealerState extends State<dealer> {
 
   Widget dealer_name(Size size) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
         child: SizedBox(
           child: Form(
               key: name_key,
@@ -100,7 +101,7 @@ class _dealerState extends State<dealer> {
 
   Widget dealer_mobile(Size size) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
         child: SizedBox(
           child: Form(
               key: mobile_key,
@@ -129,7 +130,7 @@ class _dealerState extends State<dealer> {
 
   Widget dealer_address(Size size) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 40),
         child: SizedBox(
           child: Form(
               key: address_key,
@@ -196,7 +197,28 @@ class _dealerState extends State<dealer> {
                         ),
                         hintText: "Select Territory"),
                   )),
-               
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                      child: TextFormField(
+                    controller: dealercity,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter city';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(
+                              color: Color.fromRGBO(44, 185, 176, 1),
+                              width: 2.0),
+                        ),
+                        hintText: "Enter city"),
+                  )),
                   SizedBox(
                     height: 20,
                   ),
@@ -273,6 +295,7 @@ class _dealerState extends State<dealer> {
                     dealermobile.text,
                     dealeraddress.text,
                     dealerterritory.text,
+                    dealercity.text,
                     dealerstate.text,
                     dealerpincode.text);
               }
@@ -286,6 +309,7 @@ class _dealerState extends State<dealer> {
     phone_number,
     address,
     territory,
+    city,
     state,
     pincode,
   ) async {
@@ -297,7 +321,8 @@ class _dealerState extends State<dealer> {
     // print(location);
 
     var response = await http.get(
-        Uri.parse("""https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.new_customer?full_name=${full_name}&phone_number=${phone_number}&address=${address}&territory=${territory}&city=${city}&state=${state}&pincode=${pincode}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}"""),
+        Uri.parse(
+            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.new_customer?full_name=${full_name}&phone_number=${phone_number}&address=${address}&territory=${territory}&city=${city}&state=${state}&pincode=${pincode}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     print(response.statusCode);
     print(response.body);

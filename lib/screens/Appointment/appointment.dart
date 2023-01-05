@@ -31,7 +31,7 @@ class _appointmentState extends State<appointment> {
     return Scaffold(
         appBar: AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+            // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
             title: Center(
               child: Text(
                 'Fix Appointment',

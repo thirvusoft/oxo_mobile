@@ -12,7 +12,6 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:http/http.dart' as http;
 
-
 class sales_order extends StatefulWidget {
   const sales_order({super.key});
 
@@ -26,8 +25,9 @@ class _sales_orderState extends State<sales_order> {
     dealername_list();
     distributor_list();
     super.initState();
-print('00000000000000000000000000000000000000000000000000000000000000000000000000000');
-print(values_dict);
+    print(
+        '00000000000000000000000000000000000000000000000000000000000000000000000000000');
+    print(values_dict);
     employeeDataSource = EmployeeDataSource(employeeData: values_dict);
   }
 
@@ -37,7 +37,7 @@ print(values_dict);
     return Scaffold(
         appBar: AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+            // backgroundColor: Colors(O),
             title: Center(
               child: Text(
                 'Sales Order',
@@ -69,7 +69,6 @@ print(values_dict);
           ),
         ));
   }
-
 
   Widget item(Size size) {
     return Container(
@@ -276,7 +275,6 @@ print(values_dict);
                 columns: <GridColumn>[
                   GridColumn(
                       columnName: 'name',
-                      
                       label: Container(
                           padding: EdgeInsets.all(20.0),
                           child: Text(
@@ -285,17 +283,16 @@ print(values_dict);
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ))),
                   GridColumn(
-                      columnName: 'qty',
-                      label: Container(
-                          padding: EdgeInsets.all(20.0),
-                          child: Text(
-                            'Quantity',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
-
-                          ),
-                              GridColumn(
+                    columnName: 'qty',
+                    label: Container(
+                        padding: EdgeInsets.all(20.0),
+                        child: Text(
+                          'Quantity',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                  ),
+                  GridColumn(
                       columnName: 'rate',
                       label: Container(
                           padding: EdgeInsets.all(20.0),
@@ -333,8 +330,9 @@ print(values_dict);
         actions: <Widget>[
           SearchField(
             controller: customer_name,
-            suggestions:
-                dealer_name.map((String) => SearchFieldListItem(String)).toList(),
+            suggestions: dealer_name
+                .map((String) => SearchFieldListItem(String))
+                .toList(),
             suggestionState: Suggestion.expand,
             textInputAction: TextInputAction.next,
             hasOverlay: false,
@@ -372,8 +370,9 @@ print(values_dict);
           ),
           SearchField(
             controller: distributor_name,
-            suggestions:
-                distributor.map((String) => SearchFieldListItem(String)).toList(),
+            suggestions: distributor
+                .map((String) => SearchFieldListItem(String))
+                .toList(),
             suggestionState: Suggestion.expand,
             textInputAction: TextInputAction.next,
             hasOverlay: false,
@@ -471,24 +470,22 @@ print(values_dict);
             text: 'Submit',
             color: Color.fromRGBO(44, 185, 176, 1),
             pressEvent: () {
-              sales_order(customer_name.text, delivery_date.text, values_dict,distributor_name.text,user_name);
+              sales_order(customer_name.text, delivery_date.text, values_dict,
+                  distributor_name.text, user_name);
               Navigator.pop(context);
-
             },
-            
-            
           ),
         ],
       ),
     );
   }
-    Future dealername_list() async {
+
+  Future dealername_list() async {
     dealer_name = [];
 
-    var response = await http.get(
-        Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.customer_list"""));
-        // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+    var response = await http.get(Uri.parse(
+        """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.customer_list"""));
+    // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -501,12 +498,12 @@ print(values_dict);
     }
   }
 
-    Future distributor_list() async{
+  Future distributor_list() async {
     print("object");
-  distributor=[];
-  var response =await http.get(
-    Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.distributor"""),
+    distributor = [];
+    var response = await http.get(
+      Uri.parse(
+          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.distributor"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
     print(response.statusCode);
@@ -514,27 +511,23 @@ print(values_dict);
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
       setState(() {
-        for (var i = 0;
-            i < json.decode(response.body)['message'].length;
-            i++) {
+        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           distributor.add((json.decode(response.body)['message'][i]));
         }
       });
+    }
+  }
 
-
-    } 
-  
-}
-
-  Future sales_order(customer_name, delivery_date, values_dict,distributor_name,user_name) async {
+  Future sales_order(customer_name, delivery_date, values_dict,
+      distributor_name, user_name) async {
     print("object");
     print(values_dict);
-    values_dict=jsonEncode(values_dict);
-     print(values_dict);
+    values_dict = jsonEncode(values_dict);
+    print(values_dict);
     var response = await http.get(
-      Uri.parse(
-          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order?cus_name=${customer_name}&due_date=${delivery_date}&items=${values_dict}&distributor=${distributor_name}&sales_person=${user_name}"""),
-      headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+        Uri.parse(
+            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order?cus_name=${customer_name}&due_date=${delivery_date}&items=${values_dict}&distributor=${distributor_name}&sales_person=${user_name}"""),
+        headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -547,49 +540,45 @@ print(values_dict);
           dialogType: DialogType.success,
           title: 'Orderd Sucessfully',
           btnOkOnPress: () {
-            values_dict=[];
-            values={};
+            values_dict = [];
+            values = {};
 
-                        print(values_dict);
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => home_page()),
-            );
-            
-          },
-          btnOkIcon: Icons.check_circle,
-          onDismissCallback: (type) {},
-        ).show();
-      });
-    }
-    else{
-              AwesomeDialog(
-          context: context,
-          animType: AnimType.leftSlide,
-          headerAnimationLoop: false,
-          dialogType: DialogType.error,
-          title: (json.decode(response.body)['message']),
-          btnOkOnPress: () {
-            values_dict=[];
-            values={};
             print(values_dict);
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => home_page()),
             );
-            
           },
           btnOkIcon: Icons.check_circle,
           onDismissCallback: (type) {},
         ).show();
-
+      });
+    } else {
+      AwesomeDialog(
+        context: context,
+        animType: AnimType.leftSlide,
+        headerAnimationLoop: false,
+        dialogType: DialogType.error,
+        title: (json.decode(response.body)['message']),
+        btnOkOnPress: () {
+          values_dict = [];
+          values = {};
+          print(values_dict);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => home_page()),
+          );
+        },
+        btnOkIcon: Icons.check_circle,
+        onDismissCallback: (type) {},
+      ).show();
     }
   }
 }
 
 class EmployeeDataSource extends DataGridSource {
   EmployeeDataSource({required List employeeData}) {
-     print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
+    print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
     print(employeeData);
     _employeeData = employeeData
         .map<DataGridRow>((e) => DataGridRow(cells: [
@@ -599,10 +588,9 @@ class EmployeeDataSource extends DataGridSource {
                   columnName: 'qty', value: e['qty'].toString()),
               DataGridCell<String>(
                   columnName: 'rate', value: e['rate'].toString()),
-                  
             ]))
         .toList();
-        print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
+    print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
   }
 
   List<DataGridRow> _employeeData = [];
