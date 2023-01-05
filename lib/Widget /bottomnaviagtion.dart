@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:oxo/screens/sales/order_page.dart';
 
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
@@ -29,7 +30,7 @@ class _MainPageState extends State<MainPage> {
         controller: _controller,
         screens: const [
           dashboard(),
-          order(),
+          // category_group(),
           dealer(),
           location_pin(),
         ],

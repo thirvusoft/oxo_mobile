@@ -132,3 +132,34 @@ var currentAddress;
 var auto_pincode;
 
 var index_value;
+
+// category list page
+List inner_list=[];
+List outer_list = [];
+List shirt_list = [];
+TextEditingController searchcontroller_shirt = TextEditingController();
+TextEditingController searchcontroller_inner = TextEditingController();
+TextEditingController searchcontroller_outer = TextEditingController();
+
+List icon_nameOnSearch_inner = [];
+List item_search_list_inner = [];
+
+List icon_nameOnSearch_shirt = [];
+List item_search_list_shirt = [];
+
+List icon_nameOnSearch_outer = [];
+List item_search_list_outer= [];
+
+var category_name;
+var item_group_name;
+List category_item_list=[];
+
+List icon_nameOnSearch_category = [];
+
+List item_search_list_category =[];
+
+// template page
+
+TextEditingController searchcontroller_category = TextEditingController();
+
+var item_name;

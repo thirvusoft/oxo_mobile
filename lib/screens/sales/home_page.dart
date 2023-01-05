@@ -18,6 +18,8 @@ import '../notification/notificationservice.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
+import 'item_category_list.dart';
+
 class home_page extends StatefulWidget {
   const home_page({super.key});
 
@@ -234,7 +236,7 @@ class _home_pageState extends State<home_page> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => order()),
+                        MaterialPageRoute(builder: (context) => category()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
