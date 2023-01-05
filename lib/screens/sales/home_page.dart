@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/screens/Appointment/customer_list.dart';
 import 'package:oxo/screens/add_dealer.dart/dealer.dart';
@@ -553,7 +554,7 @@ class _home_pageState extends State<home_page> {
     distributor_home = [];
     var response = await http.get(
       Uri.parse(
-          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.distributor"""),
+          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.distributor"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
     print(response.statusCode);
@@ -572,7 +573,7 @@ class _home_pageState extends State<home_page> {
     notification_list = [];
     var response = await http.get(
       Uri.parse(
-          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.notification"""),
+          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.notification"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
     print(response.statusCode);
@@ -597,7 +598,7 @@ class _home_pageState extends State<home_page> {
     appointment_notification = [];
     var response = await http.get(
       Uri.parse(
-          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.appointment_notification"""),
+          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.appointment_notification"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
     print(response.statusCode);

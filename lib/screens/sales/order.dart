@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/constants.dart';
 import 'package:http/http.dart' as http;
@@ -51,7 +52,7 @@ class _orderState extends State<order> {
                     Tab(icon: Icon(Icons.person_pin), text: "KID'S RANGE"),
                     Tab(
                         icon: Icon(Icons.person_pin_sharp),
-                        text: "PREMIUM RANGE")
+                        text: "PREMIUM RANGE"),
                   ],
                 ),
               ),
@@ -71,53 +72,50 @@ class _orderState extends State<order> {
   Widget mens(Size size) {
     return Column(
       children: <Widget>[
-        Container(
-          padding: EdgeInsets.all(15),
-          child: Theme(
-            data: Theme.of(context).copyWith(accentColor: Colors.white),
-            child: Container(
-                height: 48.0,
-                alignment: Alignment.center,
-                child: TextField(
-                  controller: searchcontroller_men,
-                  onChanged: (value) {
-                    setState(() {
-                      value.trimLeft();
-                      icon_nameOnSearch_men = [];
-                      for (var i = 0; i < item_list_mens.length; i++) {
-                        var des = {};
-                        des["item_code"] = item_list_mens[i]["item_code"];
-                        item_search_list_men.add(des);
-                        if ((item_search_list_men[i]["item_code"]
-                            .toLowerCase()
-                            .contains(value.trim().toLowerCase()))) {
-                          var d = {};
-                          d["item_code"] = item_search_list_men[i]["item_code"];
-                          icon_nameOnSearch_men.add(d);
-                        }
+        Stack(children: [
+          // padding: EdgeInsets.all(15),
+          Container(
+              height: 48.0,
+              alignment: Alignment.center,
+              child: TextField(
+                controller: searchcontroller_men,
+                onChanged: (value) {
+                  setState(() {
+                    value.trimLeft();
+                    icon_nameOnSearch_men = [];
+                    for (var i = 0; i < item_list_mens.length; i++) {
+                      var des = {};
+                      des["item_code"] = item_list_mens[i]["item_code"];
+                      item_search_list_men.add(des);
+                      if ((item_search_list_men[i]["item_code"]
+                          .toLowerCase()
+                          .contains(value.trim().toLowerCase()))) {
+                        var d = {};
+                        d["item_code"] = item_search_list_men[i]["item_code"];
+                        icon_nameOnSearch_men.add(d);
                       }
-                    });
-                  },
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
-                      ),
-                      contentPadding: EdgeInsets.all(15),
-                      hintText: "Search",
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Color.fromARGB(252, 4, 0, 0),
-                      )),
-                )),
-          ),
-        ),
+                    }
+                  });
+                },
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(
+                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(
+                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                    ),
+                    contentPadding: EdgeInsets.all(15),
+                    hintText: "Search",
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Color.fromARGB(252, 4, 0, 0),
+                    )),
+              )),
+        ]),
         Container(
           child: itemlist(),
         ),
@@ -161,6 +159,9 @@ class _orderState extends State<order> {
   Widget itemlist() {
     return AnimationLimiter(
         child: Container(
+            // height: 900,
+            child: SingleChildScrollView(
+      scrollDirection: Axis.vertical,
       child: ListView.builder(
           itemCount: searchcontroller_men.text.isNotEmpty
               ? icon_nameOnSearch_men.length
@@ -230,7 +231,7 @@ class _orderState extends State<order> {
                           ),
                         ))));
           }),
-    ));
+    )));
   }
 
   Widget women(Size size) {
@@ -742,7 +743,7 @@ class _orderState extends State<order> {
 
     var response = await http.get(
         Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.template_list"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.template_list"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
 
     if (response.statusCode == 200) {
@@ -782,7 +783,7 @@ class _orderState extends State<order> {
     icon_nameOnSearch_varient = [];
     var response = await http.get(
       Uri.parse(
-          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.varient_list?template_name=${item}"""),
+          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.varient_list?template_name=${item}"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
     print(response.statusCode);

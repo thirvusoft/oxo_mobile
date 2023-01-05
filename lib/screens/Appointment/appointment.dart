@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:oxo/constants.dart';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -195,7 +196,7 @@ class _appointmentState extends State<appointment> {
     print(delear_name);
     var response = await http.get(
         Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.Appointment_creation?customer_name=${delear_name}&date_time=${date_time}&email=${email}"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.Appointment_creation?customer_name=${delear_name}&date_time=${date_time}&email=${email}"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     print(response.statusCode);
     print(response.body);
