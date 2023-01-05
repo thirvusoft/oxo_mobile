@@ -15,6 +15,10 @@ class item_group extends StatefulWidget {
 
 class _item_groupState extends State<item_group> {
   @override
+  void initState() {
+     values_dict = [];
+  }
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -36,7 +40,7 @@ class _item_groupState extends State<item_group> {
                 context,
                 MaterialPageRoute(builder: (context) => order()),
               );
-              values_dict = [];
+             values_dict=[];
               values.forEach((key, value) {
                 values_dict.add({'item_code': key, 'qty': value[1], 'rate':value[0]});
                 print(values_dict);
@@ -180,23 +184,23 @@ class _item_groupState extends State<item_group> {
                                               color: Color(0xff19183e)),
                                         ),
                                       ),
-                                      subtitle: Text(
-                                        varient_item_list[index]
-                                                ["standard_rate"]
-                                            .toString(),
-                                        style: GoogleFonts.poppins(
-                                          textStyle: TextStyle(
-                                              letterSpacing: .1,
-                                              color:Color.fromRGBO(44, 185, 176, 1)),
-                                        ),
-                                      ),
+                                      // subtitle: Text(
+                                      //   varient_item_list[index]
+                                      //           ["standard_rate"]
+                                      //       .toString(),
+                                      //   style: GoogleFonts.poppins(
+                                      //     textStyle: TextStyle(
+                                      //         letterSpacing: .1,
+                                      //         color:Color.fromRGBO(44, 185, 176, 1)),
+                                      //   ),
+                                      // ),
                                       // controller: list[index],
                                       trailing:
                                           Wrap(spacing: 12, children: <Widget>[
                                         Padding(
                                           padding: EdgeInsets.only(top: 1.0),
                                           child: SizedBox(
-                                            height: 65,
+                                            height: 45,
                                             width: 70,
                                             child: TextFormField(
                                               controller: list[index],

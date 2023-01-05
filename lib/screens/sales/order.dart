@@ -33,7 +33,7 @@ class _orderState extends State<order> {
             child: Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading: false,
-                // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+                backgroundColor: Color(0xFFEB455F),
                 title: Center(
                   child: Text(
                     'Sales Order',
@@ -68,18 +68,19 @@ class _orderState extends State<order> {
               ),
             )));
   }
-
-  Widget mens(Size size) {
+    Widget mens(Size size) {
     return Column(
       children: <Widget>[
-        Stack(children: [
-          // padding: EdgeInsets.all(15),
-          Container(
-              height: 48.0,
-              alignment: Alignment.center,
-              child: TextField(
-                controller: searchcontroller_men,
-                onChanged: (value) {
+        Container(
+          padding: EdgeInsets.all(15),
+          child: Theme(
+            data: Theme.of(context).copyWith(accentColor: Colors.white),
+            child: Container(
+                height: 48.0,
+                alignment: Alignment.center,
+                child: TextField(
+                 controller: searchcontroller_men,
+                      onChanged: (value) {
                   setState(() {
                     value.trimLeft();
                     icon_nameOnSearch_men = [];
@@ -97,35 +98,37 @@ class _orderState extends State<order> {
                     }
                   });
                 },
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
-                    ),
-                    contentPadding: EdgeInsets.all(15),
-                    hintText: "Search",
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Color.fromARGB(252, 4, 0, 0),
-                    )),
-              )),
-        ]),
-        Container(
-          child: itemlist(),
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(
+                            color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(
+                            color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      contentPadding: EdgeInsets.all(15),
+                      hintText: "Search",
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Color.fromARGB(252, 4, 0, 0),
+                      )),
+                )),
+          ),
         ),
+        Expanded(
+            child: Container(
+          child: itemlist(),
+        )),
         Container(
           child: Padding(
             padding: EdgeInsets.only(right: 10, bottom: 7),
             child: Container(
               alignment: Alignment.bottomRight,
               child: ElevatedButton.icon(
-                onPressed: () {
+                  onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => sales_order()),
@@ -133,15 +136,16 @@ class _orderState extends State<order> {
                   values_dict = [];
                   values.forEach((key, value) {
                     values_dict.add(
-                        {'item_code': key, 'qty': value[1], 'rate': value[0]});
+                        {'item_code': key, 'qty': value[1]});
                   });
+                  values_dict.removeAt(index_value);
                 },
                 style: ElevatedButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
-                  primary: Color.fromRGBO(44, 185, 176, 1),
+                  primary: Color(0xFFEB455F),
                 ),
                 icon: Icon(
                   Icons.add,
@@ -155,13 +159,9 @@ class _orderState extends State<order> {
       ],
     );
   }
-
   Widget itemlist() {
     return AnimationLimiter(
         child: Container(
-            // height: 900,
-            child: SingleChildScrollView(
-      scrollDirection: Axis.vertical,
       child: ListView.builder(
           itemCount: searchcontroller_men.text.isNotEmpty
               ? icon_nameOnSearch_men.length
@@ -205,7 +205,7 @@ class _orderState extends State<order> {
                                         color: Colors.white,
                                       ),
                                     )),
-                                title: Text(
+                               title: Text(
                                   searchcontroller_men.text.isEmpty
                                       ? row[index]['item_code']
                                       : row[index]['item_code'],
@@ -219,21 +219,23 @@ class _orderState extends State<order> {
                                   setState(() {
                                     item = row[index]["item_code"];
                                   });
+                                  
                                   varient_item(item);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => item_group()),
                                   );
+                                
                                 },
                               ),
                             ),
                           ),
                         ))));
           }),
-    )));
+    ));
   }
-
+  
   Widget women(Size size) {
     return Column(
       children: <Widget>[
@@ -269,12 +271,12 @@ class _orderState extends State<order> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                            color: Color(0xFFEB455F), width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                            color: Color(0xFFEB455F), width: 2.0),
                       ),
                       contentPadding: EdgeInsets.all(15),
                       hintText: "Search",
@@ -303,15 +305,16 @@ class _orderState extends State<order> {
                   values_dict = [];
                   values.forEach((key, value) {
                     values_dict.add(
-                        {'item_code': key, 'qty': value[1], 'rate': value[0]});
+                        {'item_code': key, 'qty': value[1]});
                   });
+                  values_dict.removeAt(index_value);
                 },
                 style: ElevatedButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
-                  primary: Color.fromRGBO(44, 185, 176, 1),
+                  primary: Color(0xFFEB455F),
                 ),
                 icon: Icon(
                   Icons.add,
@@ -361,12 +364,12 @@ class _orderState extends State<order> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                            color: Color(0xFFEB455F), width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                            color: Color(0xFFEB455F), width: 2.0),
                       ),
                       contentPadding: EdgeInsets.all(15),
                       hintText: "Search",
@@ -395,15 +398,16 @@ class _orderState extends State<order> {
                   values_dict = [];
                   values.forEach((key, value) {
                     values_dict.add(
-                        {'item_code': key, 'qty': value[1], 'rate': value[0]});
+                        {'item_code': key, 'qty': value[1]});
                   });
+                  values_dict.removeAt(index_value);
                 },
                 style: ElevatedButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
-                  primary: Color.fromRGBO(44, 185, 176, 1),
+                  primary: Color(0xFFEB455F),
                 ),
                 icon: Icon(
                   Icons.add,
@@ -453,12 +457,12 @@ class _orderState extends State<order> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                            color: Color(0xFFEB455F), width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                            color: Color(0xFFEB455F), width: 2.0),
                       ),
                       contentPadding: EdgeInsets.all(15),
                       hintText: "Search",
@@ -487,15 +491,16 @@ class _orderState extends State<order> {
                   values_dict = [];
                   values.forEach((key, value) {
                     values_dict.add(
-                        {'item_code': key, 'qty': value[1], 'rate': value[0]});
+                        {'item_code': key, 'qty': value[1]});
                   });
+                  values_dict.removeAt(index_value);
                 },
                 style: ElevatedButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
-                  primary: Color.fromRGBO(44, 185, 176, 1),
+                  primary: Color(0xFFEB455F),
                 ),
                 icon: Icon(
                   Icons.add,
@@ -743,9 +748,9 @@ class _orderState extends State<order> {
 
     var response = await http.get(
         Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.template_list"""),
-        headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.template_list"""));
 
+print(response.body);
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
       setState(() {

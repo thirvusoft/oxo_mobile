@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -102,7 +101,7 @@ class _dealerState extends State<dealer> {
 
   Widget dealer_mobile(Size size) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
         child: SizedBox(
           child: Form(
               key: mobile_key,
@@ -131,7 +130,7 @@ class _dealerState extends State<dealer> {
 
   Widget dealer_address(Size size) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 40),
+        padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 20),
         child: SizedBox(
           child: Form(
               key: address_key,
@@ -149,10 +148,10 @@ class _dealerState extends State<dealer> {
                   ),
                   Container(
                       child: TextFormField(
-                    controller: dealeraddress,
+                    controller: dealerdoorno,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter address';
+                        return 'Please enter doorno';
                       }
                       return null;
                     },
@@ -164,7 +163,29 @@ class _dealerState extends State<dealer> {
                               color: Color.fromRGBO(44, 185, 176, 1),
                               width: 2.0),
                         ),
-                        hintText: "Enter address"),
+                        hintText: "Enter door no"),
+                  )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                      child: TextFormField(
+                    controller: dealercity,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter street';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(
+                              color: Color.fromRGBO(44, 185, 176, 1),
+                              width: 2.0),
+                        ),
+                        hintText: "Enter street"),
                   )),
                   SizedBox(
                     height: 20,
@@ -197,28 +218,6 @@ class _dealerState extends State<dealer> {
                               width: 2.0),
                         ),
                         hintText: "Select Territory"),
-                  )),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                      child: TextFormField(
-                    controller: dealercity,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter city';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(
-                              color: Color.fromRGBO(44, 185, 176, 1),
-                              width: 2.0),
-                        ),
-                        hintText: "Enter city"),
                   )),
                   SizedBox(
                     height: 20,
@@ -258,12 +257,6 @@ class _dealerState extends State<dealer> {
                   Container(
                       child: TextFormField(
                     controller: dealerpincode,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter postal code';
-                      }
-                      return null;
-                    },
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
@@ -294,11 +287,18 @@ class _dealerState extends State<dealer> {
                 customer_creation(
                     dealername.text,
                     dealermobile.text,
-                    dealeraddress.text,
-                    dealerterritory.text,
+                    dealerdoorno.text,
                     dealercity.text,
+                    dealerterritory.text,
                     dealerstate.text,
                     dealerpincode.text);
+                dealername.clear();
+                dealermobile.clear();
+                dealerdoorno.clear();
+                dealerterritory.clear();
+                dealercity.clear();
+                dealerstate.clear();
+                dealerpincode.clear();
               }
             }),
       ),
@@ -308,9 +308,9 @@ class _dealerState extends State<dealer> {
   Future customer_creation(
     full_name,
     phone_number,
-    address,
+    dealerdoorno,
+    dealercity,
     territory,
-    city,
     state,
     pincode,
   ) async {
@@ -321,21 +321,13 @@ class _dealerState extends State<dealer> {
     // double location = double.parse(current_position);
     // print(location);
 
-    var response = await http.get(
-        Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.new_customer?full_name=${full_name}&phone_number=${phone_number}&address=${address}&territory=${territory}&city=${city}&state=${state}&pincode=${pincode}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}"""),
-        headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+    var response = await http.get(Uri.parse(
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?full_name=${full_name}&phone_number=${phone_number}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&pincode=${pincode}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}"""));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
-      dealername.clear();
-      dealermobile.clear();
-      dealeraddress.clear();
-      dealerterritory.clear();
-      dealercity.clear();
-      dealerstate.clear();
-      dealerpincode.clear();
+
       setState(() {
         AwesomeDialog(
           context: context,
@@ -370,10 +362,8 @@ class _dealerState extends State<dealer> {
   Future territory_list() async {
     territory = [];
 
-    var response = await http.get(
-        Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.territory"""),
-        headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+    var response = await http.get(Uri.parse(
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.territory"""));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -389,10 +379,8 @@ class _dealerState extends State<dealer> {
   Future state_list() async {
     state = [];
 
-    var response = await http.get(
-        Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.state"""),
-        headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+    var response = await http.get(Uri.parse(
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.state"""));
 
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
