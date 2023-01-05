@@ -79,21 +79,21 @@ class _home_pageState extends State<home_page> {
                 ),
                 child: Row(children: <Widget>[
                   getCardItem3(height),
-                  getCardItem4(height),
+                  // getCardItem4(height),
                 ]),
               )),
               SizedBox(
                 height: 10,
               ),
-              Container(
-                  child: Padding(
-                padding: EdgeInsets.only(
-                  top: size.width / 5,
-                ),
-                child: Row(children: <Widget>[
-                  getCardItem5(height),
-                ]),
-              ))
+              // Container(
+              //     child: Padding(
+              //   padding: EdgeInsets.only(
+              //     top: size.width / 5,
+              //   ),
+              //   child: Row(children: <Widget>[
+              //     getCardItem5(height),
+              //   ]),
+              // ))
             ],
           ),
         ))));

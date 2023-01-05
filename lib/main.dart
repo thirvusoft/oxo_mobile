@@ -24,6 +24,7 @@ class MyHomePage extends StatelessWidget {
       routes: {
         'test': (context) => sales_order(),
         'bottom': (context) => MainPage(),
+        'homepage':(context) => home_page(),
       },
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,

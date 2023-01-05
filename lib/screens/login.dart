@@ -343,8 +343,7 @@ class _LoginState extends State<Login> {
     print('object');
     var response = await http.get(
         Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.login?mobile=${mobilenum}&password=${password}"""),
-        headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.login?mobile=${mobilenum}&password=${password}"""));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -354,7 +353,7 @@ class _LoginState extends State<Login> {
         login_loading = false;
       });
 
-      Navigator.pushNamed(context, 'bottom');
+      Navigator.pushNamed(context, 'homepage');
       Fluttertoast.showToast(
           msg: (json.decode(response.body)['message']),
           toastLength: Toast.LENGTH_SHORT,

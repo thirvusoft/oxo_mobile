@@ -34,7 +34,7 @@ class _orderState extends State<order> {
               resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 automaticallyImplyLeading: false,
-                // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+                backgroundColor: Color(0xFFEB455F),
                 title: Center(
                   child: Text(
                     'Sales Order',
@@ -69,18 +69,19 @@ class _orderState extends State<order> {
               ),
             )));
   }
-
-  Widget mens(Size size) {
+    Widget mens(Size size) {
     return Column(
       children: <Widget>[
-        Stack(children: [
-          // padding: EdgeInsets.all(15),
-          Container(
-              height: 48.0,
-              alignment: Alignment.center,
-              child: TextField(
-                controller: searchcontroller_men,
-                onChanged: (value) {
+        Container(
+          padding: EdgeInsets.all(15),
+          child: Theme(
+            data: Theme.of(context).copyWith(accentColor: Colors.white),
+            child: Container(
+                height: 48.0,
+                alignment: Alignment.center,
+                child: TextField(
+                 controller: searchcontroller_men,
+                      onChanged: (value) {
                   setState(() {
                     value.trimLeft();
                     icon_nameOnSearch_men = [];
@@ -98,103 +99,39 @@ class _orderState extends State<order> {
                     }
                   });
                 },
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
-                    ),
-                    contentPadding: EdgeInsets.all(15),
-                    hintText: "Search",
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Color.fromARGB(252, 4, 0, 0),
-                    )),
-              )),
-        ]),
-        Container(
-          child: ListView.builder(
-              itemCount: searchcontroller_men.text.isNotEmpty
-                  ? icon_nameOnSearch_men.length
-                  : item_list_mens.length,
-              shrinkWrap: true,
-              itemBuilder: (context, int index) {
-                var row = [];
-                if (icon_nameOnSearch_men.length != 0) {
-                  row = icon_nameOnSearch_men;
-                } else {
-                  row = item_list_mens;
-                }
-                list.add(TextEditingController());
 
-                int count = index + 1;
-                return AnimationConfiguration.staggeredList(
-                    position: index,
-                    duration: Duration(milliseconds: 500),
-                    child: SlideAnimation(
-                        verticalOffset: 50.0,
-                        child: Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            child: FadeInAnimation(
-                              child: Container(
-                                width: 50,
-                                child: Card(
-                                  color: Color(0xffffffff),
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Color(0xfff7f7f7), width: 1),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  elevation: 5,
-                                  child: ListTile(
-                                    leading: CircleAvatar(
-                                        radius: 12.5,
-                                        backgroundColor: Color(0xff628E90),
-                                        child: Text(
-                                          count.toString(),
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        )),
-                                    title: Text(
-                                      searchcontroller_men.text.isEmpty
-                                          ? row[index]['item_code']
-                                          : row[index]['item_code'],
-                                      style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            letterSpacing: .1,
-                                            color: Color(0xff19183e)),
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        item = row[index]["item_code"];
-                                      });
-                                      varient_item(item);
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => item_group()),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ))));
-              }),
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(
+                            color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(
+                            color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      contentPadding: EdgeInsets.all(15),
+                      hintText: "Search",
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Color.fromARGB(252, 4, 0, 0),
+                      )),
+                )),
+          ),
+
         ),
+        Expanded(
+            child: Container(
+          child: itemlist(),
+        )),
         Container(
           child: Padding(
             padding: EdgeInsets.only(right: 10, bottom: 7),
             child: Container(
               alignment: Alignment.bottomRight,
               child: ElevatedButton.icon(
-                onPressed: () {
+                  onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => sales_order()),
@@ -202,15 +139,16 @@ class _orderState extends State<order> {
                   values_dict = [];
                   values.forEach((key, value) {
                     values_dict.add(
-                        {'item_code': key, 'qty': value[1], 'rate': value[0]});
+                        {'item_code': key, 'qty': value[1]});
                   });
+                  values_dict.removeAt(index_value);
                 },
                 style: ElevatedButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
-                  primary: Color.fromRGBO(44, 185, 176, 1),
+                  primary: Color(0xFFEB455F),
                 ),
                 icon: Icon(
                   Icons.add,
@@ -224,26 +162,24 @@ class _orderState extends State<order> {
       ],
     );
   }
-
   Widget itemlist() {
     return AnimationLimiter(
         child: Container(
-            height: 250,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: ListView.builder(
-                  itemCount: searchcontroller_men.text.isNotEmpty
-                      ? icon_nameOnSearch_men.length
-                      : item_list_mens.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, int index) {
-                    var row = [];
-                    if (icon_nameOnSearch_men.length != 0) {
-                      row = icon_nameOnSearch_men;
-                    } else {
-                      row = item_list_mens;
-                    }
-                    list.add(TextEditingController());
+
+
+      child: ListView.builder(
+          itemCount: searchcontroller_men.text.isNotEmpty
+              ? icon_nameOnSearch_men.length
+              : item_list_mens.length,
+          shrinkWrap: true,
+          itemBuilder: (context, int index) {
+            var row = [];
+            if (icon_nameOnSearch_men.length != 0) {
+              row = icon_nameOnSearch_men;
+            } else {
+              row = item_list_mens;
+            }
+            list.add(TextEditingController());
 
                     int count = index + 1;
                     return AnimationConfiguration.staggeredList(
@@ -263,47 +199,38 @@ class _orderState extends State<order> {
                                             color: Color(0xfff7f7f7), width: 1),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
-                                      elevation: 5,
-                                      child: ListTile(
-                                        leading: CircleAvatar(
-                                            radius: 12.5,
-                                            backgroundColor: Color(0xff628E90),
-                                            child: Text(
-                                              count.toString(),
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            )),
-                                        title: Text(
-                                          searchcontroller_men.text.isEmpty
-                                              ? row[index]['item_code']
-                                              : row[index]['item_code'],
-                                          style: GoogleFonts.poppins(
-                                            textStyle: TextStyle(
-                                                letterSpacing: .1,
-                                                color: Color(0xff19183e)),
-                                          ),
-                                        ),
-                                        onTap: () {
-                                          setState(() {
-                                            item = row[index]["item_code"];
-                                          });
-                                          varient_item(item);
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    item_group()),
-                                          );
-                                        },
-                                      ),
-                                    ),
+                        )),
+                               title: Text(
+                                  searchcontroller_men.text.isEmpty
+                                      ? row[index]['item_code']
+                                      : row[index]['item_code'],
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        letterSpacing: .1,
+                                        color: Color(0xff19183e)),
                                   ),
-                                ))));
-                  }),
-            )));
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    item = row[index]["item_code"];
+                                  });
+                                  
+                                  varient_item(item);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => item_group()),
+                                  );
+                                
+                                },
+                              ),
+                            ),
+                          ),
+                        ))));
+          }),
+    ));
   }
-
+  
   Widget women(Size size) {
     return Column(
       children: <Widget>[
@@ -339,12 +266,12 @@ class _orderState extends State<order> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                            color: Color(0xFFEB455F), width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                            color: Color(0xFFEB455F), width: 2.0),
                       ),
                       contentPadding: EdgeInsets.all(15),
                       hintText: "Search",
@@ -373,15 +300,16 @@ class _orderState extends State<order> {
                   values_dict = [];
                   values.forEach((key, value) {
                     values_dict.add(
-                        {'item_code': key, 'qty': value[1], 'rate': value[0]});
+                        {'item_code': key, 'qty': value[1]});
                   });
+                  values_dict.removeAt(index_value);
                 },
                 style: ElevatedButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
-                  primary: Color.fromRGBO(44, 185, 176, 1),
+                  primary: Color(0xFFEB455F),
                 ),
                 icon: Icon(
                   Icons.add,
@@ -431,12 +359,12 @@ class _orderState extends State<order> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                            color: Color(0xFFEB455F), width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                            color: Color(0xFFEB455F), width: 2.0),
                       ),
                       contentPadding: EdgeInsets.all(15),
                       hintText: "Search",
@@ -465,15 +393,16 @@ class _orderState extends State<order> {
                   values_dict = [];
                   values.forEach((key, value) {
                     values_dict.add(
-                        {'item_code': key, 'qty': value[1], 'rate': value[0]});
+                        {'item_code': key, 'qty': value[1]});
                   });
+                  values_dict.removeAt(index_value);
                 },
                 style: ElevatedButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
-                  primary: Color.fromRGBO(44, 185, 176, 1),
+                  primary: Color(0xFFEB455F),
                 ),
                 icon: Icon(
                   Icons.add,
@@ -523,12 +452,12 @@ class _orderState extends State<order> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                            color: Color(0xFFEB455F), width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                            color: Color(0xFFEB455F), width: 2.0),
                       ),
                       contentPadding: EdgeInsets.all(15),
                       hintText: "Search",
@@ -557,15 +486,16 @@ class _orderState extends State<order> {
                   values_dict = [];
                   values.forEach((key, value) {
                     values_dict.add(
-                        {'item_code': key, 'qty': value[1], 'rate': value[0]});
+                        {'item_code': key, 'qty': value[1]});
                   });
+                  values_dict.removeAt(index_value);
                 },
                 style: ElevatedButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
-                  primary: Color.fromRGBO(44, 185, 176, 1),
+                  primary: Color(0xFFEB455F),
                 ),
                 icon: Icon(
                   Icons.add,
@@ -813,9 +743,9 @@ class _orderState extends State<order> {
 
     var response = await http.get(
         Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.template_list"""),
-        headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.template_list"""));
 
+print(response.body);
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
       setState(() {
