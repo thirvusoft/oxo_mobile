@@ -26,7 +26,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: const Color(0xFF21899C),
+        backgroundColor: const Color(0xFFe92f4b),
         body: SingleChildScrollView(
           child: SafeArea(
             child: SizedBox(
@@ -56,7 +56,7 @@ class _LoginState extends State<Login> {
       width: size.width * 0.9,
       height: size.height * 0.7,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50.0),
+        borderRadius: BorderRadius.circular(25.0),
         color: Colors.white,
       ),
       child: Column(
@@ -105,9 +105,9 @@ class _LoginState extends State<Login> {
   }
 
   Widget logo(double height_, double width_) {
-    return SvgPicture.asset(
-      'assets/logo.svg',
-      height: height_,
+    return Image.asset(
+      "assets/oxo.png",
+      height: 100,
       width: width_,
     );
   }
@@ -117,7 +117,7 @@ class _LoginState extends State<Login> {
       TextSpan(
         style: GoogleFonts.inter(
           fontSize: fontSize,
-          color: const Color(0xFF21899C),
+          color: const Color(0xFFe71837),
           letterSpacing: 2.000000061035156,
         ),
         children: const [
@@ -130,7 +130,7 @@ class _LoginState extends State<Login> {
           TextSpan(
             text: 'PAGE',
             style: TextStyle(
-              color: Color(0xFFFE9879),
+              color: Color(0xFF2B3467),
               fontWeight: FontWeight.w800,
             ),
           ),
@@ -152,6 +152,7 @@ class _LoginState extends State<Login> {
                 fontSize: 18.0,
                 color: const Color(0xFF151624),
               ),
+              cursorColor: const Color(0xFF2B3467),
               maxLines: 1,
               maxLength: 10,
               validator: (value) {
@@ -161,7 +162,6 @@ class _LoginState extends State<Login> {
                 return null;
               },
               keyboardType: TextInputType.number,
-              cursorColor: const Color(0xFF151624),
               decoration: InputDecoration(
                 counterText: "",
                 hintText: 'Enter mobile number',
@@ -227,7 +227,7 @@ class _LoginState extends State<Login> {
                     fontSize: 16.0,
                     color: const Color(0xFF151624),
                   ),
-                  cursorColor: const Color(0xFF151624),
+                  cursorColor: const Color(0xFF2B3467),
                   obscureText: _isObscure,
                   keyboardType: TextInputType.visiblePassword,
                   validator: (value) {
@@ -318,7 +318,7 @@ class _LoginState extends State<Login> {
         },
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 20.0),
-          primary: Color(0xFF21899C),
+          primary: Color(0xFF2B3467),
           shape: StadiumBorder(),
         ),
         child: (login_loading)

@@ -31,6 +31,7 @@ class _orderState extends State<order> {
         home: DefaultTabController(
             length: 4,
             child: Scaffold(
+              resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 automaticallyImplyLeading: false,
                 // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
@@ -117,7 +118,75 @@ class _orderState extends State<order> {
               )),
         ]),
         Container(
-          child: itemlist(),
+          child: ListView.builder(
+              itemCount: searchcontroller_men.text.isNotEmpty
+                  ? icon_nameOnSearch_men.length
+                  : item_list_mens.length,
+              shrinkWrap: true,
+              itemBuilder: (context, int index) {
+                var row = [];
+                if (icon_nameOnSearch_men.length != 0) {
+                  row = icon_nameOnSearch_men;
+                } else {
+                  row = item_list_mens;
+                }
+                list.add(TextEditingController());
+
+                int count = index + 1;
+                return AnimationConfiguration.staggeredList(
+                    position: index,
+                    duration: Duration(milliseconds: 500),
+                    child: SlideAnimation(
+                        verticalOffset: 50.0,
+                        child: Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: FadeInAnimation(
+                              child: Container(
+                                width: 50,
+                                child: Card(
+                                  color: Color(0xffffffff),
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: Color(0xfff7f7f7), width: 1),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  elevation: 5,
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                        radius: 12.5,
+                                        backgroundColor: Color(0xff628E90),
+                                        child: Text(
+                                          count.toString(),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        )),
+                                    title: Text(
+                                      searchcontroller_men.text.isEmpty
+                                          ? row[index]['item_code']
+                                          : row[index]['item_code'],
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            letterSpacing: .1,
+                                            color: Color(0xff19183e)),
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        item = row[index]["item_code"];
+                                      });
+                                      varient_item(item);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => item_group()),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ))));
+              }),
         ),
         Container(
           child: Padding(
@@ -159,79 +228,80 @@ class _orderState extends State<order> {
   Widget itemlist() {
     return AnimationLimiter(
         child: Container(
-            // height: 900,
+            height: 250,
             child: SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: ListView.builder(
-          itemCount: searchcontroller_men.text.isNotEmpty
-              ? icon_nameOnSearch_men.length
-              : item_list_mens.length,
-          shrinkWrap: true,
-          itemBuilder: (context, int index) {
-            var row = [];
-            if (icon_nameOnSearch_men.length != 0) {
-              row = icon_nameOnSearch_men;
-            } else {
-              row = item_list_mens;
-            }
-            list.add(TextEditingController());
+              scrollDirection: Axis.vertical,
+              child: ListView.builder(
+                  itemCount: searchcontroller_men.text.isNotEmpty
+                      ? icon_nameOnSearch_men.length
+                      : item_list_mens.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, int index) {
+                    var row = [];
+                    if (icon_nameOnSearch_men.length != 0) {
+                      row = icon_nameOnSearch_men;
+                    } else {
+                      row = item_list_mens;
+                    }
+                    list.add(TextEditingController());
 
-            int count = index + 1;
-            return AnimationConfiguration.staggeredList(
-                position: index,
-                duration: Duration(milliseconds: 500),
-                child: SlideAnimation(
-                    verticalOffset: 50.0,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: FadeInAnimation(
-                          child: Container(
-                            width: 50,
-                            child: Card(
-                              color: Color(0xffffffff),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color: Color(0xfff7f7f7), width: 1),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              elevation: 5,
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                    radius: 12.5,
-                                    backgroundColor: Color(0xff628E90),
-                                    child: Text(
-                                      count.toString(),
-                                      style: TextStyle(
-                                        color: Colors.white,
+                    int count = index + 1;
+                    return AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: Duration(milliseconds: 500),
+                        child: SlideAnimation(
+                            verticalOffset: 50.0,
+                            child: Padding(
+                                padding: EdgeInsets.only(left: 10, right: 10),
+                                child: FadeInAnimation(
+                                  child: Container(
+                                    width: 50,
+                                    child: Card(
+                                      color: Color(0xffffffff),
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            color: Color(0xfff7f7f7), width: 1),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                    )),
-                                title: Text(
-                                  searchcontroller_men.text.isEmpty
-                                      ? row[index]['item_code']
-                                      : row[index]['item_code'],
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        letterSpacing: .1,
-                                        color: Color(0xff19183e)),
+                                      elevation: 5,
+                                      child: ListTile(
+                                        leading: CircleAvatar(
+                                            radius: 12.5,
+                                            backgroundColor: Color(0xff628E90),
+                                            child: Text(
+                                              count.toString(),
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            )),
+                                        title: Text(
+                                          searchcontroller_men.text.isEmpty
+                                              ? row[index]['item_code']
+                                              : row[index]['item_code'],
+                                          style: GoogleFonts.poppins(
+                                            textStyle: TextStyle(
+                                                letterSpacing: .1,
+                                                color: Color(0xff19183e)),
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            item = row[index]["item_code"];
+                                          });
+                                          varient_item(item);
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    item_group()),
+                                          );
+                                        },
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    item = row[index]["item_code"];
-                                  });
-                                  varient_item(item);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => item_group()),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ))));
-          }),
-    )));
+                                ))));
+                  }),
+            )));
   }
 
   Widget women(Size size) {
