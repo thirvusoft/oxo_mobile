@@ -81,6 +81,10 @@ TextEditingController dealerterritory = TextEditingController();
 TextEditingController dealercity = TextEditingController();
 TextEditingController dealerstate = TextEditingController();
 TextEditingController dealerpincode = TextEditingController();
+TextEditingController dealerdoorno = TextEditingController();
+
+
+
 GlobalKey<FormState> address_key = GlobalKey<FormState>();
 GlobalKey<FormState> mobile_key = GlobalKey<FormState>();
 GlobalKey<FormState> name_key = GlobalKey<FormState>();
@@ -126,3 +130,5 @@ Position? position1;
 
 var currentAddress;
 var auto_pincode;
+
+var index_value;

@@ -185,7 +185,17 @@ class _sales_orderState extends State<sales_order> {
                   return GestureDetector(
                       onTap: () {
                         employeeDataSource._employeeData.removeAt(rowIndex);
-                        employeeDataSource.updateDataGridSource();
+                        
+
+                         employeeDataSource.updateDataGridSource();
+                         setState(() {
+                           print('lllllllllllllllllllllllllll');
+                          print( values_dict);
+                          index_value=rowIndex;
+                           values_dict.removeAt(index_value);
+                           print(values_dict);
+                         });
+
                       },
                       child: Container(
                           color: Colors.redAccent,
@@ -293,15 +303,15 @@ class _sales_orderState extends State<sales_order> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )),
                   ),
-                  GridColumn(
-                      columnName: 'rate',
-                      label: Container(
-                          padding: EdgeInsets.all(20.0),
-                          child: Text(
-                            '₹ / Item',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )))
+                  // GridColumn(
+                  //     columnName: 'rate',
+                  //     label: Container(
+                  //         padding: EdgeInsets.all(20.0),
+                  //         child: Text(
+                  //           '₹ / Item',
+                  //           overflow: TextOverflow.ellipsis,
+                  //           style: TextStyle(fontWeight: FontWeight.bold),
+                  //         )))
                   // GridColumn(
                   //     columnName: 'designation',
                   //     label: Container(
@@ -527,8 +537,7 @@ class _sales_orderState extends State<sales_order> {
     print(values_dict);
     var response = await http.get(
         Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customer_name}&due_date=${delivery_date}&items=${values_dict}&distributor=${distributor_name}&sales_person=${user_name}"""),
-        headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customer_name}&due_date=${delivery_date}&items=${values_dict}&distributor=${distributor_name}&sales_person=${user_name}"""));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -587,14 +596,14 @@ class EmployeeDataSource extends DataGridSource {
                   columnName: 'name', value: e['item_code'].toString()),
               DataGridCell<String>(
                   columnName: 'qty', value: e['qty'].toString()),
-              DataGridCell<String>(
-                  columnName: 'rate', value: e['rate'].toString()),
+              // DataGridCell<String>(
+              //     columnName: 'rate', value: e['rate'].toString()),
             ]))
         .toList();
     print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
   }
 
-  List<DataGridRow> _employeeData = [];
+  List<DataGridRow>  _employeeData = [];
 
   @override
   List<DataGridRow> get rows => _employeeData;
