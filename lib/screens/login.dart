@@ -10,6 +10,8 @@ import 'package:oxo/screens/sales/order.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../Widget /bottomnaviagtion.dart';
+
 class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
@@ -17,8 +19,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   var login_loading = false;
-    bool _isObscure = true;
-
+  bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -216,85 +217,86 @@ class _LoginState extends State<Login> {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: SizedBox(
-          height: size.height / 12,
-          child: Form(
-            key: formkey_pass,
-            child: TextFormField(
-              controller: passController,
-              style: GoogleFonts.inter(
-                fontSize: 16.0,
-                color: const Color(0xFF151624),
-              ),
-              cursorColor: const Color(0xFF151624),
-              obscureText: _isObscure,
-              keyboardType: TextInputType.visiblePassword,
-              validator: (value) {
-                focusedBorder:
-                OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(40),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(44, 185, 176, 1),
-                    ));
-                if (value == null || value.isEmpty) {
-                  return 'Please enter Password';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                hintText: 'Enter your password',
-                hintStyle: GoogleFonts.inter(
-                  fontSize: 16.0,
-                  color: const Color(0xFF151624).withOpacity(0.5),
-                ),
-                filled: true,
-                fillColor: passController.text.isEmpty
-                    ? const Color.fromRGBO(248, 247, 251, 1)
-                    : Colors.transparent,
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(40),
-                    borderSide: BorderSide(
-                      color: passController.text.isEmpty
-                          ? Colors.transparent
-                          : const Color.fromRGBO(44, 185, 176, 1),
-                    )),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(40),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(44, 185, 176, 1),
-                    )),
-                prefixIcon: Icon(
-                  Icons.lock_outline_rounded,
-                  color: passController.text.isEmpty
-                      ? const Color(0xFF151624).withOpacity(0.5)
-                      : const Color.fromRGBO(44, 185, 176, 1),
-                  size: 16,
-                ),
-                suffix: Container(
-                  alignment: Alignment.center,
-                  width: 24.0,
-                  height: 24.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100.0),
-                    color: const Color.fromRGBO(44, 185, 176, 1),
+            height: size.height / 12,
+            child: Form(
+                key: formkey_pass,
+                child: TextFormField(
+                  controller: passController,
+                  style: GoogleFonts.inter(
+                    fontSize: 16.0,
+                    color: const Color(0xFF151624),
                   ),
-                  
-                child: Center(child:IconButton(padding: EdgeInsets.only(bottom: 0),
-                  icon: Icon(
-                          _isObscure ? (Icons.visibility ):(Icons.visibility_off),
-                          color:  Colors.white,
-                          size: 18,
-                          
-                        ),
-                          onPressed: () {
-                      setState(() {
-                        _isObscure = !_isObscure;
-                      });
+                  cursorColor: const Color(0xFF151624),
+                  obscureText: _isObscure,
+                  keyboardType: TextInputType.visiblePassword,
+                  validator: (value) {
+                    focusedBorder:
+                    OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(44, 185, 176, 1),
+                        ));
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Password';
                     }
-                ),
-              ),
-            ),
-          ),
-        ))));
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Enter your password',
+                    hintStyle: GoogleFonts.inter(
+                      fontSize: 16.0,
+                      color: const Color(0xFF151624).withOpacity(0.5),
+                    ),
+                    filled: true,
+                    fillColor: passController.text.isEmpty
+                        ? const Color.fromRGBO(248, 247, 251, 1)
+                        : Colors.transparent,
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                        borderSide: BorderSide(
+                          color: passController.text.isEmpty
+                              ? Colors.transparent
+                              : const Color.fromRGBO(44, 185, 176, 1),
+                        )),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(44, 185, 176, 1),
+                        )),
+                    prefixIcon: Icon(
+                      Icons.lock_outline_rounded,
+                      color: passController.text.isEmpty
+                          ? const Color(0xFF151624).withOpacity(0.5)
+                          : const Color.fromRGBO(44, 185, 176, 1),
+                      size: 16,
+                    ),
+                    suffix: Container(
+                      alignment: Alignment.center,
+                      width: 24.0,
+                      height: 24.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100.0),
+                        color: const Color.fromRGBO(44, 185, 176, 1),
+                      ),
+                      child: Center(
+                        child: IconButton(
+                            padding: EdgeInsets.only(bottom: 0),
+                            icon: Icon(
+                              _isObscure
+                                  ? (Icons.visibility)
+                                  : (Icons.visibility_off),
+                              color: Colors.white,
+                              size: 18,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            }),
+                      ),
+                    ),
+                  ),
+                ))));
   }
 
   Widget LogInButton(Size size) {
@@ -351,13 +353,7 @@ class _LoginState extends State<Login> {
         login_loading = false;
       });
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => home_page(),
-        ),
-        // (route) => false,
-      );
+      Navigator.pushNamed(context, 'bottom');
       Fluttertoast.showToast(
           msg: (json.decode(response.body)['message']),
           toastLength: Toast.LENGTH_SHORT,

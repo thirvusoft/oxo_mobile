@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/screens/login.dart';
@@ -8,6 +9,8 @@ import 'package:oxo/screens/sales/sales_order.dart';
 import 'package:oxo/screens/splashscreen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import 'Widget /bottomnaviagtion.dart';
+
 void main() async {
   runApp(MyHomePage());
 }
@@ -17,18 +20,21 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      routes: {'test': (context) => sales_order()},
+      routes: {
+        'test': (context) => sales_order(),
+        'bottom': (context) => MainPage(),
+      },
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         //google fonts lato theme...
         textTheme: GoogleFonts.latoTextTheme(
           Theme.of(context).textTheme,
         ),
-        primarySwatch: createMaterialColor(Color(0xFF21899C)),
+        primarySwatch: createMaterialColor(Color(0xFFEB455F)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: home_page(),
-      builder: EasyLoading.init(),
+      home: order(),
+      // builder: EasyLoading.init(),
     );
   }
 }

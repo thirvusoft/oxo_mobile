@@ -31,14 +31,11 @@ class _home_pageState extends State<home_page> {
 
   void initState() {
     // TODO: implement initState
-    distributor_list();
-    timer_notify = Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
-    appointment_notify = Timer.periodic(Duration(seconds: 10), (Timer t) => appointmentnotification());
+    // distributor_list();
+    // timer_notify = Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
+    // appointment_notify = Timer.periodic(Duration(seconds: 10), (Timer t) => appointmentnotification());
 
-
- 
     tz.initializeTimeZones();
-
   }
 
   Widget build(BuildContext context) {
@@ -49,7 +46,7 @@ class _home_pageState extends State<home_page> {
     return Scaffold(
         appBar: AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+            // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
             title: Center(
               child: Text(
                 'Home Page',
@@ -59,9 +56,9 @@ class _home_pageState extends State<home_page> {
                 ),
               ),
             )),
-        body: SingleChildScrollView(child:
-        Center(
-            child: Container(
+        body: SingleChildScrollView(
+            child: Center(
+                child: Container(
           child: Column(
             children: [
               Padding(
@@ -84,7 +81,7 @@ class _home_pageState extends State<home_page> {
                   getCardItem4(height),
                 ]),
               )),
-                 SizedBox(
+              SizedBox(
                 height: 10,
               ),
               Container(
@@ -463,11 +460,11 @@ class _home_pageState extends State<home_page> {
                   //         bottomLeft: Radius.circular(12))),
                   child: ElevatedButton(
                     child: Text('Fix Appointment'),
-                      onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => appointment()),
-                    );
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => appointment()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(
@@ -485,6 +482,7 @@ class _home_pageState extends State<home_page> {
       ),
     );
   }
+
   Future customer_creation() async {
     return showDialog<String>(
       context: context,
@@ -570,7 +568,7 @@ class _home_pageState extends State<home_page> {
     }
   }
 
-Future notification() async {
+  Future notification() async {
     notification_list = [];
     var response = await http.get(
       Uri.parse(
@@ -586,8 +584,12 @@ Future notification() async {
           notification_list.add((json.decode(response.body)['message'][i]));
         }
       });
-      NotificationService().showNotification(1, "Delivery Status","These Orders are not yet deliveried  "+notification_list.toString(),3);
-      
+      NotificationService().showNotification(
+          1,
+          "Delivery Status",
+          "These Orders are not yet deliveried  " +
+              notification_list.toString(),
+          3);
     }
   }
 
@@ -604,16 +606,19 @@ Future notification() async {
       await Future.delayed(Duration(milliseconds: 500));
       setState(() {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
-          appointment_notification.add((json.decode(response.body)['message'][i]['name']));
-          time=((json.decode(response.body)['message'][i]['scheduled_time']));
+          appointment_notification
+              .add((json.decode(response.body)['message'][i]['name']));
+          time = ((json.decode(response.body)['message'][i]['scheduled_time']));
           notify_appointment.add(appointment_notify);
-
         }
       });
-      Appointment_NotificationService().appointment_showNotification(1, "Today's Appointment","Today's Appointments are "+appointment_notification.toString()+time,3);
-      
+      Appointment_NotificationService().appointment_showNotification(
+          1,
+          "Today's Appointment",
+          "Today's Appointments are " +
+              appointment_notification.toString() +
+              time,
+          3);
     }
   }
-
-
 }

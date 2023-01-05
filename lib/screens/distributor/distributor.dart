@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/constants.dart';
 import 'package:http/http.dart' as http;
 
-
 class order_status extends StatefulWidget {
   @override
   State<order_status> createState() => _order_statusState();
@@ -17,25 +16,23 @@ class _order_statusState extends State<order_status> {
   late Timer timer;
 
   void initState() {
-    timer = Timer.periodic(Duration(seconds: 1), (Timer t) => orderstatus(distributorname));
-
-    
+    // timer = Timer.periodic(Duration(seconds: 1), (Timer t) => orderstatus(distributorname));
   }
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar:AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: Color.fromRGBO(44, 185, 176, 1),
-            title: Center(
-              child: Text(
-                'Order Status',
-                style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      fontSize: 20, letterSpacing: .2, color: Colors.white),
-                ),
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+          title: Center(
+            child: Text(
+              'Order Status',
+              style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                    fontSize: 20, letterSpacing: .2, color: Colors.white),
               ),
-            )),
+            ),
+          )),
       body: SingleChildScrollView(
         child: SafeArea(
           child: SizedBox(
@@ -67,15 +64,13 @@ class _order_statusState extends State<order_status> {
                     icon_nameOnSearch_status = [];
                     for (var i = 0; i < sales_order_status.length; i++) {
                       var des_status = {};
-                      des_status["Name"] =
-                          sales_order_status[i]["Name"];
+                      des_status["Name"] = sales_order_status[i]["Name"];
                       item_search_list_status.add(des_status);
                       if ((item_search_list_status[i]["Name"]
                           .toLowerCase()
                           .contains(value.trim().toLowerCase()))) {
                         var d_status = {};
-                        d_status["Name"] =
-                            item_search_list_status[i]["Name"];
+                        d_status["Name"] = item_search_list_status[i]["Name"];
                         icon_nameOnSearch_status.add(d_status);
                       }
                     }
@@ -173,7 +168,9 @@ class _order_statusState extends State<order_status> {
                                       child: ElevatedButton(
                                         child: Text('Make Delivery'),
                                         onPressed: () {
-                                          var doc_name= row_status[index]['Name'].toString();
+                                          var doc_name = row_status[index]
+                                                  ['Name']
+                                              .toString();
                                           orderstatus_change(doc_name);
                                         },
                                         style: ElevatedButton.styleFrom(
@@ -191,9 +188,6 @@ class _order_statusState extends State<order_status> {
     ));
   }
 
-
-
-
   Future orderstatus(distributor) async {
     sales_order_status = [];
 
@@ -201,13 +195,11 @@ class _order_statusState extends State<order_status> {
         Uri.parse(
             """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order_list?distributor=${distributor}"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
-print(response.statusCode);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
       setState(() {
-        for (var i = 0;
-            i < json.decode(response.body)['message'].length;
-            i++) {
+        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           sales_order_status.add((json.decode(response.body)['message'][i]));
         }
       });
@@ -217,22 +209,19 @@ print(response.statusCode);
     }
   }
 
-
-    Future orderstatus_change(doc_name) async {
-      print(doc_name);
-
+  Future orderstatus_change(doc_name) async {
+    print(doc_name);
 
     var response = await http.get(
         Uri.parse(
             """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order_status?doc_name=${doc_name}"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
 
-print(response.statusCode);
-print(response.body);
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
     } else {
       return json.decode(response.body)['message'];
     }
   }
-
 }

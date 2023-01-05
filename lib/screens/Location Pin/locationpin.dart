@@ -68,8 +68,9 @@ class _location_pinState extends State<location_pin> {
         Uri.parse(
             """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.location_list"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
       setState(() {
         status = false;
         EasyLoading.dismiss();
