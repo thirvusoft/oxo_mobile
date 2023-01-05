@@ -32,10 +32,10 @@ class MyHomePage extends StatelessWidget {
         textTheme: GoogleFonts.latoTextTheme(
           Theme.of(context).textTheme,
         ),
-        primarySwatch: createMaterialColor(Color(0xFFEB455F)),
+        primarySwatch: createMaterialColor(const Color(0xFFEB455F)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Login(),
+      home: splashscreen(),
       // builder: EasyLoading.init(),
     );
   }

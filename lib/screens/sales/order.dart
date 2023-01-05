@@ -31,6 +31,7 @@ class _orderState extends State<order> {
         home: DefaultTabController(
             length: 4,
             child: Scaffold(
+              resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 automaticallyImplyLeading: false,
                 backgroundColor: Color(0xFFEB455F),
@@ -98,6 +99,7 @@ class _orderState extends State<order> {
                     }
                   });
                 },
+
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -117,6 +119,7 @@ class _orderState extends State<order> {
                       )),
                 )),
           ),
+
         ),
         Expanded(
             child: Container(
@@ -162,6 +165,8 @@ class _orderState extends State<order> {
   Widget itemlist() {
     return AnimationLimiter(
         child: Container(
+
+
       child: ListView.builder(
           itemCount: searchcontroller_men.text.isNotEmpty
               ? icon_nameOnSearch_men.length
@@ -176,35 +181,25 @@ class _orderState extends State<order> {
             }
             list.add(TextEditingController());
 
-            int count = index + 1;
-            return AnimationConfiguration.staggeredList(
-                position: index,
-                duration: Duration(milliseconds: 500),
-                child: SlideAnimation(
-                    verticalOffset: 50.0,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: FadeInAnimation(
-                          child: Container(
-                            width: 50,
-                            child: Card(
-                              color: Color(0xffffffff),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color: Color(0xfff7f7f7), width: 1),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              elevation: 5,
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                    radius: 12.5,
-                                    backgroundColor: Color(0xff628E90),
-                                    child: Text(
-                                      count.toString(),
-                                      style: TextStyle(
-                                        color: Colors.white,
+                    int count = index + 1;
+                    return AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: Duration(milliseconds: 500),
+                        child: SlideAnimation(
+                            verticalOffset: 50.0,
+                            child: Padding(
+                                padding: EdgeInsets.only(left: 10, right: 10),
+                                child: FadeInAnimation(
+                                  child: Container(
+                                    width: 50,
+                                    child: Card(
+                                      color: Color(0xffffffff),
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            color: Color(0xfff7f7f7), width: 1),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                    )),
+                        )),
                                title: Text(
                                   searchcontroller_men.text.isEmpty
                                       ? row[index]['item_code']
