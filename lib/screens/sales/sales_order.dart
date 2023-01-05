@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/constants.dart';
 import 'package:oxo/screens/sales/home_page.dart';
@@ -484,7 +485,7 @@ class _sales_orderState extends State<sales_order> {
     dealer_name = [];
 
     var response = await http.get(Uri.parse(
-        """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.customer_list"""));
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.customer_list"""));
     // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     print(response.statusCode);
     print(response.body);
@@ -503,7 +504,7 @@ class _sales_orderState extends State<sales_order> {
     distributor = [];
     var response = await http.get(
       Uri.parse(
-          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.distributor"""),
+          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.distributor"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
     print(response.statusCode);
@@ -526,7 +527,7 @@ class _sales_orderState extends State<sales_order> {
     print(values_dict);
     var response = await http.get(
         Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order?cus_name=${customer_name}&due_date=${delivery_date}&items=${values_dict}&distributor=${distributor_name}&sales_person=${user_name}"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customer_name}&due_date=${delivery_date}&items=${values_dict}&distributor=${distributor_name}&sales_person=${user_name}"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     print(response.statusCode);
     print(response.body);

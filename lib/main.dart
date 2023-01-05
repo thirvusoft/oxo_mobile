@@ -8,10 +8,11 @@ import 'package:oxo/screens/sales/order.dart';
 import 'package:oxo/screens/sales/sales_order.dart';
 import 'package:oxo/screens/splashscreen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'Widget /bottomnaviagtion.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(MyHomePage());
 }
 
@@ -33,7 +34,7 @@ class MyHomePage extends StatelessWidget {
         primarySwatch: createMaterialColor(Color(0xFFEB455F)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: order(),
+      home: Login(),
       // builder: EasyLoading.init(),
     );
   }

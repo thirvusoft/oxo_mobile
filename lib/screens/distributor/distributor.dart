@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/constants.dart';
@@ -193,7 +194,7 @@ class _order_statusState extends State<order_status> {
 
     var response = await http.get(
         Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order_list?distributor=${distributor}"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order_list?distributor=${distributor}"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     print(response.statusCode);
     if (response.statusCode == 200) {
@@ -214,7 +215,7 @@ class _order_statusState extends State<order_status> {
 
     var response = await http.get(
         Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.sales_order_status?doc_name=${doc_name}"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order_status?doc_name=${doc_name}"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
 
     print(response.statusCode);

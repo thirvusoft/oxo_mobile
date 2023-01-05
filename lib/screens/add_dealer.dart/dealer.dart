@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:oxo/constants.dart';
@@ -371,7 +372,7 @@ class _dealerState extends State<dealer> {
 
     var response = await http.get(
         Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.territory"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.territory"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     print(response.statusCode);
     print(response.body);
@@ -390,7 +391,7 @@ class _dealerState extends State<dealer> {
 
     var response = await http.get(
         Uri.parse(
-            """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.state"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.state"""),
         headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
 
     if (response.statusCode == 200) {

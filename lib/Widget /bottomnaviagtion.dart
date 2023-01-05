@@ -33,15 +33,19 @@ class _MainPageState extends State<MainPage> {
           dealer(),
           location_pin(),
         ],
+        navBarHeight: 50,
         items: _navBarsItems(),
-        navBarStyle: NavBarStyle.style12,
+        bottomScreenMargin: 0,
+        resizeToAvoidBottomInset: true,
+
+        // navBarStyle: NavBarStyle.style12,
         // navBarStyle: NavBarStyle.style9,
         // navBarStyle: NavBarStyle.style7,
         // navBarStyle: NavBarStyle.style10,
         // navBarStyle: NavBarStyle.style12,
         // navBarStyle: NavBarStyle.style13,
         // navBarStyle: NavBarStyle.style3,
-        // navBarStyle: NavBarStyle.style6,
+        navBarStyle: NavBarStyle.style6,
       ),
     );
   }
