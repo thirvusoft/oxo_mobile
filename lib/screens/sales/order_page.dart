@@ -103,7 +103,7 @@ class _category_groupState extends State<category_group> {
         ),
       ),
       Container(
-        height: size.height*.73,
+        height: size.height * .73,
         child: itemlist(),
       ),
       Container(
@@ -216,8 +216,18 @@ class _category_groupState extends State<category_group> {
                                                     item_name =
                                                         row_template[index]
                                                             ["item_code"];
+                                                    
                                                   });
                                                   varient_list(item_name);
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            item_group()),
+                                                  );
+                                                  print(
+                                                      'iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+                                                  print(varient_item_list);
                                                 },
                                               )))))));
                     }),
@@ -242,10 +252,6 @@ class _category_groupState extends State<category_group> {
           varient_item_list.add((json.decode(response.body)['message'][i]));
         }
       });
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => item_group()),
-      );
     }
   }
 }

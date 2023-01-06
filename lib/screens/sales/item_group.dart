@@ -20,7 +20,6 @@ class _item_groupState extends State<item_group> {
   void initState() {
     values_dict = [];
     print('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
-    print(varient_item_list);
   }
 
   @override
@@ -70,14 +69,8 @@ class _item_groupState extends State<item_group> {
         ],
       ),
       body: SingleChildScrollView(
-        child: SafeArea(
-          child: SizedBox(
-            child: Stack(children: <Widget>[
-              Column(
-                children: <Widget>[item_varients(size)],
-              ),
-            ]),
-          ),
+        child: Column(
+          children: <Widget>[item_varients(size)],
         ),
       ),
     );
@@ -126,7 +119,7 @@ class _item_groupState extends State<item_group> {
                           color: const Color(0xFFEB455F), width: 2.0),
                     ),
                     contentPadding: EdgeInsets.all(15),
-                    hintText: "Searchjjj",
+                    hintText: "Search",
                     prefixIcon: Icon(
                       Icons.search,
                       color: Color.fromARGB(252, 4, 0, 0),
@@ -135,7 +128,7 @@ class _item_groupState extends State<item_group> {
         ),
       ),
       Container(
-        height: size.height * 0.9,
+        height: size.height * .73,
         child: itemlist(),
       )
     ]);
@@ -143,14 +136,16 @@ class _item_groupState extends State<item_group> {
 
   Widget itemlist() {
     return AnimationLimiter(
-        child: (varient_item_list.length == 0)
+        child: 
+        (varient_item_list.length == 0)
             ? Center(
                 child: LoadingAnimationWidget.fourRotatingDots(
                   color: Color(0xFFEB455F),
                   size: 70,
                 ),
               )
-            : Container(
+            : 
+            Container(
                 child: ListView.builder(
                     itemCount: searchcontroller_varient.text.isNotEmpty
                         ? icon_nameOnSearch_varient.length
