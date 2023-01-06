@@ -13,6 +13,8 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:http/http.dart' as http;
 
+import 'order_page.dart';
+
 class sales_order extends StatefulWidget {
   const sales_order({super.key});
 
@@ -170,7 +172,7 @@ class _sales_orderState extends State<sales_order> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => order()),
+                          MaterialPageRoute(builder: (context) => category_group()),
                         );
                       },
                       child: Container(
@@ -213,7 +215,7 @@ class _sales_orderState extends State<sales_order> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => order()),
+                              MaterialPageRoute(builder: (context) => category_group()),
                             );
                           },
                           style: ElevatedButton.styleFrom(

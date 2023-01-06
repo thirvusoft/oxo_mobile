@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:oxo/screens/sales/order.dart';
 
 import '../../constants.dart';
+import 'item_category_list.dart';
 
 class item_group extends StatefulWidget {
   @override
@@ -16,8 +17,11 @@ class item_group extends StatefulWidget {
 class _item_groupState extends State<item_group> {
   @override
   void initState() {
-     values_dict = [];
+    values_dict = [];
+    print('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
+    print(varient_item_list);
   }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -26,7 +30,7 @@ class _item_groupState extends State<item_group> {
         automaticallyImplyLeading: false,
         // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
         title: Text(
-          item,
+          item_name,
           style: GoogleFonts.poppins(
             textStyle:
                 TextStyle(fontSize: 20, letterSpacing: .2, color: Colors.white),
@@ -38,11 +42,12 @@ class _item_groupState extends State<item_group> {
               list.clear();
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => order()),
+                MaterialPageRoute(builder: (context) => category()),
               );
-             values_dict=[];
+              values_dict = [];
               values.forEach((key, value) {
-                values_dict.add({'item_code': key, 'qty': value[1], 'rate':value[0]});
+                values_dict
+                    .add({'item_code': key, 'qty': value[1], 'rate': value[0]});
                 print(values_dict);
               });
             },
@@ -135,6 +140,7 @@ class _item_groupState extends State<item_group> {
           itemCount: searchcontroller_varient.text.isNotEmpty
               ? icon_nameOnSearch_varient.length
               : varient_item_list.length,
+              
           shrinkWrap: true,
           itemBuilder: (context, int index) {
             var row_varient = [];
@@ -142,6 +148,8 @@ class _item_groupState extends State<item_group> {
               row_varient = icon_nameOnSearch_varient;
             } else {
               row_varient = varient_item_list;
+              print('pppppppppppppppppppppppppppppppppppp');
+              print(varient_item_list);
             }
             list.add(TextEditingController());
 
@@ -215,22 +223,25 @@ class _item_groupState extends State<item_group> {
                                                 var item_name =
                                                     varient_item_list[index]
                                                         ["item_code"];
-                                                    var item_rate=varient_item_list[index]
+                                                var item_rate =
+                                                    varient_item_list[index]
                                                         ["standard_rate"];
-                                                        print(item_rate);
+                                                print(item_rate);
                                                 if (qty != '') {
-                                                  List <String> test=[];
-                                                  test.add(item_rate.toString());
-                                                   test.add(qty.toString());
-                                                  values[item_name]=test;
+                                                  List<String> test = [];
+                                                  test.add(
+                                                      item_rate.toString());
+                                                  test.add(qty.toString());
+                                                  values[item_name] = test;
                                                   values[item_name] = test;
                                                 } else {
                                                   values[item_name] = 0;
                                                 }
                                                 varient_item_list[index]
                                                     ["qty"] = qty;
-                                                    print('111111111111111111111111111111111111111111111111111111111111111111111111111');
-                                                    print(values);
+                                                print(
+                                                    '111111111111111111111111111111111111111111111111111111111111111111111111111');
+                                                print(values);
                                               }),
                                               cursorColor:
                                                   const Color(0xFF151624),
