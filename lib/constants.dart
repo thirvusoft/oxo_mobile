@@ -163,3 +163,5 @@ List item_search_list_category =[];
 TextEditingController searchcontroller_category = TextEditingController();
 
 var item_name;
+
+var day_status;
