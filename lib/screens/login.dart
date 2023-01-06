@@ -56,7 +56,7 @@ class _LoginState extends State<Login> {
       width: size.width * 0.9,
       height: size.height * 0.7,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
+        borderRadius: BorderRadius.circular(50.0),
         color: Colors.white,
       ),
       child: Column(
@@ -106,8 +106,8 @@ class _LoginState extends State<Login> {
 
   Widget logo(double height_, double width_) {
     return Image.asset(
-      "assets/oxo.png",
-      height: 100,
+      'assets/oxo.png',
+      height: height_,
       width: width_,
     );
   }
@@ -152,7 +152,6 @@ class _LoginState extends State<Login> {
                 fontSize: 18.0,
                 color: const Color(0xFF151624),
               ),
-              cursorColor: const Color(0xFF2B3467),
               maxLines: 1,
               maxLength: 10,
               validator: (value) {
@@ -162,6 +161,7 @@ class _LoginState extends State<Login> {
                 return null;
               },
               keyboardType: TextInputType.number,
+              cursorColor: const Color(0xFF151624),
               decoration: InputDecoration(
                 counterText: "",
                 hintText: 'Enter mobile number',
@@ -178,18 +178,18 @@ class _LoginState extends State<Login> {
                     borderSide: BorderSide(
                       color: mobilenumcontroller.text.isEmpty
                           ? Colors.transparent
-                          : const Color.fromRGBO(44, 185, 176, 1),
+                          : const Color(0xFF2B3467),
                     )),
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(40),
                     borderSide: const BorderSide(
-                      color: Color.fromRGBO(44, 185, 176, 1),
+                      color: Color(0xFF2B3467),
                     )),
                 prefixIcon: Icon(
                   Icons.phone,
                   color: mobilenumcontroller.text.isEmpty
                       ? const Color(0xFF151624).withOpacity(0.5)
-                      : const Color.fromRGBO(44, 185, 176, 1),
+                      : const Color(0xFF2B3467),
                   size: 16,
                 ),
                 suffix: Container(
@@ -198,7 +198,7 @@ class _LoginState extends State<Login> {
                   height: 24.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100.0),
-                    color: const Color.fromRGBO(44, 185, 176, 1),
+                    color: const Color(0xFF2B3467),
                   ),
                   child: mobilenumcontroller.text.isEmpty
                       ? const Center()
@@ -227,7 +227,7 @@ class _LoginState extends State<Login> {
                     fontSize: 16.0,
                     color: const Color(0xFF151624),
                   ),
-                  cursorColor: const Color(0xFF2B3467),
+                  cursorColor: const Color(0xFF151624),
                   obscureText: _isObscure,
                   keyboardType: TextInputType.visiblePassword,
                   validator: (value) {
@@ -235,7 +235,7 @@ class _LoginState extends State<Login> {
                     OutlineInputBorder(
                         borderRadius: BorderRadius.circular(40),
                         borderSide: const BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1),
+                          color: Color(0xFF2B3467),
                         ));
                     if (value == null || value.isEmpty) {
                       return 'Please enter Password';
@@ -257,18 +257,18 @@ class _LoginState extends State<Login> {
                         borderSide: BorderSide(
                           color: passController.text.isEmpty
                               ? Colors.transparent
-                              : const Color.fromRGBO(44, 185, 176, 1),
+                              : Color(0xFF2B3467),
                         )),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(40),
                         borderSide: const BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1),
+                          color: Color(0xFF2B3467),
                         )),
                     prefixIcon: Icon(
                       Icons.lock_outline_rounded,
                       color: passController.text.isEmpty
                           ? const Color(0xFF151624).withOpacity(0.5)
-                          : const Color.fromRGBO(44, 185, 176, 1),
+                          : Color(0xFF2B3467),
                       size: 16,
                     ),
                     suffix: Container(
@@ -277,7 +277,7 @@ class _LoginState extends State<Login> {
                       height: 24.0,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100.0),
-                        color: const Color.fromRGBO(44, 185, 176, 1),
+                        color: const Color(0xFF2B3467),
                       ),
                       child: Center(
                         child: IconButton(
@@ -341,9 +341,8 @@ class _LoginState extends State<Login> {
 
   loginup(mobilenum, password) async {
     print('object');
-    var response = await http.get(
-        Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.login?mobile=${mobilenum}&password=${password}"""));
+    var response = await http.get(Uri.parse(
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.login?mobile=${mobilenum}&password=${password}"""));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {

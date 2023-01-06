@@ -3,9 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/screens/Appointment/customer_list.dart';
 import 'package:oxo/screens/add_dealer.dart/dealer.dart';
+import 'package:oxo/screens/sales/item_category_list.dart';
 import 'package:oxo/screens/sales/order.dart';
 import 'package:http/http.dart' as http;
 import 'package:oxo/screens/distributor/distributor.dart';
@@ -18,7 +20,7 @@ import '../notification/notificationservice.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
-import 'item_category_list.dart';
+import 'order_page.dart';
 
 class home_page extends StatefulWidget {
   const home_page({super.key});
@@ -48,13 +50,17 @@ class _home_pageState extends State<home_page> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
+            leading: IconButton(
+              onPressed: () {},
+              icon: const Icon(PhosphorIcons.list),
+            ),
             automaticallyImplyLeading: false,
-            // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+            // backgroundColor: const Color(0xFF2B3467),
             title: Center(
               child: Text(
                 'Home Page',
                 style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       fontSize: 20, letterSpacing: .2, color: Colors.white),
                 ),
               ),
@@ -71,7 +77,7 @@ class _home_pageState extends State<home_page> {
                   getCardItem2(height),
                 ]),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
@@ -84,7 +90,7 @@ class _home_pageState extends State<home_page> {
                   // getCardItem4(height),
                 ]),
               )),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               // Container(
@@ -116,22 +122,22 @@ class _home_pageState extends State<home_page> {
               color: Colors.grey.withOpacity(.5),
               spreadRadius: 10,
               blurRadius: 20,
-              offset: Offset(0, 10),
+              offset: const Offset(0, 10),
             ),
           ],
         ),
         child: Container(
           child: Column(
             children: [
-              Padding(padding: EdgeInsets.only(top: 20)),
+              const Padding(padding: EdgeInsets.only(top: 20)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    child: Icon(
-                      Icons.supervisor_account,
-                      size: 70,
-                      color: Color.fromRGBO(44, 185, 176, 1),
+                    child: const Icon(
+                      PhosphorIcons.user_plus_light,
+                      size: 50,
+                      color: Color(0xFF2B3467),
                     ),
                     // padding: const EdgeInsets.all(10),
                   ),
@@ -145,28 +151,28 @@ class _home_pageState extends State<home_page> {
                   // ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Container(
                 // decoration: const BoxDecoration(
-                //     color:Color.fromRGBO(44, 185, 176, 1),
+                //     color:const Color(0xFF2B3467),
                 //     borderRadius: BorderRadius.only(
                 //         bottomRight: Radius.circular(12),
                 //         bottomLeft: Radius.circular(12))),
                 child: ElevatedButton(
-                  child: Text('Add Dealer'),
+                  child: const Text('Add Dealer'),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => dealer()),
+                      MaterialPageRoute(builder: (context) => const dealer()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
-                    backgroundColor: Color(0xFF21899C),
-                    shape: StadiumBorder(),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25.0, vertical: 15.0),
+                    backgroundColor: const Color(0xFF2B3467),
+                    shape: const StadiumBorder(),
                   ),
                 ),
                 // padding: const EdgeInsets.all(12),
@@ -193,22 +199,22 @@ class _home_pageState extends State<home_page> {
                 color: Colors.grey.withOpacity(.5),
                 spreadRadius: 10,
                 blurRadius: 20,
-                offset: Offset(0, 10),
+                offset: const Offset(0, 10),
               ),
             ],
           ),
           child: Container(
             child: Column(
               children: [
-                Padding(padding: EdgeInsets.only(top: 30)),
+                const Padding(padding: EdgeInsets.only(top: 30)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      child: Icon(
-                        Icons.shopping_cart,
-                        size: 70,
-                        color: Color.fromRGBO(44, 185, 176, 1),
+                      child: const Icon(
+                        PhosphorIcons.shopping_cart_simple_light,
+                        size: 50,
+                        color: Color(0xFF2B3467),
                       ),
                       // padding: const EdgeInsets.all(10),
                     ),
@@ -222,28 +228,29 @@ class _home_pageState extends State<home_page> {
                     // ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Container(
                   // decoration: const BoxDecoration(
-                  //     color:Color.fromRGBO(44, 185, 176, 1),
+                  //     color:const Color(0xFF2B3467),
                   //     borderRadius: BorderRadius.only(
                   //         bottomRight: Radius.circular(12),
                   //         bottomLeft: Radius.circular(12))),
                   child: ElevatedButton(
-                    child: Text('Create Order'),
+                    child: const Text('Create Order'),
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => category()),
+                        MaterialPageRoute(
+                            builder: (context) => const category()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 25.0, vertical: 15.0),
-                      backgroundColor: Color(0xFF21899C),
-                      shape: StadiumBorder(),
+                      backgroundColor: const Color(0xFF2B3467),
+                      shape: const StadiumBorder(),
                     ),
                   ),
                   // padding: const EdgeInsets.all(12),
@@ -271,22 +278,22 @@ class _home_pageState extends State<home_page> {
               color: Colors.grey.withOpacity(.5),
               spreadRadius: 10,
               blurRadius: 20,
-              offset: Offset(0, 10),
+              offset: const Offset(0, 10),
             ),
           ],
         ),
         child: Container(
           child: Column(
             children: [
-              Padding(padding: EdgeInsets.only(top: 20)),
+              const Padding(padding: EdgeInsets.only(top: 20)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    child: Icon(
-                      Icons.location_on_outlined,
-                      size: 70,
-                      color: Color.fromRGBO(44, 185, 176, 1),
+                    child: const Icon(
+                      PhosphorIcons.map_pin_light,
+                      size: 50,
+                      color: Color(0xFF2B3467),
                     ),
                     // padding: const EdgeInsets.all(10),
                   ),
@@ -300,28 +307,29 @@ class _home_pageState extends State<home_page> {
                   // ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Container(
                 // decoration: const BoxDecoration(
-                //     color:Color.fromRGBO(44, 185, 176, 1),
+                //     color:const Color(0xFF2B3467),
                 //     borderRadius: BorderRadius.only(
                 //         bottomRight: Radius.circular(12),
                 //         bottomLeft: Radius.circular(12))),
                 child: ElevatedButton(
-                  child: Text('Location Pins'),
+                  child: const Text('Location Pins'),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => location_pin()),
+                      MaterialPageRoute(
+                          builder: (context) => const location_pin()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
-                    backgroundColor: Color(0xFF21899C),
-                    shape: StadiumBorder(),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25.0, vertical: 15.0),
+                    backgroundColor: const Color(0xFF2B3467),
+                    shape: const StadiumBorder(),
                   ),
                 ),
                 // padding: const EdgeInsets.all(12),
@@ -348,22 +356,22 @@ class _home_pageState extends State<home_page> {
                 color: Colors.grey.withOpacity(.5),
                 spreadRadius: 10,
                 blurRadius: 20,
-                offset: Offset(0, 10),
+                offset: const Offset(0, 10),
               ),
             ],
           ),
           child: Container(
             child: Column(
               children: [
-                Padding(padding: EdgeInsets.only(top: 30)),
+                const Padding(padding: EdgeInsets.only(top: 30)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      child: Icon(
+                      child: const Icon(
                         Icons.delivery_dining_outlined,
-                        size: 70,
-                        color: Color.fromRGBO(44, 185, 176, 1),
+                        size: 50,
+                        color: Color(0xFF2B3467),
                       ),
                       // padding: const EdgeInsets.all(10),
                     ),
@@ -377,25 +385,25 @@ class _home_pageState extends State<home_page> {
                     // ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Container(
                   // decoration: const BoxDecoration(
-                  //     color:Color.fromRGBO(44, 185, 176, 1),
+                  //     color:const Color(0xFF2B3467),
                   //     borderRadius: BorderRadius.only(
                   //         bottomRight: Radius.circular(12),
                   //         bottomLeft: Radius.circular(12))),
                   child: ElevatedButton(
-                    child: Text('Distributor'),
+                    child: const Text('Distributor'),
                     onPressed: () {
                       customer_creation();
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 25.0, vertical: 15.0),
-                      backgroundColor: Color(0xFF21899C),
-                      shape: StadiumBorder(),
+                      backgroundColor: const Color(0xFF2B3467),
+                      shape: const StadiumBorder(),
                     ),
                   ),
                   // padding: const EdgeInsets.all(12),
@@ -423,22 +431,22 @@ class _home_pageState extends State<home_page> {
                 color: Colors.grey.withOpacity(.5),
                 spreadRadius: 10,
                 blurRadius: 20,
-                offset: Offset(0, 10),
+                offset: const Offset(0, 10),
               ),
             ],
           ),
           child: Container(
             child: Column(
               children: [
-                Padding(padding: EdgeInsets.only(top: 30)),
+                const Padding(padding: EdgeInsets.only(top: 30)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      child: Icon(
+                      child: const Icon(
                         Icons.delivery_dining_outlined,
-                        size: 70,
-                        color: Color.fromRGBO(44, 185, 176, 1),
+                        size: 50,
+                        color: Color(0xFF2B3467),
                       ),
                       // padding: const EdgeInsets.all(10),
                     ),
@@ -452,17 +460,17 @@ class _home_pageState extends State<home_page> {
                     // ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Container(
                   // decoration: const BoxDecoration(
-                  //     color:Color.fromRGBO(44, 185, 176, 1),
+                  //     color:const Color(0xFF2B3467),
                   //     borderRadius: BorderRadius.only(
                   //         bottomRight: Radius.circular(12),
                   //         bottomLeft: Radius.circular(12))),
                   child: ElevatedButton(
-                    child: Text('Fix Appointment'),
+                    child: const Text('Fix Appointment'),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -470,10 +478,10 @@ class _home_pageState extends State<home_page> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 25.0, vertical: 15.0),
-                      backgroundColor: Color(0xFF21899C),
-                      shape: StadiumBorder(),
+                      backgroundColor: const Color(0xFF2B3467),
+                      shape: const StadiumBorder(),
                     ),
                   ),
                   // padding: const EdgeInsets.all(12),
@@ -517,20 +525,20 @@ class _home_pageState extends State<home_page> {
                 borderSide: BorderSide(
                   color: customer_name_home_page.text.isEmpty
                       ? Colors.transparent
-                      : const Color.fromRGBO(44, 185, 176, 1),
+                      : const Color(0xFF2B3467),
                 )),
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(
-                  color: Color.fromRGBO(44, 185, 176, 1),
+                  color: const Color(0xFF2B3467),
                 )),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         ElevatedButton(
-          child: Text('Select'),
+          child: const Text('Select'),
           onPressed: () {
             distributor_list();
             print(distributorname);
@@ -542,9 +550,10 @@ class _home_pageState extends State<home_page> {
             );
           },
           style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
-            backgroundColor: Color(0xFF21899C),
-            shape: StadiumBorder(),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
+            backgroundColor: const Color(0xFF2B3467),
+            shape: const StadiumBorder(),
           ),
         ),
       ]),
@@ -562,7 +571,7 @@ class _home_pageState extends State<home_page> {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       setState(() {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           distributor_home.add((json.decode(response.body)['message'][i]));
@@ -581,7 +590,7 @@ class _home_pageState extends State<home_page> {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       setState(() {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           notification_list.add((json.decode(response.body)['message'][i]));
@@ -606,7 +615,7 @@ class _home_pageState extends State<home_page> {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       setState(() {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           appointment_notification
