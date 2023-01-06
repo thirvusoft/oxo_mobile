@@ -46,21 +46,21 @@ class _home_pageState extends State<home_page> {
     if (hour <= 12) {
       print('Good Morning');
       setState(() {
-        day_status = "Good Morning";
+        day_status = "Good Morning ";
       });
     } else if ((hour > 12) && (hour <= 16)) {
       setState(() {
-        day_status = "Good Afternoon";
+        day_status = "Good Afternoon ";
       });
       print('Good Afternoon');
     } else if ((hour > 16) && (hour < 20)) {
       setState(() {
-        day_status = "Good Evening";
+        day_status = "Good Evening ";
       });
       print('Good Evening');
     } else {
       setState(() {
-        day_status = "Good Night";
+        day_status = "Good Night ";
       });
       print('Good Night');
     }
@@ -92,7 +92,7 @@ class _home_pageState extends State<home_page> {
                           letterSpacing: .2,
                           color: Color(0xFFfffffffff)))),
               TextSpan(
-                  text: " Vicky",
+                  text: " " + user_name,
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           fontSize: 20,
@@ -104,7 +104,7 @@ class _home_pageState extends State<home_page> {
             //   day_status,
             //   style: GoogleFonts.poppins(
             //     textStyle: const TextStyle(
-            //         fontSize: 20, letterSpacing: .2, color: Color(0xFFfffffffff)),
+            //         fontSize: 15, letterSpacing: .2, color: Color(0xFFfffffffff)),
             //   ),
           ),
         ),
@@ -233,7 +233,12 @@ class _home_pageState extends State<home_page> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                   ),
-                  child: const Text('Add Dealer'),
+                  child: Text('Add Dealer',
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              letterSpacing: .2,
+                              color: Color(0xFFfffffffff)))),
                 ),
                 // padding: const EdgeInsets.all(12),
               )
@@ -297,7 +302,12 @@ class _home_pageState extends State<home_page> {
                   //         bottomRight: Radius.circular(12),
                   //         bottomLeft: Radius.circular(12))),
                   child: ElevatedButton(
-                    child: const Text('Create Order'),
+                    child: Text('Create Order',
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: 15,
+                                letterSpacing: .2,
+                                color: Color(0xFFfffffffff)))),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -376,7 +386,12 @@ class _home_pageState extends State<home_page> {
                 //         bottomRight: Radius.circular(12),
                 //         bottomLeft: Radius.circular(12))),
                 child: ElevatedButton(
-                  child: const Text('Location Pins'),
+                  child: Text('Delear Location',
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              letterSpacing: .1,
+                              color: Color(0xFFfffffffff)))),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -656,12 +671,8 @@ class _home_pageState extends State<home_page> {
           notification_list.add((json.decode(response.body)['message'][i]));
         }
       });
-      NotificationService().showNotification(
-          1,
-          "Delivery Status",
-          "These Orders are not yet deliveried  " +
-              notification_list.toString(),
-          3);
+      NotificationService().showNotification(1, "Delivery Status",
+          "These Orders are not yet deliveried  $notification_list", 3);
     }
   }
 
@@ -687,9 +698,7 @@ class _home_pageState extends State<home_page> {
       Appointment_NotificationService().appointment_showNotification(
           1,
           "Today's Appointment",
-          "Today's Appointments are " +
-              appointment_notification.toString() +
-              time,
+          "Today's Appointments are $appointment_notification" + time,
           3);
     }
   }

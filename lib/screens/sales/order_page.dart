@@ -110,7 +110,7 @@ class _category_groupState extends State<category_group> {
       ),
       Container(
         // height: size.height*2,
-        child: itemlist(),
+        child: itemlist(size),
       ),
       Container(
         child: Padding(
@@ -147,7 +147,7 @@ class _category_groupState extends State<category_group> {
     ]);
   }
 
-  Widget itemlist() {
+  Widget itemlist(Size size) {
     return AnimationLimiter(
         child: (category_item_list.length == 0)
             ? Center(
@@ -224,6 +224,12 @@ class _category_groupState extends State<category_group> {
                                                             ["item_code"];
                                                   });
                                                   varient_list(item_name);
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            item_group()),
+                                                  );
                                                 },
                                               )))))));
                     }),
@@ -248,10 +254,6 @@ class _category_groupState extends State<category_group> {
           varient_item_list.add((json.decode(response.body)['message'][i]));
         }
       });
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => item_group()),
-      );
     }
   }
 }

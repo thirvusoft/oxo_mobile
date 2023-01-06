@@ -40,6 +40,7 @@ class _sales_orderState extends State<sales_order> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: const Color(0xFFEB455F),
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
@@ -126,12 +127,12 @@ class _sales_orderState extends State<sales_order> {
                   borderSide: BorderSide(
                     color: delivery_date.text.isEmpty
                         ? Colors.transparent
-                        : const Color.fromRGBO(44, 185, 176, 1),
+                        : const Color(0xFFEB455F),
                   )),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(
-                    color: Color.fromRGBO(44, 185, 176, 1),
+                    color: const Color(0xFFEB455F),
                   )),
             ),
             style: TextStyle(),
@@ -168,7 +169,7 @@ class _sales_orderState extends State<sales_order> {
             height: size.height * 0.9,
             child: SfDataGridTheme(
               data: SfDataGridThemeData(
-                  headerColor: Color.fromARGB(255, 248, 255, 254)),
+                  headerColor: const Color.fromARGB(255, 248, 255, 254)),
 
               child: SfDataGrid(
                 source: employeeDataSource,
@@ -182,7 +183,7 @@ class _sales_orderState extends State<sales_order> {
                         );
                       },
                       child: Container(
-                          color: Color.fromRGBO(44, 185, 176, 1),
+                          color: const Color(0xFFEB455F),
                           child: Center(
                             child: Icon(Icons.add),
                           )));
@@ -204,9 +205,12 @@ class _sales_orderState extends State<sales_order> {
                         });
                       },
                       child: Container(
-                          color: Colors.redAccent,
-                          child: Center(
-                            child: Icon(Icons.delete),
+                          color: const Color(0xffe8effc),
+                          child: const Center(
+                            child: Icon(
+                              Icons.delete,
+                              color: Color(0xFFEB455F),
+                            ),
                           )));
                 },
                 footerHeight: 80.0,
@@ -227,14 +231,22 @@ class _sales_orderState extends State<sales_order> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 5.0, vertical: 15.0),
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0)),
-                            primary: Color.fromRGBO(44, 185, 176, 1),
+                                borderRadius: BorderRadius.circular(10.0)),
+                            primary: const Color(0xFF2B3467),
                           ),
                           icon: Icon(
                             Icons.add,
                             size: 24.0,
                           ),
-                          label: Text('Add item'),
+                          label: Text(
+                            'Add item',
+                            style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  letterSpacing: .5,
+                                  fontSize: 15,
+                                  color: Color(0xFFffffff)),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -252,14 +264,22 @@ class _sales_orderState extends State<sales_order> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 5.0, vertical: 15.0),
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0)),
-                            primary: Color.fromRGBO(44, 185, 176, 1),
+                                borderRadius: BorderRadius.circular(10.0)),
+                            primary: const Color(0xFF2B3467),
                           ),
                           icon: Icon(
                             Icons.check,
                             size: 24.0,
                           ),
-                          label: Text('Submit'),
+                          label: Text(
+                            'Submit',
+                            style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  letterSpacing: .5,
+                                  fontSize: 15,
+                                  color: Color(0xFFffffff)),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -278,7 +298,7 @@ class _sales_orderState extends State<sales_order> {
                 //         EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
                 //     shape: RoundedRectangleBorder(
                 //         borderRadius: BorderRadius.circular(10.0)),
-                //     primary: Color.fromRGBO(44, 185, 176, 1),
+                //     primary: const Color(0xFFEB455F),
                 //   ),
                 //   icon: Icon(
                 //     Icons.add,
@@ -294,21 +314,33 @@ class _sales_orderState extends State<sales_order> {
                   GridColumn(
                       columnName: 'name',
                       label: Container(
-                          padding: EdgeInsets.all(20.0),
-                          child: Text(
-                            'Item name',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ))),
+                          child: Center(
+                        child: Text(
+                          'Item Name',
+                          // overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                                letterSpacing: .5,
+                                fontSize: 17,
+                                color: Color(0xFF2B3467)),
+                          ),
+                        ),
+                      ))),
                   GridColumn(
                     columnName: 'qty',
                     label: Container(
-                        padding: EdgeInsets.all(20.0),
-                        child: Text(
-                          'Quantity',
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
+                        child: Center(
+                      child: Text(
+                        'Quantity',
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              letterSpacing: .5,
+                              fontSize: 17,
+                              color: Color(0xFF2B3467)),
+                        ),
+                      ),
+                    )),
                   ),
                   // GridColumn(
                   //     columnName: 'rate',
@@ -375,12 +407,12 @@ class _sales_orderState extends State<sales_order> {
                             borderSide: BorderSide(
                               color: customer_name.text.isEmpty
                                   ? Colors.transparent
-                                  : const Color.fromRGBO(44, 185, 176, 1),
+                                  : const Color(0xFFEB455F),
                             )),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
-                              color: Color.fromRGBO(44, 185, 176, 1),
+                              color: const Color(0xFFEB455F),
                             )),
                       ),
                     ),
@@ -421,12 +453,12 @@ class _sales_orderState extends State<sales_order> {
                             borderSide: BorderSide(
                               color: distributor_name.text.isEmpty
                                   ? Colors.transparent
-                                  : const Color.fromRGBO(44, 185, 176, 1),
+                                  : const Color(0xFFEB455F),
                             )),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
-                              color: Color.fromRGBO(44, 185, 176, 1),
+                              color: const Color(0xFFEB455F),
                             )),
                       ),
                     ),
@@ -459,12 +491,12 @@ class _sales_orderState extends State<sales_order> {
                             borderSide: BorderSide(
                               color: delivery_date.text.isEmpty
                                   ? Colors.transparent
-                                  : const Color.fromRGBO(44, 185, 176, 1),
+                                  : const Color(0xFFEB455F),
                             )),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
-                              color: Color.fromRGBO(44, 185, 176, 1),
+                              color: const Color(0xFFEB455F),
                             )),
                       ),
                       style: TextStyle(),
@@ -494,7 +526,7 @@ class _sales_orderState extends State<sales_order> {
                     ),
                     AnimatedButton(
                       text: 'Submit',
-                      color: Color.fromRGBO(44, 185, 176, 1),
+                      color: Color.fromARGB(255, 49, 47, 92),
                       pressEvent: () {
                         if (sales_order_key.currentState!.validate()) {
                           sales_order(customer_name.text, delivery_date.text,
@@ -632,9 +664,15 @@ class EmployeeDataSource extends DataGridSource {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((e) {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 15.0),
-        child: Text(e.value.toString()),
-      );
+          alignment: Alignment.center,
+          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          child: Text(
+            e.value.toString(),
+            style: GoogleFonts.poppins(
+              textStyle: const TextStyle(
+                  letterSpacing: .5, fontSize: 10, color: Color(0xFF2B3467)),
+            ),
+          ));
     }).toList());
   }
 
