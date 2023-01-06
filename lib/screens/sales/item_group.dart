@@ -28,8 +28,14 @@ class _item_groupState extends State<item_group> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_outlined),
+        ),
+        // backgroundColor: const Color(0xFFEB455F),
         title: Text(
           item_name,
           style: GoogleFonts.poppins(
@@ -53,7 +59,7 @@ class _item_groupState extends State<item_group> {
               });
             },
             style: ElevatedButton.styleFrom(
-              primary: Color.fromRGBO(44, 185, 176, 1),
+              primary: const Color(0xFFEB455F),
             ),
             icon: Icon(
               Icons.add,
@@ -87,6 +93,7 @@ class _item_groupState extends State<item_group> {
               height: 48.0,
               alignment: Alignment.center,
               child: TextField(
+                cursorColor: const Color(0xFFEB455F),
                 controller: searchcontroller_varient,
                 onChanged: (value) {
                   setState(() {
@@ -111,15 +118,15 @@ class _item_groupState extends State<item_group> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                       borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                          color: const Color(0xFFEB455F), width: 2.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                       borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                          color: const Color(0xFFEB455F), width: 2.0),
                     ),
                     contentPadding: EdgeInsets.all(15),
-                    hintText: "Search",
+                    hintText: "Searchjjj",
                     prefixIcon: Icon(
                       Icons.search,
                       color: Color.fromARGB(252, 4, 0, 0),
@@ -136,168 +143,209 @@ class _item_groupState extends State<item_group> {
 
   Widget itemlist() {
     return AnimationLimiter(
-             child:(varient_item_list.length==0)?Center(child:LoadingAnimationWidget.fourRotatingDots(
-          color: Color(0xFFEB455F),
-          size: 70,
-        ),): Container(
-      child: ListView.builder(
-          itemCount: searchcontroller_varient.text.isNotEmpty
-              ? icon_nameOnSearch_varient.length
-              : varient_item_list.length,
-              
-          shrinkWrap: true,
-          itemBuilder: (context, int index) {
-            var row_varient = [];
-            if (icon_nameOnSearch_varient.length != 0) {
-              row_varient = icon_nameOnSearch_varient;
-            } else {
-              row_varient = varient_item_list;
-              print('pppppppppppppppppppppppppppppppppppp');
-              print(varient_item_list);
-            }
-            list.add(TextEditingController());
+        child: (varient_item_list.length == 0)
+            ? Center(
+                child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Color(0xFFEB455F),
+                  size: 70,
+                ),
+              )
+            : Container(
+                child: ListView.builder(
+                    itemCount: searchcontroller_varient.text.isNotEmpty
+                        ? icon_nameOnSearch_varient.length
+                        : varient_item_list.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, int index) {
+                      var row_varient = [];
+                      if (icon_nameOnSearch_varient.length != 0) {
+                        row_varient = icon_nameOnSearch_varient;
+                      } else {
+                        row_varient = varient_item_list;
+                        print('pppppppppppppppppppppppppppppppppppp');
+                        print(varient_item_list);
+                      }
+                      list.add(TextEditingController());
 
-            int count = index + 1;
-            return AnimationConfiguration.staggeredList(
-                position: index,
-                duration: Duration(milliseconds: 300),
-                child: SlideAnimation(
-                    verticalOffset: 50.0,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: FadeInAnimation(
-                            child: Container(
-                                width: 50,
-                                child: Card(
-                                    color: Color(0xffffffff),
-                                    shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                          color: Color(0xfff7f7f7), width: 1),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    elevation: 5,
-                                    child: ListTile(
-                                      leading: CircleAvatar(
-                                          radius: 12.5,
-                                          backgroundColor: Color(0xff628E90),
-                                          child: Text(
-                                            count.toString(),
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          )),
-                                      title: Text(
-                                        searchcontroller_varient.text.isEmpty
-                                            ? row_varient[index]['item_code']
-                                            : row_varient[index]['item_code'],
-                                        style: GoogleFonts.poppins(
-                                          textStyle: TextStyle(
-                                              letterSpacing: .1,
-                                              color: Color(0xff19183e)),
-                                        ),
-                                      ),
-                                      // subtitle: Text(
-                                      //   varient_item_list[index]
-                                      //           ["standard_rate"]
-                                      //       .toString(),
-                                      //   style: GoogleFonts.poppins(
-                                      //     textStyle: TextStyle(
-                                      //         letterSpacing: .1,
-                                      //         color:Color.fromRGBO(44, 185, 176, 1)),
-                                      //   ),
-                                      // ),
-                                      // controller: list[index],
-                                      trailing:
-                                          Wrap(spacing: 12, children: <Widget>[
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 1.0),
-                                          child: SizedBox(
-                                            height: 45,
-                                            width: 70,
-                                            child: TextFormField(
-                                              controller: list[index],
-                                              style: GoogleFonts.inter(
-                                                fontSize: 15.0,
-                                                color: const Color(0xFF151624),
+                      int count = index + 1;
+                      return AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: Duration(milliseconds: 300),
+                          child: SlideAnimation(
+                              verticalOffset: 50.0,
+                              child: Padding(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: FadeInAnimation(
+                                      child: Container(
+                                          width: 50,
+                                          child: Card(
+                                              color: Color(0xffffffff),
+                                              shape: RoundedRectangleBorder(
+                                                side: BorderSide(
+                                                    color: Color(0xfff7f7f7),
+                                                    width: 1),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
                                               ),
-                                              maxLines: 1,
-                                              keyboardType:
-                                                  TextInputType.number,
-                                              onChanged: ((qty) {
-                                                var item_name =
-                                                    varient_item_list[index]
-                                                        ["item_code"];
-                                                var item_rate =
-                                                    varient_item_list[index]
-                                                        ["standard_rate"];
-                                                print(item_rate);
-                                                if (qty != '') {
-                                                  List<String> test = [];
-                                                  test.add(
-                                                      item_rate.toString());
-                                                  test.add(qty.toString());
-                                                  values[item_name] = test;
-                                                  values[item_name] = test;
-                                                } else {
-                                                  values[item_name] = 0;
-                                                }
-                                                varient_item_list[index]
-                                                    ["qty"] = qty;
-                                                print(
-                                                    '111111111111111111111111111111111111111111111111111111111111111111111111111');
-                                                print(values);
-                                              }),
-                                              cursorColor:
-                                                  const Color(0xFF151624),
-                                              decoration: InputDecoration(
-                                                counterText: "",
-                                                hintText: 'QTY',
-                                                hintStyle: GoogleFonts.inter(
-                                                  fontSize: 15.0,
-                                                  color: const Color(0xFF151624)
-                                                      .withOpacity(0.5),
+                                              elevation: 5,
+                                              child: ListTile(
+                                                leading: CircleAvatar(
+                                                    radius: 12.5,
+                                                    backgroundColor:
+                                                        const Color(0xFF2B3467),
+                                                    child: Text(
+                                                      count.toString(),
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    )),
+                                                title: Text(
+                                                  searchcontroller_varient
+                                                          .text.isEmpty
+                                                      ? row_varient[index]
+                                                          ['item_code']
+                                                      : row_varient[index]
+                                                          ['item_code'],
+                                                  style: GoogleFonts.poppins(
+                                                    textStyle: TextStyle(
+                                                        letterSpacing: .1,
+                                                        color:
+                                                            Color(0xff19183e)),
+                                                  ),
                                                 ),
-                                                filled: true,
-                                                fillColor:
-                                                    list[index].text.isEmpty
-                                                        ? const Color.fromRGBO(
-                                                            248, 247, 251, 1)
-                                                        : Colors.transparent,
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        borderSide: BorderSide(
-                                                          color: list[index]
-                                                                  .text
-                                                                  .isEmpty
-                                                              ? Colors
-                                                                  .transparent
-                                                              : const Color
-                                                                      .fromRGBO(
-                                                                  44,
-                                                                  185,
-                                                                  176,
-                                                                  1),
-                                                        )),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        borderSide:
-                                                            const BorderSide(
-                                                          color: Color.fromRGBO(
-                                                              44, 185, 176, 1),
-                                                        )),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ]),
-                                    )))))));
-          }),
-    ));
+                                                // subtitle: Text(
+                                                //   varient_item_list[index]
+                                                //           ["standard_rate"]
+                                                //       .toString(),
+                                                //   style: GoogleFonts.poppins(
+                                                //     textStyle: TextStyle(
+                                                //         letterSpacing: .1,
+                                                //         color:const Color(0xFFEB455F)),
+                                                //   ),
+                                                // ),
+                                                // controller: list[index],
+                                                trailing: Wrap(
+                                                    spacing: 12,
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 1.0),
+                                                        child: SizedBox(
+                                                          height: 45,
+                                                          width: 70,
+                                                          child: TextFormField(
+                                                            controller:
+                                                                list[index],
+                                                            style: GoogleFonts
+                                                                .inter(
+                                                              fontSize: 15.0,
+                                                              color: const Color(
+                                                                  0xFF151624),
+                                                            ),
+                                                            maxLines: 1,
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .number,
+                                                            onChanged: ((qty) {
+                                                              var item_name =
+                                                                  varient_item_list[
+                                                                          index]
+                                                                      [
+                                                                      "item_code"];
+                                                              var item_rate =
+                                                                  varient_item_list[
+                                                                          index]
+                                                                      [
+                                                                      "standard_rate"];
+                                                              print(item_rate);
+                                                              if (qty != '') {
+                                                                List<String>
+                                                                    test = [];
+                                                                test.add(item_rate
+                                                                    .toString());
+                                                                test.add(qty
+                                                                    .toString());
+                                                                values[item_name] =
+                                                                    test;
+                                                                values[item_name] =
+                                                                    test;
+                                                              } else {
+                                                                values[item_name] =
+                                                                    0;
+                                                              }
+                                                              varient_item_list[
+                                                                      index]
+                                                                  ["qty"] = qty;
+                                                              print(
+                                                                  '111111111111111111111111111111111111111111111111111111111111111111111111111');
+                                                              print(values);
+                                                            }),
+                                                            cursorColor:
+                                                                const Color(
+                                                                    0xFF151624),
+                                                            decoration:
+                                                                InputDecoration(
+                                                              counterText: "",
+                                                              hintText: 'QTY',
+                                                              hintStyle:
+                                                                  GoogleFonts
+                                                                      .inter(
+                                                                fontSize: 15.0,
+                                                                color: const Color(
+                                                                        0xFF151624)
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                              ),
+                                                              filled: true,
+                                                              fillColor: list[
+                                                                          index]
+                                                                      .text
+                                                                      .isEmpty
+                                                                  ? const Color
+                                                                          .fromRGBO(
+                                                                      248,
+                                                                      247,
+                                                                      251,
+                                                                      1)
+                                                                  : Colors
+                                                                      .transparent,
+                                                              enabledBorder:
+                                                                  OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: list[index].text.isEmpty
+                                                                            ? Colors
+                                                                                .transparent
+                                                                            : const Color.fromRGBO(
+                                                                                44,
+                                                                                185,
+                                                                                176,
+                                                                                1),
+                                                                      )),
+                                                              focusedBorder:
+                                                                  OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
+                                                                      borderSide:
+                                                                          const BorderSide(
+                                                                        color: Color.fromRGBO(
+                                                                            44,
+                                                                            185,
+                                                                            176,
+                                                                            1),
+                                                                      )),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ]),
+                                              )))))));
+                    }),
+              ));
   }
 }

@@ -24,8 +24,16 @@ class _category_groupState extends State<category_group> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+        backgroundColor: const Color(0xFFEB455F),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_outlined),
+        ),
+
+        // backgroundColor: const Color(0xFFEB455F),
         title: Text(
           category_name,
           style: GoogleFonts.poppins(
@@ -58,6 +66,7 @@ class _category_groupState extends State<category_group> {
               height: 48.0,
               alignment: Alignment.center,
               child: TextField(
+                cursorColor: const Color(0xFFEB455F),
                 controller: searchcontroller_category,
                 onChanged: (value) {
                   setState(() {
@@ -83,12 +92,12 @@ class _category_groupState extends State<category_group> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                       borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                          color: const Color(0xFFEB455F), width: 2.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                       borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                          color: const Color(0xFFEB455F), width: 2.0),
                     ),
                     contentPadding: EdgeInsets.all(15),
                     hintText: "Search",
@@ -140,73 +149,85 @@ class _category_groupState extends State<category_group> {
 
   Widget itemlist() {
     return AnimationLimiter(
-           child:(category_item_list.length==0)?Center(child:LoadingAnimationWidget.fourRotatingDots(
-          color: Color(0xFFEB455F),
-          size: 70,
-        ),): Container(
-      child: ListView.builder(
-          itemCount: searchcontroller_category.text.isNotEmpty
-              ? icon_nameOnSearch_category.length
-              : category_item_list.length,
-          shrinkWrap: true,
-          itemBuilder: (context, int index) {
-            var row_template = [];
-            if (icon_nameOnSearch_category.length != 0) {
-              row_template = icon_nameOnSearch_category;
-            } else {
-              row_template = category_item_list;
-            }
-            list.add(TextEditingController());
+        child: (category_item_list.length == 0)
+            ? Center(
+                child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Color(0xFFEB455F),
+                  size: 70,
+                ),
+              )
+            : Container(
+                child: ListView.builder(
+                    itemCount: searchcontroller_category.text.isNotEmpty
+                        ? icon_nameOnSearch_category.length
+                        : category_item_list.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, int index) {
+                      var row_template = [];
+                      if (icon_nameOnSearch_category.length != 0) {
+                        row_template = icon_nameOnSearch_category;
+                      } else {
+                        row_template = category_item_list;
+                      }
+                      list.add(TextEditingController());
 
-            int count = index + 1;
-            return AnimationConfiguration.staggeredList(
-                position: index,
-                duration: Duration(milliseconds: 300),
-                child: SlideAnimation(
-                    verticalOffset: 50.0,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: FadeInAnimation(
-                            child: Container(
-                                width: 50,
-                                child: Card(
-                                    color: Color(0xffffffff),
-                                    shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                          color: Color(0xfff7f7f7), width: 1),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    elevation: 5,
-                                    child: ListTile(
-                                      leading: CircleAvatar(
-                                          radius: 12.5,
-                                          backgroundColor: Color(0xff628E90),
-                                          child: Text(
-                                            count.toString(),
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          )),
-                                      title: Text(
-                                        searchcontroller_category.text.isEmpty
-                                            ? row_template[index]['item_code']
-                                            : row_template[index]['item_code'],
-                                        style: GoogleFonts.poppins(
-                                          textStyle: TextStyle(
-                                              letterSpacing: .1,
-                                              color: Color(0xff19183e)),
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          item_name =
-                                              row_template[index]["item_code"];
-                                        });
-                                        varient_list(item_name);
-                                      },
-                                    )))))));
-          }),
-    ));
+                      int count = index + 1;
+                      return AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: Duration(milliseconds: 300),
+                          child: SlideAnimation(
+                              verticalOffset: 50.0,
+                              child: Padding(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: FadeInAnimation(
+                                      child: Container(
+                                          width: 50,
+                                          child: Card(
+                                              color: Color(0xffffffff),
+                                              shape: RoundedRectangleBorder(
+                                                side: BorderSide(
+                                                    color: Color(0xfff7f7f7),
+                                                    width: 1),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              elevation: 5,
+                                              child: ListTile(
+                                                leading: CircleAvatar(
+                                                    radius: 12.5,
+                                                    backgroundColor:
+                                                        const Color(0xFF2B3467),
+                                                    child: Text(
+                                                      count.toString(),
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    )),
+                                                title: Text(
+                                                  searchcontroller_category
+                                                          .text.isEmpty
+                                                      ? row_template[index]
+                                                          ['item_code']
+                                                      : row_template[index]
+                                                          ['item_code'],
+                                                  style: GoogleFonts.poppins(
+                                                    textStyle: TextStyle(
+                                                        letterSpacing: .1,
+                                                        color:
+                                                            Color(0xff19183e)),
+                                                  ),
+                                                ),
+                                                onTap: () {
+                                                  setState(() {
+                                                    item_name =
+                                                        row_template[index]
+                                                            ["item_code"];
+                                                  });
+                                                  varient_list(item_name);
+                                                },
+                                              )))))));
+                    }),
+              ));
   }
 
   Future varient_list(item_name) async {

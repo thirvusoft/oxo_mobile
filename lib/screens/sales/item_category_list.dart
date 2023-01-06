@@ -35,15 +35,20 @@ class _categoryState extends State<category> {
             length: 3,
             child: Scaffold(
               appBar: AppBar(
-                automaticallyImplyLeading: false,
+                centerTitle: true,
+                leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_back_outlined),
+                ),
+                automaticallyImplyLeading: true,
                 backgroundColor: Color(0xFFEB455F),
-                title: Center(
-                  child: Text(
-                    'Sales Order',
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 20, letterSpacing: .2, color: Colors.white),
-                    ),
+                title: Text(
+                  'Sales Order',
+                  style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        fontSize: 20, letterSpacing: .2, color: Colors.white),
                   ),
                 ),
                 bottom: TabBar(
@@ -51,7 +56,9 @@ class _categoryState extends State<category> {
                   indicatorColor: Colors.white,
                   tabs: [
                     Tab(icon: Icon(Icons.person), text: "SHIRT DHOTI SEGMENT"),
-                    Tab(icon: Icon(Icons.person_outline), text: "INNER SEGMENT"),
+                    Tab(
+                        icon: Icon(Icons.person_outline),
+                        text: "INNER SEGMENT"),
                     Tab(icon: Icon(Icons.person_pin), text: "OUTER SEGMENT"),
                     // Tab(
                     //     icon: Icon(Icons.person_pin_sharp),
@@ -59,19 +66,18 @@ class _categoryState extends State<category> {
                   ],
                 ),
               ),
-              body: Container(
-                child: TabBarView(
-                  children: [
-                    shirt(size),
-                    inner(size),
-                    outer(size),
-                    // primium(size),
-                  ],
-                ),
+              body: TabBarView(
+                children: [
+                  shirt(size),
+                  inner(size),
+                  outer(size),
+                  // primium(size),
+                ],
               ),
             )));
   }
-    Widget shirt(Size size) {
+
+  Widget shirt(Size size) {
     return Column(
       children: <Widget>[
         Container(
@@ -82,35 +88,35 @@ class _categoryState extends State<category> {
                 height: 48.0,
                 alignment: Alignment.center,
                 child: TextField(
-                 controller: searchcontroller_shirt,
-                      onChanged: (value) {
-                  setState(() {
-                    value.trimLeft();
-                    icon_nameOnSearch_shirt = [];
-                    for (var i = 0; i < shirt_list.length; i++) {
-                      var des = {};
-                      des["name"] = shirt_list[i]["name"];
-                      item_search_list_shirt.add(des);
-                      if ((item_search_list_shirt[i]["name"]
-                          .toLowerCase()
-                          .contains(value.trim().toLowerCase()))) {
-                        var d = {};
-                        d["name"] = item_search_list_shirt[i]["name"];
-                        icon_nameOnSearch_shirt.add(d);
+                  controller: searchcontroller_shirt,
+                  onChanged: (value) {
+                    setState(() {
+                      value.trimLeft();
+                      icon_nameOnSearch_shirt = [];
+                      for (var i = 0; i < shirt_list.length; i++) {
+                        var des = {};
+                        des["name"] = shirt_list[i]["name"];
+                        item_search_list_shirt.add(des);
+                        if ((item_search_list_shirt[i]["name"]
+                            .toLowerCase()
+                            .contains(value.trim().toLowerCase()))) {
+                          var d = {};
+                          d["name"] = item_search_list_shirt[i]["name"];
+                          icon_nameOnSearch_shirt.add(d);
+                        }
                       }
-                    }
-                  });
-                },
+                    });
+                  },
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color(0xFFEB455F), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color(0xFFEB455F), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
                       contentPadding: EdgeInsets.all(15),
                       hintText: "Search",
@@ -125,7 +131,7 @@ class _categoryState extends State<category> {
             child: Container(
           child: itemlist(),
         )),
-           Container(
+        Container(
           child: Padding(
             padding: EdgeInsets.only(right: 10, bottom: 7),
             child: Container(
@@ -138,8 +144,7 @@ class _categoryState extends State<category> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add(
-                        {'item_code': key, 'qty': value[1]});
+                    values_dict.add({'item_code': key, 'qty': value[1]});
                   });
                   values_dict.removeAt(index_value);
                 },
@@ -162,87 +167,99 @@ class _categoryState extends State<category> {
       ],
     );
   }
+
   Widget itemlist() {
     return AnimationLimiter(
-        child:(shirt_list.length==0)?Center(child:LoadingAnimationWidget.fourRotatingDots(
-          color: Color(0xFFEB455F),
-          size: 70,
-        ),): Container(
-      child: ListView.builder(
-          itemCount: searchcontroller_shirt.text.isNotEmpty
-              ? icon_nameOnSearch_shirt.length
-              : shirt_list.length,
-          shrinkWrap: true,
-          itemBuilder: (context, int index) {
-            var row = [];
-            if (icon_nameOnSearch_shirt.length != 0) {
-              row = icon_nameOnSearch_shirt;
-            } else {
-              row = shirt_list;
-            }
-            list.add(TextEditingController());
+        child: (shirt_list.length == 0)
+            ? Center(
+                child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Color(0xFFEB455F),
+                  size: 70,
+                ),
+              )
+            : Container(
+                child: ListView.builder(
+                    itemCount: searchcontroller_shirt.text.isNotEmpty
+                        ? icon_nameOnSearch_shirt.length
+                        : shirt_list.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, int index) {
+                      var row = [];
+                      if (icon_nameOnSearch_shirt.length != 0) {
+                        row = icon_nameOnSearch_shirt;
+                      } else {
+                        row = shirt_list;
+                      }
+                      list.add(TextEditingController());
 
-            int count = index + 1;
-            return AnimationConfiguration.staggeredList(
-                position: index,
-                duration: Duration(milliseconds: 500),
-                child: SlideAnimation(
-                    verticalOffset: 50.0,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: FadeInAnimation(
-                          child: Container(
-                            width: 50,
-                            child: Card(
-                              color: Color(0xffffffff),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color: Color(0xfff7f7f7), width: 1),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              elevation: 5,
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                    radius: 12.5,
-                                    backgroundColor: Color(0xff628E90),
-                                    child: Text(
-                                      count.toString(),
-                                      style: TextStyle(
-                                        color: Colors.white,
+                      int count = index + 1;
+                      return AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: Duration(milliseconds: 500),
+                          child: SlideAnimation(
+                              verticalOffset: 50.0,
+                              child: Padding(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: FadeInAnimation(
+                                    child: SizedBox(
+                                      width: 50,
+                                      height: 75,
+                                      child: Card(
+                                        color: Color(0xffffffff),
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              color: Color(0xfff7f7f7),
+                                              width: 1),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        elevation: 5,
+                                        child: ListTile(
+                                          leading: CircleAvatar(
+                                              radius: 12.5,
+                                              backgroundColor:
+                                                  const Color(0xFF2B3467),
+                                              child: Text(
+                                                count.toString(),
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              )),
+                                          title: Text(
+                                            searchcontroller_shirt.text.isEmpty
+                                                ? row[index]['name']
+                                                : row[index]['name'],
+                                            style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  letterSpacing: .1,
+                                                  color: Color(0xff19183e)),
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              category_name =
+                                                  row[index]["name"];
+                                              item_group_name =
+                                                  "SHIRT DHOTI SEGMENT";
+                                            });
+
+                                            template_list(
+                                                category_name, item_group_name);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      category_group()),
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    )),
-                               title: Text(
-                                  searchcontroller_shirt.text.isEmpty
-                                      ? row[index]['name']
-                                      : row[index]['name'],
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        letterSpacing: .1,
-                                        color: Color(0xff19183e)),
-                                  ),
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    category_name = row[index]["name"];
-                                    item_group_name="SHIRT DHOTI SEGMENT";
-                                  });
-                                  
-                                  template_list(category_name,item_group_name);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => category_group()),
-                                  );
-                                
-                                },
-                              ),
-                            ),
-                          ),
-                        ))));
-          }),
-    ));
+                                    ),
+                                  ))));
+                    }),
+              ));
   }
-  
+
   Widget inner(Size size) {
     return Column(
       children: <Widget>[
@@ -267,8 +284,7 @@ class _categoryState extends State<category> {
                             .toLowerCase()
                             .contains(value.trim().toLowerCase()))) {
                           var d2 = {};
-                          d2["name"] =
-                              item_search_list_inner[i]["name"];
+                          d2["name"] = item_search_list_inner[i]["name"];
                           icon_nameOnSearch_inner.add(d2);
                         }
                       }
@@ -277,13 +293,13 @@ class _categoryState extends State<category> {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color(0xFFEB455F), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color(0xFFEB455F), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
                       contentPadding: EdgeInsets.all(15),
                       hintText: "Search",
@@ -298,7 +314,7 @@ class _categoryState extends State<category> {
             child: Container(
           child: itemlist2(),
         )),
-           Container(
+        Container(
           child: Padding(
             padding: EdgeInsets.only(right: 10, bottom: 7),
             child: Container(
@@ -311,8 +327,7 @@ class _categoryState extends State<category> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add(
-                        {'item_code': key, 'qty': value[1]});
+                    values_dict.add({'item_code': key, 'qty': value[1]});
                   });
                   values_dict.removeAt(index_value);
                 },
@@ -360,8 +375,7 @@ class _categoryState extends State<category> {
                             .toLowerCase()
                             .contains(value.trim().toLowerCase()))) {
                           var d3 = {};
-                          d3["name"] =
-                              item_search_list_outer[i]["name"];
+                          d3["name"] = item_search_list_outer[i]["name"];
                           icon_nameOnSearch_outer.add(d3);
                         }
                       }
@@ -370,13 +384,13 @@ class _categoryState extends State<category> {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color(0xFFEB455F), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(
-                            color: Color(0xFFEB455F), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
                       contentPadding: EdgeInsets.all(15),
                       hintText: "Search",
@@ -391,7 +405,7 @@ class _categoryState extends State<category> {
             child: Container(
           child: itemlist3(),
         )),
-           Container(
+        Container(
           child: Padding(
             padding: EdgeInsets.only(right: 10, bottom: 7),
             child: Container(
@@ -404,8 +418,7 @@ class _categoryState extends State<category> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add(
-                        {'item_code': key, 'qty': value[1]});
+                    values_dict.add({'item_code': key, 'qty': value[1]});
                   });
                   values_dict.removeAt(index_value);
                 },
@@ -431,175 +444,193 @@ class _categoryState extends State<category> {
 
   Widget itemlist2() {
     return AnimationLimiter(
-       child:(inner_list.length==0)?Center(child:LoadingAnimationWidget.fourRotatingDots(
-          color: Color(0xFFEB455F),
-          size: 70,
-        ),):  Container(
-      child: ListView.builder(
-          itemCount: searchcontroller_inner.text.isNotEmpty
-              ? icon_nameOnSearch_inner.length
-              : inner_list.length,
-          shrinkWrap: true,
-          itemBuilder: (context, int index) {
-            var row = [];
-            if (icon_nameOnSearch_inner.length != 0) {
-              row = icon_nameOnSearch_inner;
-            } else {
-              row = inner_list;
-            }
-            list.add(TextEditingController());
+        child: (inner_list.length == 0)
+            ? Center(
+                child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Color(0xFFEB455F),
+                  size: 70,
+                ),
+              )
+            : Container(
+                child: ListView.builder(
+                    itemCount: searchcontroller_inner.text.isNotEmpty
+                        ? icon_nameOnSearch_inner.length
+                        : inner_list.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, int index) {
+                      var row = [];
+                      if (icon_nameOnSearch_inner.length != 0) {
+                        row = icon_nameOnSearch_inner;
+                      } else {
+                        row = inner_list;
+                      }
+                      list.add(TextEditingController());
 
-            int count = index + 1;
-            return AnimationConfiguration.staggeredList(
-                position: index,
-                duration: Duration(milliseconds: 500),
-                child: SlideAnimation(
-                    verticalOffset: 50.0,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: FadeInAnimation(
-                          child: Container(
-                            width: 50,
-                            child: Card(
-                              color: Color(0xffffffff),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color: Color(0xfff7f7f7), width: 1),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              elevation: 5,
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                    radius: 12.5,
-                                    backgroundColor: Color(0xff628E90),
-                                    child: Text(
-                                      count.toString(),
-                                      style: TextStyle(
-                                        color: Colors.white,
+                      int count = index + 1;
+                      return AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: Duration(milliseconds: 500),
+                          child: SlideAnimation(
+                              verticalOffset: 50.0,
+                              child: Padding(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: FadeInAnimation(
+                                    child: SizedBox(
+                                      width: 50,
+                                      height: 75,
+                                      child: Card(
+                                        color: Color(0xffffffff),
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              color: Color(0xfff7f7f7),
+                                              width: 1),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        elevation: 5,
+                                        child: ListTile(
+                                          leading: CircleAvatar(
+                                              radius: 12.5,
+                                              backgroundColor:
+                                                  const Color(0xFF2B3467),
+                                              child: Text(
+                                                count.toString(),
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              )),
+                                          title: Text(
+                                            searchcontroller_inner.text.isEmpty
+                                                ? row[index]['name']
+                                                : row[index]['name'],
+                                            style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  letterSpacing: .1,
+                                                  color: Color(0xff19183e)),
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              category_name =
+                                                  row[index]["name"];
+                                              item_group_name = "INNER SEGMENT";
+                                            });
+                                            template_list(
+                                                category_name, item_group_name);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      category_group()),
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    )),
-                                title: Text(
-                                  searchcontroller_inner.text.isEmpty
-                                      ? row[index]['name']
-                                      : row[index]['name'],
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        letterSpacing: .1,
-                                        color: Color(0xff19183e)),
-                                  ),
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    category_name = row[index]["name"];
-                                    item_group_name="INNER SEGMENT";
-                                  
-                                  });
-                                  template_list(category_name,item_group_name);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => category_group()),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ))));
-          }),
-    ));
+                                    ),
+                                  ))));
+                    }),
+              ));
   }
 
   Widget itemlist3() {
     return AnimationLimiter(
-         child:(outer_list.length==0)?Center(child:LoadingAnimationWidget.fourRotatingDots(
-          color: Color(0xFFEB455F),
-          size: 70,
-        ),):  Container(
-      child: ListView.builder(
-          itemCount: searchcontroller_outer.text.isNotEmpty
-              ? icon_nameOnSearch_outer.length
-              : outer_list.length,
-          shrinkWrap: true,
-          itemBuilder: (context, int index) {
-            var row = [];
-            if (icon_nameOnSearch_outer.length != 0) {
-              row = icon_nameOnSearch_outer;
-            } else {
-              row = outer_list;
-            }
-            list.add(TextEditingController());
+        child: (outer_list.length == 0)
+            ? Center(
+                child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Color(0xFFEB455F),
+                  size: 70,
+                ),
+              )
+            : Container(
+                child: ListView.builder(
+                    itemCount: searchcontroller_outer.text.isNotEmpty
+                        ? icon_nameOnSearch_outer.length
+                        : outer_list.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, int index) {
+                      var row = [];
+                      if (icon_nameOnSearch_outer.length != 0) {
+                        row = icon_nameOnSearch_outer;
+                      } else {
+                        row = outer_list;
+                      }
+                      list.add(TextEditingController());
 
-            int count = index + 1;
-            return AnimationConfiguration.staggeredList(
-                position: index,
-                duration: Duration(milliseconds: 500),
-                child: SlideAnimation(
-                    verticalOffset: 50.0,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: FadeInAnimation(
-                          child: Container(
-                            width: 50,
-                            child: Card(
-                              color: Color(0xffffffff),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color: Color(0xfff7f7f7), width: 1),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              elevation: 5,
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                    radius: 12.5,
-                                    backgroundColor: Color(0xff628E90),
-                                    child: Text(
-                                      count.toString(),
-                                      style: TextStyle(
-                                        color: Colors.white,
+                      int count = index + 1;
+                      return AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: Duration(milliseconds: 500),
+                          child: SlideAnimation(
+                              verticalOffset: 50.0,
+                              child: Padding(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: FadeInAnimation(
+                                    child: SizedBox(
+                                      width: 50,
+                                      height: 75,
+                                      child: Card(
+                                        color: Color(0xffffffff),
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              color: Color(0xfff7f7f7),
+                                              width: 1),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        elevation: 5,
+                                        child: ListTile(
+                                          leading: CircleAvatar(
+                                              radius: 12.5,
+                                              backgroundColor:
+                                                  const Color(0xFF2B3467),
+                                              child: Text(
+                                                count.toString(),
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              )),
+                                          title: Text(
+                                            searchcontroller_outer.text.isEmpty
+                                                ? row[index]['name']
+                                                : row[index]['name'],
+                                            style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  letterSpacing: .1,
+                                                  color: Color(0xff19183e)),
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              category_name =
+                                                  row[index]["name"];
+                                              item_group_name = "OUTER SEGMENT";
+                                            });
+                                            template_list(
+                                                category_name, item_group_name);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      category_group()),
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    )),
-                                title: Text(
-                                  searchcontroller_outer.text.isEmpty
-                                      ? row[index]['name']
-                                      : row[index]['name'],
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        letterSpacing: .1,
-                                        color: Color(0xff19183e)),
-                                  ),
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    category_name = row[index]["name"];
-                                    item_group_name="OUTER SEGMENT";
-                                  });
-                                  template_list(category_name,item_group_name);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => category_group()),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ))));
-          }),
-    ));
+                                    ),
+                                  ))));
+                    }),
+              ));
   }
-
-
 
   Future all_item() async {
     shirt_list = [];
     inner_list = [];
     outer_list = [];
 
-    var response = await http.get(
-        Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.category_list"""));
+    var response = await http.get(Uri.parse(
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.category_list"""));
 
-print(response.body);
+    print(response.body);
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 1000));
       setState(() {
@@ -618,15 +649,13 @@ print(response.body);
             i++) {
           outer_list.add((json.decode(response.body)['message3'][i]));
         }
-
       });
-      
     } else {
       return json.decode(response.body)['message'];
     }
   }
 
-  Future template_list(category_name,item_group_name) async {
+  Future template_list(category_name, item_group_name) async {
     print("object");
     category_item_list = [];
     var response = await http.get(

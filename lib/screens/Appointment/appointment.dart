@@ -31,17 +31,23 @@ class _appointmentState extends State<appointment> {
 
     return Scaffold(
         appBar: AppBar(
-            automaticallyImplyLeading: false,
-            // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
-            title: Center(
-              child: Text(
-                'Fix Appointment',
-                style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      fontSize: 20, letterSpacing: .2, color: Colors.white),
-                ),
-              ),
-            )),
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_outlined),
+          ),
+          automaticallyImplyLeading: false,
+          // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+          title: Text(
+            'Fix Appointment',
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 20, letterSpacing: .2, color: Colors.white),
+            ),
+          ),
+        ),
         body: SingleChildScrollView(
           child: SafeArea(
             child: SizedBox(
@@ -135,32 +141,34 @@ class _appointmentState extends State<appointment> {
                   ),
                   SizedBox(
                     height: 10,
-                  ), TextFormField(
-                controller: appointment_emailid,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter email id';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
-                    ),
-                    hintText: "Enter email id"),
-              ),
+                  ),
+                  TextFormField(
+                    controller: appointment_emailid,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter email id';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(
+                              color: Color.fromRGBO(44, 185, 176, 1),
+                              width: 2.0),
+                        ),
+                        hintText: "Enter email id"),
+                  ),
                   SizedBox(
                     height: 10,
-                  ), 
+                  ),
                   AnimatedButton(
                     text: 'Submit',
                     color: Color.fromRGBO(44, 185, 176, 1),
                     pressEvent: () {
-                      appointment_creation(
-                          appointment_delear_name.text, datetime,appointment_emailid.text);
+                      appointment_creation(appointment_delear_name.text,
+                          datetime, appointment_emailid.text);
                     },
                   ),
                 ]))));
@@ -186,11 +194,7 @@ class _appointmentState extends State<appointment> {
     }
   }
 
-  Future appointment_creation(
-    delear_name,
-    date_time,
-    email
-  ) async {
+  Future appointment_creation(delear_name, date_time, email) async {
     print("object");
     print(date_time);
     print(delear_name);
