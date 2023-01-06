@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:oxo/screens/sales/item_group.dart';
 import 'package:oxo/screens/sales/order.dart';
 import 'package:oxo/screens/sales/sales_order.dart';
@@ -139,7 +140,10 @@ class _category_groupState extends State<category_group> {
 
   Widget itemlist() {
     return AnimationLimiter(
-        child: Container(
+           child:(category_item_list.length==0)?Center(child:LoadingAnimationWidget.fourRotatingDots(
+          color: Color(0xFFEB455F),
+          size: 70,
+        ),): Container(
       child: ListView.builder(
           itemCount: searchcontroller_category.text.isNotEmpty
               ? icon_nameOnSearch_category.length

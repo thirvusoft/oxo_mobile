@@ -9,6 +9,7 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:oxo/screens/sales/order.dart';
 import 'package:oxo/screens/sales/sales_order.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'item_group.dart';
 import 'order_page.dart';
@@ -163,7 +164,10 @@ class _categoryState extends State<category> {
   }
   Widget itemlist() {
     return AnimationLimiter(
-        child: Container(
+        child:(shirt_list.length==0)?Center(child:LoadingAnimationWidget.fourRotatingDots(
+          color: Color(0xFFEB455F),
+          size: 70,
+        ),): Container(
       child: ListView.builder(
           itemCount: searchcontroller_shirt.text.isNotEmpty
               ? icon_nameOnSearch_shirt.length
@@ -427,7 +431,10 @@ class _categoryState extends State<category> {
 
   Widget itemlist2() {
     return AnimationLimiter(
-        child: Container(
+       child:(inner_list.length==0)?Center(child:LoadingAnimationWidget.fourRotatingDots(
+          color: Color(0xFFEB455F),
+          size: 70,
+        ),):  Container(
       child: ListView.builder(
           itemCount: searchcontroller_inner.text.isNotEmpty
               ? icon_nameOnSearch_inner.length
@@ -504,7 +511,10 @@ class _categoryState extends State<category> {
 
   Widget itemlist3() {
     return AnimationLimiter(
-        child: Container(
+         child:(outer_list.length==0)?Center(child:LoadingAnimationWidget.fourRotatingDots(
+          color: Color(0xFFEB455F),
+          size: 70,
+        ),):  Container(
       child: ListView.builder(
           itemCount: searchcontroller_outer.text.isNotEmpty
               ? icon_nameOnSearch_outer.length
@@ -591,7 +601,7 @@ class _categoryState extends State<category> {
 
 print(response.body);
     if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(Duration(milliseconds: 1000));
       setState(() {
         for (var i = 0;
             i < json.decode(response.body)['message1'].length;
@@ -610,7 +620,7 @@ print(response.body);
         }
 
       });
-      ;
+      
     } else {
       return json.decode(response.body)['message'];
     }
