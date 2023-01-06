@@ -37,17 +37,22 @@ class _dealerState extends State<dealer> {
 
     return Scaffold(
         appBar: AppBar(
-            automaticallyImplyLeading: false,
-            // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
-            title: Center(
-              child: Text(
-                'Dealer Creation',
-                style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      fontSize: 20, letterSpacing: .2, color: Colors.white),
-                ),
-              ),
-            )),
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_outlined),
+          ),
+          // backgroundColor: const Color(0xFFEB455F),
+          title: Text(
+            'Dealer Creation',
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 20, letterSpacing: .2, color: Colors.white),
+            ),
+          ),
+        ),
         body: SingleChildScrollView(
           child: SafeArea(
             child: SizedBox(
@@ -92,7 +97,7 @@ class _dealerState extends State<dealer> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                       borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                          color: const Color(0xFFEB455F), width: 2.0),
                     ),
                     hintText: "Enter dealer name"),
               )),
@@ -121,7 +126,7 @@ class _dealerState extends State<dealer> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                       borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                          color: const Color(0xFFEB455F), width: 2.0),
                     ),
                     hintText: "Enter dealer mobile number"),
               )),
@@ -139,8 +144,10 @@ class _dealerState extends State<dealer> {
                   Container(
                     child: Text(
                       "Add Dealer Address",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: const Color(0xFF2B3467)),
                     ),
                   ),
                   SizedBox(
@@ -160,8 +167,7 @@ class _dealerState extends State<dealer> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                           borderSide: BorderSide(
-                              color: Color.fromRGBO(44, 185, 176, 1),
-                              width: 2.0),
+                              color: const Color(0xFFEB455F), width: 2.0),
                         ),
                         hintText: "Enter door no"),
                   )),
@@ -182,8 +188,7 @@ class _dealerState extends State<dealer> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                           borderSide: BorderSide(
-                              color: Color.fromRGBO(44, 185, 176, 1),
-                              width: 2.0),
+                              color: const Color(0xFFEB455F), width: 2.0),
                         ),
                         hintText: "Enter street"),
                   )),
@@ -214,8 +219,7 @@ class _dealerState extends State<dealer> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                           borderSide: BorderSide(
-                              color: Color.fromRGBO(44, 185, 176, 1),
-                              width: 2.0),
+                              color: const Color(0xFFEB455F), width: 2.0),
                         ),
                         hintText: "Select Territory"),
                   )),
@@ -246,8 +250,7 @@ class _dealerState extends State<dealer> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                           borderSide: BorderSide(
-                              color: Color.fromRGBO(44, 185, 176, 1),
-                              width: 2.0),
+                              color: const Color(0xFFEB455F), width: 2.0),
                         ),
                         hintText: "Select State"),
                   )),
@@ -262,8 +265,7 @@ class _dealerState extends State<dealer> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                           borderSide: BorderSide(
-                              color: Color.fromRGBO(44, 185, 176, 1),
-                              width: 2.0),
+                              color: const Color(0xFFEB455F), width: 2.0),
                         ),
                         hintText: "Enter postal code"),
                   )),
@@ -278,7 +280,7 @@ class _dealerState extends State<dealer> {
       child: SizedBox(
         child: AnimatedButton(
             text: 'Submit',
-            color: Color.fromRGBO(44, 185, 176, 1),
+            // color: const Color(0xFFEB455F),
             pressEvent: () {
               if (name_key.currentState!.validate() &&
                   mobile_key.currentState!.validate() &&

@@ -5,6 +5,7 @@ import 'package:oxo/screens/login.dart';
 import 'package:oxo/screens/notification/notification.dart';
 import 'package:oxo/screens/sales/home_page.dart';
 import 'package:oxo/screens/sales/order.dart';
+import 'package:oxo/screens/sales/order_page.dart';
 import 'package:oxo/screens/sales/sales_order.dart';
 import 'package:oxo/screens/splashscreen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -24,7 +25,8 @@ class MyHomePage extends StatelessWidget {
       routes: {
         'test': (context) => sales_order(),
         'bottom': (context) => MainPage(),
-        'homepage': (context) => home_page(),
+        'homepage': (context) => const home_page(),
+        'category_groups': (context) => category_group(),
       },
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
