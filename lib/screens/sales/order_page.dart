@@ -43,14 +43,8 @@ class _category_groupState extends State<category_group> {
         ),
       ),
       body: SingleChildScrollView(
-        child: SafeArea(
-          child: SizedBox(
-            child: Stack(children: <Widget>[
-              Column(
-                children: <Widget>[item_template(size)],
-              ),
-            ]),
-          ),
+        child: Column(
+          children: <Widget>[item_template(size)],
         ),
       ),
     );
@@ -109,7 +103,7 @@ class _category_groupState extends State<category_group> {
         ),
       ),
       Container(
-        // height: size.height*2,
+        height: size.height*.73,
         child: itemlist(),
       ),
       Container(
