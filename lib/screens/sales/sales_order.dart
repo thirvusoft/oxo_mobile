@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/constants.dart';
 import 'package:oxo/screens/sales/home_page.dart';
+import 'package:oxo/screens/sales/item_category_list.dart';
 import 'package:oxo/screens/sales/order.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -172,7 +173,7 @@ class _sales_orderState extends State<sales_order> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => category_group()),
+                          MaterialPageRoute(builder: (context) => category()),
                         );
                       },
                       child: Container(
@@ -187,17 +188,15 @@ class _sales_orderState extends State<sales_order> {
                   return GestureDetector(
                       onTap: () {
                         employeeDataSource._employeeData.removeAt(rowIndex);
-                        
 
-                         employeeDataSource.updateDataGridSource();
-                         setState(() {
-                           print('lllllllllllllllllllllllllll');
-                          print( values_dict);
-                          index_value=rowIndex;
-                           values_dict.removeAt(index_value);
-                           print(values_dict);
-                         });
-
+                        employeeDataSource.updateDataGridSource();
+                        setState(() {
+                          print('lllllllllllllllllllllllllll');
+                          print(values_dict);
+                          index_value = rowIndex;
+                          values_dict.removeAt(index_value);
+                          print(values_dict);
+                        });
                       },
                       child: Container(
                           color: Colors.redAccent,
@@ -215,7 +214,8 @@ class _sales_orderState extends State<sales_order> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => category_group()),
+                              MaterialPageRoute(
+                                  builder: (context) => category()),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -328,12 +328,6 @@ class _sales_orderState extends State<sales_order> {
             ));
   }
 
-  // Widget alert(Size size) {
-  //   return Padding(
-  //       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-  //       child:
-  //   );
-  // }
 
   Future customer_creation() async {
     return showDialog<String>(
@@ -341,8 +335,18 @@ class _sales_orderState extends State<sales_order> {
       builder: (BuildContext context) => AlertDialog(
         title: const Text('Dealer Details'),
         actions: <Widget>[
+          Form(
+          key: sales_order_key,
+              child: Column(
+                children: [
           SearchField(
             controller: customer_name,
+            validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select dealer name';
+                      }
+                      return null;
+                    },
             suggestions: dealer_name
                 .map((String) => SearchFieldListItem(String))
                 .toList(),
@@ -383,6 +387,12 @@ class _sales_orderState extends State<sales_order> {
           ),
           SearchField(
             controller: distributor_name,
+            validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select distributor name';
+                      }
+                      return null;
+                    },
             suggestions: distributor
                 .map((String) => SearchFieldListItem(String))
                 .toList(),
@@ -483,14 +493,18 @@ class _sales_orderState extends State<sales_order> {
             text: 'Submit',
             color: Color.fromRGBO(44, 185, 176, 1),
             pressEvent: () {
+              if (sales_order_key.currentState!.validate()){
               sales_order(customer_name.text, delivery_date.text, values_dict,
                   distributor_name.text, user_name);
               Navigator.pop(context);
-            },
+              customer_name.clear();
+              distributor_name.clear();
+              delivery_date.clear();
+            }},
           ),
-        ],
+      ],
       ),
-    );
+    )]));
   }
 
   Future dealername_list() async {
@@ -537,13 +551,11 @@ class _sales_orderState extends State<sales_order> {
     print(values_dict);
     values_dict = jsonEncode(values_dict);
     print(values_dict);
-    var response = await http.get(
-        Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customer_name}&due_date=${delivery_date}&items=${values_dict}&distributor=${distributor_name}&sales_person=${user_name}"""));
+    var response = await http.get(Uri.parse(
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customer_name}&due_date=${delivery_date}&items=${values_dict}&distributor=${distributor_name}&sales_person=${user_name}"""));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
       setState(() {
         AwesomeDialog(
           context: context,
@@ -605,7 +617,7 @@ class EmployeeDataSource extends DataGridSource {
     print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
   }
 
-  List<DataGridRow>  _employeeData = [];
+  List<DataGridRow> _employeeData = [];
 
   @override
   List<DataGridRow> get rows => _employeeData;

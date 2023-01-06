@@ -13,9 +13,8 @@ var user_name;
 
 // sales order
 
-GlobalKey<FormState> formkey_customer_name = GlobalKey<FormState>();
 
-GlobalKey<FormState> formkey_delivery_date = GlobalKey<FormState>();
+GlobalKey<FormState> sales_order_key = GlobalKey<FormState>();
 
 TextEditingController customer_name = TextEditingController();
 TextEditingController delivery_date = TextEditingController();
