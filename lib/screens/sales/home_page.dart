@@ -41,6 +41,29 @@ class _home_pageState extends State<home_page> {
     // appointment_notify = Timer.periodic(Duration(seconds: 10), (Timer t) => appointmentnotification());
 
     tz.initializeTimeZones();
+    var hour = DateTime.now().hour;
+
+    if (hour <= 12) {
+      print('Good Morning');
+      setState(() {
+        day_status = "Good Morning";
+      });
+    } else if ((hour > 12) && (hour <= 16)) {
+      setState(() {
+        day_status = "Good Afternoon";
+      });
+      print('Good Afternoon');
+    } else if ((hour > 16) && (hour < 20)) {
+      setState(() {
+        day_status = "Good Evening";
+      });
+      print('Good Evening');
+    } else {
+      setState(() {
+        day_status = "Good Night";
+      });
+      print('Good Night');
+    }
   }
 
   Widget build(BuildContext context) {
@@ -49,62 +72,93 @@ class _home_pageState extends State<home_page> {
 
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
+        backgroundColor: const Color(0xffEB455F),
         appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {},
-              icon: const Icon(PhosphorIcons.list),
-            ),
-            automaticallyImplyLeading: false,
-            // backgroundColor: const Color(0xFF2B3467),
-            title: Center(
-              child: Text(
-                'Home Page',
-                style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 20, letterSpacing: .2, color: Colors.white),
-                ),
-              ),
-            )),
-        body: SingleChildScrollView(
-            child: Center(
-                child: Container(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: size.width / 5),
-                child: Row(children: <Widget>[
-                  getCardItem(height),
-                  getCardItem2(height),
-                ]),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                  child: Padding(
-                padding: EdgeInsets.only(
-                  top: size.width / 5,
-                ),
-                child: Row(children: <Widget>[
-                  getCardItem3(height),
-                  // getCardItem4(height),
-                ]),
-              )),
-              const SizedBox(
-                height: 10,
-              ),
-              // Container(
-              //     child: Padding(
-              //   padding: EdgeInsets.only(
-              //     top: size.width / 5,
-              //   ),
-              //   child: Row(children: <Widget>[
-              //     getCardItem5(height),
-              //   ]),
-              // ))
-            ],
+          elevation: 0,
+          leading: IconButton(
+            onPressed: () {},
+            icon: const Icon(PhosphorIcons.list),
+            color: Color(0xFFffffffff),
           ),
-        ))));
+          automaticallyImplyLeading: false,
+          // backgroundColor: const Color(0xFFfffffff),
+          title: RichText(
+            text: TextSpan(children: [
+              TextSpan(
+                  text: day_status,
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 20,
+                          letterSpacing: .2,
+                          color: Color(0xFFfffffffff)))),
+              TextSpan(
+                  text: " Vicky",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 20,
+                          letterSpacing: .2,
+                          color: Color(0xFFfffffffff)))),
+            ]),
+
+            // Text(
+            //   day_status,
+            //   style: GoogleFonts.poppins(
+            //     textStyle: const TextStyle(
+            //         fontSize: 20, letterSpacing: .2, color: Color(0xFFfffffffff)),
+            //   ),
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.only(top: 15.0),
+          child: Container(
+            // color: Color(0xffeff4fd),
+            height: height,
+            decoration: const BoxDecoration(
+                color: Color(0xffe8effc),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(50),
+                  topRight: Radius.circular(50),
+                )),
+            child: SingleChildScrollView(
+                child: Center(
+                    child: Column(
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: size.width / 5),
+                  child: Row(children: <Widget>[
+                    getCardItem(height),
+                    getCardItem2(height),
+                  ]),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: size.width / 28,
+                  ),
+                  child: Row(children: <Widget>[
+                    getCardItem3(height),
+                    // getCardItem4(height),
+                  ]),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                // Container(
+                //     child: Padding(
+                //   padding: EdgeInsets.only(
+                //     top: size.width / 5,
+                //   ),
+                //   child: Row(children: <Widget>[
+                //     getCardItem5(height),
+                //   ]),
+                // ))
+              ],
+            ))),
+          ),
+        ));
   }
 
   Widget getCardItem(height) {
@@ -119,7 +173,7 @@ class _home_pageState extends State<home_page> {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(.5),
+              color: Color.fromARGB(255, 230, 227, 227).withOpacity(.5),
               spreadRadius: 10,
               blurRadius: 20,
               offset: const Offset(0, 10),
@@ -134,13 +188,17 @@ class _home_pageState extends State<home_page> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    child: const Icon(
-                      PhosphorIcons.user_plus_light,
-                      size: 50,
-                      color: Color(0xFF2B3467),
+                    child: Image.asset(
+                      "assets/add_friends.png",
+                      height: 65,
                     ),
-                    // padding: const EdgeInsets.all(10),
+                    // child: const Icon(
+                    //   PhosphorIcons.user_plus_light,
+                    //   size: 50,
+                    //   color: Color(0xFF2B3467),
                   ),
+                  // padding: const EdgeInsets.all(10),
+
                   // Container(
                   //   child: Text(
                   //     "20",
@@ -161,7 +219,6 @@ class _home_pageState extends State<home_page> {
                 //         bottomRight: Radius.circular(12),
                 //         bottomLeft: Radius.circular(12))),
                 child: ElevatedButton(
-                  child: const Text('Add Dealer'),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -172,8 +229,11 @@ class _home_pageState extends State<home_page> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 25.0, vertical: 15.0),
                     backgroundColor: const Color(0xFF2B3467),
-                    shape: const StadiumBorder(),
+                    // shape: const StadiumBorder(),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
                   ),
+                  child: const Text('Add Dealer'),
                 ),
                 // padding: const EdgeInsets.all(12),
               )
@@ -196,7 +256,7 @@ class _home_pageState extends State<home_page> {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(.5),
+                color: Color.fromARGB(255, 230, 227, 227).withOpacity(.5),
                 spreadRadius: 10,
                 blurRadius: 20,
                 offset: const Offset(0, 10),
@@ -211,10 +271,9 @@ class _home_pageState extends State<home_page> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      child: const Icon(
-                        PhosphorIcons.shopping_cart_simple_light,
-                        size: 50,
-                        color: Color(0xFF2B3467),
+                      child: Image.asset(
+                        "assets/Order_confirmed.png",
+                        height: 65,
                       ),
                       // padding: const EdgeInsets.all(10),
                     ),
@@ -250,7 +309,8 @@ class _home_pageState extends State<home_page> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 25.0, vertical: 15.0),
                       backgroundColor: const Color(0xFF2B3467),
-                      shape: const StadiumBorder(),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
                     ),
                   ),
                   // padding: const EdgeInsets.all(12),
@@ -275,7 +335,7 @@ class _home_pageState extends State<home_page> {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(.5),
+              color: Color.fromARGB(255, 230, 227, 227).withOpacity(.5),
               spreadRadius: 10,
               blurRadius: 20,
               offset: const Offset(0, 10),
@@ -290,10 +350,9 @@ class _home_pageState extends State<home_page> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    child: const Icon(
-                      PhosphorIcons.map_pin_light,
-                      size: 50,
-                      color: Color(0xFF2B3467),
+                    child: Image.asset(
+                      "assets/Current_location.png",
+                      height: 65,
                     ),
                     // padding: const EdgeInsets.all(10),
                   ),
@@ -329,7 +388,8 @@ class _home_pageState extends State<home_page> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 25.0, vertical: 15.0),
                     backgroundColor: const Color(0xFF2B3467),
-                    shape: const StadiumBorder(),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
                   ),
                 ),
                 // padding: const EdgeInsets.all(12),
@@ -353,7 +413,7 @@ class _home_pageState extends State<home_page> {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(.5),
+                color: Color.fromARGB(255, 230, 227, 227).withOpacity(.5),
                 spreadRadius: 10,
                 blurRadius: 20,
                 offset: const Offset(0, 10),
@@ -428,7 +488,7 @@ class _home_pageState extends State<home_page> {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(.5),
+                color: Color.fromARGB(255, 230, 227, 227).withOpacity(.5),
                 spreadRadius: 10,
                 blurRadius: 20,
                 offset: const Offset(0, 10),
