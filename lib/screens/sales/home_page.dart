@@ -74,6 +74,7 @@ class _home_pageState extends State<home_page> {
     return Scaffold(
         backgroundColor: const Color(0xffEB455F),
         appBar: AppBar(
+          backgroundColor: Color(0xffEB455F),
           elevation: 0,
           leading: IconButton(
             onPressed: () {},
@@ -91,13 +92,13 @@ class _home_pageState extends State<home_page> {
                           fontSize: 20,
                           letterSpacing: .2,
                           color: Color(0xFFfffffffff)))),
-              TextSpan(
-                  text: " " + user_name,
-                  style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 20,
-                          letterSpacing: .2,
-                          color: Color(0xFFfffffffff)))),
+              // TextSpan(
+              //     text: " " + user_name,
+              //     style: GoogleFonts.poppins(
+              //         textStyle: TextStyle(
+              //             fontSize: 20,
+              //             letterSpacing: .2,
+              //             color: Color(0xFFfffffffff)))),
             ]),
 
             // Text(

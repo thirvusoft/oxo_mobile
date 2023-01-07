@@ -37,6 +37,7 @@ class _dealerState extends State<dealer> {
 
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Color(0xffEB455F),
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
@@ -280,7 +281,7 @@ class _dealerState extends State<dealer> {
       child: SizedBox(
         child: AnimatedButton(
             text: 'Submit',
-            // color: const Color(0xFFEB455F),
+            color: const Color(0xFFEB455F),
             pressEvent: () {
               if (name_key.currentState!.validate() &&
                   mobile_key.currentState!.validate() &&

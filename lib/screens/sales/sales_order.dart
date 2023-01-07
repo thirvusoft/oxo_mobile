@@ -665,7 +665,7 @@ class EmployeeDataSource extends DataGridSource {
         cells: row.getCells().map<Widget>((e) {
       return Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Text(
             e.value.toString(),
             style: GoogleFonts.poppins(
