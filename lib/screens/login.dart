@@ -352,7 +352,14 @@ class _LoginState extends State<Login> {
         login_loading = false;
       });
 
-      Navigator.pushNamed(context, 'homepage');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const home_page(),
+        ),
+        (route) => false,
+      );
+
       Fluttertoast.showToast(
           msg: (json.decode(response.body)['message']),
           toastLength: Toast.LENGTH_SHORT,

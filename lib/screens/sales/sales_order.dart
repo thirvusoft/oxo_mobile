@@ -647,7 +647,7 @@ class EmployeeDataSource extends DataGridSource {
                   columnName: 'name', value: e['item_code'].toString()),
               DataGridCell<String>(
                   columnName: 'qty', value: e['qty'].toString()),
-              // DataGridCell<String>(
+              // DataGridCell<String>( 
               //     columnName: 'rate', value: e['rate'].toString()),
             ]))
         .toList();
@@ -665,7 +665,7 @@ class EmployeeDataSource extends DataGridSource {
         cells: row.getCells().map<Widget>((e) {
       return Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Text(
             e.value.toString(),
             style: GoogleFonts.poppins(
