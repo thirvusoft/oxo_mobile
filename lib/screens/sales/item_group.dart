@@ -27,6 +27,7 @@ class _item_groupState extends State<item_group> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFFEB455F),
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
@@ -230,6 +231,8 @@ class _item_groupState extends State<item_group> {
                                                           height: 45,
                                                           width: 70,
                                                           child: TextFormField(
+                                                            cursorColor: Color(
+                                                                0xFFEB455F),
                                                             controller:
                                                                 list[index],
                                                             style: GoogleFonts
@@ -276,9 +279,6 @@ class _item_groupState extends State<item_group> {
                                                                   '111111111111111111111111111111111111111111111111111111111111111111111111111');
                                                               print(values);
                                                             }),
-                                                            cursorColor:
-                                                                const Color(
-                                                                    0xFF151624),
                                                             decoration:
                                                                 InputDecoration(
                                                               counterText: "",
@@ -313,13 +313,8 @@ class _item_groupState extends State<item_group> {
                                                                       borderSide:
                                                                           BorderSide(
                                                                         color: list[index].text.isEmpty
-                                                                            ? Colors
-                                                                                .transparent
-                                                                            : const Color.fromRGBO(
-                                                                                44,
-                                                                                185,
-                                                                                176,
-                                                                                1),
+                                                                            ? Colors.transparent
+                                                                            : const Color(0xFFEB455F),
                                                                       )),
                                                               focusedBorder:
                                                                   OutlineInputBorder(
@@ -328,11 +323,8 @@ class _item_groupState extends State<item_group> {
                                                                               10),
                                                                       borderSide:
                                                                           const BorderSide(
-                                                                        color: Color.fromRGBO(
-                                                                            44,
-                                                                            185,
-                                                                            176,
-                                                                            1),
+                                                                        color: Color(
+                                                                            0xFFEB455F),
                                                                       )),
                                                             ),
                                                           ),
