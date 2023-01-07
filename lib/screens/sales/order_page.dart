@@ -43,14 +43,8 @@ class _category_groupState extends State<category_group> {
         ),
       ),
       body: SingleChildScrollView(
-        child: SafeArea(
-          child: SizedBox(
-            child: Stack(children: <Widget>[
-              Column(
-                children: <Widget>[item_template(size)],
-              ),
-            ]),
-          ),
+        child: Column(
+          children: <Widget>[item_template(size)],
         ),
       ),
     );
@@ -109,7 +103,7 @@ class _category_groupState extends State<category_group> {
         ),
       ),
       Container(
-        // height: size.height*2,
+        height: size.height * .73,
         child: itemlist(size),
       ),
       Container(
@@ -224,12 +218,6 @@ class _category_groupState extends State<category_group> {
                                                             ["item_code"];
                                                   });
                                                   varient_list(item_name);
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            item_group()),
-                                                  );
                                                 },
                                               )))))));
                     }),
@@ -254,6 +242,10 @@ class _category_groupState extends State<category_group> {
           varient_item_list.add((json.decode(response.body)['message'][i]));
         }
       });
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => item_group()),
+      );
     }
   }
 }

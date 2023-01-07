@@ -607,6 +607,8 @@ class _categoryState extends State<category> {
                                             });
                                             template_list(
                                                 category_name, item_group_name);
+                                                print('00000000000000000000000');
+                                                print(category_item_list);
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
