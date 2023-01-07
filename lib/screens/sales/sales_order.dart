@@ -668,7 +668,7 @@ class EmployeeDataSource extends DataGridSource {
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Text(
             e.value.toString(),
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.poppins( 
               textStyle: const TextStyle(
                   letterSpacing: .5, fontSize: 10, color: Color(0xFF2B3467)),
             ),
