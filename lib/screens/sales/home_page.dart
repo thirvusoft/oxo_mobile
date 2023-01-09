@@ -7,11 +7,13 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/screens/Appointment/customer_list.dart';
 import 'package:oxo/screens/add_dealer.dart/dealer.dart';
+import 'package:oxo/screens/login.dart';
 import 'package:oxo/screens/sales/item_category_list.dart';
 import 'package:oxo/screens/sales/order.dart';
 import 'package:http/http.dart' as http;
 import 'package:oxo/screens/distributor/distributor.dart';
 import 'package:searchfield/searchfield.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants.dart';
 import '../Appointment/appointment.dart';
 import '../Location Pin/locationpin.dart';
@@ -39,6 +41,7 @@ class _home_pageState extends State<home_page> {
     // distributor_list();
     // timer_notify = Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
     // appointment_notify = Timer.periodic(Duration(seconds: 10), (Timer t) => appointmentnotification());
+    user();
 
     tz.initializeTimeZones();
     var hour = DateTime.now().hour;
@@ -66,23 +69,34 @@ class _home_pageState extends State<home_page> {
     }
   }
 
+  Future<void> user() async {
+    SharedPreferences token = await SharedPreferences.getInstance();
+    setState(() {
+      username = token.getString('full_name');
+    });
+    print("xxxxxx");
+    print(username);
+  }
+
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     double width = MediaQuery.of(context).size.width;
-
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
+        // drawer: createDrawerHeader(context),
         backgroundColor: const Color(0xffEB455F),
         appBar: AppBar(
           backgroundColor: Color(0xffEB455F),
           elevation: 0,
-          leading: IconButton(
-            onPressed: () {},
-            icon: const Icon(PhosphorIcons.list),
-            color: Color(0xFFffffffff),
-          ),
-          automaticallyImplyLeading: false,
-          // backgroundColor: const Color(0xFFfffffff),
+          actions: [
+            IconButton(
+              onPressed: () {
+                _delete(context);
+              },
+              icon: const Icon(PhosphorIcons.sign_out),
+            ),
+          ],
+          centerTitle: true,
           title: RichText(
             text: TextSpan(children: [
               TextSpan(
@@ -91,14 +105,14 @@ class _home_pageState extends State<home_page> {
                       textStyle: TextStyle(
                           fontSize: 20,
                           letterSpacing: .2,
+                          color: Color(0xffffffff)))),
+              TextSpan(
+                  text: " " + username,
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 20,
+                          letterSpacing: .2,
                           color: Color(0xFFfffffffff)))),
-              // TextSpan(
-              //     text: " " + user_name,
-              //     style: GoogleFonts.poppins(
-              //         textStyle: TextStyle(
-              //             fontSize: 20,
-              //             letterSpacing: .2,
-              //             color: Color(0xFFfffffffff)))),
             ]),
 
             // Text(
@@ -702,5 +716,40 @@ class _home_pageState extends State<home_page> {
           "Today's Appointments are $appointment_notification" + time,
           3);
     }
+  }
+
+  void _delete(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext ctx) {
+          return AlertDialog(
+            title: const Text("Please Confirm",
+                style: TextStyle(
+                    fontSize: 20, letterSpacing: .2, color: Color(0xFF2B3467))),
+            content: const Text("Are you sure to logout?",
+                style: TextStyle(
+                    fontSize: 15, letterSpacing: .2, color: Color(0xFF2B3467))),
+            actions: [
+              // The "Yes" button
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("No"),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final token = await SharedPreferences.getInstance();
+                  print(token);
+                  print(token.getString('token'));
+                  await token.clear();
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Login()));
+                },
+                child: const Text("Yes"),
+              ),
+            ],
+          );
+        });
   }
 }

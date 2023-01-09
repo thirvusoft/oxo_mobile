@@ -13,7 +13,6 @@ var user_name;
 
 // sales order
 
-
 GlobalKey<FormState> sales_order_key = GlobalKey<FormState>();
 
 TextEditingController customer_name = TextEditingController();
@@ -82,8 +81,6 @@ TextEditingController dealerstate = TextEditingController();
 TextEditingController dealerpincode = TextEditingController();
 TextEditingController dealerdoorno = TextEditingController();
 
-
-
 GlobalKey<FormState> address_key = GlobalKey<FormState>();
 GlobalKey<FormState> mobile_key = GlobalKey<FormState>();
 GlobalKey<FormState> name_key = GlobalKey<FormState>();
@@ -99,28 +96,20 @@ List location = [];
 Position? current_position;
 bool status = true;
 
-
-
-
-List customer_list=[];
+List customer_list = [];
 List icon_nameOnSearch_customer = [];
 List item_search_list_customer = [];
 TextEditingController customer_search = TextEditingController();
 
-
-
-
-List notification_list=[];
-
-
+List notification_list = [];
 
 TextEditingController appointment_delear_name = TextEditingController();
 GlobalKey<FormState> appointment_name_key = GlobalKey<FormState>();
 TextEditingController appointment_emailid = TextEditingController();
 
-List appointment_notification=[];
+List appointment_notification = [];
 var time;
-List notify_appointment=[];
+List notify_appointment = [];
 
 var address1;
 
@@ -133,7 +122,7 @@ var auto_pincode;
 var index_value;
 
 // category list page
-List inner_list=[];
+List inner_list = [];
 List outer_list = [];
 List shirt_list = [];
 TextEditingController searchcontroller_shirt = TextEditingController();
@@ -147,15 +136,15 @@ List icon_nameOnSearch_shirt = [];
 List item_search_list_shirt = [];
 
 List icon_nameOnSearch_outer = [];
-List item_search_list_outer= [];
+List item_search_list_outer = [];
 
 var category_name;
 var item_group_name;
-List category_item_list=[];
+List category_item_list = [];
 
 List icon_nameOnSearch_category = [];
 
-List item_search_list_category =[];
+List item_search_list_category = [];
 
 // template page
 
@@ -164,3 +153,4 @@ TextEditingController searchcontroller_category = TextEditingController();
 var item_name;
 
 var day_status;
+var username;

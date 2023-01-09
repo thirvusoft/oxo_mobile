@@ -258,18 +258,18 @@ class _dealerState extends State<dealer> {
                   SizedBox(
                     height: 20,
                   ),
-                  Container(
-                      child: TextFormField(
-                    controller: dealerpincode,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(
-                              color: const Color(0xFFEB455F), width: 2.0),
-                        ),
-                        hintText: "Enter postal code"),
-                  )),
+                  // Container(
+                  //     child: TextFormField(
+                  //   controller: dealerpincode,
+                  //   decoration: InputDecoration(
+                  //       border: OutlineInputBorder(),
+                  //       focusedBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.all(Radius.circular(8)),
+                  //         borderSide: BorderSide(
+                  //             color: const Color(0xFFEB455F), width: 2.0),
+                  //       ),
+                  //       hintText: "Enter postal code"),
+                  // )),
                 ],
               )),
         ));
@@ -288,20 +288,20 @@ class _dealerState extends State<dealer> {
                   address_key.currentState!.validate()) {
                 _getCurrentLocation();
                 customer_creation(
-                    dealername.text,
-                    dealermobile.text,
-                    dealerdoorno.text,
-                    dealercity.text,
-                    dealerterritory.text,
-                    dealerstate.text,
-                    dealerpincode.text);
+                  dealername.text,
+                  dealermobile.text,
+                  dealerdoorno.text,
+                  dealercity.text,
+                  dealerterritory.text,
+                  dealerstate.text,
+                );
                 dealername.clear();
                 dealermobile.clear();
                 dealerdoorno.clear();
                 dealerterritory.clear();
                 dealercity.clear();
                 dealerstate.clear();
-                dealerpincode.clear();
+                // dealerpincode.clear();
               }
             }),
       ),
@@ -315,7 +315,6 @@ class _dealerState extends State<dealer> {
     dealercity,
     territory,
     state,
-    pincode,
   ) async {
     print(current_position);
     print("lllll");
@@ -325,7 +324,7 @@ class _dealerState extends State<dealer> {
     // print(location);
 
     var response = await http.get(Uri.parse(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?full_name=${full_name}&phone_number=${phone_number}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&pincode=${pincode}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}"""));
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?full_name=${full_name}&phone_number=${phone_number}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}"""));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
