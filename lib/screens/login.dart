@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
@@ -351,7 +351,12 @@ class _LoginState extends State<Login> {
       setState(() {
         login_loading = false;
       });
-
+      SharedPreferences token = await SharedPreferences.getInstance();
+      print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      print(json.decode(response.body)['token']);
+      token.setString('token', json.decode(response.body)['token'] ?? "");
+      print("ujsfjsksdkd");
+      print(token.getString("token"));
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(

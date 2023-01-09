@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:oxo/screens/login.dart';
+import 'package:oxo/screens/sales/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class splashscreen extends StatefulWidget {
   const splashscreen({super.key});
@@ -15,19 +17,40 @@ class _splashscreenState extends State<splashscreen> {
 
   void initState() {
     super.initState();
-    timer = Timer(
-        const Duration(seconds: 2),
-        () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Login(),
-            )));
+    time();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    timer.cancel();
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   timer.cancel();
+  // }
+
+  Future time() async {
+    print("object");
+    var token;
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('token');
+      print(token);
+    });
+    if (token == null) {
+      timer = Timer(
+          const Duration(seconds: 2),
+          () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Login(),
+              )));
+    } else {
+      timer = Timer(
+          const Duration(seconds: 2),
+          () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => home_page(),
+              )));
+    }
   }
 
   @override
