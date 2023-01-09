@@ -41,6 +41,7 @@ class _home_pageState extends State<home_page> {
     // distributor_list();
     // timer_notify = Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
     // appointment_notify = Timer.periodic(Duration(seconds: 10), (Timer t) => appointmentnotification());
+    user();
 
     tz.initializeTimeZones();
     var hour = DateTime.now().hour;
@@ -66,6 +67,15 @@ class _home_pageState extends State<home_page> {
       });
       print('Good Night');
     }
+  }
+
+  Future<void> user() async {
+    SharedPreferences token = await SharedPreferences.getInstance();
+    setState(() {
+      username = token.getString('full_name');
+    });
+    print("xxxxxx");
+    print(username);
   }
 
   Widget build(BuildContext context) {
@@ -97,7 +107,7 @@ class _home_pageState extends State<home_page> {
                           letterSpacing: .2,
                           color: Color(0xffffffff)))),
               TextSpan(
-                  text: " " + user_name,
+                  text: " " + username,
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           fontSize: 20,

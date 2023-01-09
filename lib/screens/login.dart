@@ -355,8 +355,11 @@ class _LoginState extends State<Login> {
       print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
       print(json.decode(response.body)['token']);
       token.setString('token', json.decode(response.body)['token'] ?? "");
+      token.setString(
+          'full_name', json.decode(response.body)['full_name'] ?? "");
       print("ujsfjsksdkd");
       print(token.getString("token"));
+      print(token.getString("full_name"));
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
