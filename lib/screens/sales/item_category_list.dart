@@ -45,7 +45,7 @@ class _categoryState extends State<category> {
                 automaticallyImplyLeading: true,
                 backgroundColor: Color(0xFFEB455F),
                 title: Text(
-                  'Sales Order',
+                  'ORDER FORM',
                   style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                         fontSize: 20, letterSpacing: .2, color: Colors.white),
