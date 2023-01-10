@@ -64,6 +64,7 @@ class _dealerState extends State<dealer> {
                     // bottom: 20.0,
                     child: Column(
                       children: <Widget>[
+                        dealer_type(size),
                         dealer_name(size),
                         dealer_mobile(size),
                         dealer_address(size),
@@ -75,6 +76,44 @@ class _dealerState extends State<dealer> {
                 ],
               ),
             ),
+          ),
+        ));
+  }
+
+  Widget dealer_type(Size size) {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+        child: SizedBox(
+          child: Form(
+            key: delear_type,
+            child: Container(
+                child: SearchField(
+              controller: dealertype,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please select delear type';
+                }
+                return null;
+              },
+              suggestions: deleartype
+                  .map((String) => SearchFieldListItem(String))
+                  .toList(),
+              suggestionState: Suggestion.expand,
+              textInputAction: TextInputAction.next,
+              hasOverlay: false,
+              searchStyle: TextStyle(
+                fontSize: 15,
+                color: Colors.black.withOpacity(0.8),
+              ),
+              searchInputDecoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide:
+                        BorderSide(color: const Color(0xFFEB455F), width: 2.0),
+                  ),
+                  hintText: "Select delear type"),
+            )),
           ),
         ));
   }
@@ -288,6 +327,7 @@ class _dealerState extends State<dealer> {
                   address_key.currentState!.validate()) {
                 _getCurrentLocation();
                 customer_creation(
+                  dealertype.text,
                   dealername.text,
                   dealermobile.text,
                   dealerdoorno.text,
@@ -309,12 +349,14 @@ class _dealerState extends State<dealer> {
   }
 
   Future customer_creation(
+    dealertype,
     full_name,
     phone_number,
     dealerdoorno,
     dealercity,
     territory,
     state,
+
   ) async {
     print(current_position);
     print("lllll");
@@ -324,7 +366,7 @@ class _dealerState extends State<dealer> {
     // print(location);
 
     var response = await http.get(Uri.parse(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?full_name=${full_name}&phone_number=${phone_number}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}"""));
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?dealertype=${dealertype}&full_name=${full_name}&phone_number=${phone_number}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}"""));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {

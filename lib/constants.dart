@@ -72,6 +72,8 @@ List row_varient = [];
 
 List territory = [];
 List state = [];
+TextEditingController dealertype = TextEditingController();
+
 TextEditingController dealername = TextEditingController();
 TextEditingController dealermobile = TextEditingController();
 TextEditingController dealeraddress = TextEditingController();
@@ -84,6 +86,11 @@ TextEditingController dealerdoorno = TextEditingController();
 GlobalKey<FormState> address_key = GlobalKey<FormState>();
 GlobalKey<FormState> mobile_key = GlobalKey<FormState>();
 GlobalKey<FormState> name_key = GlobalKey<FormState>();
+GlobalKey<FormState> delear_type = GlobalKey<FormState>();
+
+List deleartype = ['Existing Dealer', 'New Dealer'];
+
+
 TextEditingController status_search = TextEditingController();
 List icon_nameOnSearch_status = [];
 List item_search_list_status = [];

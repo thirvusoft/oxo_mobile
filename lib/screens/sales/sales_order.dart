@@ -50,7 +50,7 @@ class _sales_orderState extends State<sales_order> {
           ),
           // backgroundColor: Colors(O),
           title: Text(
-            'Sales Order',
+            'ORDER FORM',
             style: GoogleFonts.poppins(
               textStyle: TextStyle(
                   fontSize: 20, letterSpacing: .2, color: Colors.white),
