@@ -32,6 +32,12 @@ class _sales_orderState extends State<sales_order> {
     print(
         '00000000000000000000000000000000000000000000000000000000000000000000000000000');
     print(values_dict);
+    total_qty=0.0;
+    for (var i = 0; i < values_dict.length; i++) {
+      total_qty += double.parse(values_dict[i]['qty']);
+      print(values_dict[i]['qty'].runtimeType);
+      print(total_qty);
+    }
     employeeDataSource = EmployeeDataSource(employeeData: values_dict);
   }
 
@@ -200,7 +206,14 @@ class _sales_orderState extends State<sales_order> {
                           print('lllllllllllllllllllllllllll');
                           print(values_dict);
                           index_value = rowIndex;
-                          values_dict.removeAt(index_value);
+                           print(index_value);
+                          
+                          print('12345676544');
+                          print(values_dict[index_value]['qty']);
+                         
+                           total_qty -= double.parse(values_dict[index_value]['qty']);
+                           values_dict.removeAt(index_value);
+
                           print(values_dict);
                         });
                       },
@@ -213,100 +226,103 @@ class _sales_orderState extends State<sales_order> {
                             ),
                           )));
                 },
-                footerHeight: 80.0,
-                footer: Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 8.0),
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => category()),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 5.0, vertical: 15.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            primary: const Color(0xFF2B3467),
-                          ),
-                          icon: Icon(
-                            Icons.add,
-                            size: 24.0,
-                          ),
-                          label: Text(
-                            'Add item',
-                            style: GoogleFonts.poppins(
-                              textStyle: const TextStyle(
-                                  letterSpacing: .5,
-                                  fontSize: 15,
-                                  color: Color(0xFFffffff)),
+                footerHeight: 100.0,
+                footer: Column(children: [
+                  Container(
+                      child: Row(
+                    children: [
+                      Expanded(
+                          child: Center(
+                              child: Text(
+                        'TOTAL',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ))),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: Center(
+                              child: Text(total_qty.toString(),
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)))),
+                    ],
+                  )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                      child: Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 8.0),
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => category()),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5.0, vertical: 15.0),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              primary: const Color(0xFF2B3467),
+                            ),
+                            icon: Icon(
+                              Icons.add,
+                              size: 24.0,
+                            ),
+                            label: Text(
+                              'Add item',
+                              style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                    letterSpacing: .5,
+                                    fontSize: 15,
+                                    color: Color(0xFFffffff)),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 8.0),
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            customer_creation();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 5.0, vertical: 15.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            primary: const Color(0xFF2B3467),
-                          ),
-                          icon: Icon(
-                            Icons.check,
-                            size: 24.0,
-                          ),
-                          label: Text(
-                            'Submit',
-                            style: GoogleFonts.poppins(
-                              textStyle: const TextStyle(
-                                  letterSpacing: .5,
-                                  fontSize: 15,
-                                  color: Color(0xFFffffff)),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 8.0),
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              customer_creation();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5.0, vertical: 15.0),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              primary: const Color(0xFF2B3467),
+                            ),
+                            icon: Icon(
+                              Icons.check,
+                              size: 24.0,
+                            ),
+                            label: Text(
+                              'Submit',
+                              style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                    letterSpacing: .5,
+                                    fontSize: 15,
+                                    color: Color(0xFFffffff)),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-
-                // Expanded(child:    ElevatedButton.icon(
-                //   onPressed: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(builder: (context) => order()),
-                //     );
-                //   },
-                //   style: ElevatedButton.styleFrom(
-                //     padding:
-                //         EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
-                //     shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(10.0)),
-                //     primary: const Color(0xFFEB455F),
-                //   ),
-                //   icon: Icon(
-                //     Icons.add,
-                //     size: 24.0,
-                //   ),
-                //   label: Text('Add item'),
-                // ),),
-
+                    ],
+                  ))
+                ]),
                 allowSwiping: true,
                 isScrollbarAlwaysShown: true,
                 columnWidthMode: ColumnWidthMode.fill,
@@ -647,8 +663,6 @@ class EmployeeDataSource extends DataGridSource {
                   columnName: 'name', value: e['item_code'].toString()),
               DataGridCell<String>(
                   columnName: 'qty', value: e['qty'].toString()),
-              // DataGridCell<String>(
-              //     columnName: 'rate', value: e['rate'].toString()),
             ]))
         .toList();
     print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
@@ -670,7 +684,7 @@ class EmployeeDataSource extends DataGridSource {
             e.value.toString(),
             style: GoogleFonts.poppins(
               textStyle: const TextStyle(
-                  letterSpacing: .5, fontSize: 10, color: Color(0xFF2B3467)),
+                  letterSpacing: .5, fontSize: 12, color: Color(0xFF2B3467)),
             ),
           ));
     }).toList());

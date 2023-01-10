@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/screens/sales/home_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:searchfield/searchfield.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class dealer extends StatefulWidget {
   const dealer({super.key});
@@ -88,6 +89,7 @@ class _dealerState extends State<dealer> {
             key: delear_type,
             child: Container(
                 child: SearchField(
+                  
               controller: dealertype,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -125,6 +127,7 @@ class _dealerState extends State<dealer> {
           child: Form(
               key: name_key,
               child: TextFormField(
+                textCapitalization: TextCapitalization.characters,
                 controller: dealername,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -195,6 +198,7 @@ class _dealerState extends State<dealer> {
                   ),
                   Container(
                       child: TextFormField(
+                    textCapitalization: TextCapitalization.characters,
                     controller: dealerdoorno,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -216,6 +220,7 @@ class _dealerState extends State<dealer> {
                   ),
                   Container(
                       child: TextFormField(
+                    textCapitalization: TextCapitalization.characters,
                     controller: dealercity,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -356,19 +361,21 @@ class _dealerState extends State<dealer> {
     dealercity,
     territory,
     state,
-
   ) async {
     print(current_position);
     print("lllll");
     print("lllll");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('ppppppppppppppppp');
+    print(prefs.getString("token"));
     // print(current_position.trim());
     // double location = double.parse(current_position);
     // print(location);
 
-    var response = await http.get(Uri.parse(
+     var response = await http.get(Uri.parse(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?dealertype=${dealertype}&full_name=${full_name}&phone_number=${phone_number}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}"""));
     print(response.statusCode);
-    print(response.body);
+       print(response.body);
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
 

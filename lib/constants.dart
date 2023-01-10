@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
@@ -88,7 +90,8 @@ GlobalKey<FormState> mobile_key = GlobalKey<FormState>();
 GlobalKey<FormState> name_key = GlobalKey<FormState>();
 GlobalKey<FormState> delear_type = GlobalKey<FormState>();
 
-List deleartype = ['Existing Dealer', 'New Dealer'];
+List deleartype = ["NEW DEALER",
+"EXISTING DEALER"];
 
 
 TextEditingController status_search = TextEditingController();
@@ -161,3 +164,5 @@ var item_name;
 
 var day_status;
 var username;
+
+var total_qty=0.0;
