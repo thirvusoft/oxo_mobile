@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
@@ -72,6 +74,8 @@ List row_varient = [];
 
 List territory = [];
 List state = [];
+TextEditingController dealertype = TextEditingController();
+
 TextEditingController dealername = TextEditingController();
 TextEditingController dealermobile = TextEditingController();
 TextEditingController dealeraddress = TextEditingController();
@@ -84,6 +88,12 @@ TextEditingController dealerdoorno = TextEditingController();
 GlobalKey<FormState> address_key = GlobalKey<FormState>();
 GlobalKey<FormState> mobile_key = GlobalKey<FormState>();
 GlobalKey<FormState> name_key = GlobalKey<FormState>();
+GlobalKey<FormState> delear_type = GlobalKey<FormState>();
+
+List deleartype = ["NEW DEALER",
+"EXISTING DEALER"];
+
+
 TextEditingController status_search = TextEditingController();
 List icon_nameOnSearch_status = [];
 List item_search_list_status = [];
@@ -154,3 +164,5 @@ var item_name;
 
 var day_status;
 var username;
+
+var total_qty=0.0;
