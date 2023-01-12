@@ -37,7 +37,7 @@ class _item_groupState extends State<item_group> {
         ),
         // backgroundColor: const Color(0xFFEB455F),
         title: Text(
-          item_name,
+          item_name_list,
           style: GoogleFonts.poppins(
             textStyle:
                 TextStyle(fontSize: 20, letterSpacing: .2, color: Colors.white),
@@ -95,14 +95,14 @@ class _item_groupState extends State<item_group> {
                     icon_nameOnSearch_varient = [];
                     for (var i = 0; i < varient_item_list.length; i++) {
                       var des_vari = {};
-                      des_vari["item_code"] = varient_item_list[i]["item_code"];
+                      des_vari["item_name"] = varient_item_list[i]["item_name"];
                       item_search_list_varient.add(des_vari);
-                      if ((item_search_list_varient[i]["item_code"]
+                      if ((item_search_list_varient[i]["item_name"]
                           .toLowerCase()
                           .contains(value.trim().toLowerCase()))) {
                         var d_va = {};
-                        d_va["item_code"] =
-                            item_search_list_varient[i]["item_code"];
+                        d_va["item_name"] =
+                            item_search_list_varient[i]["item_name"];
                         icon_nameOnSearch_varient.add(d_va);
                       }
                     }
@@ -174,6 +174,7 @@ class _item_groupState extends State<item_group> {
                                   child: FadeInAnimation(
                                       child: Container(
                                           width: 50,
+                                          height: 75,
                                           child: Card(
                                               color: Color(0xffffffff),
                                               shape: RoundedRectangleBorder(
@@ -199,12 +200,13 @@ class _item_groupState extends State<item_group> {
                                                   searchcontroller_varient
                                                           .text.isEmpty
                                                       ? row_varient[index]
-                                                          ['item_code']
+                                                          ['item_name']
                                                       : row_varient[index]
-                                                          ['item_code'],
+                                                          ['item_name'],
                                                   style: GoogleFonts.poppins(
                                                     textStyle: TextStyle(
                                                         letterSpacing: .1,
+                                                        fontSize: 14,
                                                         color:
                                                             Color(0xff19183e)),
                                                   ),

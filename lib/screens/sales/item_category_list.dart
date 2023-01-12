@@ -232,6 +232,7 @@ class _categoryState extends State<category> {
                                             style: GoogleFonts.poppins(
                                               textStyle: TextStyle(
                                                   letterSpacing: .1,
+                                                   fontSize: 14,
                                                   color: Color(0xff19183e)),
                                             ),
                                           ),
@@ -506,6 +507,7 @@ class _categoryState extends State<category> {
                                             style: GoogleFonts.poppins(
                                               textStyle: TextStyle(
                                                   letterSpacing: .1,
+                                                  fontSize: 14,
                                                   color: Color(0xff19183e)),
                                             ),
                                           ),
@@ -596,6 +598,8 @@ class _categoryState extends State<category> {
                                             style: GoogleFonts.poppins(
                                               textStyle: TextStyle(
                                                   letterSpacing: .1,
+                                                  fontSize: 14,
+                                                  
                                                   color: Color(0xff19183e)),
                                             ),
                                           ),
@@ -631,7 +635,7 @@ class _categoryState extends State<category> {
 
     var response = await http.get(Uri.parse(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.category_list"""));
-
+  print('1111111111111111111111111');
     print(response.body);
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 1000));
@@ -651,7 +655,8 @@ class _categoryState extends State<category> {
             i++) {
           outer_list.add((json.decode(response.body)['message3'][i]));
         }
-      });
+      });print('33333333333333333333333333333');
+      print(shirt_list);
     } else {
       return json.decode(response.body)['message'];
     }

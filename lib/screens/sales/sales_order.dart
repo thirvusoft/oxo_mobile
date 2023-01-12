@@ -179,6 +179,8 @@ class _sales_orderState extends State<sales_order> {
 
               child: SfDataGrid(
                 source: employeeDataSource,
+                    allowSorting: true,
+
                 startSwipeActionsBuilder:
                     (BuildContext context, DataGridRow row, int rowIndex) {
                   return GestureDetector(
