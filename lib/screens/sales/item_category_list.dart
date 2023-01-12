@@ -144,8 +144,22 @@ class _categoryState extends State<category> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add({'item_code': key, 'qty': value[1]});
+                    values_dict.add(
+                      {
+                        'item_code': key,
+                        'qty': value[1],
+                        'item_group': value[0],
+                        'item_name': value[2]
+                      },
+                    );
                   });
+                  print('**********************************');
+                  values_dict.sort(
+                      (a, b) => (a['item_group']).compareTo(b['item_group']));
+                  print('**********************************');
+  
+                  print(values_dict);
+
                   values_dict.removeAt(index_value);
                 },
                 style: ElevatedButton.styleFrom(
@@ -232,7 +246,7 @@ class _categoryState extends State<category> {
                                             style: GoogleFonts.poppins(
                                               textStyle: TextStyle(
                                                   letterSpacing: .1,
-                                                   fontSize: 14,
+                                                  fontSize: 14,
                                                   color: Color(0xff19183e)),
                                             ),
                                           ),
@@ -328,8 +342,17 @@ class _categoryState extends State<category> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add({'item_code': key, 'qty': value[1]});
+                    values_dict.add(
+                      {
+                        'item_code': key,
+                        'qty': value[1],
+                        'item_group': value[0],
+                        'item_name': value[2]
+                      },
+                    );
                   });
+                  values_dict.sort(
+                      (a, b) => (a['item_group']).compareTo(b['item_group']));
                   values_dict.removeAt(index_value);
                 },
                 style: ElevatedButton.styleFrom(
@@ -419,8 +442,17 @@ class _categoryState extends State<category> {
                   );
                   values_dict = [];
                   values.forEach((key, value) {
-                    values_dict.add({'item_code': key, 'qty': value[1]});
+                    values_dict.add(
+                      {
+                        'item_code': key,
+                        'qty': value[1],
+                        'item_group': value[0],
+                        'item_name': value[2]
+                      },
+                    );
                   });
+                  values_dict.sort(
+                      (a, b) => (a['item_group']).compareTo(b['item_group']));
                   values_dict.removeAt(index_value);
                 },
                 style: ElevatedButton.styleFrom(
@@ -599,7 +631,6 @@ class _categoryState extends State<category> {
                                               textStyle: TextStyle(
                                                   letterSpacing: .1,
                                                   fontSize: 14,
-                                                  
                                                   color: Color(0xff19183e)),
                                             ),
                                           ),
@@ -611,8 +642,8 @@ class _categoryState extends State<category> {
                                             });
                                             template_list(
                                                 category_name, item_group_name);
-                                                print('00000000000000000000000');
-                                                print(category_item_list);
+                                            print('00000000000000000000000');
+                                            print(category_item_list);
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -635,7 +666,7 @@ class _categoryState extends State<category> {
 
     var response = await http.get(Uri.parse(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.category_list"""));
-  print('1111111111111111111111111');
+    print('1111111111111111111111111');
     print(response.body);
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 1000));
@@ -655,7 +686,8 @@ class _categoryState extends State<category> {
             i++) {
           outer_list.add((json.decode(response.body)['message3'][i]));
         }
-      });print('33333333333333333333333333333');
+      });
+      print('33333333333333333333333333333');
       print(shirt_list);
     } else {
       return json.decode(response.body)['message'];

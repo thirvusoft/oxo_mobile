@@ -53,10 +53,18 @@ class _item_groupState extends State<item_group> {
               );
               values_dict = [];
               values.forEach((key, value) {
-                values_dict
-                    .add({'item_code': key, 'qty': value[1], 'rate': value[0]});
-                print(values_dict);
+                values_dict.add({
+                  'item_code': key,
+                  'qty': value[1],
+                  'item_group': value[0],
+                  'item_name':value[2]
+                });
               });
+              values_dict
+                  .sort((a, b) => (a['item_group']).compareTo(b['item_group']));
+              print(
+                  'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp');
+              print(values_dict);
             },
             style: ElevatedButton.styleFrom(
               primary: const Color(0xFFEB455F),
@@ -137,16 +145,14 @@ class _item_groupState extends State<item_group> {
 
   Widget itemlist() {
     return AnimationLimiter(
-        child: 
-        (varient_item_list.length == 0)
+        child: (varient_item_list.length == 0)
             ? Center(
                 child: LoadingAnimationWidget.fourRotatingDots(
                   color: Color(0xFFEB455F),
                   size: 70,
                 ),
               )
-            : 
-            Container(
+            : Container(
                 child: ListView.builder(
                     itemCount: searchcontroller_varient.text.isNotEmpty
                         ? icon_nameOnSearch_varient.length
@@ -158,8 +164,6 @@ class _item_groupState extends State<item_group> {
                         row_varient = icon_nameOnSearch_varient;
                       } else {
                         row_varient = varient_item_list;
-                        print('pppppppppppppppppppppppppppppppppppp');
-                        print(varient_item_list);
                       }
                       list.add(TextEditingController());
 
@@ -253,23 +257,34 @@ class _item_groupState extends State<item_group> {
                                                                           index]
                                                                       [
                                                                       "item_code"];
-                                                              var item_rate =
+                                                              var item_group =
                                                                   varient_item_list[
                                                                           index]
                                                                       [
-                                                                      "standard_rate"];
-                                                              print(item_rate);
+                                                                      "item_group"];
+                                                                        var item_name_list =
+                                                                  varient_item_list[
+                                                                          index]
+                                                                      [
+                                                                      "item_name"];
+                                                              print(
+                                                                  '111111111111111111111111111111111111111111111111111111111111111111111111111');
+                                                              print(item_group);
                                                               if (qty != '') {
                                                                 List<String>
                                                                     test = [];
-                                                                test.add(item_rate
+                                                                test.add(item_group
                                                                     .toString());
+                                                          
                                                                 test.add(qty
                                                                     .toString());
+                                                                    
+                                                                  test.add(item_name_list
+                                                                    .toString());
                                                                 values[item_name] =
                                                                     test;
-                                                                values[item_name] =
-                                                                    test;
+                                                                // values[item_name] =
+                                                                //     test;
                                                               } else {
                                                                 values[item_name] =
                                                                     0;
@@ -277,8 +292,7 @@ class _item_groupState extends State<item_group> {
                                                               varient_item_list[
                                                                       index]
                                                                   ["qty"] = qty;
-                                                              print(
-                                                                  '111111111111111111111111111111111111111111111111111111111111111111111111111');
+
                                                               print(values);
                                                             }),
                                                             decoration:

@@ -31,8 +31,12 @@ class _sales_orderState extends State<sales_order> {
     super.initState();
     print(
         '00000000000000000000000000000000000000000000000000000000000000000000000000000');
+    print(
+        '00000000000000000000000000000000000000000000000000000000000000000000000000000');
+    print(
+        '00000000000000000000000000000000000000000000000000000000000000000000000000000');
     print(values_dict);
-    total_qty=0.0;
+    total_qty = 0.0;
     for (var i = 0; i < values_dict.length; i++) {
       total_qty += double.parse(values_dict[i]['qty']);
       print(values_dict[i]['qty'].runtimeType);
@@ -179,8 +183,6 @@ class _sales_orderState extends State<sales_order> {
 
               child: SfDataGrid(
                 source: employeeDataSource,
-                    allowSorting: true,
-
                 startSwipeActionsBuilder:
                     (BuildContext context, DataGridRow row, int rowIndex) {
                   return GestureDetector(
@@ -208,13 +210,14 @@ class _sales_orderState extends State<sales_order> {
                           print('lllllllllllllllllllllllllll');
                           print(values_dict);
                           index_value = rowIndex;
-                           print(index_value);
-                          
+                          print(index_value);
+
                           print('12345676544');
                           print(values_dict[index_value]['qty']);
-                         
-                           total_qty -= double.parse(values_dict[index_value]['qty']);
-                           values_dict.removeAt(index_value);
+
+                          total_qty -=
+                              double.parse(values_dict[index_value]['qty']);
+                          values_dict.removeAt(index_value);
 
                           print(values_dict);
                         });
@@ -345,6 +348,15 @@ class _sales_orderState extends State<sales_order> {
                         ),
                       ))),
                   GridColumn(
+                      columnName: 'item_group',
+                      label: Container(
+                          padding: EdgeInsets.all(20.0),
+                          child: Text(
+                            'Item Group',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ))),
+                  GridColumn(
                     columnName: 'qty',
                     label: Container(
                         child: Center(
@@ -360,15 +372,7 @@ class _sales_orderState extends State<sales_order> {
                       ),
                     )),
                   ),
-                  // GridColumn(
-                  //     columnName: 'rate',
-                  //     label: Container(
-                  //         padding: EdgeInsets.all(20.0),
-                  //         child: Text(
-                  //           '₹ / Item',
-                  //           overflow: TextOverflow.ellipsis,
-                  //           style: TextStyle(fontWeight: FontWeight.bold),
-                  //         )))
+
                   // GridColumn(
                   //     columnName: 'designation',
                   //     label: Container(
@@ -662,9 +666,12 @@ class EmployeeDataSource extends DataGridSource {
     _employeeData = employeeData
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell(
-                  columnName: 'name', value: e['item_code'].toString()),
+                  columnName: 'name', value: e['item_name'].toString()),
+                DataGridCell<String>(
+                  columnName: 'item_group', value: e['item_group'].toString()),
               DataGridCell<String>(
                   columnName: 'qty', value: e['qty'].toString()),
+             
             ]))
         .toList();
     print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');

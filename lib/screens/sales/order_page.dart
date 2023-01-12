@@ -119,8 +119,12 @@ class _category_groupState extends State<category_group> {
                 );
                 values_dict = [];
                 values.forEach((key, value) {
-                  values_dict.add({'item_code': key, 'qty': value[1]});
+                  values_dict.add(
+                    {'item_code': key, 'qty': value[1], 'item_group': value[0],'item_name': value[2]},
+                  );
                 });
+                values_dict.sort(
+                    (a, b) => (a['item_group']).compareTo(b['item_group']));
                 values_dict.removeAt(index_value);
               },
               style: ElevatedButton.styleFrom(
@@ -218,10 +222,9 @@ class _category_groupState extends State<category_group> {
                                                     item_name =
                                                         row_template[index]
                                                             ["item_code"];
-                                                             item_name_list =
+                                                    item_name_list =
                                                         row_template[index]
                                                             ["item_name"];
-
                                                   });
                                                   varient_list(item_name);
                                                 },
