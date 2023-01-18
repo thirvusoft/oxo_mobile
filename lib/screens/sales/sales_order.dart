@@ -347,15 +347,15 @@ class _sales_orderState extends State<sales_order> {
                           ),
                         ),
                       ))),
-                  GridColumn(
-                      columnName: 'item_group',
-                      label: Container(
-                          padding: EdgeInsets.all(20.0),
-                          child: Text(
-                            'Item Group',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ))),
+                  // GridColumn(
+                  //     columnName: 'item_group',
+                  //     label: Container(
+                  //         padding: EdgeInsets.all(20.0),
+                  //         child: Text(
+                  //           'Item Group',
+                  //           overflow: TextOverflow.ellipsis,
+                  //           style: TextStyle(fontWeight: FontWeight.bold),
+                  //         ))),
                   GridColumn(
                     columnName: 'qty',
                     label: Container(
@@ -667,8 +667,7 @@ class EmployeeDataSource extends DataGridSource {
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell(
                   columnName: 'name', value: e['item_name'].toString()),
-                DataGridCell<String>(
-                  columnName: 'item_group', value: e['item_group'].toString()),
+
               DataGridCell<String>(
                   columnName: 'qty', value: e['qty'].toString()),
              
