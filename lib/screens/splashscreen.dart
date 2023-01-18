@@ -30,6 +30,7 @@ class _splashscreenState extends State<splashscreen> {
     print("object");
     var token;
     final prefs = await SharedPreferences.getInstance();
+    print(prefs.getString("token"));
     setState(() {
       token = prefs.getString('token');
       print(token);

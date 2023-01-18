@@ -66,6 +66,8 @@ dependencies:
   loading_animation_widget: ^1.2.0+4
   animated_widgets: ^1.1.0
   shared_preferences: ^2.0.15
+  overlay_support: ^2.1.0
+  cron: ^0.5.1
 
 
 dev_dependencies:

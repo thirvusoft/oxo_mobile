@@ -1,6 +1,7 @@
 // @dart=2.9
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:oxo/screens/login.dart';
 import 'package:oxo/screens/notification/notification.dart';
 import 'package:oxo/screens/sales/home_page.dart';
@@ -20,13 +21,15 @@ void main() async {
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return OverlaySupport.global(
+        child: MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
         'test': (context) => sales_order(),
         'bottom': (context) => MainPage(),
         'homepage': (context) => const home_page(),
         'category_groups': (context) => category_group(),
+        "notification": (context) => const notification(),
       },
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
@@ -39,7 +42,7 @@ class MyHomePage extends StatelessWidget {
       ),
       home: const splashscreen(),
       // builder: EasyLoading.init(),
-    );
+    ));
   }
 }
 

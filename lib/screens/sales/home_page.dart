@@ -1,10 +1,14 @@
+// ignore_for_file: unnecessary_new
+
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:oxo/screens/Appointment/customer_list.dart';
 import 'package:oxo/screens/add_dealer.dart/dealer.dart';
 import 'package:oxo/screens/login.dart';
@@ -21,6 +25,7 @@ import '../notification/appointment_notification.dart';
 import '../notification/notificationservice.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:cron/cron.dart';
 
 import 'order_page.dart';
 
@@ -34,15 +39,20 @@ class home_page extends StatefulWidget {
 class _home_pageState extends State<home_page> {
   @override
   late Timer timer_notify;
-  late Timer appointment_notify;
+
+  late Timer timer;
 
   void initState() {
+    temp();
     // TODO: implement initState
-    // distributor_list();
-    // timer_notify = Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
-    // appointment_notify = Timer.periodic(Duration(seconds: 10), (Timer t) => appointmentnotification());
-    user();
+    distributor_list();
+    // timer_notify =
+    //     Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
 
+    timer = Timer.periodic(const Duration(seconds: 1),
+        (Timer t) => appointmentnotification_List());
+
+    user();
     tz.initializeTimeZones();
     var hour = DateTime.now().hour;
 
@@ -69,6 +79,25 @@ class _home_pageState extends State<home_page> {
     }
   }
 
+  temp() {
+    if (notifi) {
+      print("11111111111111111111111");
+      appointmentnotification();
+    } else {
+      print("checkcheck");
+      late Timer appointment_notify;
+      appointment_notify = Timer.periodic(
+        const Duration(seconds: 30),
+        (Timer t) {
+          appointmentnotification();
+          // setState(() {
+          //   notifi = true;
+          // });
+        },
+      );
+    }
+  }
+
   Future<void> user() async {
     SharedPreferences token = await SharedPreferences.getInstance();
     setState(() {
@@ -84,11 +113,44 @@ class _home_pageState extends State<home_page> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
         // drawer: createDrawerHeader(context),
+
         backgroundColor: const Color(0xffEB455F),
         appBar: AppBar(
-          backgroundColor: Color(0xffEB455F),
+          automaticallyImplyLeading: false,
+          backgroundColor: const Color(0xffEB455F),
           elevation: 0,
           actions: [
+            new Stack(
+              children: <Widget>[
+                new IconButton(
+                    icon: const Icon(
+                      PhosphorIcons.bell,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'notification');
+                      // setState(() {
+                      //   counter = 0;
+                      // });
+                    }),
+                (counter != 0 && counter != null)
+                    ? new Positioned(
+                        right: 11,
+                        top: 11,
+                        child: new Container(
+                          padding: const EdgeInsets.all(1),
+                          decoration: new BoxDecoration(
+                            color: const Color(0xFF2B3467),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 12,
+                            minHeight: 12,
+                          ),
+                        ),
+                      )
+                    : new Container()
+              ],
+            ),
             IconButton(
               onPressed: () {
                 _delete(context);
@@ -155,6 +217,7 @@ class _home_pageState extends State<home_page> {
                   ),
                   child: Row(children: <Widget>[
                     getCardItem3(height),
+                    getCardItem5(height),
                     // getCardItem4(height),
                   ]),
                 ),
@@ -533,10 +596,9 @@ class _home_pageState extends State<home_page> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      child: const Icon(
-                        Icons.delivery_dining_outlined,
-                        size: 50,
-                        color: Color(0xFF2B3467),
+                      child: Image.asset(
+                        "assets/Booking.png",
+                        height: 65,
                       ),
                       // padding: const EdgeInsets.all(10),
                     ),
@@ -571,7 +633,8 @@ class _home_pageState extends State<home_page> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 25.0, vertical: 15.0),
                       backgroundColor: const Color(0xFF2B3467),
-                      shape: const StadiumBorder(),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
                     ),
                   ),
                   // padding: const EdgeInsets.all(12),
@@ -707,14 +770,49 @@ class _home_pageState extends State<home_page> {
           appointment_notification
               .add((json.decode(response.body)['message'][i]['name']));
           time = ((json.decode(response.body)['message'][i]['scheduled_time']));
-          notify_appointment.add(appointment_notify);
+          // notify_appointment.add(appointment_notify);
+
+          print(time);
         }
       });
-      Appointment_NotificationService().appointment_showNotification(
-          1,
-          "Today's Appointment",
-          "Today's Appointments are $appointment_notification" + time,
-          3);
+
+      if (appointment_notification.isNotEmpty && time.toString().isNotEmpty) {
+        setState(() {
+          notifi = false;
+        });
+        showOverlayNotification((context) {
+          return Card(
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            child: SafeArea(
+              child: ListTile(
+                leading: SizedBox.fromSize(
+                    size: const Size(40, 40),
+                    child: ClipOval(
+                        child: Container(
+                      color: Colors.black,
+                    ))),
+                title: Text("Today's Appointment"),
+                subtitle: Text(
+                    "Today's Appointments are $appointment_notification"
+                            .toString() +
+                        time),
+                trailing: IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      OverlaySupportEntry.of(context)?.dismiss();
+                    }),
+              ),
+            ),
+          );
+        }, duration: const Duration(milliseconds: 9000));
+        temp();
+      }
+
+      // Appointment_NotificationService().appointment_showNotification(
+      //     1,
+      //     "Today's Appointment",
+      //     "Today's Appointments are $appointment_notification" + time,
+      //     3);
     }
   }
 
@@ -751,5 +849,26 @@ class _home_pageState extends State<home_page> {
             ],
           );
         });
+  }
+
+  Future appointmentnotification_List() async {
+    appointment_notification_list = [];
+    var response = await http.get(
+      Uri.parse(
+          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.notification_list"""),
+      // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
+          appointment_notification_list
+              .add((json.decode(response.body)['message'][i]));
+          // time = ((json.decode(response.body)['message'][i]['scheduled_time']));
+          // notify_appointment.add(appointment_notify);
+        }
+        counter = appointment_notification_list.length;
+      });
+    }
   }
 }

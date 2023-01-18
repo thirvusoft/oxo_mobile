@@ -90,9 +90,7 @@ GlobalKey<FormState> mobile_key = GlobalKey<FormState>();
 GlobalKey<FormState> name_key = GlobalKey<FormState>();
 GlobalKey<FormState> delear_type = GlobalKey<FormState>();
 
-List deleartype = ["NEW DEALER",
-"EXISTING DEALER"];
-
+List deleartype = ["NEW DEALER", "EXISTING DEALER"];
 
 TextEditingController status_search = TextEditingController();
 List icon_nameOnSearch_status = [];
@@ -165,4 +163,11 @@ var item_name;
 var day_status;
 var username;
 
-var total_qty=0.0;
+var total_qty = 0.0;
+
+List appointment_notification_list = [];
+List appointment_notification_lists = [];
+
+var counter;
+bool notifi = true;
+List temps = [];

@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:searchfield/searchfield.dart';
 import 'package:date_field/date_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../sales/home_page.dart';
 
@@ -39,7 +40,7 @@ class _appointmentState extends State<appointment> {
             icon: const Icon(Icons.arrow_back_outlined),
           ),
           automaticallyImplyLeading: false,
-          // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
+          // backgroundColor: Color(0xFFEB455F),
           title: Text(
             'Fix Appointment',
             style: GoogleFonts.poppins(
@@ -108,8 +109,7 @@ class _appointmentState extends State<appointment> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(8)),
                             borderSide: BorderSide(
-                                color: Color.fromRGBO(44, 185, 176, 1),
-                                width: 2.0),
+                                color: Color(0xFFEB455F), width: 2.0),
                           ),
                           hintText: "Select Delear"),
                     ),
@@ -125,7 +125,7 @@ class _appointmentState extends State<appointment> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                           borderSide: BorderSide(
-                            color: Color.fromRGBO(44, 185, 176, 1),
+                            color: Color(0xFFEB455F),
                             width: 2.0,
                           ),
                         ),
@@ -150,13 +150,12 @@ class _appointmentState extends State<appointment> {
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(
-                              color: Color.fromRGBO(44, 185, 176, 1),
-                              width: 2.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
                         ),
                         hintText: "Enter email id"),
                   ),
@@ -165,7 +164,7 @@ class _appointmentState extends State<appointment> {
                   ),
                   AnimatedButton(
                     text: 'Submit',
-                    color: Color.fromRGBO(44, 185, 176, 1),
+                    color: Color(0xFFEB455F),
                     pressEvent: () {
                       appointment_creation(appointment_delear_name.text,
                           datetime, appointment_emailid.text);
@@ -178,7 +177,7 @@ class _appointmentState extends State<appointment> {
     customer_list = [];
     var response = await http.get(
       Uri.parse(
-          """https://demo14prime.thirvusoft.co.in/api/method/oxo.custom.api.customer_list"""),
+          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.customer_list"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
     print(response.statusCode);
@@ -198,10 +197,17 @@ class _appointmentState extends State<appointment> {
     print("object");
     print(date_time);
     print(delear_name);
+    SharedPreferences token = await SharedPreferences.getInstance();
+
+    print(token.getString("token"));
+
     var response = await http.get(
         Uri.parse(
             """${dotenv.env['API_URL']}/api/method/oxo.custom.api.Appointment_creation?customer_name=${delear_name}&date_time=${date_time}&email=${email}"""),
-        headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+        headers: {"Authorization": token.getString("token") ?? ""});
+    print(
+        """"${dotenv.env['API_URL']}/api/method/oxo.custom.api.Appointment_creation?customer_name=${delear_name}&date_time=${date_time}&email=${email}""");
+    print(response);
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
