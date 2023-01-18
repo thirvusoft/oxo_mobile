@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:oxo/constants.dart';
 import 'package:oxo/screens/login.dart';
 import 'package:oxo/screens/sales/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,22 +21,22 @@ class _splashscreenState extends State<splashscreen> {
     time();
   }
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   timer.cancel();
-  // }
+  @override
+  void dispose() {
+    super.dispose();
+    timer.cancel();
+  }
 
   Future time() async {
     print("object");
-    var token;
+
     final prefs = await SharedPreferences.getInstance();
     print(prefs.getString("token"));
     setState(() {
-      token = prefs.getString('token');
-      print(token);
+      tokens = prefs.getString('token');
+      print(tokens);
     });
-    if (token == null) {
+    if (tokens == null) {
       timer = Timer(
           const Duration(seconds: 2),
           () => Navigator.pushReplacement(

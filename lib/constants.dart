@@ -73,7 +73,7 @@ List row_varient = [];
 // dealer
 
 List territory = [];
-List area_list=[];
+List area_list = [];
 List state = [];
 TextEditingController dealertype = TextEditingController();
 
@@ -174,3 +174,4 @@ List appointment_notification_lists = [];
 var counter;
 bool notifi = true;
 List temps = [];
+var tokens;
