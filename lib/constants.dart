@@ -73,6 +73,7 @@ List row_varient = [];
 // dealer
 
 List territory = [];
+List area_list=[];
 List state = [];
 TextEditingController dealertype = TextEditingController();
 
@@ -80,6 +81,7 @@ TextEditingController dealername = TextEditingController();
 TextEditingController dealermobile = TextEditingController();
 TextEditingController dealeraddress = TextEditingController();
 TextEditingController dealerterritory = TextEditingController();
+TextEditingController dealerarea = TextEditingController();
 TextEditingController dealercity = TextEditingController();
 TextEditingController dealerstate = TextEditingController();
 TextEditingController dealerpincode = TextEditingController();
@@ -159,6 +161,7 @@ List item_search_list_category = [];
 TextEditingController searchcontroller_category = TextEditingController();
 
 var item_name;
+var item_name_list;
 
 var day_status;
 var username;

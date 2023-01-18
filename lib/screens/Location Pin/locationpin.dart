@@ -44,6 +44,7 @@ class _location_pinState extends State<location_pin> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+           backgroundColor: Color(0xffEB455F),
         title: const Text('Location'),
       ),
       body: (location.isEmpty)

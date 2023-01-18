@@ -89,7 +89,6 @@ class _dealerState extends State<dealer> {
             key: delear_type,
             child: Container(
                 child: SearchField(
-                  
               controller: dealertype,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -122,7 +121,7 @@ class _dealerState extends State<dealer> {
 
   Widget dealer_name(Size size) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
         child: SizedBox(
           child: Form(
               key: name_key,
@@ -178,7 +177,7 @@ class _dealerState extends State<dealer> {
 
   Widget dealer_address(Size size) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15),
         child: SizedBox(
           child: Form(
               key: address_key,
@@ -236,6 +235,37 @@ class _dealerState extends State<dealer> {
                               color: const Color(0xFFEB455F), width: 2.0),
                         ),
                         hintText: "Enter street"),
+                  )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                      child: SearchField(
+                    controller: dealerarea,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select Area';
+                      }
+                      return null;
+                    },
+                    suggestions: area_list
+                        .map((String) => SearchFieldListItem(String))
+                        .toList(),
+                    suggestionState: Suggestion.expand,
+                    textInputAction: TextInputAction.next,
+                    hasOverlay: false,
+                    searchStyle: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black.withOpacity(0.8),
+                    ),
+                    searchInputDecoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(
+                              color: const Color(0xFFEB455F), width: 2.0),
+                        ),
+                        hintText: "Select Area"),
                   )),
                   SizedBox(
                     height: 20,
@@ -300,7 +330,7 @@ class _dealerState extends State<dealer> {
                         hintText: "Select State"),
                   )),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   // Container(
                   //     child: TextFormField(
@@ -321,13 +351,14 @@ class _dealerState extends State<dealer> {
 
   Widget dealer_submit(Size size) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
       child: SizedBox(
         child: AnimatedButton(
             text: 'Submit',
             color: const Color(0xFFEB455F),
             pressEvent: () {
-              if (name_key.currentState!.validate() &&
+              if (delear_type.currentState!.validate() &&
+                  name_key.currentState!.validate() &&
                   mobile_key.currentState!.validate() &&
                   address_key.currentState!.validate()) {
                 _getCurrentLocation();
@@ -339,13 +370,16 @@ class _dealerState extends State<dealer> {
                   dealercity.text,
                   dealerterritory.text,
                   dealerstate.text,
+                  dealerarea.text,
                 );
+                dealertype.clear();
                 dealername.clear();
                 dealermobile.clear();
                 dealerdoorno.clear();
                 dealerterritory.clear();
                 dealercity.clear();
                 dealerstate.clear();
+                dealerarea.clear();
                 // dealerpincode.clear();
               }
             }),
@@ -361,6 +395,7 @@ class _dealerState extends State<dealer> {
     dealercity,
     territory,
     state,
+    area,
   ) async {
     print(current_position);
     print("lllll");
@@ -372,10 +407,10 @@ class _dealerState extends State<dealer> {
     // double location = double.parse(current_position);
     // print(location);
 
-     var response = await http.get(Uri.parse(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?dealertype=${dealertype}&full_name=${full_name}&phone_number=${phone_number}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}"""));
+    var response = await http.get(Uri.parse(
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?dealertype=${dealertype}&full_name=${full_name}&phone_number=${phone_number}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&area=${area}"""));
     print(response.statusCode);
-       print(response.body);
+    print(response.body);
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
 
@@ -412,6 +447,7 @@ class _dealerState extends State<dealer> {
 
   Future territory_list() async {
     territory = [];
+    area_list = [];
 
     var response = await http.get(Uri.parse(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.territory"""));
@@ -420,9 +456,18 @@ class _dealerState extends State<dealer> {
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
       setState(() {
-        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
-          territory.add((json.decode(response.body)['message'][i]));
+        for (var i = 0;
+            i < json.decode(response.body)['message1'].length;
+            i++) {
+          territory.add((json.decode(response.body)['message1'][i]));
         }
+        for (var i = 0;
+            i < json.decode(response.body)['message2'].length;
+            i++) {
+          area_list.add((json.decode(response.body)['message2'][i]));
+        }
+        print('lllllllllllllllllllllllllllllllllllllll');
+        print(area_list);
       });
     }
   }

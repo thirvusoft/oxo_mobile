@@ -68,15 +68,15 @@ class _category_groupState extends State<category_group> {
                     icon_nameOnSearch_category = [];
                     for (var i = 0; i < category_item_list.length; i++) {
                       var des_vari = {};
-                      des_vari["item_code"] =
-                          category_item_list[i]["item_code"];
+                      des_vari["item_name"] =
+                          category_item_list[i]["item_name"];
                       item_search_list_category.add(des_vari);
-                      if ((item_search_list_category[i]["item_code"]
+                      if ((item_search_list_category[i]["item_name"]
                           .toLowerCase()
                           .contains(value.trim().toLowerCase()))) {
                         var d_va = {};
-                        d_va["item_code"] =
-                            item_search_list_category[i]["item_code"];
+                        d_va["item_name"] =
+                            item_search_list_category[i]["item_name"];
                         icon_nameOnSearch_category.add(d_va);
                       }
                     }
@@ -119,8 +119,12 @@ class _category_groupState extends State<category_group> {
                 );
                 values_dict = [];
                 values.forEach((key, value) {
-                  values_dict.add({'item_code': key, 'qty': value[1]});
+                  values_dict.add(
+                    {'item_code': key, 'qty': value[1], 'item_group': value[0],'item_name': value[2]},
+                  );
                 });
+                values_dict.sort(
+                    (a, b) => (a['item_group']).compareTo(b['item_group']));
                 values_dict.removeAt(index_value);
               },
               style: ElevatedButton.styleFrom(
@@ -176,6 +180,7 @@ class _category_groupState extends State<category_group> {
                                   child: FadeInAnimation(
                                       child: Container(
                                           width: 50,
+                                          height: 75,
                                           child: Card(
                                               color: Color(0xffffffff),
                                               shape: RoundedRectangleBorder(
@@ -201,12 +206,13 @@ class _category_groupState extends State<category_group> {
                                                   searchcontroller_category
                                                           .text.isEmpty
                                                       ? row_template[index]
-                                                          ['item_code']
+                                                          ['item_name']
                                                       : row_template[index]
-                                                          ['item_code'],
+                                                          ['item_name'],
                                                   style: GoogleFonts.poppins(
                                                     textStyle: TextStyle(
                                                         letterSpacing: .1,
+                                                        fontSize: 14,
                                                         color:
                                                             Color(0xff19183e)),
                                                   ),
@@ -216,6 +222,9 @@ class _category_groupState extends State<category_group> {
                                                     item_name =
                                                         row_template[index]
                                                             ["item_code"];
+                                                    item_name_list =
+                                                        row_template[index]
+                                                            ["item_name"];
                                                   });
                                                   varient_list(item_name);
                                                 },
