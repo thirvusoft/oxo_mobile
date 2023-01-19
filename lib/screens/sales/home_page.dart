@@ -43,7 +43,7 @@ class _home_pageState extends State<home_page> {
   late Timer timer;
 
   void initState() {
-    temp();
+    // temp();
     // TODO: implement initState
     distributor_list();
     // timer_notify =
@@ -127,14 +127,14 @@ class _home_pageState extends State<home_page> {
                       PhosphorIcons.bell,
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, 'notification');
+                      // Navigator.pushNamed(context, 'notification');
                       // setState(() {
                       //   counter = 0;
                       // });
                     }),
                 (counter != 0 && counter != null)
                     ? new Positioned(
-                        right: 11,
+                        right: 22,
                         top: 11,
                         child: new Container(
                           padding: const EdgeInsets.all(1),
@@ -143,19 +143,22 @@ class _home_pageState extends State<home_page> {
                             borderRadius: BorderRadius.circular(15),
                           ),
                           constraints: const BoxConstraints(
-                            minWidth: 12,
-                            minHeight: 12,
+                            minWidth: 10,
+                            minHeight: 10,
                           ),
                         ),
                       )
                     : new Container()
               ],
             ),
-            IconButton(
-              onPressed: () {
-                _delete(context);
-              },
-              icon: const Icon(PhosphorIcons.sign_out),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: IconButton(
+                onPressed: () {
+                  _delete(context);
+                },
+                icon: const Icon(PhosphorIcons.sign_out),
+              ),
             ),
           ],
           centerTitle: true,
@@ -217,7 +220,7 @@ class _home_pageState extends State<home_page> {
                   ),
                   child: Row(children: <Widget>[
                     getCardItem3(height),
-                    getCardItem5(height),
+                    // getCardItem5(height),
                     // getCardItem4(height),
                   ]),
                 ),

@@ -242,12 +242,12 @@ class _dealerState extends State<dealer> {
                   Container(
                       child: SearchField(
                     controller: dealerarea,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please select Area';
-                      }
-                      return null;
-                    },
+                    // validator: (value) {
+                    //   if (value == null || value.isEmpty) {
+                    //     return 'Please select Area';
+                    //   }
+                    //   return null;
+                    // },
                     suggestions: area_list
                         .map((String) => SearchFieldListItem(String))
                         .toList(),
@@ -389,8 +389,8 @@ class _dealerState extends State<dealer> {
 
   Future customer_creation(
     dealertype,
-    full_name,
-    phone_number,
+    fullName,
+    phoneNumber,
     dealerdoorno,
     dealercity,
     territory,
@@ -408,11 +408,11 @@ class _dealerState extends State<dealer> {
     // print(location);
 
     var response = await http.get(Uri.parse(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?dealertype=${dealertype}&full_name=${full_name}&phone_number=${phone_number}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&area=${area}"""));
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?dealertype=${dealertype}&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&latitude=${(area.toString().isEmpty) ? current_position!.latitude : ""}&longitude=${(area.toString().isEmpty) ? current_position!.longitude : ""}&auto_pincode=${(area.toString().isEmpty) ? auto_pincode : ""}&area=${area}"""));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
 
       setState(() {
         AwesomeDialog(
@@ -424,7 +424,7 @@ class _dealerState extends State<dealer> {
           btnOkOnPress: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => home_page()),
+              MaterialPageRoute(builder: (context) => const home_page()),
             );
           },
           btnOkIcon: Icons.check_circle,
