@@ -1,11 +1,18 @@
 import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:oxo/constants.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:dotted_border/dotted_border.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,6 +20,7 @@ import 'package:oxo/screens/sales/home_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:searchfield/searchfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
 
 class dealer extends StatefulWidget {
   const dealer({super.key});
@@ -23,6 +31,9 @@ class dealer extends StatefulWidget {
 
 class _dealerState extends State<dealer> {
   @override
+  File? _image;
+  late PickedFile _imageFile;
+  final ImagePicker _picker = ImagePicker();
   var login_loading_dealer = false;
   void initState() {
     // TODO: implement initState
@@ -38,7 +49,7 @@ class _dealerState extends State<dealer> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xffEB455F),
+          backgroundColor: const Color(0xffEB455F),
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
@@ -50,7 +61,7 @@ class _dealerState extends State<dealer> {
           title: Text(
             'Dealer Creation',
             style: GoogleFonts.poppins(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                   fontSize: 20, letterSpacing: .2, color: Colors.white),
             ),
           ),
@@ -83,7 +94,7 @@ class _dealerState extends State<dealer> {
 
   Widget dealer_type(Size size) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
         child: SizedBox(
           child: Form(
             key: delear_type,
@@ -106,12 +117,12 @@ class _dealerState extends State<dealer> {
                 fontSize: 15,
                 color: Colors.black.withOpacity(0.8),
               ),
-              searchInputDecoration: InputDecoration(
+              searchInputDecoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                     borderSide:
-                        BorderSide(color: const Color(0xFFEB455F), width: 2.0),
+                        BorderSide(color: Color(0xFFEB455F), width: 2.0),
                   ),
                   hintText: "Select delear type"),
             )),
@@ -121,7 +132,7 @@ class _dealerState extends State<dealer> {
 
   Widget dealer_name(Size size) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
         child: SizedBox(
           child: Form(
               key: name_key,
@@ -134,12 +145,12 @@ class _dealerState extends State<dealer> {
                   }
                   return null;
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: const Color(0xFFEB455F), width: 2.0),
+                      borderSide:
+                          BorderSide(color: Color(0xFFEB455F), width: 2.0),
                     ),
                     hintText: "Enter dealer name"),
               )),
@@ -148,7 +159,7 @@ class _dealerState extends State<dealer> {
 
   Widget dealer_mobile(Size size) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
         child: SizedBox(
           child: Form(
               key: mobile_key,
@@ -162,13 +173,13 @@ class _dealerState extends State<dealer> {
                   }
                   return null;
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     counterText: "",
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: const Color(0xFFEB455F), width: 2.0),
+                      borderSide:
+                          BorderSide(color: Color(0xFFEB455F), width: 2.0),
                     ),
                     hintText: "Enter dealer mobile number"),
               )),
@@ -177,22 +188,22 @@ class _dealerState extends State<dealer> {
 
   Widget dealer_address(Size size) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 15),
         child: SizedBox(
           child: Form(
               key: address_key,
               child: Column(
                 children: [
                   Container(
-                    child: Text(
+                    child: const Text(
                       "Add Dealer Address",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
-                          color: const Color(0xFF2B3467)),
+                          color: Color(0xFF2B3467)),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
@@ -205,16 +216,16 @@ class _dealerState extends State<dealer> {
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(
-                              color: const Color(0xFFEB455F), width: 2.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
                         ),
                         hintText: "Enter door no"),
                   )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
@@ -227,16 +238,16 @@ class _dealerState extends State<dealer> {
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(
-                              color: const Color(0xFFEB455F), width: 2.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
                         ),
                         hintText: "Enter street"),
                   )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
@@ -258,16 +269,16 @@ class _dealerState extends State<dealer> {
                       fontSize: 15,
                       color: Colors.black.withOpacity(0.8),
                     ),
-                    searchInputDecoration: InputDecoration(
+                    searchInputDecoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(
-                              color: const Color(0xFFEB455F), width: 2.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
                         ),
                         hintText: "Select Area"),
                   )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
@@ -289,16 +300,16 @@ class _dealerState extends State<dealer> {
                       fontSize: 15,
                       color: Colors.black.withOpacity(0.8),
                     ),
-                    searchInputDecoration: InputDecoration(
+                    searchInputDecoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(
-                              color: const Color(0xFFEB455F), width: 2.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
                         ),
                         hintText: "Select Territory"),
                   )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
@@ -320,30 +331,58 @@ class _dealerState extends State<dealer> {
                       fontSize: 15,
                       color: Colors.black.withOpacity(0.8),
                     ),
-                    searchInputDecoration: InputDecoration(
+                    searchInputDecoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(
-                              color: const Color(0xFFEB455F), width: 2.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
                         ),
                         hintText: "Select State"),
                   )),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  // Container(
-                  //     child: TextFormField(
-                  //   controller: dealerpincode,
-                  //   decoration: InputDecoration(
-                  //       border: OutlineInputBorder(),
-                  //       focusedBorder: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.all(Radius.circular(8)),
-                  //         borderSide: BorderSide(
-                  //             color: const Color(0xFFEB455F), width: 2.0),
-                  //       ),
-                  //       hintText: "Enter postal code"),
-                  // )),
+                  DottedBorder(
+                      borderType: BorderType.RRect,
+                      radius: const Radius.circular(12),
+                      color: const Color(0xFF2B3467),
+                      strokeWidth: 2,
+                      strokeCap: StrokeCap.round,
+                      dashPattern: const [
+                        5,
+                        5,
+                        5,
+                      ],
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(11)),
+                        child: GestureDetector(
+                            onTap: () {
+                              print(",,,...,.,>>>.");
+                              showModalBottomSheet(
+                                context: context,
+                                builder: ((builder) => bottomSheet()),
+                              );
+                            },
+                            child: Container(
+                                width: 333,
+                                height: 75,
+                                color: const Color(0xffe8effc),
+                                child: Column(
+                                  children: const [
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Icon(
+                                      PhosphorIcons.cloud_arrow_up_light,
+                                      color: Color(0xFF2B3467),
+                                      size: 30,
+                                    ),
+                                    Text("Click to upload")
+                                  ],
+                                ))),
+                      ))
                 ],
               )),
         ));
@@ -351,7 +390,7 @@ class _dealerState extends State<dealer> {
 
   Widget dealer_submit(Size size) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
       child: SizedBox(
         child: AnimatedButton(
             text: 'Submit',
@@ -437,7 +476,7 @@ class _dealerState extends State<dealer> {
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 2,
-          backgroundColor: Color.fromARGB(255, 234, 10, 10),
+          backgroundColor: const Color.fromARGB(255, 234, 10, 10),
           textColor: Colors.white,
           fontSize: 16.0);
     }
@@ -454,7 +493,7 @@ class _dealerState extends State<dealer> {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       setState(() {
         for (var i = 0;
             i < json.decode(response.body)['message1'].length;
@@ -479,7 +518,7 @@ class _dealerState extends State<dealer> {
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.state"""));
 
     if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       setState(() {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           state.add((json.decode(response.body)['message'][i]));
@@ -528,5 +567,126 @@ class _dealerState extends State<dealer> {
     }).catchError((e) {
       debugPrint(e);
     });
+  }
+
+  Widget bottomSheet() {
+    return Container(
+      height: 150.0,
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>[
+          const Text(
+            ("Choose the media"),
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            ElevatedButton.icon(
+              icon: const Icon(
+                PhosphorIcons.camera,
+              ),
+              onPressed: () {
+                print("object");
+                pickImage(ImageSource.camera);
+              },
+              label: const Text("Camera"),
+            ),
+            const SizedBox(
+              width: 12,
+            ),
+            ElevatedButton.icon(
+              icon: const Icon(PhosphorIcons.image),
+              onPressed: () {
+                print("hello");
+                pickImage(ImageSource.gallery);
+              },
+              label: const Text("Gallery"),
+            ),
+          ])
+        ],
+      ),
+    );
+  }
+
+  Future pickImage(ImageSource source) async {
+    String dir;
+    String pdf_name;
+    String pathttt;
+    File file;
+
+    try {
+      final file = await ImagePicker()
+          .pickImage(source: source, maxWidth: 500, maxHeight: 500);
+
+      final paths = await getApplicationDocumentsDirectory();
+      if (file == null) return;
+      setState(() {
+        _image = File(file.path);
+        pathttt = '$paths/${_image}';
+        // print(File(file.path));
+        File imageFile = File(file.path);
+        print(",,,,.........................");
+        print(pathttt);
+        uploadimage(imageFile);
+      });
+      // _cropImage(file.path);
+      Navigator.pop(context);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  Future uploadimage(paths) async {
+    print("working");
+    print(paths);
+    String fileName = paths.path.split('/').last;
+    print(fileName);
+    Dio dio = new Dio();
+    try {
+      // String filename = paths.path.split("/").last;
+
+      // print(filename);
+      print("yyyy");
+      FormData formData = FormData.fromMap({
+        "file_url":
+            await MultipartFile.fromFile(paths.path, filename: fileName),
+        "docname": "9655210487-M.M",
+        "attached_to_doctype": "Customer",
+        "attached_to_name": "9655210487-M.M",
+        "is_private": 0,
+        // "attached_to_field": "user_image",
+        "folder": "Home/Attachments"
+      });
+      print(formData.files);
+      print(dotenv.env['API_URL']);
+
+      var dio = Dio();
+
+      dio.options.headers["Authorization"] =
+          "token 74c70e53a7ff3c0:f50347472ee14cc";
+
+      print("${dotenv.env['API_URL']}/api/method/upload_file");
+      var response = await dio.post(
+        "https://oxo.thirvusoft.co.in/api/method/upload_file",
+        data: formData,
+      );
+
+      if (response.statusCode == 200) {
+        print("profile");
+      }
+
+      print(response.statusCode);
+    } catch (e) {
+      print("pppp");
+      print(e);
+    }
   }
 }
