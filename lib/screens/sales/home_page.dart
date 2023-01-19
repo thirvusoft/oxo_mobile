@@ -268,15 +268,9 @@ class _home_pageState extends State<home_page> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    child: Image.asset(
-                      "assets/add_friends.png",
-                      height: 65,
-                    ),
-                    // child: const Icon(
-                    //   PhosphorIcons.user_plus_light,
-                    //   size: 50,
-                    //   color: Color(0xFF2B3467),
+                  Image.asset(
+                    "assets/add_friends.png",
+                    height: 65,
                   ),
                   // padding: const EdgeInsets.all(10),
 
@@ -319,7 +313,7 @@ class _home_pageState extends State<home_page> {
                           textStyle: TextStyle(
                               fontSize: 15,
                               letterSpacing: .2,
-                              color: Color(0xFFfffffffff)))),
+                              color: Color(0xfffffffffff)))),
                 ),
                 // padding: const EdgeInsets.all(12),
               )

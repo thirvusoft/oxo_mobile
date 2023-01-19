@@ -68,6 +68,9 @@ dependencies:
   shared_preferences: ^2.0.15
   overlay_support: ^2.1.0
   cron: ^0.5.1
+  dotted_border: ^2.0.0+3
+  image_picker: ^0.8.6
+  dio: ^4.0.6
 
 
 dev_dependencies:
