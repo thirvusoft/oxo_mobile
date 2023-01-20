@@ -556,7 +556,7 @@ class _sales_orderState extends State<sales_order> {
                           Navigator.pop(context);
                           customer_name.clear();
                           distributor_name.clear();
-                          delivery_date.clear();
+                          delivery_date.clear() ;
                         }
                       },
                     ),
