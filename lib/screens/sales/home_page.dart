@@ -13,7 +13,6 @@ import 'package:oxo/screens/Appointment/customer_list.dart';
 import 'package:oxo/screens/add_dealer.dart/dealer.dart';
 import 'package:oxo/screens/login.dart';
 import 'package:oxo/screens/sales/item_category_list.dart';
-import 'package:oxo/screens/sales/order.dart';
 import 'package:http/http.dart' as http;
 import 'package:oxo/screens/distributor/distributor.dart';
 import 'package:searchfield/searchfield.dart';
@@ -116,79 +115,82 @@ class _home_pageState extends State<home_page> {
 
         backgroundColor: const Color(0xffEB455F),
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: const Color(0xffEB455F),
-          elevation: 0,
-          actions: [
-            new Stack(
-              children: <Widget>[
-                new IconButton(
-                    icon: const Icon(
-                      PhosphorIcons.bell,
-                    ),
-                    onPressed: () {
-                      // Navigator.pushNamed(context, 'notification');
-                      // setState(() {
-                      //   counter = 0;
-                      // });
-                    }),
-                (counter != 0 && counter != null)
-                    ? new Positioned(
-                        right: 22,
-                        top: 11,
-                        child: new Container(
-                          padding: const EdgeInsets.all(1),
-                          decoration: new BoxDecoration(
-                            color: const Color(0xFF2B3467),
-                            borderRadius: BorderRadius.circular(15),
+            automaticallyImplyLeading: false,
+            backgroundColor: const Color(0xffEB455F),
+            elevation: 0,
+            actions: [
+              new Stack(
+                children: <Widget>[
+                  new IconButton(
+                      icon: const Icon(
+                        PhosphorIcons.bell,
+                      ),
+                      onPressed: () {
+                        // Navigator.pushNamed(context, 'notification');
+                        // setState(() {
+                        //   counter = 0;
+                        // });
+                      }),
+                  (counter != 0 && counter != null)
+                      ? new Positioned(
+                          right: 22,
+                          top: 11,
+                          child: new Container(
+                            padding: const EdgeInsets.all(1),
+                            decoration: new BoxDecoration(
+                              color: const Color(0xFF2B3467),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 10,
+                              minHeight: 10,
+                            ),
                           ),
-                          constraints: const BoxConstraints(
-                            minWidth: 10,
-                            minHeight: 10,
-                          ),
-                        ),
-                      )
-                    : new Container()
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: IconButton(
-                onPressed: () {
-                  _delete(context);
-                },
-                icon: const Icon(PhosphorIcons.sign_out),
+                        )
+                      : new Container()
+                ],
               ),
-            ),
-          ],
-          centerTitle: true,
-          title: RichText(
-            text: TextSpan(children: [
-              TextSpan(
-                  text: day_status,
-                  style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 20,
-                          letterSpacing: .2,
-                          color: Color(0xffffffff)))),
-              TextSpan(
-                  text: " " + username,
-                  style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 20,
-                          letterSpacing: .2,
-                          color: Color(0xFFfffffffff)))),
-            ]),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 6),
+                child: IconButton(
+                  onPressed: () {
+                    _delete(context);
+                  },
+                  icon: const Icon(PhosphorIcons.sign_out),
+                ),
+              ),
+            ],
+            // centerTitle: true,
+            title: Align(
+              alignment: Alignment.topCenter,
+              child: RichText(
+                text: TextSpan(children: [
+                  TextSpan(
+                      text: day_status,
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              fontSize: 20,
+                              letterSpacing: .2,
+                              color: Color(0xffffffff)))),
+                  TextSpan(
+                      text: " $username",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 20,
+                              letterSpacing: .2,
+                              color: Color(0xFFfffffffff)))),
+                ]),
 
-            // Text(
-            //   day_status,
-            //   style: GoogleFonts.poppins(
-            //     textStyle: const TextStyle(
-            //         fontSize: 15, letterSpacing: .2, color: Color(0xFFfffffffff)),
-            //   ),
-          ),
-        ),
-        body: Padding(
+                // Text(
+                //   day_status,
+                //   style: GoogleFonts.poppins(
+                //     textStyle: const TextStyle(
+                //         fontSize: 15, letterSpacing: .2, color: Color(0xFFfffffffff)),
+                //   ),
+              ),
+            )),
+        body: SingleChildScrollView(
+            child: Padding(
           padding: const EdgeInsets.only(top: 15.0),
           child: Container(
             // color: Color(0xffeff4fd),
@@ -220,7 +222,16 @@ class _home_pageState extends State<home_page> {
                   ),
                   child: Row(children: <Widget>[
                     getCardItem3(height),
-                    // getCardItem5(height),
+                    getCardItem5(height),
+                    // getCardItem4(height),
+                  ]),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: size.width / 15,
+                  ),
+                  child: Row(children: <Widget>[
+                    getCardItem6(height),
                     // getCardItem4(height),
                   ]),
                 ),
@@ -239,7 +250,7 @@ class _home_pageState extends State<home_page> {
               ],
             ))),
           ),
-        ));
+        )));
   }
 
   Widget getCardItem(height) {
@@ -287,35 +298,27 @@ class _home_pageState extends State<home_page> {
               const SizedBox(
                 height: 30,
               ),
-              Container(
-                // decoration: const BoxDecoration(
-                //     color:const Color(0xFF2B3467),
-                //     borderRadius: BorderRadius.only(
-                //         bottomRight: Radius.circular(12),
-                //         bottomLeft: Radius.circular(12))),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const dealer()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25.0, vertical: 15.0),
-                    backgroundColor: const Color(0xFF2B3467),
-                    // shape: const StadiumBorder(),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                  ),
-                  child: Text('Add Dealer',
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 15,
-                              letterSpacing: .2,
-                              color: Color(0xfffffffffff)))),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const dealer()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 25.0, vertical: 15.0),
+                  backgroundColor: const Color(0xFF2B3467),
+                  // shape: const StadiumBorder(),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
                 ),
-                // padding: const EdgeInsets.all(12),
+                child: Text('Add Dealer',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 15,
+                            letterSpacing: .2,
+                            color: Color(0xfffffffffff)))),
               )
             ],
           ),
@@ -644,6 +647,76 @@ class _home_pageState extends State<home_page> {
     );
   }
 
+  Widget getCardItem6(height) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.only(left: height / 45),
+        child: Container(
+          height: 180,
+          width: 180,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromARGB(255, 230, 227, 227).withOpacity(.5),
+                spreadRadius: 10,
+                blurRadius: 20,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: Container(
+            child: Column(
+              children: [
+                const Padding(padding: EdgeInsets.only(top: 30)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Image.asset(
+                        "assets/order_list.png",
+                        height: 65,
+                      ),
+                      // padding: const EdgeInsets.all(10),
+                    ),
+                    // Container(
+                    //   child: Text(
+                    //     "20",
+                    //     style: TextStyle(
+                    //       color: Colors.blueAccent,
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => appointment()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25.0, vertical: 15.0),
+                    backgroundColor: const Color(0xFF2B3467),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                  ),
+                  child: const Text('  Order List   '),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Future customer_creation() async {
     return showDialog<String>(
       context: context,
@@ -835,8 +908,6 @@ class _home_pageState extends State<home_page> {
               TextButton(
                 onPressed: () async {
                   final token = await SharedPreferences.getInstance();
-                  print(token);
-                  print(token.getString('token'));
                   await token.clear();
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => Login()));

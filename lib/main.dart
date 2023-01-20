@@ -5,7 +5,6 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:oxo/screens/login.dart';
 import 'package:oxo/screens/notification/notification.dart';
 import 'package:oxo/screens/sales/home_page.dart';
-import 'package:oxo/screens/sales/order.dart';
 import 'package:oxo/screens/sales/order_page.dart';
 import 'package:oxo/screens/sales/sales_order.dart';
 import 'package:oxo/screens/splashscreen.dart';
