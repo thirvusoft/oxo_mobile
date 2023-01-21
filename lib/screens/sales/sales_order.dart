@@ -170,6 +170,7 @@ class _sales_orderState extends State<sales_order> {
   }
 
   Widget itemtable(Size size) {
+    final size = MediaQuery.of(context).size;
     return
         // Padding(
         //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -269,11 +270,11 @@ class _sales_orderState extends State<sales_order> {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 5.0, vertical: 15.0),
+                              backgroundColor: const Color(0xFF2B3467),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
-                              primary: const Color(0xFF2B3467),
                             ),
                             icon: Icon(
                               Icons.add,
@@ -299,7 +300,7 @@ class _sales_orderState extends State<sales_order> {
                           padding: EdgeInsets.only(right: 8.0),
                           child: ElevatedButton.icon(
                             onPressed: () {
-                              _showMyDialog();
+                              _showMyDialog(size);
                             },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(
@@ -386,363 +387,197 @@ class _sales_orderState extends State<sales_order> {
             ));
   }
 
-  Future<void> _showMyDialog() async {
+  Future<void> _showMyDialog(Size size) async {
+    final size = MediaQuery.of(context).size;
+
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
               scrollable: true,
               title: const Text("Dealer Details"),
-              content: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SearchField(
-                      controller: customer_name,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please select dealer name';
-                        }
-                        return null;
-                      },
-                      suggestions: dealer_name
-                          .map((String) => SearchFieldListItem(String))
-                          .toList(),
-                      suggestionState: Suggestion.expand,
-                      textInputAction: TextInputAction.next,
-                      hasOverlay: false,
-                      searchStyle: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black.withOpacity(0.8),
-                      ),
-                      searchInputDecoration: InputDecoration(
-                        hintText: 'Select Dealer name',
-                        hintStyle: GoogleFonts.inter(
-                          fontSize: 16.0,
-                          color: const Color(0xFF151624).withOpacity(0.5),
-                        ),
-                        filled: true,
-                        fillColor: customer_name.text.isEmpty
-                            ? const Color.fromRGBO(248, 247, 251, 1)
-                            : Colors.transparent,
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(
-                              color: customer_name.text.isEmpty
-                                  ? Colors.transparent
-                                  : const Color(0xFFEB455F),
-                            )),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                              color: const Color(0xFFEB455F),
-                            )),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                      width: 10,
-                    ),
-                    SearchField(
-                      controller: distributor_name,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please select distributor name';
-                        }
-                        return null;
-                      },
-                      suggestions: distributor
-                          .map((String) => SearchFieldListItem(String))
-                          .toList(),
-                      suggestionState: Suggestion.expand,
-                      textInputAction: TextInputAction.next,
-                      hasOverlay: false,
-                      searchStyle: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black.withOpacity(0.8),
-                      ),
-                      searchInputDecoration: InputDecoration(
-                        hintText: 'Select Distributor name',
-                        hintStyle: GoogleFonts.inter(
-                          fontSize: 16.0,
-                          color: const Color(0xFF151624).withOpacity(0.5),
-                        ),
-                        filled: true,
-                        fillColor: distributor_name.text.isEmpty
-                            ? const Color.fromRGBO(248, 247, 251, 1)
-                            : Colors.transparent,
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(
-                              color: distributor_name.text.isEmpty
-                                  ? Colors.transparent
-                                  : const Color(0xFFEB455F),
-                            )),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                              color: const Color(0xFFEB455F),
-                            )),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                      width: 10,
-                    ),
-                    TextFormField(
-                      textInputAction: TextInputAction.next,
-                      controller: delivery_date,
-                      validator: (x) {
-                        if (x!.isEmpty) {
-                          return " Date can't be empty";
-                        }
+              content: Form(
+                  key: sales_order_key,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height / 3,
+                    width: MediaQuery.of(context).size.width / 1.5,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SearchField(
+                            controller: customer_name,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please select dealer name';
+                              }
+                              return null;
+                            },
+                            suggestions: dealer_name
+                                .map((String) => SearchFieldListItem(String))
+                                .toList(),
+                            suggestionState: Suggestion.expand,
+                            textInputAction: TextInputAction.next,
+                            hasOverlay: false,
+                            searchStyle: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black.withOpacity(0.8),
+                            ),
+                            searchInputDecoration: InputDecoration(
+                              hintText: 'Select Dealer name',
+                              hintStyle: GoogleFonts.inter(
+                                fontSize: 16.0,
+                                color: const Color(0xFF151624).withOpacity(0.5),
+                              ),
+                              filled: true,
+                              fillColor: customer_name.text.isEmpty
+                                  ? const Color.fromRGBO(248, 247, 251, 1)
+                                  : Colors.transparent,
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: customer_name.text.isEmpty
+                                        ? Colors.transparent
+                                        : const Color(0xFFEB455F),
+                                  )),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: const Color(0xFFEB455F),
+                                  )),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                            width: 10,
+                          ),
+                          SearchField(
+                            controller: distributor_name,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please select distributor name';
+                              }
+                              return null;
+                            },
+                            suggestions: distributor
+                                .map((String) => SearchFieldListItem(String))
+                                .toList(),
+                            suggestionState: Suggestion.expand,
+                            textInputAction: TextInputAction.next,
+                            hasOverlay: false,
+                            searchStyle: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black.withOpacity(0.8),
+                            ),
+                            searchInputDecoration: InputDecoration(
+                              hintText: 'Select Distributor name',
+                              hintStyle: GoogleFonts.inter(
+                                fontSize: 16.0,
+                                color: const Color(0xFF151624).withOpacity(0.5),
+                              ),
+                              filled: true,
+                              fillColor: distributor_name.text.isEmpty
+                                  ? const Color.fromRGBO(248, 247, 251, 1)
+                                  : Colors.transparent,
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: distributor_name.text.isEmpty
+                                        ? Colors.transparent
+                                        : const Color(0xFFEB455F),
+                                  )),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: const Color(0xFFEB455F),
+                                  )),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                            width: 10,
+                          ),
+                          TextFormField(
+                            textInputAction: TextInputAction.next,
+                            controller: delivery_date,
+                            validator: (x) {
+                              if (x!.isEmpty) {
+                                return " Date can't be empty";
+                              }
 
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Delivery Date',
-                        hintStyle: GoogleFonts.inter(
-                          fontSize: 16.0,
-                          color: const Color(0xFF151624).withOpacity(0.5),
-                        ),
-                        filled: true,
-                        fillColor: delivery_date.text.isEmpty
-                            ? const Color.fromRGBO(248, 247, 251, 1)
-                            : Colors.transparent,
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(
-                              color: delivery_date.text.isEmpty
-                                  ? Colors.transparent
-                                  : const Color(0xFFEB455F),
-                            )),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                              color: const Color(0xFFEB455F),
-                            )),
-                      ),
-                      style: TextStyle(),
-                      readOnly: true,
-                      onTap: () async {
-                        var date = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2101));
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'Delivery Date',
+                              hintStyle: GoogleFonts.inter(
+                                fontSize: 16.0,
+                                color: const Color(0xFF151624).withOpacity(0.5),
+                              ),
+                              filled: true,
+                              fillColor: delivery_date.text.isEmpty
+                                  ? const Color.fromRGBO(248, 247, 251, 1)
+                                  : Colors.transparent,
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: delivery_date.text.isEmpty
+                                        ? Colors.transparent
+                                        : const Color(0xFFEB455F),
+                                  )),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: const Color(0xFFEB455F),
+                                  )),
+                            ),
+                            readOnly: true,
+                            onTap: () async {
+                              var date = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2101));
 
-                        builder:
-                        (BuildContext context, Widget child) {
-                          return Theme(
-                            data: ThemeData().copyWith(
-                                colorScheme: ColorScheme.dark(
-                                    primary: Color(0xff19183e),
-                                    surface: Color(0xff19183e))),
-                            child: child,
-                          );
-                        };
-                        delivery_date.text = date.toString().substring(0, 10);
-                      },
+                              builder:
+                              (BuildContext context, Widget child) {
+                                return Theme(
+                                  data: ThemeData().copyWith(
+                                      colorScheme: ColorScheme.dark(
+                                          primary: Color(0xff19183e),
+                                          surface: Color(0xff19183e))),
+                                  child: child,
+                                );
+                              };
+                              delivery_date.text =
+                                  date.toString().substring(0, 10);
+                            },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          AnimatedButton(
+                            text: 'Submit',
+                            color: Color.fromARGB(255, 49, 47, 92),
+                            pressEvent: () {
+                              if (sales_order_key.currentState!.validate()) {
+                                sales_order(
+                                    customer_name.text,
+                                    delivery_date.text,
+                                    values_dict,
+                                    distributor_name.text,
+                                    user_name);
+                                Navigator.pop(context);
+                                customer_name.clear();
+                                distributor_name.clear();
+                                delivery_date.clear();
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    AnimatedButton(
-                      text: 'Submit',
-                      color: Color.fromARGB(255, 49, 47, 92),
-                      pressEvent: () {
-                        if (sales_order_key.currentState!.validate()) {
-                          sales_order(customer_name.text, delivery_date.text,
-                              values_dict, distributor_name.text, user_name);
-                          Navigator.pop(context);
-                          customer_name.clear();
-                          distributor_name.clear();
-                          delivery_date.clear() ;
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              ));
+                  )));
         });
   }
-  // Future customer_creation() async {
-  //   return showDialog<String>(
-  //       context: context,
-  //       builder: (BuildContext context) =>
-  //           AlertDialog(title: const Text('Dealer Details'), actions: <Widget>[
-  //             Form(
-  //               key: sales_order_key,
-  //               child: Column(
-  //                 children: [
-  //                   SearchField(
-  //                     controller: customer_name,
-  //                     validator: (value) {
-  //                       if (value == null || value.isEmpty) {
-  //                         return 'Please select dealer name';
-  //                       }
-  //                       return null;
-  //                     },
-  //                     suggestions: dealer_name
-  //                         .map((String) => SearchFieldListItem(String))
-  //                         .toList(),
-  //                     suggestionState: Suggestion.expand,
-  //                     textInputAction: TextInputAction.next,
-  //                     hasOverlay: false,
-  //                     searchStyle: TextStyle(
-  //                       fontSize: 15,
-  //                       color: Colors.black.withOpacity(0.8),
-  //                     ),
-  //                     searchInputDecoration: InputDecoration(
-  //                       hintText: 'Select Dealer name',
-  //                       hintStyle: GoogleFonts.inter(
-  //                         fontSize: 16.0,
-  //                         color: const Color(0xFF151624).withOpacity(0.5),
-  //                       ),
-  //                       filled: true,
-  //                       fillColor: customer_name.text.isEmpty
-  //                           ? const Color.fromRGBO(248, 247, 251, 1)
-  //                           : Colors.transparent,
-  //                       enabledBorder: OutlineInputBorder(
-  //                           borderRadius: BorderRadius.circular(10),
-  //                           borderSide: BorderSide(
-  //                             color: customer_name.text.isEmpty
-  //                                 ? Colors.transparent
-  //                                 : const Color(0xFFEB455F),
-  //                           )),
-  //                       focusedBorder: OutlineInputBorder(
-  //                           borderRadius: BorderRadius.circular(10),
-  //                           borderSide: const BorderSide(
-  //                             color: const Color(0xFFEB455F),
-  //                           )),
-  //                     ),
-  //                   ),
-  //                   SizedBox(
-  //                     height: 10,
-  //                     width: 10,
-  //                   ),
-  //                   SearchField(
-  //                     controller: distributor_name,
-  //                     validator: (value) {
-  //                       if (value == null || value.isEmpty) {
-  //                         return 'Please select distributor name';
-  //                       }
-  //                       return null;
-  //                     },
-  //                     suggestions: distributor
-  //                         .map((String) => SearchFieldListItem(String))
-  //                         .toList(),
-  //                     suggestionState: Suggestion.expand,
-  //                     textInputAction: TextInputAction.next,
-  //                     hasOverlay: false,
-  //                     searchStyle: TextStyle(
-  //                       fontSize: 15,
-  //                       color: Colors.black.withOpacity(0.8),
-  //                     ),
-  //                     searchInputDecoration: InputDecoration(
-  //                       hintText: 'Select Distributor name',
-  //                       hintStyle: GoogleFonts.inter(
-  //                         fontSize: 16.0,
-  //                         color: const Color(0xFF151624).withOpacity(0.5),
-  //                       ),
-  //                       filled: true,
-  //                       fillColor: distributor_name.text.isEmpty
-  //                           ? const Color.fromRGBO(248, 247, 251, 1)
-  //                           : Colors.transparent,
-  //                       enabledBorder: OutlineInputBorder(
-  //                           borderRadius: BorderRadius.circular(10),
-  //                           borderSide: BorderSide(
-  //                             color: distributor_name.text.isEmpty
-  //                                 ? Colors.transparent
-  //                                 : const Color(0xFFEB455F),
-  //                           )),
-  //                       focusedBorder: OutlineInputBorder(
-  //                           borderRadius: BorderRadius.circular(10),
-  //                           borderSide: const BorderSide(
-  //                             color: const Color(0xFFEB455F),
-  //                           )),
-  //                     ),
-  //                   ),
-  //                   SizedBox(
-  //                     height: 10,
-  //                     width: 10,
-  //                   ),
-  //                   TextFormField(
-  //                     textInputAction: TextInputAction.next,
-  //                     controller: delivery_date,
-  //                     validator: (x) {
-  //                       if (x!.isEmpty) {
-  //                         return " Date can't be empty";
-  //                       }
-
-  //                       return null;
-  //                     },
-  //                     decoration: InputDecoration(
-  //                       hintText: 'Delivery Date',
-  //                       hintStyle: GoogleFonts.inter(
-  //                         fontSize: 16.0,
-  //                         color: const Color(0xFF151624).withOpacity(0.5),
-  //                       ),
-  //                       filled: true,
-  //                       fillColor: delivery_date.text.isEmpty
-  //                           ? const Color.fromRGBO(248, 247, 251, 1)
-  //                           : Colors.transparent,
-  //                       enabledBorder: OutlineInputBorder(
-  //                           borderRadius: BorderRadius.circular(10),
-  //                           borderSide: BorderSide(
-  //                             color: delivery_date.text.isEmpty
-  //                                 ? Colors.transparent
-  //                                 : const Color(0xFFEB455F),
-  //                           )),
-  //                       focusedBorder: OutlineInputBorder(
-  //                           borderRadius: BorderRadius.circular(10),
-  //                           borderSide: const BorderSide(
-  //                             color: const Color(0xFFEB455F),
-  //                           )),
-  //                     ),
-  //                     style: TextStyle(),
-  //                     readOnly: true,
-  //                     onTap: () async {
-  //                       var date = await showDatePicker(
-  //                           context: context,
-  //                           initialDate: DateTime.now(),
-  //                           firstDate: DateTime(2000),
-  //                           lastDate: DateTime(2101));
-
-  //                       builder:
-  //                       (BuildContext context, Widget child) {
-  //                         return Theme(
-  //                           data: ThemeData().copyWith(
-  //                               colorScheme: ColorScheme.dark(
-  //                                   primary: Color(0xff19183e),
-  //                                   surface: Color(0xff19183e))),
-  //                           child: child,
-  //                         );
-  //                       };
-  //                       delivery_date.text = date.toString().substring(0, 10);
-  //                     },
-  //                   ),
-  //                   SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   AnimatedButton(
-  //                     text: 'Submit',
-  //                     color: Color.fromARGB(255, 49, 47, 92),
-  //                     pressEvent: () {
-  //                       if (sales_order_key.currentState!.validate()) {
-  //                         sales_order(customer_name.text, delivery_date.text,
-  //                             values_dict, distributor_name.text, user_name);
-  //                         Navigator.pop(context);
-  //                         customer_name.clear();
-  //                         distributor_name.clear();
-  //                         delivery_date.clear();
-  //                       }
-  //                     },
-  //                   ),
-  //                 ],
-  //               ),
-  //             )
-  //           ]));
-  // }
 
   Future dealername_list() async {
     dealer_name = [];
