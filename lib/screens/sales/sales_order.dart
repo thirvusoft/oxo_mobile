@@ -564,7 +564,7 @@ class _sales_orderState extends State<sales_order> {
                                     delivery_date.text,
                                     values_dict,
                                     distributor_name.text,
-                                    user_name);
+                                    username);
                                 Navigator.pop(context);
                                 customer_name.clear();
                                 distributor_name.clear();
@@ -618,13 +618,14 @@ class _sales_orderState extends State<sales_order> {
   }
 
   Future sales_order(customer_name, delivery_date, values_dict,
-      distributor_name, user_name) async {
+      distributor_name, username) async {
     print("object");
+    print(user_name);
     print(values_dict);
     values_dict = jsonEncode(values_dict);
     print(values_dict);
     var response = await http.get(Uri.parse(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customer_name}&due_date=${delivery_date}&items=${values_dict}&distributor=${distributor_name}&sales_person=${user_name}"""));
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customer_name}&due_date=${delivery_date}&items=${values_dict}&distributor=${distributor_name}&sales_person=${username}"""));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
