@@ -99,7 +99,6 @@ class _dealerState extends State<dealer> {
                       children: <Widget>[
                         dealer_name(size),
                         dealer_mobile(size),
-                        dealer_type(size),
                         dealer_address(size),
                         dealer_submit(size)
                         // buildFooter(size),
@@ -110,27 +109,6 @@ class _dealerState extends State<dealer> {
               ),
             ),
           ),
-        ));
-  }
-
-  Widget dealer_type(Size size) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
-        child: SizedBox(
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                const Text('Existing Dealer:'),
-                Checkbox(
-                  value: _foo,
-                  onChanged: (value) {
-                    setState(() {
-                      _foo = value!;
-                      print(_foo);
-                    });
-                  },
-                )
-              ]),
         ));
   }
 
@@ -267,6 +245,24 @@ class _dealerState extends State<dealer> {
                         .map((String) => SearchFieldListItem(String))
                         .toList(),
                     suggestionState: Suggestion.expand,
+                    onSuggestionTap: (x) {
+                      FocusScope.of(context).unfocus();
+                      print(dealerarea.text);
+
+                      for (int i = 0; i < territory.length; i++) {
+                        if (territory[i].contains(dealerarea.text)) {
+                          print(territory[i]);
+                          print(territory[i][1]);
+                          print(territory[i][2]);
+                          setState(() {
+                            districts.text = territory[i][1];
+                            dealerstate.text = territory[i][2];
+                          });
+                        }
+                      }
+                      postal_code(
+                          dealerarea.text, districts.text, dealerstate.text);
+                    },
                     textInputAction: TextInputAction.next,
                     hasOverlay: false,
                     searchStyle: TextStyle(
@@ -285,68 +281,107 @@ class _dealerState extends State<dealer> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
-                      child: SearchField(
-                    controller: dealerterritory,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please select territory';
-                      }
-                      return null;
-                    },
-                    suggestions: territory
-                        .map((String) => SearchFieldListItem(String))
-                        .toList(),
-                    suggestionState: Suggestion.expand,
-                    textInputAction: TextInputAction.next,
-                    hasOverlay: false,
-                    searchStyle: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black.withOpacity(0.8),
-                    ),
-                    searchInputDecoration: const InputDecoration(
+                  TextFormField(
+                    readOnly: true,
+                    controller: districts,
+                    decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                           borderSide:
                               BorderSide(color: Color(0xFFEB455F), width: 2.0),
                         ),
-                        hintText: "Select Territory"),
-                  )),
+                        hintText: " District"),
+                  ),
+
+                  // SearchField(
+                  //   controller: dealerterritory,
+                  //   validator: (value) {
+                  //     if (value == null || value.isEmpty) {
+                  //       return 'Please select territory';
+                  //     }
+                  //     return null;
+                  //   },
+                  //   suggestions: territory
+                  //       .map((String) => SearchFieldListItem(String))
+                  //       .toList(),
+                  //   suggestionState: Suggestion.expand,
+                  //   textInputAction: TextInputAction.next,
+                  //   hasOverlay: false,
+                  //   searchStyle: TextStyle(
+                  //     fontSize: 15,
+                  //     color: Colors.black.withOpacity(0.8),
+                  //   ),
+                  //   searchInputDecoration: const InputDecoration(
+                  //       border: OutlineInputBorder(),
+                  //       focusedBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.all(Radius.circular(8)),
+                  //         borderSide:
+                  //             BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                  //       ),
+                  //       hintText: "Select District"),
+                  // ),
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
-                      child: SearchField(
+                  TextFormField(
+                    readOnly: true,
                     controller: dealerstate,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Select state';
-                      }
-                      return null;
-                    },
-                    onSuggestionTap: (x) async {
-                      FocusScope.of(context).unfocus();
-                    },
-                    suggestions: state
-                        .map((String) => SearchFieldListItem(String))
-                        .toList(),
-                    suggestionState: Suggestion.expand,
-                    textInputAction: TextInputAction.next,
-                    hasOverlay: false,
-                    searchStyle: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black.withOpacity(0.8),
-                    ),
-                    searchInputDecoration: const InputDecoration(
+                    decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                           borderSide:
                               BorderSide(color: Color(0xFFEB455F), width: 2.0),
                         ),
-                        hintText: "Select State"),
-                  )),
+                        hintText: "State"),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    // readOnly: true,
+                    controller: pincode_text,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide:
+                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                        ),
+                        hintText: "Pincode"),
+                  ),
+                  // Container(
+                  //     child: SearchField(
+                  //   controller: dealerstate,
+                  //   validator: (value) {
+                  //     if (value == null || value.isEmpty) {
+                  //       return 'Please Select state';
+                  //     }
+                  //     return null;
+                  //   },
+                  //   onSuggestionTap: (x) async {
+                  //     FocusScope.of(context).unfocus();
+                  //   },
+                  //   suggestions: state
+                  //       .map((String) => SearchFieldListItem(String))
+                  //       .toList(),
+                  //   suggestionState: Suggestion.expand,
+                  //   textInputAction: TextInputAction.next,
+                  //   hasOverlay: false,
+                  //   searchStyle: TextStyle(
+                  //     fontSize: 15,
+                  //     color: Colors.black.withOpacity(0.8),
+                  //   ),
+                  //   searchInputDecoration: const InputDecoration(
+                  //       border: OutlineInputBorder(),
+                  //       focusedBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.all(Radius.circular(8)),
+                  //         borderSide:
+                  //             BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                  //       ),
+                  //       hintText: "Select State"),
+                  // )),
                   const SizedBox(
                     height: 10,
                   ),
@@ -456,41 +491,32 @@ class _dealerState extends State<dealer> {
 
                 print(_foo.toString());
                 customer_creation(
-                  _foo.toString(),
-                  dealername.text,
-                  dealermobile.text,
-                  dealerdoorno.text,
-                  dealercity.text,
-                  dealerterritory.text,
-                  dealerstate.text,
-                  dealerarea.text,
-                );
+                    dealername.text,
+                    dealermobile.text,
+                    dealerdoorno.text,
+                    dealercity.text,
+                    dealerarea.text,
+                    dealerstate.text,
+                    districts.text,
+                    pincode_text.text);
                 dealertype.clear();
                 dealername.clear();
                 dealermobile.clear();
                 dealerdoorno.clear();
-                dealerterritory.clear();
+                districts.clear();
                 dealercity.clear();
                 dealerstate.clear();
                 dealerarea.clear();
-                // dealerpincode.clear();
+                dealerpincode.clear();
+                pincode_text.clear();
               }
             }),
       ),
     );
   }
 
-  Future customer_creation(
-    foo,
-    fullName,
-    phoneNumber,
-    dealerdoorno,
-    dealercity,
-    territory,
-    state,
-    area,
-  ) async {
-    print(foo.toString());
+  Future customer_creation(fullName, phoneNumber, dealerdoorno, dealercity,
+      tity, state, districts, pincode) async {
     print("lllll");
     print("lllll");
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -498,10 +524,9 @@ class _dealerState extends State<dealer> {
     print(prefs.getString("token"));
     print(dealertype);
     var response = await http.get(Uri.parse(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?existing_dealer=${(foo = true) ? 1 : 0}&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&latitude=${(area.toString().isEmpty) ? current_position!.latitude : ""}&longitude=${(area.toString().isEmpty) ? current_position!.longitude : ""}&auto_pincode=${(area.toString().isEmpty) ? auto_pincode : ""}&area=${area}"""));
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${pincode}"""));
     print(
-        "${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?existing_dealer=${(foo = true) ? 1 : 0}&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&latitude=${(area.toString().isEmpty) ? current_position!.latitude : ""}&longitude=${(area.toString().isEmpty) ? current_position!.longitude : ""}&auto_pincode=${(area.toString().isEmpty) ? auto_pincode : ""}&area=${area}"
-        "");
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${(tity.toString().isEmpty) ? current_position!.latitude : ""}&longitude=${(tity.toString().isEmpty) ? current_position!.longitude : ""}&auto_pincode=${(tity.toString().isEmpty) ? auto_pincode : ""}""");
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -555,22 +580,19 @@ class _dealerState extends State<dealer> {
     var response = await http.get(Uri.parse(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.territory"""));
     print(response.statusCode);
+    print("iiiiiiiiiiiiiiiiiii");
     print(response.body);
     if (response.statusCode == 200) {
       await Future.delayed(const Duration(milliseconds: 500));
       setState(() {
-        for (var i = 0;
-            i < json.decode(response.body)['message1'].length;
-            i++) {
-          territory.add((json.decode(response.body)['message1'][i]));
+        for (var i = 0; i < json.decode(response.body)['messege'].length; i++) {
+          area_list.add((json.decode(response.body)['messege'][i][0]));
+          territory.add((json.decode(response.body)['messege'][i]));
+          print(territory[i][1]);
         }
-        for (var i = 0;
-            i < json.decode(response.body)['message2'].length;
-            i++) {
-          area_list.add((json.decode(response.body)['message2'][i]));
-        }
-        print('lllllllllllllllllllllllllllllllllllllll');
-        print(area_list);
+        print(territory);
+
+        print("hoihoihoi");
       });
     }
   }
@@ -754,6 +776,44 @@ class _dealerState extends State<dealer> {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future postal_code(String area, String dis, String state) async {
+    print(dis + " " + state);
+    var response = await http
+        .get(Uri.parse("https://api.postalpincode.in/postoffice/$area"));
+    print("postal_code");
+    print(
+        "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+    print(response.statusCode);
+
+    print(response.body);
+    if (response.statusCode == 200) {
+      print("cccccc");
+      for (var i = 0; i < json.decode(response.body).length; i++) {
+        // area_list.add((json.decode(response.body)['messege'][i][0]));
+        // territory.add((json.decode(response.body)['messege'][i]));
+        print(json.decode(response.body)[i]["PostOffice"]);
+        pincode_list = (json.decode(response.body)[i]["PostOffice"]);
+        for (var j = 0; j < pincode_list.length; j++) {
+          print("object");
+          print(dis.toLowerCase());
+          print((pincode_list[j]["District"]));
+          if (pincode_list[j]["District"].contains(dis) &&
+              pincode_list[j]["State"].contains(state)) {
+            print((pincode_list[j]["Pincode"]));
+            print((pincode_list[j]["Pincode"].runtimeType));
+            print((pincode_list[j]["District"]));
+            print((pincode_list[j]["Name"].runtimeType));
+            setState(() {
+              pincode_text.text = pincode_list[j]["Pincode"];
+            });
+          }
+        }
+        // print(json.decode(response.body)[i]["PostOffice"]);
+        print(pincode_list);
+      }
     }
   }
 }
