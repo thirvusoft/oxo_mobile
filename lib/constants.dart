@@ -88,7 +88,6 @@ TextEditingController dealerstate = TextEditingController();
 TextEditingController dealerpincode = TextEditingController();
 TextEditingController dealerdoorno = TextEditingController();
 
-
 GlobalKey<FormState> delear_type = GlobalKey<FormState>();
 
 List deleartype = ["NEW DEALER", "EXISTING DEALER"];
@@ -137,6 +136,7 @@ List shirt_list = [];
 TextEditingController searchcontroller_shirt = TextEditingController();
 TextEditingController searchcontroller_inner = TextEditingController();
 TextEditingController searchcontroller_outer = TextEditingController();
+TextEditingController districts = TextEditingController();
 
 List icon_nameOnSearch_inner = [];
 List item_search_list_inner = [];
@@ -158,6 +158,7 @@ List item_search_list_category = [];
 // template page
 
 TextEditingController searchcontroller_category = TextEditingController();
+TextEditingController pincode_text = TextEditingController();
 
 var item_name;
 var item_name_list;
@@ -179,3 +180,7 @@ var pathttt;
 
 double value = 0;
 bool image_temp = true;
+List pincode_list = [];
+List district_lists = [];
+List districts_ = [];
+TextEditingController district_list_text = TextEditingController();
