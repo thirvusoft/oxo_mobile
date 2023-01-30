@@ -58,8 +58,8 @@ class _dealerState extends State<dealer> {
   void initState() {
     // TODO: implement initState
     territory_list();
-    state_list();
     _getCurrentLocation();
+    district_list();
   }
 
   var _foo = false;
@@ -281,53 +281,67 @@ class _dealerState extends State<dealer> {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    readOnly: true,
-                    controller: districts,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        hintText: " District"),
-                  ),
-
-                  // SearchField(
-                  //   controller: dealerterritory,
-                  //   validator: (value) {
-                  //     if (value == null || value.isEmpty) {
-                  //       return 'Please select territory';
-                  //     }
-                  //     return null;
-                  //   },
-                  //   suggestions: territory
-                  //       .map((String) => SearchFieldListItem(String))
-                  //       .toList(),
-                  //   suggestionState: Suggestion.expand,
-                  //   textInputAction: TextInputAction.next,
-                  //   hasOverlay: false,
-                  //   searchStyle: TextStyle(
-                  //     fontSize: 15,
-                  //     color: Colors.black.withOpacity(0.8),
-                  //   ),
-                  //   searchInputDecoration: const InputDecoration(
+                  // TextFormField(
+                  //   controller: districts,
+                  //   decoration: const InputDecoration(
                   //       border: OutlineInputBorder(),
                   //       focusedBorder: OutlineInputBorder(
                   //         borderRadius: BorderRadius.all(Radius.circular(8)),
                   //         borderSide:
                   //             BorderSide(color: Color(0xFFEB455F), width: 2.0),
                   //       ),
-                  //       hintText: "Select District"),
+                  //       hintText: " District"),
                   // ),
+
+                  SearchField(
+                    controller: districts,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select territory';
+                      }
+                      return null;
+                    },
+                    suggestions: district_lists
+                        .map((String) => SearchFieldListItem(String))
+                        .toList(),
+                    suggestionState: Suggestion.expand,
+                    textInputAction: TextInputAction.next,
+                    hasOverlay: false,
+                    searchStyle: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black.withOpacity(0.8),
+                    ),
+                    searchInputDecoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide:
+                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                        ),
+                        hintText: "Select District"),
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    readOnly: true,
+                  SearchField(
                     controller: dealerstate,
-                    decoration: const InputDecoration(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select territory';
+                      }
+                      return null;
+                    },
+                    suggestions: state
+                        .map((String) => SearchFieldListItem(String))
+                        .toList(),
+                    suggestionState: Suggestion.expand,
+                    textInputAction: TextInputAction.next,
+                    hasOverlay: false,
+                    searchStyle: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black.withOpacity(0.8),
+                    ),
+                    searchInputDecoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -336,12 +350,24 @@ class _dealerState extends State<dealer> {
                         ),
                         hintText: "State"),
                   ),
+                  // TextFormField(
+                  //   controller: dealerstate,
+                  //   decoration: const InputDecoration(
+                  //       border: OutlineInputBorder(),
+                  //       focusedBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.all(Radius.circular(8)),
+                  //         borderSide:
+                  //             BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                  //       ),
+                  //       hintText: "State"),
+                  // ),
                   const SizedBox(
                     height: 20,
                   ),
                   TextFormField(
                     // readOnly: true,
                     controller: pincode_text,
+                    keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
@@ -351,6 +377,21 @@ class _dealerState extends State<dealer> {
                         ),
                         hintText: "Pincode"),
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    controller: Manualdata_,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide:
+                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                        ),
+                        hintText: " Area / Pincode "),
+                  ),
+
                   // Container(
                   //     child: SearchField(
                   //   controller: dealerstate,
@@ -498,7 +539,8 @@ class _dealerState extends State<dealer> {
                     dealerarea.text,
                     dealerstate.text,
                     districts.text,
-                    pincode_text.text);
+                    pincode_text.text,
+                    Manualdata_.text);
                 dealertype.clear();
                 dealername.clear();
                 dealermobile.clear();
@@ -509,6 +551,7 @@ class _dealerState extends State<dealer> {
                 dealerarea.clear();
                 dealerpincode.clear();
                 pincode_text.clear();
+                Manualdata_.clear();
               }
             }),
       ),
@@ -516,21 +559,28 @@ class _dealerState extends State<dealer> {
   }
 
   Future customer_creation(fullName, phoneNumber, dealerdoorno, dealercity,
-      tity, state, districts, pincode) async {
+      tity, state, districts, pincode, Manual_code) async {
+    SharedPreferences token = await SharedPreferences.getInstance();
+    setState(() {
+      username = token.getString('full_name');
+    });
+    print("xxxxxx");
+    print(username);
     print("lllll");
     print("lllll");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(Manual_code);
     print('ppppppppppppppppp');
-    print(prefs.getString("token"));
+
     print(dealertype);
-    var response = await http.get(Uri.parse(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${pincode}"""));
+    var response = await http.get(
+        Uri.parse(
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&Manual_Data=${Manual_code}&user=${username}"""),
+        headers: {"Authorization": token.getString("token") ?? ""});
     print(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${(tity.toString().isEmpty) ? current_position!.latitude : ""}&longitude=${(tity.toString().isEmpty) ? current_position!.longitude : ""}&auto_pincode=${(tity.toString().isEmpty) ? auto_pincode : ""}""");
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&Manual_Data=${Manual_code}&user=${username}""");
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      await Future.delayed(const Duration(milliseconds: 500));
       print(json.decode(response.body)['customer']);
       var docName = json.decode(response.body)['customer'];
 
@@ -597,21 +647,21 @@ class _dealerState extends State<dealer> {
     }
   }
 
-  Future state_list() async {
-    state = [];
+  // Future state_list() async {
+  //   state = [];
 
-    var response = await http.get(Uri.parse(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.state"""));
+  //   var response = await http.get(Uri.parse(
+  //       """${dotenv.env['API_URL']}/api/method/oxo.custom.api.state"""));
 
-    if (response.statusCode == 200) {
-      await Future.delayed(const Duration(milliseconds: 500));
-      setState(() {
-        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
-          state.add((json.decode(response.body)['message'][i]));
-        }
-      });
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     await Future.delayed(const Duration(milliseconds: 500));
+  //     setState(() {
+  //       for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
+  //         state.add((json.decode(response.body)['message'][i]));
+  //       }
+  //     });
+  //   }
+  // }
 
   Position? _position;
   void _getCurrentLocation() async {
@@ -776,6 +826,39 @@ class _dealerState extends State<dealer> {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future district_list() async {
+    print("object");
+    district_lists = [];
+    state = [];
+    SharedPreferences token = await SharedPreferences.getInstance();
+    print('ppppppppppppppppp');
+
+    var response = await http.get(
+        Uri.parse(
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.district_list"""),
+        headers: {"Authorization": token.getString("token") ?? ""});
+
+    print("statestate");
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      setState(() {
+        for (var i = 0;
+            i < json.decode(response.body)['district'].length;
+            i++) {
+          print("cccccccccccccc");
+          print((json.decode(response.body)['district'][i]));
+          district_lists.add((json.decode(response.body)['district'][i]));
+        }
+        for (var i = 0; i < json.decode(response.body)['state'].length; i++) {
+          print("cccccccccccccc");
+          print((json.decode(response.body)['state'][i]));
+          state.add((json.decode(response.body)['state'][i]));
+        }
+      });
     }
   }
 

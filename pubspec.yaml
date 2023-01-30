@@ -72,6 +72,7 @@ dependencies:
   image_picker: ^0.8.6
   dio: ^4.0.6
   animations: ^2.0.7
+  flutter_launcher_icons: ^0.11.0
 
 
 dev_dependencies:
@@ -101,7 +102,10 @@ flutter:
     - assets/
     -  .env
   #   - images/a_dot_ham.jpeg
-
+flutter_icons:
+  android: true
+  ios: true
+  image_path: 'assets/Logo.jpg'
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
