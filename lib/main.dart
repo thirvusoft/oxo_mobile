@@ -7,7 +7,6 @@ import 'package:oxo/screens/notification/notification.dart';
 import 'package:oxo/screens/sales/home_page.dart';
 import 'package:oxo/screens/sales/order_page.dart';
 import 'package:oxo/screens/sales/sales_order.dart';
-import 'package:oxo/screens/sales/temp.dart';
 import 'package:oxo/screens/splashscreen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
