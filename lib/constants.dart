@@ -1,10 +1,11 @@
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:oxo/screens/add_dealer.dart/dealer.dart';
-import 'package:oxo/screens/sales/order.dart';
 import 'package:oxo/screens/sales/sales_order.dart';
 
 TextEditingController mobilenumcontroller = TextEditingController();
@@ -87,9 +88,7 @@ TextEditingController dealerstate = TextEditingController();
 TextEditingController dealerpincode = TextEditingController();
 TextEditingController dealerdoorno = TextEditingController();
 
-GlobalKey<FormState> address_key = GlobalKey<FormState>();
-GlobalKey<FormState> mobile_key = GlobalKey<FormState>();
-GlobalKey<FormState> name_key = GlobalKey<FormState>();
+
 GlobalKey<FormState> delear_type = GlobalKey<FormState>();
 
 List deleartype = ["NEW DEALER", "EXISTING DEALER"];
@@ -175,3 +174,8 @@ var counter;
 bool notifi = true;
 List temps = [];
 var tokens;
+late PickedFile _imageFile;
+var pathttt;
+
+double value = 0;
+bool image_temp = true;

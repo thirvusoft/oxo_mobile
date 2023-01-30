@@ -71,6 +71,7 @@ dependencies:
   dotted_border: ^2.0.0+3
   image_picker: ^0.8.6
   dio: ^4.0.6
+  animations: ^2.0.7
 
 
 dev_dependencies:

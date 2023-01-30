@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -13,7 +14,6 @@ import 'package:oxo/screens/Appointment/customer_list.dart';
 import 'package:oxo/screens/add_dealer.dart/dealer.dart';
 import 'package:oxo/screens/login.dart';
 import 'package:oxo/screens/sales/item_category_list.dart';
-import 'package:oxo/screens/sales/order.dart';
 import 'package:http/http.dart' as http;
 import 'package:oxo/screens/distributor/distributor.dart';
 import 'package:searchfield/searchfield.dart';
@@ -28,6 +28,7 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:cron/cron.dart';
 
 import 'order_page.dart';
+import 'orderlist.dart';
 
 class home_page extends StatefulWidget {
   const home_page({super.key});
@@ -108,6 +109,8 @@ class _home_pageState extends State<home_page> {
   }
 
   Widget build(BuildContext context) {
+    ContainerTransitionType _containerTransitionType =
+        ContainerTransitionType.fade;
     final size = MediaQuery.of(context).size;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -116,79 +119,82 @@ class _home_pageState extends State<home_page> {
 
         backgroundColor: const Color(0xffEB455F),
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: const Color(0xffEB455F),
-          elevation: 0,
-          actions: [
-            new Stack(
-              children: <Widget>[
-                new IconButton(
-                    icon: const Icon(
-                      PhosphorIcons.bell,
-                    ),
-                    onPressed: () {
-                      // Navigator.pushNamed(context, 'notification');
-                      // setState(() {
-                      //   counter = 0;
-                      // });
-                    }),
-                (counter != 0 && counter != null)
-                    ? new Positioned(
-                        right: 22,
-                        top: 11,
-                        child: new Container(
-                          padding: const EdgeInsets.all(1),
-                          decoration: new BoxDecoration(
-                            color: const Color(0xFF2B3467),
-                            borderRadius: BorderRadius.circular(15),
+            automaticallyImplyLeading: false,
+            backgroundColor: const Color(0xffEB455F),
+            elevation: 0,
+            actions: [
+              new Stack(
+                children: <Widget>[
+                  new IconButton(
+                      icon: const Icon(
+                        PhosphorIcons.bell,
+                      ),
+                      onPressed: () {
+                        // Navigator.pushNamed(context, 'notification');
+                        // setState(() {
+                        //   counter = 0;
+                        // });
+                      }),
+                  (counter != 0 && counter != null)
+                      ? new Positioned(
+                          right: 22,
+                          top: 11,
+                          child: new Container(
+                            padding: const EdgeInsets.all(1),
+                            decoration: new BoxDecoration(
+                              color: const Color(0xFF2B3467),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 10,
+                              minHeight: 10,
+                            ),
                           ),
-                          constraints: const BoxConstraints(
-                            minWidth: 10,
-                            minHeight: 10,
-                          ),
-                        ),
-                      )
-                    : new Container()
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: IconButton(
-                onPressed: () {
-                  _delete(context);
-                },
-                icon: const Icon(PhosphorIcons.sign_out),
+                        )
+                      : new Container()
+                ],
               ),
-            ),
-          ],
-          centerTitle: true,
-          title: RichText(
-            text: TextSpan(children: [
-              TextSpan(
-                  text: day_status,
-                  style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 20,
-                          letterSpacing: .2,
-                          color: Color(0xffffffff)))),
-              TextSpan(
-                  text: " " + username,
-                  style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 20,
-                          letterSpacing: .2,
-                          color: Color(0xFFfffffffff)))),
-            ]),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 6),
+                child: IconButton(
+                  onPressed: () {
+                    _delete(context);
+                  },
+                  icon: const Icon(PhosphorIcons.sign_out),
+                ),
+              ),
+            ],
+            // centerTitle: true,
+            title: Align(
+              alignment: Alignment.topCenter,
+              child: RichText(
+                text: TextSpan(children: [
+                  TextSpan(
+                      text: day_status,
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              fontSize: 20,
+                              letterSpacing: .2,
+                              color: Color(0xffffffff)))),
+                  TextSpan(
+                      text: " $username",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 20,
+                              letterSpacing: .2,
+                              color: Color(0xFFfffffffff)))),
+                ]),
 
-            // Text(
-            //   day_status,
-            //   style: GoogleFonts.poppins(
-            //     textStyle: const TextStyle(
-            //         fontSize: 15, letterSpacing: .2, color: Color(0xFFfffffffff)),
-            //   ),
-          ),
-        ),
-        body: Padding(
+                // Text(
+                //   day_status,
+                //   style: GoogleFonts.poppins(
+                //     textStyle: const TextStyle(
+                //         fontSize: 15, letterSpacing: .2, color: Color(0xFFfffffffff)),
+                //   ),
+              ),
+            )),
+        body: SingleChildScrollView(
+            child: Padding(
           padding: const EdgeInsets.only(top: 15.0),
           child: Container(
             // color: Color(0xffeff4fd),
@@ -207,8 +213,17 @@ class _home_pageState extends State<home_page> {
                 Padding(
                   padding: EdgeInsets.only(top: size.width / 5),
                   child: Row(children: <Widget>[
+                    const SizedBox(
+                      width: 5,
+                    ),
                     getCardItem(height),
+                    const SizedBox(
+                      width: 20,
+                    ),
                     getCardItem2(height),
+                    const SizedBox(
+                      width: 5,
+                    ),
                   ]),
                 ),
                 const SizedBox(
@@ -219,8 +234,29 @@ class _home_pageState extends State<home_page> {
                     top: size.width / 28,
                   ),
                   child: Row(children: <Widget>[
+                    const SizedBox(
+                      width: 5,
+                    ),
                     getCardItem3(height),
-                    // getCardItem5(height),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    getCardItem5(height),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    // getCardItem4(height),
+                  ]),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: size.width / 15,
+                  ),
+                  child: Row(children: <Widget>[
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    getCardItem6(height),
                     // getCardItem4(height),
                   ]),
                 ),
@@ -239,256 +275,164 @@ class _home_pageState extends State<home_page> {
               ],
             ))),
           ),
-        ));
+        )));
   }
 
   Widget getCardItem(height) {
-    return Center(
-        child: Padding(
-      padding: const EdgeInsets.only(left: 10),
-      child: Container(
+    ContainerTransitionType _containerTransitionType =
+        ContainerTransitionType.fade;
+    return OpenContainer(
+      transitionType: _containerTransitionType,
+      transitionDuration: Duration(milliseconds: 500),
+      openBuilder: (context, _) => dealer(),
+      closedElevation: 0,
+      closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(32),
+          side: const BorderSide(color: Colors.white, width: 1)),
+      closedColor: Colors.white,
+      closedBuilder: (context, _) => Container(
+        alignment: Alignment.center,
         height: 180,
         width: 180,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Color.fromARGB(255, 230, 227, 227).withOpacity(.5),
-              spreadRadius: 10,
-              blurRadius: 20,
-              offset: const Offset(0, 10),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 15,
             ),
+            Image.asset(
+              "assets/add_friends.png",
+              height: 75,
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: const Color(0xFF2B3467),
+                  border: Border.all(
+                    color: const Color(0xFF2B3467),
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  " Add Dealer ",
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                        fontSize: 15, letterSpacing: .2, color: Colors.white),
+                  ),
+                ),
+              ),
+            )
           ],
-        ),
-        child: Container(
-          child: Column(
-            children: [
-              const Padding(padding: EdgeInsets.only(top: 20)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/add_friends.png",
-                    height: 65,
-                  ),
-                  // padding: const EdgeInsets.all(10),
-
-                  // Container(
-                  //   child: Text(
-                  //     "20",
-                  //     style: TextStyle(
-                  //       color: Colors.blueAccent,
-                  //     ),
-                  //   ),
-                  // ),
-                ],
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Container(
-                // decoration: const BoxDecoration(
-                //     color:const Color(0xFF2B3467),
-                //     borderRadius: BorderRadius.only(
-                //         bottomRight: Radius.circular(12),
-                //         bottomLeft: Radius.circular(12))),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const dealer()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25.0, vertical: 15.0),
-                    backgroundColor: const Color(0xFF2B3467),
-                    // shape: const StadiumBorder(),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                  ),
-                  child: Text('Add Dealer',
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 15,
-                              letterSpacing: .2,
-                              color: Color(0xfffffffffff)))),
-                ),
-                // padding: const EdgeInsets.all(12),
-              )
-            ],
-          ),
-        ),
-      ),
-    ));
-  }
-
-  Widget getCardItem2(height) {
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.only(left: height / 45),
-        child: Container(
-          height: 180,
-          width: 180,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromARGB(255, 230, 227, 227).withOpacity(.5),
-                spreadRadius: 10,
-                blurRadius: 20,
-                offset: const Offset(0, 10),
-              ),
-            ],
-          ),
-          child: Container(
-            child: Column(
-              children: [
-                const Padding(padding: EdgeInsets.only(top: 30)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Image.asset(
-                        "assets/Order_confirmed.png",
-                        height: 65,
-                      ),
-                      // padding: const EdgeInsets.all(10),
-                    ),
-                    // Container(
-                    //   child: Text(
-                    //     "20",
-                    //     style: TextStyle(
-                    //       color: Colors.blueAccent,
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  // decoration: const BoxDecoration(
-                  //     color:const Color(0xFF2B3467),
-                  //     borderRadius: BorderRadius.only(
-                  //         bottomRight: Radius.circular(12),
-                  //         bottomLeft: Radius.circular(12))),
-                  child: ElevatedButton(
-                    child: Text('Create Order',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                fontSize: 15,
-                                letterSpacing: .2,
-                                color: Color(0xFFfffffffff)))),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const category()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 25.0, vertical: 15.0),
-                      backgroundColor: const Color(0xFF2B3467),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                    ),
-                  ),
-                  // padding: const EdgeInsets.all(12),
-                )
-              ],
-            ),
-          ),
         ),
       ),
     );
   }
 
-  Widget getCardItem3(height) {
+  Widget getCardItem2(height) {
+    ContainerTransitionType _containerTransitionType =
+        ContainerTransitionType.fade;
     return Center(
-        child: Padding(
-      padding: const EdgeInsets.only(left: 10),
-      child: Container(
+        child: OpenContainer(
+      transitionType: _containerTransitionType,
+      transitionDuration: Duration(milliseconds: 500),
+      openBuilder: (context, _) => category(),
+      closedElevation: 0,
+      closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(32),
+          side: const BorderSide(color: Colors.white, width: 1)),
+      closedColor: Colors.white,
+      closedBuilder: (context, _) => Container(
+        alignment: Alignment.center,
         height: 180,
         width: 180,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Color.fromARGB(255, 230, 227, 227).withOpacity(.5),
-              spreadRadius: 10,
-              blurRadius: 20,
-              offset: const Offset(0, 10),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 15,
             ),
-          ],
-        ),
-        child: Container(
-          child: Column(
-            children: [
-              const Padding(padding: EdgeInsets.only(top: 20)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    child: Image.asset(
-                      "assets/Current_location.png",
-                      height: 65,
-                    ),
-                    // padding: const EdgeInsets.all(10),
+            Image.asset(
+              "assets/Order_confirmed.png",
+              height: 75,
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: const Color(0xFF2B3467),
+                  border: Border.all(
+                    color: const Color(0xFF2B3467),
                   ),
-                  // Container(
-                  //   child: Text(
-                  //     "20",
-                  //     style: TextStyle(
-                  //       color: Colors.blueAccent,
-                  //     ),
-                  //   ),
-                  // ),
-                ],
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Container(
-                // decoration: const BoxDecoration(
-                //     color:const Color(0xFF2B3467),
-                //     borderRadius: BorderRadius.only(
-                //         bottomRight: Radius.circular(12),
-                //         bottomLeft: Radius.circular(12))),
-                child: ElevatedButton(
-                  child: Text('Delear Location',
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 15,
-                              letterSpacing: .1,
-                              color: Color(0xFFfffffffff)))),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const location_pin()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25.0, vertical: 15.0),
-                    backgroundColor: const Color(0xFF2B3467),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  "Create Order",
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                        fontSize: 15, letterSpacing: .2, color: Colors.white),
                   ),
                 ),
-                // padding: const EdgeInsets.all(12),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     ));
+  }
+
+  Widget getCardItem3(height) {
+    ContainerTransitionType _containerTransitionType =
+        ContainerTransitionType.fade;
+    return OpenContainer(
+      transitionType: _containerTransitionType,
+      transitionDuration: Duration(milliseconds: 500),
+      openBuilder: (context, _) => location_pin(),
+      closedElevation: 0,
+      closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(32),
+          side: const BorderSide(color: Colors.white, width: 1)),
+      closedColor: Colors.white,
+      closedBuilder: (context, _) => Container(
+        alignment: Alignment.center,
+        height: 180,
+        width: 180,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 15,
+            ),
+            Image.asset(
+              "assets/Current_location.png",
+              height: 75,
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: const Color(0xFF2B3467),
+                  border: Border.all(
+                    color: const Color(0xFF2B3467),
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  "Dealer Location ",
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                        fontSize: 15, letterSpacing: .2, color: Colors.white),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Widget getCardItem4(height) {
@@ -567,78 +511,104 @@ class _home_pageState extends State<home_page> {
   }
 
   Widget getCardItem5(height) {
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.only(left: height / 45),
-        child: Container(
-          height: 180,
-          width: 180,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromARGB(255, 230, 227, 227).withOpacity(.5),
-                spreadRadius: 10,
-                blurRadius: 20,
-                offset: const Offset(0, 10),
-              ),
-            ],
-          ),
-          child: Container(
-            child: Column(
-              children: [
-                const Padding(padding: EdgeInsets.only(top: 30)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Image.asset(
-                        "assets/Booking.png",
-                        height: 65,
-                      ),
-                      // padding: const EdgeInsets.all(10),
-                    ),
-                    // Container(
-                    //   child: Text(
-                    //     "20",
-                    //     style: TextStyle(
-                    //       color: Colors.blueAccent,
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  // decoration: const BoxDecoration(
-                  //     color:const Color(0xFF2B3467),
-                  //     borderRadius: BorderRadius.only(
-                  //         bottomRight: Radius.circular(12),
-                  //         bottomLeft: Radius.circular(12))),
-                  child: ElevatedButton(
-                    child: const Text('Fix Appointment'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => appointment()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 25.0, vertical: 15.0),
-                      backgroundColor: const Color(0xFF2B3467),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                    ),
-                  ),
-                  // padding: const EdgeInsets.all(12),
-                )
-              ],
+    ContainerTransitionType containerTransitionType =
+        ContainerTransitionType.fade;
+    return OpenContainer(
+      transitionType: containerTransitionType,
+      transitionDuration: const Duration(milliseconds: 500),
+      openBuilder: (context, _) => appointment(),
+      closedElevation: 0,
+      closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(32),
+          side: const BorderSide(color: Colors.white, width: 1)),
+      closedColor: Colors.white,
+      closedBuilder: (context, _) => Container(
+        alignment: Alignment.center,
+        height: 180,
+        width: 180,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 15,
             ),
-          ),
+            Image.asset(
+              "assets/Booking.png",
+              height: 75,
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: const Color(0xFF2B3467),
+                  border: Border.all(
+                    color: const Color(0xFF2B3467),
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  "Fix Appointment",
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                        fontSize: 15, letterSpacing: .2, color: Colors.white),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getCardItem6(height) {
+    ContainerTransitionType containerTransitionType =
+        ContainerTransitionType.fade;
+    return OpenContainer(
+      transitionType: containerTransitionType,
+      transitionDuration: Duration(milliseconds: 500),
+      openBuilder: (context, _) => order_list(),
+      closedElevation: 0,
+      closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(32),
+          side: const BorderSide(color: Colors.white, width: 1)),
+      closedColor: Colors.white,
+      closedBuilder: (context, _) => Container(
+        alignment: Alignment.center,
+        height: 180,
+        width: 180,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 15,
+            ),
+            Image.asset(
+              "assets/order_list.png",
+              height: 75,
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: const Color(0xFF2B3467),
+                  border: Border.all(
+                    color: const Color(0xFF2B3467),
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  "  Order List  ",
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                        fontSize: 15, letterSpacing: .2, color: Colors.white),
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -835,8 +805,6 @@ class _home_pageState extends State<home_page> {
               TextButton(
                 onPressed: () async {
                   final token = await SharedPreferences.getInstance();
-                  print(token);
-                  print(token.getString('token'));
                   await token.clear();
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => Login()));

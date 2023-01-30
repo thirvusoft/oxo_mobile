@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:oxo/constants.dart';
 import 'package:oxo/screens/sales/home_page.dart';
-import 'package:oxo/screens/sales/order.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 

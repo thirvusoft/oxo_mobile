@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -21,6 +22,7 @@ import 'package:http/http.dart' as http;
 import 'package:searchfield/searchfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
+import 'dart:math';
 
 class dealer extends StatefulWidget {
   const dealer({super.key});
@@ -32,9 +34,27 @@ class dealer extends StatefulWidget {
 class _dealerState extends State<dealer> {
   @override
   File? _image;
-  late PickedFile _imageFile;
+
+  late File imageFile;
+
   final ImagePicker _picker = ImagePicker();
-  var login_loading_dealer = false;
+  var currentAddress;
+  GlobalKey<FormState> Addresskey = GlobalKey<FormState>();
+  GlobalKey<FormState> Mobilekey = GlobalKey<FormState>();
+  GlobalKey<FormState> Namekey = GlobalKey<FormState>();
+
+  void determinateIndicator() {
+    new Timer.periodic(Duration(seconds: 1), (Timer timer) {
+      setState(() {
+        if (value == 1) {
+          timer.cancel();
+        } else {
+          value = value + 0.3;
+        }
+      });
+    });
+  }
+
   void initState() {
     // TODO: implement initState
     territory_list();
@@ -42,10 +62,11 @@ class _dealerState extends State<dealer> {
     _getCurrentLocation();
   }
 
+  var _foo = false;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    var currentAddress;
 
     return Scaffold(
         appBar: AppBar(
@@ -76,9 +97,9 @@ class _dealerState extends State<dealer> {
                     // bottom: 20.0,
                     child: Column(
                       children: <Widget>[
-                        dealer_type(size),
                         dealer_name(size),
                         dealer_mobile(size),
+                        dealer_type(size),
                         dealer_address(size),
                         dealer_submit(size)
                         // buildFooter(size),
@@ -96,37 +117,20 @@ class _dealerState extends State<dealer> {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
         child: SizedBox(
-          child: Form(
-            key: delear_type,
-            child: Container(
-                child: SearchField(
-              controller: dealertype,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please select delear type';
-                }
-                return null;
-              },
-              suggestions: deleartype
-                  .map((String) => SearchFieldListItem(String))
-                  .toList(),
-              suggestionState: Suggestion.expand,
-              textInputAction: TextInputAction.next,
-              hasOverlay: false,
-              searchStyle: TextStyle(
-                fontSize: 15,
-                color: Colors.black.withOpacity(0.8),
-              ),
-              searchInputDecoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide:
-                        BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                  ),
-                  hintText: "Select delear type"),
-            )),
-          ),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                const Text('Existing Dealer:'),
+                Checkbox(
+                  value: _foo,
+                  onChanged: (value) {
+                    setState(() {
+                      _foo = value!;
+                      print(_foo);
+                    });
+                  },
+                )
+              ]),
         ));
   }
 
@@ -135,7 +139,7 @@ class _dealerState extends State<dealer> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
         child: SizedBox(
           child: Form(
-              key: name_key,
+              key: Namekey,
               child: TextFormField(
                 textCapitalization: TextCapitalization.characters,
                 controller: dealername,
@@ -162,7 +166,7 @@ class _dealerState extends State<dealer> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
         child: SizedBox(
           child: Form(
-              key: mobile_key,
+              key: Mobilekey,
               child: TextFormField(
                 controller: dealermobile,
                 maxLength: 10,
@@ -191,7 +195,7 @@ class _dealerState extends State<dealer> {
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 15),
         child: SizedBox(
           child: Form(
-              key: address_key,
+              key: Addresskey,
               child: Column(
                 children: [
                   Container(
@@ -321,6 +325,9 @@ class _dealerState extends State<dealer> {
                       }
                       return null;
                     },
+                    onSuggestionTap: (x) async {
+                      FocusScope.of(context).unfocus();
+                    },
                     suggestions: state
                         .map((String) => SearchFieldListItem(String))
                         .toList(),
@@ -343,46 +350,92 @@ class _dealerState extends State<dealer> {
                   const SizedBox(
                     height: 10,
                   ),
-                  DottedBorder(
-                      borderType: BorderType.RRect,
-                      radius: const Radius.circular(12),
-                      color: const Color(0xFF2B3467),
-                      strokeWidth: 2,
-                      strokeCap: StrokeCap.round,
-                      dashPattern: const [
-                        5,
-                        5,
-                        5,
-                      ],
-                      child: ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(11)),
-                        child: GestureDetector(
-                            onTap: () {
-                              print(",,,...,.,>>>.");
-                              showModalBottomSheet(
-                                context: context,
-                                builder: ((builder) => bottomSheet()),
-                              );
-                            },
-                            child: Container(
-                                width: 333,
-                                height: 75,
+                  (image_temp)
+                      ? DottedBorder(
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(12),
+                          color: const Color(0xFF2B3467),
+                          strokeWidth: 2,
+                          strokeCap: StrokeCap.round,
+                          dashPattern: const [
+                            5,
+                            5,
+                            5,
+                          ],
+                          child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(11)),
+                            child: GestureDetector(
+                                onTap: () {
+                                  print(",,,...,.,>>>.");
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: ((builder) => bottomSheet()),
+                                  );
+                                },
+                                child: Container(
+                                    width: 333,
+                                    height: 75,
+                                    color: const Color(0xffe8effc),
+                                    child: Column(
+                                      children: const [
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Icon(
+                                          PhosphorIcons.cloud_arrow_up_light,
+                                          color: Color(0xFF2B3467),
+                                          size: 30,
+                                        ),
+                                        Text("Click to upload")
+                                      ],
+                                    ))),
+                          ))
+                      : Column(
+                          children: [
+                            const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text("Selected File",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: .2,
+                                        fontSize: 18,
+                                        color: Color(0xff818cca)))),
+                            Card(
+                                elevation: 4,
                                 color: const Color(0xffe8effc),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
                                 child: Column(
-                                  children: const [
-                                    SizedBox(
-                                      height: 10,
+                                  children: [
+                                    ListTile(
+                                      leading: Image.file(_image!),
+                                      title: Text(pathttt),
                                     ),
-                                    Icon(
-                                      PhosphorIcons.cloud_arrow_up_light,
-                                      color: Color(0xFF2B3467),
-                                      size: 30,
+                                    const SizedBox(
+                                      height: 5,
                                     ),
-                                    Text("Click to upload")
+                                    Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 5),
+                                        width: 325,
+                                        // height: 20,
+                                        child: ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(10)),
+                                            child: LinearProgressIndicator(
+                                              backgroundColor:
+                                                  const Color(0xffe8effc),
+                                              color: const Color(0xFF2B3467),
+                                              value: value,
+                                              minHeight: 10,
+                                            )))
                                   ],
-                                ))),
-                      ))
+                                )),
+                          ],
+                        )
                 ],
               )),
         ));
@@ -396,13 +449,14 @@ class _dealerState extends State<dealer> {
             text: 'Submit',
             color: const Color(0xFFEB455F),
             pressEvent: () {
-              if (delear_type.currentState!.validate() &&
-                  name_key.currentState!.validate() &&
-                  mobile_key.currentState!.validate() &&
-                  address_key.currentState!.validate()) {
+              if (Namekey.currentState!.validate() &&
+                  Mobilekey.currentState!.validate() &&
+                  Addresskey.currentState!.validate()) {
                 _getCurrentLocation();
+
+                print(_foo.toString());
                 customer_creation(
-                  dealertype.text,
+                  _foo.toString(),
                   dealername.text,
                   dealermobile.text,
                   dealerdoorno.text,
@@ -427,7 +481,7 @@ class _dealerState extends State<dealer> {
   }
 
   Future customer_creation(
-    dealertype,
+    foo,
     fullName,
     phoneNumber,
     dealerdoorno,
@@ -436,22 +490,24 @@ class _dealerState extends State<dealer> {
     state,
     area,
   ) async {
-    print(current_position);
+    print(foo.toString());
     print("lllll");
     print("lllll");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     print('ppppppppppppppppp');
     print(prefs.getString("token"));
-    // print(current_position.trim());
-    // double location = double.parse(current_position);
-    // print(location);
-
+    print(dealertype);
     var response = await http.get(Uri.parse(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?dealertype=${dealertype}&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&latitude=${(area.toString().isEmpty) ? current_position!.latitude : ""}&longitude=${(area.toString().isEmpty) ? current_position!.longitude : ""}&auto_pincode=${(area.toString().isEmpty) ? auto_pincode : ""}&area=${area}"""));
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?existing_dealer=${(foo = true) ? 1 : 0}&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&latitude=${(area.toString().isEmpty) ? current_position!.latitude : ""}&longitude=${(area.toString().isEmpty) ? current_position!.longitude : ""}&auto_pincode=${(area.toString().isEmpty) ? auto_pincode : ""}&area=${area}"""));
+    print(
+        "${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?existing_dealer=${(foo = true) ? 1 : 0}&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&territory=${territory}&state=${state}&latitude=${(area.toString().isEmpty) ? current_position!.latitude : ""}&longitude=${(area.toString().isEmpty) ? current_position!.longitude : ""}&auto_pincode=${(area.toString().isEmpty) ? auto_pincode : ""}&area=${area}"
+        "");
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
       await Future.delayed(const Duration(milliseconds: 500));
+      print(json.decode(response.body)['customer']);
+      var docName = json.decode(response.body)['customer'];
 
       setState(() {
         AwesomeDialog(
@@ -461,14 +517,22 @@ class _dealerState extends State<dealer> {
           dialogType: DialogType.success,
           title: (json.decode(response.body)['message']),
           btnOkOnPress: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const home_page()),
-            );
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => const home_page()));
+
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const home_page()),
+            // );
           },
           btnOkIcon: Icons.check_circle,
           onDismissCallback: (type) {},
         ).show();
+        if (pathttt.isNotEmpty) {
+          uploadimage(imageFile, docName);
+        }
       });
     } else if (response.statusCode == 500) {
       Fluttertoast.showToast(
@@ -618,8 +682,8 @@ class _dealerState extends State<dealer> {
 
   Future pickImage(ImageSource source) async {
     String dir;
-    String pdf_name;
-    String pathttt;
+    String pdfName;
+
     File file;
 
     try {
@@ -630,62 +694,65 @@ class _dealerState extends State<dealer> {
       if (file == null) return;
       setState(() {
         _image = File(file.path);
-        pathttt = '$paths/${_image}';
+
         // print(File(file.path));
-        File imageFile = File(file.path);
+        imageFile = File(file.path);
+        pathttt = imageFile.path.split("/").last;
+
         print(",,,,.........................");
         print(pathttt);
-        uploadimage(imageFile);
+
+        image_temp = false;
+
+        // uploadimage(imageFile);
       });
+      determinateIndicator();
       // _cropImage(file.path);
+
       Navigator.pop(context);
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
   }
 
-  Future uploadimage(paths) async {
+  Future uploadimage(paths, docName) async {
+    final token = await SharedPreferences.getInstance();
+    print(docName);
     print("working");
-    print(paths);
-    String fileName = paths.path.split('/').last;
-    print(fileName);
+    var length = await paths.length();
     Dio dio = new Dio();
     try {
-      // String filename = paths.path.split("/").last;
-
-      // print(filename);
-      print("yyyy");
+      String filename = paths.path.split("/").last;
+      print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      print(filename);
       FormData formData = FormData.fromMap({
-        "file_url":
-            await MultipartFile.fromFile(paths.path, filename: fileName),
-        "docname": "9655210487-M.M",
-        "attached_to_doctype": "Customer",
-        "attached_to_name": "9655210487-M.M",
+        "file": await MultipartFile.fromFile(paths.path, filename: filename),
+        "docname": docName,
+        "doctype": 'Customer',
+        "attached_to_name": docName,
         "is_private": 0,
         // "attached_to_field": "user_image",
         "folder": "Home/Attachments"
       });
-      print(formData.files);
-      print(dotenv.env['API_URL']);
 
       var dio = Dio();
 
       dio.options.headers["Authorization"] =
-          "token 74c70e53a7ff3c0:f50347472ee14cc";
+          token.getString('token').toString();
 
-      print("${dotenv.env['API_URL']}/api/method/upload_file");
       var response = await dio.post(
         "https://oxo.thirvusoft.co.in/api/method/upload_file",
         data: formData,
       );
-
       if (response.statusCode == 200) {
-        print("profile");
+        print("sucucucucucuc");
+        setState(() {
+          image_temp = true;
+          imageFile.delete();
+        });
+        print(imageFile.toString());
       }
-
-      print(response.statusCode);
     } catch (e) {
-      print("pppp");
       print(e);
     }
   }
