@@ -92,7 +92,18 @@ class _sales_orderState extends State<sales_order> {
                               return null;
                             },
                             suggestions: district_lists
-                                .map((String) => SearchFieldListItem(String))
+                                .map((String) => SearchFieldListItem(String,
+                                    child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20.0),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            String,
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ))))
                                 .toList(),
                             suggestionState: Suggestion.expand,
                             onSuggestionTap: (x) {
@@ -131,12 +142,16 @@ class _sales_orderState extends State<sales_order> {
                                     color: const Color(0xff19183e),
                                   )),
                             ),
+                            maxSuggestionsInViewPort: 5,
+                            itemHeight: 35,
                           ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        item(size)
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: item(size))
                         // buildFooter(size),
                       ],
                     ),
@@ -311,7 +326,7 @@ class _sales_orderState extends State<sales_order> {
                                       TextStyle(fontWeight: FontWeight.bold)))),
                     ],
                   )),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Container(
@@ -394,18 +409,20 @@ class _sales_orderState extends State<sales_order> {
                   GridColumn(
                       columnName: 'name',
                       label: Container(
+                          decoration:
+                              const BoxDecoration(color: Color(0xffe8effc)),
                           child: Center(
-                        child: Text(
-                          'Item Name',
-                          // overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                                letterSpacing: .5,
-                                fontSize: 17,
-                                color: Color(0xFF2B3467)),
-                          ),
-                        ),
-                      ))),
+                            child: Text(
+                              'Item Name',
+                              // overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                    letterSpacing: .5,
+                                    fontSize: 17,
+                                    color: Color(0xFF2B3467)),
+                              ),
+                            ),
+                          ))),
                   // GridColumn(
                   //     columnName: 'item_group',
                   //     label: Container(
@@ -418,18 +435,20 @@ class _sales_orderState extends State<sales_order> {
                   GridColumn(
                     columnName: 'qty',
                     label: Container(
+                        decoration:
+                            const BoxDecoration(color: Color(0xffe8effc)),
                         child: Center(
-                      child: Text(
-                        'Quantity',
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                              letterSpacing: .5,
-                              fontSize: 17,
-                              color: Color(0xFF2B3467)),
-                        ),
-                      ),
-                    )),
+                          child: Text(
+                            'Quantity',
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  letterSpacing: .5,
+                                  fontSize: 17,
+                                  color: Color(0xFF2B3467)),
+                            ),
+                          ),
+                        )),
                   ),
 
                   // GridColumn(
@@ -459,9 +478,9 @@ class _sales_orderState extends State<sales_order> {
                   builder: (BuildContext context, StateSetter setState) {
                 return Form(
                     key: sales_order_key,
-                    child: Container(
+                    child: SizedBox(
                       height: MediaQuery.of(context).size.height / 3,
-                      width: MediaQuery.of(context).size.width / 1.5,
+                      width: MediaQuery.of(context).size.width / 1,
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
@@ -469,48 +488,65 @@ class _sales_orderState extends State<sales_order> {
                               height: 10,
                               width: 10,
                             ),
-                            SearchField(
-                              controller: customer_name,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please select dealer name';
-                                }
-                                return null;
-                              },
-                              suggestions: dealer_name
-                                  .map((String) => SearchFieldListItem(String))
-                                  .toList(),
-                              suggestionState: Suggestion.expand,
-                              onSuggestionTap: (x) {},
-                              textInputAction: TextInputAction.next,
-                              hasOverlay: false,
-                              searchStyle: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black.withOpacity(0.8),
-                              ),
-                              searchInputDecoration: InputDecoration(
-                                hintText: 'Select Dealer name',
-                                hintStyle: GoogleFonts.inter(
-                                  fontSize: 16.0,
-                                  color:
-                                      const Color(0xFF151624).withOpacity(0.5),
+                            SizedBox(
+                              // width: MediaQuery.of(context).size.width / 1.2,
+                              child: SearchField(
+                                controller: customer_name,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please select dealer name';
+                                  }
+                                  return null;
+                                },
+                                suggestions: dealer_name
+                                    .map((String) => SearchFieldListItem(String,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 5.0),
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              String,
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        )))
+                                    .toList(),
+                                suggestionState: Suggestion.expand,
+                                onSuggestionTap: (x) {},
+                                textInputAction: TextInputAction.next,
+                                hasOverlay: false,
+                                searchStyle: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black.withOpacity(0.8),
                                 ),
-                                filled: true,
-                                fillColor: customer_name.text.isEmpty
-                                    ? const Color.fromRGBO(248, 247, 251, 1)
-                                    : Colors.transparent,
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
-                                      color: customer_name.text.isEmpty
-                                          ? Colors.transparent
-                                          : const Color(0xff19183e),
-                                    )),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: const Color(0xff19183e),
-                                    )),
+                                searchInputDecoration: InputDecoration(
+                                  hintText: 'Select Dealer name',
+                                  hintStyle: GoogleFonts.inter(
+                                    fontSize: 16.0,
+                                    color: const Color(0xFF151624)
+                                        .withOpacity(0.5),
+                                  ),
+                                  filled: true,
+                                  fillColor: customer_name.text.isEmpty
+                                      ? const Color.fromRGBO(248, 247, 251, 1)
+                                      : Colors.transparent,
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                        color: customer_name.text.isEmpty
+                                            ? Colors.transparent
+                                            : const Color(0xff19183e),
+                                      )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                        color: const Color(0xff19183e),
+                                      )),
+                                ),
+                                maxSuggestionsInViewPort: 5,
+                                suggestionsDecoration: null,
+                                itemHeight: 40,
                               ),
                             ),
                             const SizedBox(
@@ -559,6 +595,9 @@ class _sales_orderState extends State<sales_order> {
                                       color: const Color(0xff19183e),
                                     )),
                               ),
+                              maxSuggestionsInViewPort: 5,
+                              suggestionsDecoration: null,
+                              itemHeight: 40,
                             ),
                             const SizedBox(
                               height: 10,

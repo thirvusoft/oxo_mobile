@@ -184,3 +184,4 @@ List pincode_list = [];
 List district_lists = [];
 List districts_ = [];
 TextEditingController district_list_text = TextEditingController();
+TextEditingController Manualdata_ = TextEditingController();
