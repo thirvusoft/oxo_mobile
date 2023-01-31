@@ -44,7 +44,7 @@ class _home_pageState extends State<home_page> {
   late Timer timer;
 
   void initState() {
-    // temp();
+    temp();
     // TODO: implement initState
     distributor_list();
     // timer_notify =
@@ -130,10 +130,10 @@ class _home_pageState extends State<home_page> {
                         PhosphorIcons.bell,
                       ),
                       onPressed: () {
-                        // Navigator.pushNamed(context, 'notification');
-                        // setState(() {
-                        //   counter = 0;
-                        // });
+                        Navigator.pushNamed(context, 'notification');
+                        setState(() {
+                          counter = 0;
+                        });
                       }),
                   (counter != 0 && counter != null)
                       ? new Positioned(
@@ -241,7 +241,7 @@ class _home_pageState extends State<home_page> {
                     const SizedBox(
                       width: 20,
                     ),
-                    // getCardItem5(height),
+                    getCardItem5(height),
                     const SizedBox(
                       width: 5,
                     ),
