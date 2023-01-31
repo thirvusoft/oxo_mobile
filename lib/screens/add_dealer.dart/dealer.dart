@@ -297,7 +297,7 @@ class _dealerState extends State<dealer> {
                     controller: districts,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please select territory';
+                        return 'Please select district';
                       }
                       return null;
                     },
@@ -327,7 +327,7 @@ class _dealerState extends State<dealer> {
                     controller: dealerstate,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please select territory';
+                        return 'Please select State';
                       }
                       return null;
                     },
@@ -532,34 +532,33 @@ class _dealerState extends State<dealer> {
 
                 print(_foo.toString());
                 customer_creation(
-                    dealername.text,
-                    dealermobile.text,
-                    dealerdoorno.text,
-                    dealercity.text,
-                    dealerarea.text,
-                    dealerstate.text,
-                    districts.text,
-                    pincode_text.text,
-                    Manualdata_.text);
-                dealertype.clear();
-                dealername.clear();
-                dealermobile.clear();
-                dealerdoorno.clear();
-                districts.clear();
-                dealercity.clear();
-                dealerstate.clear();
-                dealerarea.clear();
-                dealerpincode.clear();
-                pincode_text.clear();
-                Manualdata_.clear();
+                  dealername.text,
+                  dealermobile.text,
+                  dealerdoorno.text,
+                  dealercity.text,
+                  dealerarea.text,
+                  dealerstate.text,
+                  districts.text,
+                  pincode_text.text,
+                  Manualdata_.text,
+                );
               }
             }),
       ),
     );
   }
 
-  Future customer_creation(fullName, phoneNumber, dealerdoorno, dealercity,
-      tity, state, districts, pincode, Manual_code) async {
+  Future customer_creation(
+    fullName,
+    phoneNumber,
+    dealerdoorno,
+    dealercity,
+    tity,
+    state,
+    districts,
+    pincode,
+    manualCode,
+  ) async {
     SharedPreferences token = await SharedPreferences.getInstance();
     setState(() {
       username = token.getString('full_name');
@@ -568,22 +567,22 @@ class _dealerState extends State<dealer> {
     print(username);
     print("lllll");
     print("lllll");
-    print(Manual_code);
+    print(manualCode);
     print('ppppppppppppppppp');
 
     print(dealertype);
     var response = await http.get(
         Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&Manual_Data=${Manual_code}&user=${username}"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&Manual_Data=${manualCode}&user=${username}&pincode=${pincode}"""),
         headers: {"Authorization": token.getString("token") ?? ""});
     print(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&Manual_Data=${Manual_code}&user=${username}""");
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&Manual_Data=${manualCode}&user=${username}&pincode=${pincode}""");
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
+      celar_text();
       print(json.decode(response.body)['customer']);
       var docName = json.decode(response.body)['customer'];
-
       setState(() {
         AwesomeDialog(
           context: context,
@@ -596,11 +595,6 @@ class _dealerState extends State<dealer> {
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) => const home_page()));
-
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => const home_page()),
-            // );
           },
           btnOkIcon: Icons.check_circle,
           onDismissCallback: (type) {},
@@ -609,7 +603,7 @@ class _dealerState extends State<dealer> {
           uploadimage(imageFile, docName);
         }
       });
-    } else if (response.statusCode == 500) {
+    } else {
       Fluttertoast.showToast(
           msg: (json.decode(response.body)['message']),
           toastLength: Toast.LENGTH_SHORT,
@@ -619,6 +613,20 @@ class _dealerState extends State<dealer> {
           textColor: Colors.white,
           fontSize: 16.0);
     }
+  }
+
+  celar_text() {
+    print("teststetstete");
+    districts.clear();
+    dealername.clear();
+    dealermobile.clear();
+    dealerdoorno.clear();
+    dealercity.clear();
+    dealerstate.clear();
+    dealerarea.clear();
+    dealerpincode.clear();
+    pincode_text.clear();
+    Manualdata_.clear();
   }
 
 // /api/method/frappe.client.get_list?

@@ -115,7 +115,7 @@ TextEditingController appointment_delear_name = TextEditingController();
 GlobalKey<FormState> appointment_name_key = GlobalKey<FormState>();
 TextEditingController appointment_emailid = TextEditingController();
 
-List appointment_notification = [];
+List<String> appointment_notification = [];
 var time;
 List notify_appointment = [];
 
