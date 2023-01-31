@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:animations/animations.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -723,6 +724,12 @@ class _home_pageState extends State<home_page> {
 
   Future appointmentnotification() async {
     appointment_notification = [];
+    SharedPreferences pre = await SharedPreferences.getInstance();
+    pre.setStringList("tags", ["Flutter", "Dart", "App"]);
+    List<String> tags = pre.getStringList("appointment") ?? [];
+    List<String> times = pre.getStringList("time") ?? [];
+    print(tags);
+    print(times);
     var response = await http.get(
       Uri.parse(
           """${dotenv.env['API_URL']}/api/method/oxo.custom.api.appointment_notification"""),
@@ -736,17 +743,22 @@ class _home_pageState extends State<home_page> {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           appointment_notification
               .add((json.decode(response.body)['message'][i]['name']));
-          time = ((json.decode(response.body)['message'][i]['scheduled_time']));
-          // notify_appointment.add(appointment_notify);
 
-          print(time);
+          time = ((json.decode(response.body)['message'][i]['scheduled_time']));
+          // pre.setStringList("time",
+          //     (json.decode(response.body)['message'][i]['scheduled_time']));
+          // notify_appointment.add(appointment_notify);
+          print("ppppppttptptptpt");
+          print(appointment_notification);
         }
       });
+      print(appointment_notification);
+      print("appointment_notification");
 
-      if (appointment_notification.isNotEmpty && time.toString().isNotEmpty) {
-        setState(() {
-          notifi = false;
-        });
+      List<String> tags = pre.getStringList("appointment") ?? [];
+      print(tags);
+
+      if (listEquals(tags, appointment_notification) == false) {
         showOverlayNotification((context) {
           return Card(
             margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -772,7 +784,15 @@ class _home_pageState extends State<home_page> {
             ),
           );
         }, duration: const Duration(milliseconds: 9000));
-        temp();
+        pre.setStringList("appointment", appointment_notification);
+      }
+
+      if (appointment_notification.isNotEmpty && time.toString().isNotEmpty) {
+        // setState(() {
+        //   notifi = false;
+        // });
+
+        // temp();
       }
 
       // Appointment_NotificationService().appointment_showNotification(
