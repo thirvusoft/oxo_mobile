@@ -3,7 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-
+import 'package:just_audio/just_audio.dart';
 import 'package:animations/animations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -43,10 +43,10 @@ class _home_pageState extends State<home_page> {
   late Timer timer_notify;
 
   late Timer timer;
-
+  late AudioPlayer player;
   void initState() {
-    temp();
-    // TODO: implement initState
+    player = AudioPlayer();
+    appointmentnotification();
     distributor_list();
     // timer_notify =
     //     Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
@@ -78,25 +78,6 @@ class _home_pageState extends State<home_page> {
         day_status = "Good Night ";
       });
       print('Good Night');
-    }
-  }
-
-  temp() {
-    if (notifi) {
-      print("11111111111111111111111");
-      appointmentnotification();
-    } else {
-      print("checkcheck");
-      late Timer appointment_notify;
-      appointment_notify = Timer.periodic(
-        const Duration(seconds: 30),
-        (Timer t) {
-          appointmentnotification();
-          // setState(() {
-          //   notifi = true;
-          // });
-        },
-      );
     }
   }
 
@@ -701,41 +682,62 @@ class _home_pageState extends State<home_page> {
     }
   }
 
-  Future notification() async {
-    notification_list = [];
-    var response = await http.get(
-      Uri.parse(
-          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.notification"""),
-      // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
-    );
-    print(response.statusCode);
-    print(response.body);
-    if (response.statusCode == 200) {
-      await Future.delayed(const Duration(milliseconds: 500));
-      setState(() {
-        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
-          notification_list.add((json.decode(response.body)['message'][i]));
-        }
-      });
-      NotificationService().showNotification(1, "Delivery Status",
-          "These Orders are not yet deliveried  $notification_list", 3);
-    }
-  }
+  // Future notification() async {
+  //   notification_list = [];
+  //   var response = await http.get(
+  //     Uri.parse(
+  //         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.notification?username=${username}"""),
+  //     // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+  //   );
+  //   print(response.statusCode);
+  //   print(response.body);
+  //   print("nptifffsffdfdfs");
+  //   if (response.statusCode == 200) {
+  //     await Future.delayed(const Duration(milliseconds: 500));
+  //     setState(() {
+  //       for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
+  //         notification_list.add((json.decode(response.body)['message'][i]));
+  //       }
+  //     });
+  //     NotificationService().showNotification(1, "Delivery Status",
+  //         "These Orders are not yet deliveried  $notification_list", 3);
+  //   }
+  // }
 
   Future appointmentnotification() async {
+    SharedPreferences token = await SharedPreferences.getInstance();
+    setState(() {
+      username = token.getString('full_name');
+    });
+    print("teest");
+    SharedPreferences appointment = await SharedPreferences.getInstance();
+
+    timer = Timer.periodic(const Duration(minutes: 30), (Timer j) async {
+      print("clear");
+      List<String> tags = appointment.getStringList("appointment") ?? [];
+      print(tags);
+      await appointment.remove('appointment');
+      // appointment.clear();
+      print(tags);
+    });
     appointment_notification = [];
-    SharedPreferences pre = await SharedPreferences.getInstance();
-    pre.setStringList("tags", ["Flutter", "Dart", "App"]);
-    List<String> tags = pre.getStringList("appointment") ?? [];
-    List<String> times = pre.getStringList("time") ?? [];
+
+    List<String> tags = appointment.getStringList("appointment") ?? [];
+    List<String> times = appointment.getStringList("time") ?? [];
+    print("wnanananananana");
     print(tags);
     print(times);
+    print(username);
     var response = await http.get(
       Uri.parse(
-          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.appointment_notification"""),
+          "https://oxo.thirvusoft.co.in/api/method/oxo.custom.api.appointment_notifications?username=${token.getString('full_name').toString()}"),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
+    print("kkkkkkkkkkkkkkkkkkkkkkkk");
+    print(
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.appointment_notifications?username=${username}""");
     print(response.statusCode);
+    print("tyeyeyeyeeye");
     print(response.body);
     if (response.statusCode == 200) {
       await Future.delayed(const Duration(milliseconds: 500));
@@ -755,51 +757,38 @@ class _home_pageState extends State<home_page> {
       print(appointment_notification);
       print("appointment_notification");
 
-      List<String> tags = pre.getStringList("appointment") ?? [];
+      List<String> tags = appointment.getStringList("appointment") ?? [];
       print(tags);
 
       if (listEquals(tags, appointment_notification) == false) {
+        player.setAsset('assets/ping.mp3');
+        player.play();
         showOverlayNotification((context) {
           return Card(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            child: SafeArea(
-              child: ListTile(
-                leading: SizedBox.fromSize(
-                    size: const Size(40, 40),
-                    child: ClipOval(
-                        child: Container(
-                      color: Colors.black,
-                    ))),
-                title: Text("Today's Appointment"),
-                subtitle: Text(
-                    "Today's Appointments are $appointment_notification"
-                            .toString() +
-                        time),
-                trailing: IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: () {
-                      OverlaySupportEntry.of(context)?.dismiss();
-                    }),
-              ),
-            ),
-          );
-        }, duration: const Duration(milliseconds: 9000));
-        pre.setStringList("appointment", appointment_notification);
+              color: const Color(0xffe8effc),
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, 'notification');
+                },
+                child: SafeArea(
+                  child: ListTile(
+                    title: const Text("Today's Appointment"),
+                    subtitle: Text(appointment_notification.toString() + time),
+                    trailing: IconButton(
+                        icon: const Icon(
+                          PhosphorIcons.x_circle_light,
+                          color: Color(0xffEB455F),
+                        ),
+                        onPressed: () {
+                          OverlaySupportEntry.of(context)?.dismiss();
+                        }),
+                  ),
+                ),
+              ));
+        }, duration: const Duration(hours: 9000));
+        appointment.setStringList("appointment", appointment_notification);
       }
-
-      if (appointment_notification.isNotEmpty && time.toString().isNotEmpty) {
-        // setState(() {
-        //   notifi = false;
-        // });
-
-        // temp();
-      }
-
-      // Appointment_NotificationService().appointment_showNotification(
-      //     1,
-      //     "Today's Appointment",
-      //     "Today's Appointments are $appointment_notification" + time,
-      //     3);
     }
   }
 
@@ -840,9 +829,11 @@ class _home_pageState extends State<home_page> {
     appointment_notification_list = [];
     var response = await http.get(
       Uri.parse(
-          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.notification_list"""),
+          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.notification_list?username=${username}"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
+    print(
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.notification_list?username=${username}""");
 
     if (response.statusCode == 200) {
       setState(() {

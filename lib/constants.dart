@@ -183,5 +183,6 @@ bool image_temp = true;
 List pincode_list = [];
 List district_lists = [];
 List districts_ = [];
+List districts_list = [];
 TextEditingController district_list_text = TextEditingController();
 TextEditingController Manualdata_ = TextEditingController();

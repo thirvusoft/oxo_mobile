@@ -30,10 +30,10 @@ class _splashscreenState extends State<splashscreen> {
   Future time() async {
     print("object");
 
-    final prefs = await SharedPreferences.getInstance();
-    print(prefs.getString("token"));
+    SharedPreferences token = await SharedPreferences.getInstance();
+    print(token.getString("token"));
     setState(() {
-      tokens = prefs.getString('token');
+      tokens = token.getString('token');
       print(tokens);
     });
     if (tokens == null) {
@@ -50,7 +50,7 @@ class _splashscreenState extends State<splashscreen> {
           () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => home_page(),
+                builder: (context) => const home_page(),
               )));
     }
   }

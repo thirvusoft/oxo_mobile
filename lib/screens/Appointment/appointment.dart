@@ -35,7 +35,10 @@ class _appointmentState extends State<appointment> {
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const home_page()),
+              );
             },
             icon: const Icon(Icons.arrow_back_outlined),
           ),
@@ -220,10 +223,8 @@ class _appointmentState extends State<appointment> {
           dialogType: DialogType.success,
           title: (json.decode(response.body)['message']),
           btnOkOnPress: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => home_page()),
-            );
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const home_page()));
           },
           btnOkIcon: Icons.check_circle,
           onDismissCallback: (type) {},

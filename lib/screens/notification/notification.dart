@@ -131,9 +131,11 @@ class _notificationState extends State<notification> {
 
     var response = await http.get(
       Uri.parse(
-          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.notification_list"""),
+          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.notification_list?username=${username}"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
+    print(
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.notification_list?username=${username}""");
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -161,7 +163,7 @@ class _notificationState extends State<notification> {
     SharedPreferences token = await SharedPreferences.getInstance();
     print(token.getString("token"));
     print('object');
-    var response = await http.get(
+    var response = await http.post(
         Uri.parse(
             """${dotenv.env['API_URL']}/api/method/oxo.custom.api.notification_status?name=${name}"""),
         headers: {"Authorization": token.getString("token") ?? ""});
