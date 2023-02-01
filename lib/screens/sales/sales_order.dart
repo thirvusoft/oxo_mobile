@@ -9,6 +9,7 @@ import 'package:oxo/constants.dart';
 import 'package:oxo/screens/sales/home_page.dart';
 import 'package:oxo/screens/sales/item_category_list.dart';
 import 'package:searchfield/searchfield.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -54,7 +55,10 @@ class _sales_orderState extends State<sales_order> {
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const home_page()),
+              );
             },
             icon: const Icon(Icons.arrow_back_outlined),
           ),
@@ -91,7 +95,7 @@ class _sales_orderState extends State<sales_order> {
                               }
                               return null;
                             },
-                            suggestions: district_lists
+                            suggestions: districts_list
                                 .map((String) => SearchFieldListItem(String,
                                     child: Padding(
                                         padding:
@@ -737,19 +741,22 @@ class _sales_orderState extends State<sales_order> {
 
   Future district_list() async {
     print("object");
-    district_lists = [];
+    districts_list = [];
+    SharedPreferences token = await SharedPreferences.getInstance();
     var response = await http.get(
-      Uri.parse(
-          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.district_list"""),
-      // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
-    );
+        Uri.parse(
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.district_list"""),
+        headers: {"Authorization": token.getString("token") ?? ""});
+
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
       setState(() {
-        for (var i = 0; i < json.decode(response.body)['messege'].length; i++) {
+        for (var i = 0;
+            i < json.decode(response.body)['district'].length;
+            i++) {
           // print((json.decode(response.body)['messege'][i]));
-          district_lists.add((json.decode(response.body)['messege'][i]));
+          districts_list.add((json.decode(response.body)['district'][i]));
         }
       });
     }
@@ -782,7 +789,7 @@ class _sales_orderState extends State<sales_order> {
 
             print(valuesDict);
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => home_page()));
+                context, MaterialPageRoute(builder: (context) => const home_page()));
           },
           btnOkIcon: Icons.check_circle,
           onDismissCallback: (type) {},

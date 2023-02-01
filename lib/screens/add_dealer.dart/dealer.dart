@@ -74,7 +74,10 @@ class _dealerState extends State<dealer> {
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const home_page()),
+              );
             },
             icon: const Icon(Icons.arrow_back_outlined),
           ),
@@ -305,6 +308,9 @@ class _dealerState extends State<dealer> {
                         .map((String) => SearchFieldListItem(String))
                         .toList(),
                     suggestionState: Suggestion.expand,
+                    onSuggestionTap: (x) {
+                      print(districts.text);
+                    },
                     textInputAction: TextInputAction.next,
                     hasOverlay: false,
                     searchStyle: TextStyle(
