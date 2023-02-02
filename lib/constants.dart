@@ -116,7 +116,8 @@ GlobalKey<FormState> appointment_name_key = GlobalKey<FormState>();
 TextEditingController appointment_emailid = TextEditingController();
 
 List<String> appointment_notification = [];
-var time;
+List<String> time_ = [];
+
 List notify_appointment = [];
 
 var address1;
@@ -186,3 +187,4 @@ List districts_ = [];
 List districts_list = [];
 TextEditingController district_list_text = TextEditingController();
 TextEditingController Manualdata_ = TextEditingController();
+int i = 1;

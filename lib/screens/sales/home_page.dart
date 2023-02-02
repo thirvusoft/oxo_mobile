@@ -2,6 +2,8 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:intl/intl.dart';
+
 import 'dart:developer';
 import 'package:just_audio/just_audio.dart';
 import 'package:animations/animations.dart';
@@ -46,7 +48,10 @@ class _home_pageState extends State<home_page> {
   late AudioPlayer player;
   void initState() {
     player = AudioPlayer();
-    appointmentnotification();
+    Timer.periodic(const Duration(seconds: 5), (timer) async {
+      appointmentnotification();
+    });
+    // appointmentnotification();
     distributor_list();
     // timer_notify =
     //     Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
@@ -705,6 +710,13 @@ class _home_pageState extends State<home_page> {
   // }
 
   Future appointmentnotification() async {
+    DateTime now = new DateTime.now();
+    DateTime fiftyDaysAgo = now.subtract(new Duration(minutes: 50));
+    print("subtraction");
+    print(fiftyDaysAgo);
+    var data = DateFormat('yyyy-MM-dd kk:mm:00').format(now);
+    var formatter = new DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
     SharedPreferences token = await SharedPreferences.getInstance();
     setState(() {
       username = token.getString('full_name');
@@ -712,14 +724,20 @@ class _home_pageState extends State<home_page> {
     print("teest");
     SharedPreferences appointment = await SharedPreferences.getInstance();
 
-    timer = Timer.periodic(const Duration(minutes: 30), (Timer j) async {
-      print("clear");
-      List<String> tags = appointment.getStringList("appointment") ?? [];
-      print(tags);
-      await appointment.remove('appointment');
-      // appointment.clear();
-      print(tags);
-    });
+    // Timer.periodic(const Duration(seconds: 5), (timer) async {
+    //   // print(DateTime.now());
+    //   DateTime now = new DateTime.now();
+    //   var formatter = new DateFormat('yyyy-MM-dd');
+    //   String formattedDate = formatter.format(now);
+    //   print(formattedDate);
+    //   print(timer.tick);
+    //   print("clear");
+    //   List<String> tags = appointment.getStringList("appointment") ?? [];
+    //   print(tags);
+    //   await appointment.remove('appointment');
+    //   // appointment.clear();
+    //   print(tags);
+    // });
     appointment_notification = [];
 
     List<String> tags = appointment.getStringList("appointment") ?? [];
@@ -740,14 +758,15 @@ class _home_pageState extends State<home_page> {
     print("tyeyeyeyeeye");
     print(response.body);
     if (response.statusCode == 200) {
-      await Future.delayed(const Duration(milliseconds: 500));
       setState(() {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
+          print((json.decode(response.body)['message'][i]['scheduled_time']));
           appointment_notification
               .add((json.decode(response.body)['message'][i]['name']));
 
-          time = ((json.decode(response.body)['message'][i]['scheduled_time']));
-          // pre.setStringList("time",
+          time_.add(
+              (json.decode(response.body)['message'][i]['scheduled_time']));
+          // // pre.setStringList("time",
           //     (json.decode(response.body)['message'][i]['scheduled_time']));
           // notify_appointment.add(appointment_notify);
           print("ppppppttptptptpt");
@@ -756,39 +775,56 @@ class _home_pageState extends State<home_page> {
       });
       print(appointment_notification);
       print("appointment_notification");
+      print(time_);
 
       List<String> tags = appointment.getStringList("appointment") ?? [];
       print(tags);
 
-      if (listEquals(tags, appointment_notification) == false) {
-        player.setAsset('assets/ping.mp3');
-        player.play();
-        showOverlayNotification((context) {
-          return Card(
-              color: const Color(0xffe8effc),
-              margin: const EdgeInsets.symmetric(horizontal: 4),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, 'notification');
-                },
-                child: SafeArea(
-                  child: ListTile(
-                    title: const Text("Today's Appointment"),
-                    subtitle: Text(appointment_notification.toString() + time),
-                    trailing: IconButton(
-                        icon: const Icon(
-                          PhosphorIcons.x_circle_light,
-                          color: Color(0xffEB455F),
-                        ),
-                        onPressed: () {
-                          OverlaySupportEntry.of(context)?.dismiss();
-                        }),
+      // if ((listEquals(tags, appointment_notification) == false) &&
+      //     appointment_notification.isNotEmpty) {
+      print("tetststststststststststs");
+      print(data);
+
+      print(time_.first);
+      setState(() {
+        var check = DateTime.parse(time_.first);
+        DateTime fiftyDaysAgo = check.subtract(const Duration(hours: 1));
+        var data1 = DateFormat('yyyy-MM-dd kk:mm:00').format(fiftyDaysAgo);
+        print(check.toString() + " " + data1);
+        print(check);
+        print(check.runtimeType);
+
+        if (data == time_.first) {
+          player.setAsset('assets/ping.mp3');
+          player.play();
+          showOverlayNotification((context) {
+            return Card(
+                color: const Color(0xffe8effc),
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, 'notification');
+                  },
+                  child: SafeArea(
+                    child: ListTile(
+                      title: const Text("Today's Appointment"),
+                      subtitle: Text(
+                          "${appointment_notification.first}${time_.first}"),
+                      trailing: IconButton(
+                          icon: const Icon(
+                            PhosphorIcons.x_circle_light,
+                            color: Color(0xffEB455F),
+                          ),
+                          onPressed: () {
+                            OverlaySupportEntry.of(context)?.dismiss();
+                          }),
+                    ),
                   ),
-                ),
-              ));
-        }, duration: const Duration(hours: 9000));
-        appointment.setStringList("appointment", appointment_notification);
-      }
+                ));
+          }, duration: const Duration(seconds: 15));
+          appointment.setStringList("appointment", appointment_notification);
+        }
+      });
     }
   }
 
@@ -832,9 +868,6 @@ class _home_pageState extends State<home_page> {
           """${dotenv.env['API_URL']}/api/method/oxo.custom.api.notification_list?username=${username}"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
-    print(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.notification_list?username=${username}""");
-
     if (response.statusCode == 200) {
       setState(() {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
