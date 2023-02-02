@@ -148,7 +148,7 @@ class _notificationState extends State<notification> {
           // notify_appointment.add(appointment_notify);
           print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
           print(appointment_notification_lists);
-          print(time);
+          // print(time);
         }
       });
 
