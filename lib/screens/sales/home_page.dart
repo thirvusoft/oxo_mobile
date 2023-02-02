@@ -48,7 +48,7 @@ class _home_pageState extends State<home_page> {
   late AudioPlayer player;
   void initState() {
     player = AudioPlayer();
-    Timer.periodic(const Duration(seconds: 5), (timer) async {
+    Timer.periodic(const Duration(seconds: 1), (timer) async {
       appointmentnotification();
     });
     // appointmentnotification();
@@ -710,18 +710,26 @@ class _home_pageState extends State<home_page> {
   // }
 
   Future appointmentnotification() async {
+    time_ = [];
+    setState(() {
+      data1 = "";
+    });
+
     DateTime now = new DateTime.now();
+
+    // print(now);
     DateTime fiftyDaysAgo = now.subtract(new Duration(minutes: 50));
-    print("subtraction");
-    print(fiftyDaysAgo);
-    var data = DateFormat('yyyy-MM-dd kk:mm:00').format(now);
+    // print("subtraction");
+    // print(fiftyDaysAgo);
+    var data = DateFormat('yyyy-MM-dd kk:mm:ss:00').format(now);
+
     var formatter = new DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
     SharedPreferences token = await SharedPreferences.getInstance();
     setState(() {
       username = token.getString('full_name');
     });
-    print("teest");
+
     SharedPreferences appointment = await SharedPreferences.getInstance();
 
     // Timer.periodic(const Duration(seconds: 5), (timer) async {
@@ -742,25 +750,26 @@ class _home_pageState extends State<home_page> {
 
     List<String> tags = appointment.getStringList("appointment") ?? [];
     List<String> times = appointment.getStringList("time") ?? [];
-    print("wnanananananana");
-    print(tags);
-    print(times);
-    print(username);
+    // print("wnanananananana");
+    // print(tags);
+    // print(times);
+
+    // print(username);
     var response = await http.get(
       Uri.parse(
           "https://oxo.thirvusoft.co.in/api/method/oxo.custom.api.appointment_notifications?username=${token.getString('full_name').toString()}"),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
-    print("kkkkkkkkkkkkkkkkkkkkkkkk");
-    print(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.appointment_notifications?username=${username}""");
-    print(response.statusCode);
-    print("tyeyeyeyeeye");
-    print(response.body);
+    // print("kkkkkkkkkkkkkkkkkkkkkkkk");
+    // print(
+    //     """${dotenv.env['API_URL']}/api/method/oxo.custom.api.appointment_notifications?username=${username}""");
+    // print(response.statusCode);
+    // print("tyeyeyeyeeye");
+    // print(response.body);
     if (response.statusCode == 200) {
       setState(() {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
-          print((json.decode(response.body)['message'][i]['scheduled_time']));
+          // print((json.decode(response.body)['message'][i]['scheduled_time']));
           appointment_notification
               .add((json.decode(response.body)['message'][i]['name']));
 
@@ -769,62 +778,67 @@ class _home_pageState extends State<home_page> {
           // // pre.setStringList("time",
           //     (json.decode(response.body)['message'][i]['scheduled_time']));
           // notify_appointment.add(appointment_notify);
-          print("ppppppttptptptpt");
-          print(appointment_notification);
         }
       });
-      print(appointment_notification);
-      print("appointment_notification");
-      print(time_);
 
       List<String> tags = appointment.getStringList("appointment") ?? [];
-      print(tags);
+      // print(tags);
 
-      // if ((listEquals(tags, appointment_notification) == false) &&
-      //     appointment_notification.isNotEmpty) {
-      print("tetststststststststststs");
-      print(data);
+      // // if ((listEquals(tags, appointment_notification) == false) &&
+      // //     appointment_notification.isNotEmpty) {
+      // print("tetststststststststststs");
+      // print(data);
 
-      print(time_.first);
-      setState(() {
-        var check = DateTime.parse(time_.first);
-        DateTime fiftyDaysAgo = check.subtract(const Duration(hours: 1));
-        var data1 = DateFormat('yyyy-MM-dd kk:mm:00').format(fiftyDaysAgo);
-        print(check.toString() + " " + data1);
-        print(check);
-        print(check.runtimeType);
+      // print(time_.first);
+      if (time_.isNotEmpty) {
+        print(time_);
+        // print(time_.first);
+        var temp = time_.first;
+        print(temp);
+        setState(() {
+          check = DateTime.parse(temp);
+          // DateTime fiftyDaysAgo = check.subtract(const Duration(hours: 1));
+          data1 = DateFormat('yyyy-MM-dd kk:mm:15:00').format(check);
+          // print(check.toString() + " " + data1);
+          // print(check);
+          // print(check.runtimeType);
 
-        if (data == time_.first) {
-          player.setAsset('assets/ping.mp3');
-          player.play();
-          showOverlayNotification((context) {
-            return Card(
-                color: const Color(0xffe8effc),
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, 'notification');
-                  },
-                  child: SafeArea(
-                    child: ListTile(
-                      title: const Text("Today's Appointment"),
-                      subtitle: Text(
-                          "${appointment_notification.first}${time_.first}"),
-                      trailing: IconButton(
-                          icon: const Icon(
-                            PhosphorIcons.x_circle_light,
-                            color: Color(0xffEB455F),
-                          ),
-                          onPressed: () {
-                            OverlaySupportEntry.of(context)?.dismiss();
-                          }),
+          // print(data);
+          // print(data1);
+
+          if (data == data1) {
+            player.setAsset('assets/ping.mp3');
+            player.play();
+
+            showOverlayNotification((context) {
+              return Card(
+                  color: const Color(0xffe8effc),
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, 'notification');
+                    },
+                    child: SafeArea(
+                      child: ListTile(
+                        title: const Text("Today's Appointment"),
+                        subtitle: Text(
+                            "${appointment_notification.first}${time_.first}"),
+                        trailing: IconButton(
+                            icon: const Icon(
+                              PhosphorIcons.x_circle_light,
+                              color: Color(0xffEB455F),
+                            ),
+                            onPressed: () {
+                              OverlaySupportEntry.of(context)?.dismiss();
+                            }),
+                      ),
                     ),
-                  ),
-                ));
-          }, duration: const Duration(seconds: 15));
-          appointment.setStringList("appointment", appointment_notification);
-        }
-      });
+                  ));
+            }, duration: const Duration(seconds: 15));
+            appointment.setStringList("appointment", appointment_notification);
+          }
+        });
+      }
     }
   }
 

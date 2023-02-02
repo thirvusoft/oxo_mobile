@@ -188,3 +188,5 @@ List districts_list = [];
 TextEditingController district_list_text = TextEditingController();
 TextEditingController Manualdata_ = TextEditingController();
 int i = 1;
+var data1 = "";
+var check;
