@@ -30,7 +30,7 @@ class _MainPageState extends State<MainPage> {
         screens: const [
           dashboard(),
           // category_group(),
-          dealer(),
+          // dealer(),
           location_pin(),
         ],
         navBarHeight: 50,

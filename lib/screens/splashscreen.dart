@@ -33,10 +33,11 @@ class _splashscreenState extends State<splashscreen> {
     SharedPreferences token = await SharedPreferences.getInstance();
     print(token.getString("token"));
     setState(() {
-      tokens = token.getString('token');
+      tokens = token.getString('token').toString();
       print(tokens);
     });
-    if (tokens == null) {
+
+    if (token.getString('token') == null) {
       timer = Timer(
           const Duration(seconds: 2),
           () => Navigator.pushReplacement(

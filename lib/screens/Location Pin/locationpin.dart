@@ -44,7 +44,7 @@ class _location_pinState extends State<location_pin> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-           backgroundColor: Color(0xffEB455F),
+        backgroundColor: Color(0xffEB455F),
         title: const Text('Location'),
       ),
       body: (location.isEmpty)
@@ -66,9 +66,8 @@ class _location_pinState extends State<location_pin> {
   }
 
   Future location_list() async {
-    var response = await http.get(
-        Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.location_list"""));
+    var response = await http.get(Uri.parse(
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.location_list"""));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {

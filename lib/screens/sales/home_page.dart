@@ -24,6 +24,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants.dart';
 import '../Appointment/appointment.dart';
 import '../Location Pin/locationpin.dart';
+import '../add_dealer.dart/sample.dart';
 import '../notification/appointment_notification.dart';
 import '../notification/notificationservice.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -62,16 +63,15 @@ class _home_pageState extends State<home_page> {
     // timer_notify =
     //     Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
 
-    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
-      appointmentnotification_List();
-    });
+    // timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+    //   appointmentnotification_List();
+    // });
 
     user();
     tz.initializeTimeZones();
     var hour = DateTime.now().hour;
 
     if (hour <= 12) {
-      print('Good Morning');
       setState(() {
         day_status = "Good Morning ";
       });
@@ -79,17 +79,14 @@ class _home_pageState extends State<home_page> {
       setState(() {
         day_status = "Good Afternoon ";
       });
-      print('Good Afternoon');
     } else if ((hour > 16) && (hour < 20)) {
       setState(() {
         day_status = "Good Evening ";
       });
-      print('Good Evening');
     } else {
       setState(() {
         day_status = "Good Night ";
       });
-      print('Good Night');
     }
   }
 
@@ -98,8 +95,6 @@ class _home_pageState extends State<home_page> {
     setState(() {
       username = token.getString('full_name');
     });
-    print("xxxxxx");
-    print(username);
   }
 
   Widget build(BuildContext context) {
@@ -278,7 +273,7 @@ class _home_pageState extends State<home_page> {
     return OpenContainer(
       transitionType: _containerTransitionType,
       transitionDuration: Duration(milliseconds: 500),
-      openBuilder: (context, _) => dealer(),
+      openBuilder: (context, _) => dealer_creation(),
       closedElevation: 0,
       closedShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(32),
@@ -878,7 +873,10 @@ class _home_pageState extends State<home_page> {
               TextButton(
                 onPressed: () async {
                   final token = await SharedPreferences.getInstance();
-                  await token.clear();
+                  print(token.getString("token"));
+                  // await token.clear();
+                  await token.remove('token');
+                  print(token.getString("token"));
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => Login()));
                 },

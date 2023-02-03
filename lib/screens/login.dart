@@ -340,41 +340,56 @@ class _LoginState extends State<Login> {
 
   loginup(mobilenum, password) async {
     print('object');
-    var response = await http.get(Uri.parse(
+    var response = await http.post(Uri.parse(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.login?mobile=${mobilenum}&password=${password}"""));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      user_name = json.decode(response.body)['full_name'];
-      print(user_name);
-      setState(() {
-        login_loading = false;
-      });
-      SharedPreferences token = await SharedPreferences.getInstance();
-      print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-      print(json.decode(response.body)['token']);
-      token.setString('token', json.decode(response.body)['token'] ?? "");
-      token.setString(
-          'full_name', json.decode(response.body)['full_name'] ?? "");
-      print("ujsfjsksdkd");
-      print(token.getString("token"));
-      print(token.getString("full_name"));
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const home_page(),
-        ),
-        (route) => false,
-      );
+      if (json.decode(response.body)['message'].toString() ==
+          "Logined Sucessfully") {
+        user_name = json.decode(response.body)['full_name'];
+        print(user_name);
+        setState(() {
+          login_loading = false;
+        });
+        SharedPreferences token = await SharedPreferences.getInstance();
+        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        print(json.decode(response.body)['token']);
+        token.setString('token', json.decode(response.body)['token'] ?? "");
+        token.setString(
+            'full_name', json.decode(response.body)['full_name'] ?? "");
+        print("ujsfjsksdkd");
+        print(token.getString("token"));
+        print(token.getString("full_name"));
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const home_page(),
+          ),
+          (route) => false,
+        );
 
-      Fluttertoast.showToast(
-          msg: (json.decode(response.body)['message']),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Color.fromARGB(255, 15, 194, 62),
-          textColor: Colors.white,
-          fontSize: 15.0);
+        Fluttertoast.showToast(
+            msg: (json.decode(response.body)['message']),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Color.fromARGB(255, 15, 194, 62),
+            textColor: Colors.white,
+            fontSize: 15.0);
+      } else {
+        Fluttertoast.showToast(
+            msg: (json.decode(response.body)['message']),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Color.fromARGB(255, 182, 21, 43),
+            textColor: Colors.white,
+            fontSize: 15.0);
+        setState(() {
+          login_loading = false;
+        });
+      }
     } else if (response.statusCode == 500) {
       setState(() {
         login_loading = false;
