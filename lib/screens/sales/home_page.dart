@@ -48,23 +48,23 @@ class _home_pageState extends State<home_page> {
   late Timer timer;
   late AudioPlayer player;
   void initState() {
-      final myList = [1, 2, 3];
+    final myList = [1, 2, 3];
 
-  final myElement = myList.firstWhereOrNull((a) => a == 3);
-print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-  print(myElement);
+    final myElement = myList.firstWhereOrNull((a) => a == 3);
+    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    print(myElement);
     player = AudioPlayer();
-    Timer.periodic(const Duration(seconds: 1), (timer) async {
-      appointmentnotification();
-    });
+    // Timer.periodic(const Duration(seconds: 1), (timer) async {
+    //   appointmentnotification();R
+    // });
     // appointmentnotification();
     distributor_list();
     // timer_notify =
     //     Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
 
-    timer = Timer.periodic(const Duration(seconds: 1),
-        (Timer t) {
-          appointmentnotification_List();} );
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+      appointmentnotification_List();
+    });
 
     user();
     tz.initializeTimeZones();
@@ -235,7 +235,7 @@ print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                     const SizedBox(
                       width: 20,
                     ),
-                    getCardItem5(height),
+                    // getCardItem5(height),
                     const SizedBox(
                       width: 5,
                     ),
@@ -717,7 +717,6 @@ print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
   // }
 
   Future appointmentnotification() async {
-    
     setState(() {
       time_ = [];
       data1 = "";
@@ -776,9 +775,8 @@ print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     // print("tyeyeyeyeeye");
     // print(response.body);
     if (response.statusCode == 200) {
-      
       setState(() {
-        time_=[];
+        time_ = [];
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           // print((json.decode(response.body)['message'][i]['scheduled_time']));
           appointment_notification
@@ -802,8 +800,6 @@ print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
       // print(time_.first);
       if (time_.isNotEmpty) {
-            
-
         print(time_);
         // print(time_.first);
         var temp = time_.firstOrNull;
@@ -819,13 +815,12 @@ print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
           print(data);
           print(data1);
 
-
           if (data.compareTo(data1) == 0) {
-            int i=1;
+            int i = 1;
             i++;
             print(i);
             print("correct");
-           
+
             player.setAsset('assets/ping.mp3');
             // player.play();
 
@@ -840,8 +835,7 @@ print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                     child: SafeArea(
                       child: ListTile(
                         title: const Text("Today's Appointment"),
-                        subtitle: Text(
-                            appointment_notification.first),
+                        subtitle: Text(appointment_notification.first),
                         trailing: IconButton(
                             icon: const Icon(
                               PhosphorIcons.x_circle_light,

@@ -581,6 +581,7 @@ class _dealerState extends State<dealer> {
         Uri.parse(
             """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&Manual_Data=${manualCode}&user=${username}&pincode=${pincode}"""),
         headers: {"Authorization": token.getString("token") ?? ""});
+    print(token.getString("token"));
     print(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&Manual_Data=${manualCode}&user=${username}&pincode=${pincode}""");
     print(response.statusCode);
