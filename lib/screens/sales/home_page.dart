@@ -29,6 +29,7 @@ import '../notification/notificationservice.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:cron/cron.dart';
+import 'package:collection/collection.dart';
 
 import 'order_page.dart';
 import 'orderlist.dart';
@@ -47,6 +48,11 @@ class _home_pageState extends State<home_page> {
   late Timer timer;
   late AudioPlayer player;
   void initState() {
+      final myList = [1, 2, 3];
+
+  final myElement = myList.firstWhereOrNull((a) => a == 3);
+print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+  print(myElement);
     player = AudioPlayer();
     Timer.periodic(const Duration(seconds: 1), (timer) async {
       appointmentnotification();
@@ -57,7 +63,8 @@ class _home_pageState extends State<home_page> {
     //     Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
 
     timer = Timer.periodic(const Duration(seconds: 1),
-        (Timer t) => appointmentnotification_List());
+        (Timer t) {
+          appointmentnotification_List();} );
 
     user();
     tz.initializeTimeZones();
@@ -710,12 +717,14 @@ class _home_pageState extends State<home_page> {
   // }
 
   Future appointmentnotification() async {
-    time_ = [];
+    
     setState(() {
+      time_ = [];
       data1 = "";
     });
 
     DateTime now = new DateTime.now();
+    // print(now);
 
     // print(now);
     DateTime fiftyDaysAgo = now.subtract(new Duration(minutes: 50));
@@ -723,8 +732,8 @@ class _home_pageState extends State<home_page> {
     // print(fiftyDaysAgo);
     var data = DateFormat('yyyy-MM-dd kk:mm:ss:00').format(now);
 
-    var formatter = new DateFormat('yyyy-MM-dd');
-    String formattedDate = formatter.format(now);
+    // var formatter = new DateFormat('yyyy-MM-dd');
+    // String formattedDate = formatter.format(now);
     SharedPreferences token = await SharedPreferences.getInstance();
     setState(() {
       username = token.getString('full_name');
@@ -767,7 +776,9 @@ class _home_pageState extends State<home_page> {
     // print("tyeyeyeyeeye");
     // print(response.body);
     if (response.statusCode == 200) {
+      
       setState(() {
+        time_=[];
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           // print((json.decode(response.body)['message'][i]['scheduled_time']));
           appointment_notification
@@ -791,24 +802,32 @@ class _home_pageState extends State<home_page> {
 
       // print(time_.first);
       if (time_.isNotEmpty) {
+            
+
         print(time_);
         // print(time_.first);
-        var temp = time_.first;
-        print(temp);
+        var temp = time_.firstOrNull;
+        // print(temp);
         setState(() {
-          check = DateTime.parse(temp);
+          check = DateTime.parse(temp!);
           // DateTime fiftyDaysAgo = check.subtract(const Duration(hours: 1));
           data1 = DateFormat('yyyy-MM-dd kk:mm:15:00').format(check);
           // print(check.toString() + " " + data1);
           // print(check);
           // print(check.runtimeType);
 
-          // print(data);
-          // print(data1);
+          print(data);
+          print(data1);
 
-          if (data == data1) {
+
+          if (data.compareTo(data1) == 0) {
+            int i=1;
+            i++;
+            print(i);
+            print("correct");
+           
             player.setAsset('assets/ping.mp3');
-            player.play();
+            // player.play();
 
             showOverlayNotification((context) {
               return Card(
@@ -822,7 +841,7 @@ class _home_pageState extends State<home_page> {
                       child: ListTile(
                         title: const Text("Today's Appointment"),
                         subtitle: Text(
-                            "${appointment_notification.first}${time_.first}"),
+                            appointment_notification.first),
                         trailing: IconButton(
                             icon: const Icon(
                               PhosphorIcons.x_circle_light,
@@ -835,6 +854,7 @@ class _home_pageState extends State<home_page> {
                     ),
                   ));
             }, duration: const Duration(seconds: 15));
+            time_.clear();
             appointment.setStringList("appointment", appointment_notification);
           }
         });
