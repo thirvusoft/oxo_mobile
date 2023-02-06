@@ -24,6 +24,7 @@ import '../../constants.dart';
 import '../Appointment/appointment.dart';
 import '../Location Pin/locationpin.dart';
 import '../add_dealer.dart/dealer.dart';
+import '../add_dealer.dart/y.dart';
 import '../notification/appointment_notification.dart';
 import '../notification/notificationservice.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -272,7 +273,7 @@ class _home_pageState extends State<home_page> {
     return OpenContainer(
       transitionType: _containerTransitionType,
       transitionDuration: Duration(milliseconds: 500),
-      openBuilder: (context, _) => dealer_creation(),
+      openBuilder: (context, _) => dealer(),
       closedElevation: 0,
       closedShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(32),

@@ -192,3 +192,12 @@ var check;
 
 bool isVisible = true;
 bool name_bool = false;
+FocusNode mobilenumber_ = FocusNode();
+FocusNode dealername_ = FocusNode();
+FocusNode doornumber_ = FocusNode();
+FocusNode street_ = FocusNode();
+FocusNode district_ = FocusNode();
+FocusNode state_ = FocusNode();
+FocusNode pincode_ = FocusNode();
+FocusNode maunalpincode_ = FocusNode();
+bool showbtn = false;
