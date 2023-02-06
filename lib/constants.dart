@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
-import 'package:oxo/screens/add_dealer.dart/dealer.dart';
 import 'package:oxo/screens/sales/sales_order.dart';
 
 TextEditingController mobilenumcontroller = TextEditingController();
@@ -190,12 +189,6 @@ TextEditingController Manualdata_ = TextEditingController();
 int i = 1;
 var data1 = "";
 var check;
-final FocusNode mobilenumber_ = FocusNode();
-final FocusNode dealername_ = FocusNode();
-final FocusNode doornumber_ = FocusNode();
-final FocusNode street_ = FocusNode();
-final FocusNode district_ = FocusNode();
-final FocusNode state_ = FocusNode();
-final FocusNode pincode_ = FocusNode();
-final FocusNode maunalpincode_ = FocusNode();
+
 bool isVisible = true;
+bool name_bool = false;

@@ -7,7 +7,6 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../screens/Dashboard/dashboard.dart';
 import '../screens/Location Pin/locationpin.dart';
-import '../screens/add_dealer.dart/dealer.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
