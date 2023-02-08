@@ -24,7 +24,6 @@ import '../../constants.dart';
 import '../Appointment/appointment.dart';
 import '../Location Pin/locationpin.dart';
 import '../add_dealer.dart/dealer.dart';
-import '../add_dealer.dart/y.dart';
 import '../notification/appointment_notification.dart';
 import '../notification/notificationservice.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -49,6 +48,7 @@ class _home_pageState extends State<home_page> {
   late Timer timer;
   late AudioPlayer player;
   void initState() {
+    // territory_list();
     final myList = [1, 2, 3];
 
     final myElement = myList.firstWhereOrNull((a) => a == 3);

@@ -73,7 +73,7 @@ List row_varient = [];
 // dealer
 
 List territory = [];
-List area_list = [];
+List arealist_= [];
 List state = [];
 TextEditingController dealertype = TextEditingController();
 
@@ -201,3 +201,4 @@ FocusNode state_ = FocusNode();
 FocusNode pincode_ = FocusNode();
 FocusNode maunalpincode_ = FocusNode();
 bool showbtn = false;
+List areafinallist_=[];

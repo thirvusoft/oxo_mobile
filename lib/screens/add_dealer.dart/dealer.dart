@@ -24,6 +24,7 @@ import 'package:searchfield/searchfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'dart:math';
+import 'package:hive/hive.dart';
 
 class dealer extends StatefulWidget {
   const dealer({super.key});
@@ -57,8 +58,9 @@ class _dealerState extends State<dealer> {
   void initState() {
     // TODO: implement initState
     // territory_list();
-    // _getCurrentLocation();
-    // district_list();
+    _getCurrentLocation();
+
+    district_list();
   }
 
   Widget build(BuildContext context) {
@@ -102,16 +104,19 @@ class _dealerState extends State<dealer> {
                       return null;
                     },
                     decoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.black),
-                        ),
-                        // border: OutlineInputBorder(),
-                        focusedBorder: UnderlineInputBorder(
-                          // borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        hintText: "Enter dealer name"),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFF808080)),
+                      ),
+                      // border: OutlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        // borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      labelText: "Dealer Name",
+                      // hintText: "Enter dealer name"
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
@@ -123,72 +128,29 @@ class _dealerState extends State<dealer> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter mobile number';
+                      } else if (!RegExp(
+                              r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
+                          .hasMatch(value)) {
+                        return "Please enter a valid nhone number";
                       }
                       return null;
                     },
                     decoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.black),
-                        ),
-                        counterText: "",
-                        // border: OutlineInputBorder(),
-                        focusedBorder: UnderlineInputBorder(
-                          // borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        hintText: "Enter dealer mobile number"),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFF808080)),
+                      ),
+                      counterText: "",
+                      // border: OutlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        // borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      labelText: "Mobile Number",
+                      // hintText: "Enter dealer mobile number"
+                    ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                      child: TextFormField(
-                    textCapitalization: TextCapitalization.characters,
-                    controller: dealerdoorno,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter doorno';
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.black),
-                        ),
-                        // border: OutlineInputBorder(),
-                        focusedBorder: UnderlineInputBorder(
-                          // borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        hintText: "Enter door no"),
-                  )),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                      child: TextFormField(
-                    textCapitalization: TextCapitalization.characters,
-                    controller: dealercity,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter street';
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.black),
-                        ),
-                        // border: OutlineInputBorder(),
-                        focusedBorder: UnderlineInputBorder(
-                          // borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        hintText: "Enter street"),
-                  )),
                   const SizedBox(
                     height: 20,
                   ),
@@ -199,8 +161,7 @@ class _dealerState extends State<dealer> {
                         fontSize: 20,
                         color: Color(0xFF2B3467)),
                   ),
-                  Container(
-                      child: TextFormField(
+                  TextFormField(
                     textCapitalization: TextCapitalization.characters,
                     controller: dealerdoorno,
                     validator: (value) {
@@ -210,22 +171,24 @@ class _dealerState extends State<dealer> {
                       return null;
                     },
                     decoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.black),
-                        ),
-                        // border: OutlineInputBorder(),
-                        focusedBorder: UnderlineInputBorder(
-                          // borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        hintText: "Enter door no"),
-                  )),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFF808080)),
+                      ),
+                      // border: OutlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        // borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      labelText: "Door No",
+                      // hintText: "Enter door no"
+                    ),
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
-                      child: TextFormField(
+                  TextFormField(
                     textCapitalization: TextCapitalization.characters,
                     controller: dealercity,
                     validator: (value) {
@@ -235,104 +198,19 @@ class _dealerState extends State<dealer> {
                       return null;
                     },
                     decoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.black),
-                        ),
-                        // border: OutlineInputBorder(),
-                        focusedBorder: UnderlineInputBorder(
-                          // borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        hintText: "Enter street"),
-                  )),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                      child: SearchField(
-                    controller: dealerarea,
-                    // validator: (value) {
-                    //   if (value == null || value.isEmpty) {
-                    //     return 'Please select Area';
-                    //   }
-                    //   return null;
-                    // },
-                    suggestions: area_list
-                        .map((String) => SearchFieldListItem(String))
-                        .toList(),
-                    suggestionState: Suggestion.expand,
-                    onSuggestionTap: (x) {
-                      FocusScope.of(context).unfocus();
-                      print(dealerarea.text);
-
-                      for (int i = 0; i < territory.length; i++) {
-                        if (territory[i].contains(dealerarea.text)) {
-                          print(territory[i]);
-                          print(territory[i][1]);
-                          print(territory[i][2]);
-                          setState(() {
-                            districts.text = territory[i][1];
-                            dealerstate.text = territory[i][2];
-                          });
-                        }
-                      }
-                      postal_code(
-                          dealerarea.text, districts.text, dealerstate.text);
-                    },
-                    textInputAction: TextInputAction.next,
-                    hasOverlay: false,
-                    searchStyle: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black.withOpacity(0.8),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color.fromARGB(255, 66, 65, 65)),
+                      ),
+                      // border: OutlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        // borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      labelText: "Street",
+                      // hintText: "Enter street"
                     ),
-                    searchInputDecoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.black),
-                        ),
-                        // border: OutlineInputBorder(),
-                        focusedBorder: UnderlineInputBorder(
-                          // borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        hintText: "Select Area"),
-                  )),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SearchField(
-                    controller: districts,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please select district';
-                      }
-                      return null;
-                    },
-                    suggestions: district_lists
-                        .map((String) => SearchFieldListItem(String))
-                        .toList(),
-                    suggestionState: Suggestion.expand,
-                    onSuggestionTap: (x) {
-                      print(districts.text);
-                    },
-                    textInputAction: TextInputAction.next,
-                    hasOverlay: false,
-                    searchStyle: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black.withOpacity(0.8),
-                    ),
-                    searchInputDecoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.black),
-                        ),
-                        // border: OutlineInputBorder(),
-                        focusedBorder: UnderlineInputBorder(
-                          // borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        hintText: "Select District"),
                   ),
                   const SizedBox(
                     height: 20,
@@ -343,6 +221,9 @@ class _dealerState extends State<dealer> {
                       if (value == null || value.isEmpty) {
                         return 'Please select State';
                       }
+                      if (!state.contains(value)) {
+                        return 'State not found';
+                      }
                       return null;
                     },
                     suggestions: state
@@ -351,21 +232,123 @@ class _dealerState extends State<dealer> {
                     suggestionState: Suggestion.expand,
                     textInputAction: TextInputAction.next,
                     hasOverlay: false,
+                    marginColor: Colors.white,
+                    searchStyle: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black.withOpacity(0.8),
+                    ),
+                    onSuggestionTap: (x) {
+                      FocusScope.of(context).unfocus();
+                      territory_list(dealerstate.text);
+                    },
+                    searchInputDecoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFF808080)),
+                      ),
+                      // border: OutlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        // borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      labelText: "State",
+                      // hintText: "State"
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SearchField(
+                    controller: districts,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select district';
+                      }
+                      if (!districts_list.contains(value)) {
+                        return 'districts not found';
+                      }
+                      return null;
+                    },
+                    suggestions: districts_list
+                        .map((String) => SearchFieldListItem(String))
+                        .toList(),
+                    suggestionState: Suggestion.expand,
+                    marginColor: Colors.white,
+                    onSuggestionTap: (x) {
+                      FocusScope.of(context).unfocus();
+                      for (int g = 0; g < arealist_.length; g++) {
+                        print(arealist_[g][districts.text]);
+                        setState(() {
+                          areafinallist_ = (arealist_[g][districts.text]);
+                        });
+                      }
+                      // print(districts.text);
+                    },
+                    textInputAction: TextInputAction.next,
+                    hasOverlay: false,
                     searchStyle: TextStyle(
                       fontSize: 15,
                       color: Colors.black.withOpacity(0.8),
                     ),
                     searchInputDecoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.black),
-                        ),
-                        // border: OutlineInputBorder(),
-                        focusedBorder: UnderlineInputBorder(
-                          // borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        hintText: "State"),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFF808080)),
+                      ),
+                      // border: OutlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        // borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      labelText: "District",
+                      // hintText: "Select District"
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SearchField(
+                    controller: dealerarea,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select area';
+                      }
+                      if (!areafinallist_.contains(value)) {
+                        return 'Area not found';
+                      }
+                      return null;
+                    },
+                    suggestions: areafinallist_
+                        .map((String) => SearchFieldListItem(String))
+                        .toList(),
+                    suggestionState: Suggestion.expand,
+                    marginColor: Colors.white,
+                    onSuggestionTap: (x) {
+                      FocusScope.of(context).unfocus();
+                      pincode_text.text = dealerarea.text.split("-").last;
+                    },
+                    textInputAction: TextInputAction.next,
+                    hasOverlay: false,
+                    searchStyle: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black.withOpacity(0.8),
+                    ),
+                    searchInputDecoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFF808080)),
+                      ),
+                      // border: OutlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        // borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      labelText: "Area",
+                      // hintText: "Select Area"
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
@@ -373,34 +356,30 @@ class _dealerState extends State<dealer> {
                   TextFormField(
                     // readOnly: true,
                     controller: pincode_text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select pincode';
+                      }
+                      return null;
+                    },
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.black),
-                        ),
-                        // border: OutlineInputBorder(),
-                        focusedBorder: UnderlineInputBorder(
-                          //                           // borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        hintText: "Pincode"),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFF808080)),
+                      ),
+                      // border: OutlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        //                           // borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      labelText: "Pincode",
+                      // hintText: "Pincode"
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
-                  ),
-                  TextFormField(
-                    controller: Manualdata_,
-                    decoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.black),
-                        ),
-                        //                          border: OutlineInputBorder(),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        hintText: " Area / Pincode "),
                   ),
                   (image_temp)
                       ? DottedBorder(
@@ -482,12 +461,15 @@ class _dealerState extends State<dealer> {
                                                   const Color(0xffe8effc),
                                               color: const Color(0xFF2B3467),
                                               value: value,
-                                              minHeight: 10,
+                                              minHeight: 7,
                                             )))
                                   ],
                                 )),
                           ],
                         ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   AnimatedButton(
                       text: 'Submit',
                       color: const Color(0xFFEB455F),
@@ -504,7 +486,6 @@ class _dealerState extends State<dealer> {
                             dealerstate.text,
                             districts.text,
                             pincode_text.text,
-                            Manualdata_.text,
                           );
                         }
                       }),
@@ -527,27 +508,20 @@ class _dealerState extends State<dealer> {
     state,
     districts,
     pincode,
-    manualCode,
   ) async {
     SharedPreferences token = await SharedPreferences.getInstance();
     setState(() {
       username = token.getString('full_name');
     });
-    print("xxxxxx");
-    print(username);
-    print("lllll");
-    print("lllll");
-    print(manualCode);
-    print('ppppppppppppppppp');
 
     print(dealertype);
     var response = await http.get(
         Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&Manual_Data=${manualCode}&user=${username}&pincode=${pincode}"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&user=${username}&pincode=${pincode}"""),
         headers: {"Authorization": token.getString("token") ?? ""});
     print(token.getString("token"));
     print(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&Manual_Data=${manualCode}&user=${username}&pincode=${pincode}""");
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&user=${username}&pincode=${pincode}""");
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -600,26 +574,22 @@ class _dealerState extends State<dealer> {
     Manualdata_.clear();
   }
 
-  Future territory_list() async {
-    territory = [];
-    area_list = [];
-
+  Future territory_list(String state) async {
+    districts_list = [];
     var response = await http.get(Uri.parse(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.territory"""));
-    print(response.statusCode);
-    print("iiiiiiiiiiiiiiiiiii");
-    print(response.body);
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.territory?state=$state"""));
     if (response.statusCode == 200) {
+      print("shared");
       await Future.delayed(const Duration(milliseconds: 500));
       setState(() {
-        for (var i = 0; i < json.decode(response.body)['messege'].length; i++) {
-          area_list.add((json.decode(response.body)['messege'][i][0]));
-          territory.add((json.decode(response.body)['messege'][i]));
-          print(territory[i][1]);
+        for (var i = 0; i < json.decode(response.body)['State'].length; i++) {
+          districts_list.add((json.decode(response.body)['State'][i]));
         }
-        print(territory);
-
-        print("hoihoihoi");
+        print("check");
+        for (var j = 0; j < json.decode(response.body)['Area'].length; j++) {
+          print(json.decode(response.body)['Area'][j]);
+          arealist_.add(json.decode(response.body)['Area'][j]);
+        }
       });
     }
   }
@@ -685,8 +655,8 @@ class _dealerState extends State<dealer> {
         imageFile = File(file.path);
         pathttt = imageFile.path.split("/").last;
 
-        print(",,,,.........................");
-        print(pathttt);
+        // print(",,,,.........................");
+        // print(pathttt);
 
         image_temp = false;
 
@@ -703,8 +673,8 @@ class _dealerState extends State<dealer> {
 
   Future uploadimage(paths, docName) async {
     final token = await SharedPreferences.getInstance();
-    print(docName);
-    print("working");
+    // print(docName);
+    // print("working");
     var length = await paths.length();
     Dio dio = new Dio();
     try {
@@ -717,7 +687,6 @@ class _dealerState extends State<dealer> {
         "doctype": 'Customer',
         "attached_to_name": docName,
         "is_private": 0,
-        // "attached_to_field": "user_image",
         "folder": "Home/Attachments"
       });
 
@@ -731,7 +700,6 @@ class _dealerState extends State<dealer> {
         data: formData,
       );
       if (response.statusCode == 200) {
-        print("sucucucucucuc");
         setState(() {
           image_temp = true;
           imageFile.delete();
@@ -748,11 +716,11 @@ class _dealerState extends State<dealer> {
     district_lists = [];
     state = [];
     SharedPreferences token = await SharedPreferences.getInstance();
-    print('ppppppppppppppppp');
+    // print('ppppppppppppppppp');
 
     var response = await http.get(
         Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.district_list"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.state_list"""),
         headers: {"Authorization": token.getString("token") ?? ""});
 
     print("statestate");
@@ -760,57 +728,11 @@ class _dealerState extends State<dealer> {
     print(response.body);
     if (response.statusCode == 200) {
       setState(() {
-        for (var i = 0;
-            i < json.decode(response.body)['district'].length;
-            i++) {
-          print("cccccccccccccc");
-          print((json.decode(response.body)['district'][i]));
-          district_lists.add((json.decode(response.body)['district'][i]));
-        }
         for (var i = 0; i < json.decode(response.body)['state'].length; i++) {
-          print("cccccccccccccc");
-          print((json.decode(response.body)['state'][i]));
           state.add((json.decode(response.body)['state'][i]));
         }
+        state.sort();
       });
-    }
-  }
-
-  Future postal_code(String area, String dis, String state) async {
-    print(dis + " " + state);
-    var response = await http
-        .get(Uri.parse("https://api.postalpincode.in/postoffice/$area"));
-    print("postal_code");
-    print(
-        "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-    print(response.statusCode);
-
-    print(response.body);
-    if (response.statusCode == 200) {
-      print("cccccc");
-      for (var i = 0; i < json.decode(response.body).length; i++) {
-        // area_list.add((json.decode(response.body)['messege'][i][0]));
-        // territory.add((json.decode(response.body)['messege'][i]));
-        print(json.decode(response.body)[i]["PostOffice"]);
-        pincode_list = (json.decode(response.body)[i]["PostOffice"]);
-        for (var j = 0; j < pincode_list.length; j++) {
-          print("object");
-          print(dis.toLowerCase());
-          print((pincode_list[j]["District"]));
-          if (pincode_list[j]["District"].contains(dis) &&
-              pincode_list[j]["State"].contains(state)) {
-            print((pincode_list[j]["Pincode"]));
-            print((pincode_list[j]["Pincode"].runtimeType));
-            print((pincode_list[j]["District"]));
-            print((pincode_list[j]["Name"].runtimeType));
-            setState(() {
-              pincode_text.text = pincode_list[j]["Pincode"];
-            });
-          }
-        }
-        // print(json.decode(response.body)[i]["PostOffice"]);
-        print(pincode_list);
-      }
     }
   }
 
