@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
-import 'package:oxo/screens/sales/sales_order.dart';
+
+import 'screens/Sales Order/sales_order.dart';
 
 TextEditingController mobilenumcontroller = TextEditingController();
 TextEditingController passController = TextEditingController();
@@ -73,7 +74,7 @@ List row_varient = [];
 // dealer
 
 List territory = [];
-List arealist_= [];
+List arealist_ = [];
 List state = [];
 TextEditingController dealertype = TextEditingController();
 
@@ -201,4 +202,5 @@ FocusNode state_ = FocusNode();
 FocusNode pincode_ = FocusNode();
 FocusNode maunalpincode_ = FocusNode();
 bool showbtn = false;
-List areafinallist_=[];
+List areafinallist_ = [];
+

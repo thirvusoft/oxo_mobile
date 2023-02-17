@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:oxo/screens/sales/order_page.dart';
+
 
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../screens/Dashboard/dashboard.dart';
-import '../screens/Location Pin/locationpin.dart';
+import '../screens/Location Map page/locationpin.dart';
+
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);

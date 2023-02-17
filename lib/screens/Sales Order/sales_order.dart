@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/constants.dart';
-import 'package:oxo/screens/sales/home_page.dart';
-import 'package:oxo/screens/sales/item_category_list.dart';
+import 'package:oxo/screens/Home%20Page/home_page.dart';
+import 'package:oxo/screens/Sales%20Order/item_category_list.dart';
+
 import 'package:searchfield/searchfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';

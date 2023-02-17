@@ -6,9 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-import 'package:oxo/screens/sales/sales_order.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:oxo/screens/Sales%20Order/sales_order.dart';
 
 import 'item_group.dart';
 import 'order_page.dart';

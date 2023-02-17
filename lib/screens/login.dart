@@ -6,11 +6,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:oxo/constants.dart';
-import 'package:oxo/screens/sales/home_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../Widget /bottomnaviagtion.dart';
+import 'Home Page/home_page.dart';
 
 class Login extends StatefulWidget {
   @override

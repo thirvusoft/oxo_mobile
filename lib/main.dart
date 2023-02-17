@@ -2,15 +2,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:oxo/screens/Sales%20Order/order_page.dart';
 import 'package:oxo/screens/login.dart';
 import 'package:oxo/screens/notification/notification.dart';
-import 'package:oxo/screens/sales/home_page.dart';
-import 'package:oxo/screens/sales/order_page.dart';
-import 'package:oxo/screens/sales/sales_order.dart';
+
 import 'package:oxo/screens/splashscreen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'Widget /bottomnaviagtion.dart';
+import 'screens/Home Page/home_page.dart';
+import 'screens/Sales Order/sales_order.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -39,7 +40,7 @@ class MyHomePage extends StatelessWidget {
         primarySwatch: createMaterialColor(const Color(0xFFEB455F)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: splashscreen(),
+      home: const splashscreen(),
       // builder: EasyLoading.init(),
     ));
   }

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:oxo/constants.dart';
+import 'package:oxo/screens/Home%20Page/home_page.dart';
 import 'package:oxo/screens/login.dart';
-import 'package:oxo/screens/sales/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class splashscreen extends StatefulWidget {

@@ -3,7 +3,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:intl/intl.dart';
-
 import 'dart:developer';
 import 'package:just_audio/just_audio.dart';
 import 'package:animations/animations.dart';
@@ -14,25 +13,23 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:oxo/screens/Appointment/customer_list.dart';
+import 'package:oxo/screens/Dealer%20Creaction/dealer.dart';
+import 'package:oxo/screens/Location%20Map%20page/locationpin.dart';
+import 'package:oxo/screens/Sales%20Order/item_category_list.dart';
+import 'package:oxo/screens/Sales%20Order/orderlist.dart';
 import 'package:oxo/screens/login.dart';
-import 'package:oxo/screens/sales/item_category_list.dart';
 import 'package:http/http.dart' as http;
 import 'package:oxo/screens/distributor/distributor.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants.dart';
 import '../Appointment/appointment.dart';
-import '../Location Pin/locationpin.dart';
-import '../add_dealer.dart/dealer.dart';
 import '../notification/appointment_notification.dart';
 import '../notification/notificationservice.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:cron/cron.dart';
 import 'package:collection/collection.dart';
-
-import 'order_page.dart';
-import 'orderlist.dart';
 
 class home_page extends StatefulWidget {
   const home_page({super.key});
@@ -43,6 +40,7 @@ class home_page extends StatefulWidget {
 
 class _home_pageState extends State<home_page> {
   @override
+  int count = 0;
   late Timer timer_notify;
 
   late Timer timer;
@@ -55,17 +53,17 @@ class _home_pageState extends State<home_page> {
     print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     print(myElement);
     player = AudioPlayer();
-    // Timer.periodic(const Duration(seconds: 1), (timer) async {
-    //   appointmentnotification();R
-    // });
+    Timer.periodic(const Duration(seconds: 1), (timer) async {
+      appointmentnotification();
+    });
     // appointmentnotification();
     distributor_list();
     // timer_notify =
     //     Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
 
-    // timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
-    //   appointmentnotification_List();
-    // });
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+      appointmentnotification_List();
+    });
 
     user();
     tz.initializeTimeZones();
@@ -230,7 +228,7 @@ class _home_pageState extends State<home_page> {
                     const SizedBox(
                       width: 20,
                     ),
-                    // getCardItem5(height),
+                    getCardItem5(height),
                     const SizedBox(
                       width: 5,
                     ),
@@ -794,59 +792,71 @@ class _home_pageState extends State<home_page> {
       // print(data);
 
       // print(time_.first);
-      if (time_.isNotEmpty) {
+      if (time_.isNotEmpty && appointment_notification.isNotEmpty) {
         print(time_);
         // print(time_.first);
         var temp = time_.firstOrNull;
         // print(temp);
-        setState(() {
-          check = DateTime.parse(temp!);
-          // DateTime fiftyDaysAgo = check.subtract(const Duration(hours: 1));
-          data1 = DateFormat('yyyy-MM-dd kk:mm:15:00').format(check);
-          // print(check.toString() + " " + data1);
-          // print(check);
-          // print(check.runtimeType);
+        var temp1 = appointment_notification.firstOrNull;
+        print(temp1);
+        if (temp!.isNotEmpty) {
+          print(temp);
+          setState(() {
+            check = DateTime.parse(temp!);
+            // DateTime fiftyDaysAgo = check.subtract(const Duration(hours: 1));
+            data1 = DateFormat('yyyy-MM-dd kk:mm:15:00').format(check);
+            // print(check.toString() + " " + data1);
+            // print(check);
+            // print(check.runtimeType);
 
-          print(data);
-          print(data1);
+            print(data);
+            print(data1);
 
-          if (data.compareTo(data1) == 0) {
-            int i = 1;
-            i++;
-            print(i);
-            print("correct");
+            if (data.compareTo(data1) == 0) {
+              int i = 1;
+              i++;
+              print(i);
+              print("correct");
+              if (count == 0) {
+                showOverlayNotification((context) {
+                  return Card(
+                      color: const Color(0xffe8effc),
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, 'notification');
+                        },
+                        child: SafeArea(
+                          child: ListTile(
+                            title: Text("Today's Appointment  $count"),
+                            subtitle: temp1!.isNotEmpty
+                                ? Text(temp1)
+                                : const Text(""),
+                            trailing: IconButton(
+                                icon: const Icon(
+                                  PhosphorIcons.x_circle_light,
+                                  color: Color(0xffEB455F),
+                                ),
+                                onPressed: () {
+                                  OverlaySupportEntry.of(context)?.dismiss();
+                                }),
+                          ),
+                        ),
+                      ));
+                }, duration: const Duration(seconds: 15));
+                count++;
+                print(count);
+                time_.clear();
+                appointment_notification.clear();
+              }
+              // player.setAsset('assets/ping.mp3');
+              // player.play();
 
-            player.setAsset('assets/ping.mp3');
-            // player.play();
-
-            showOverlayNotification((context) {
-              return Card(
-                  color: const Color(0xffe8effc),
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, 'notification');
-                    },
-                    child: SafeArea(
-                      child: ListTile(
-                        title: const Text("Today's Appointment"),
-                        subtitle: Text(appointment_notification.first),
-                        trailing: IconButton(
-                            icon: const Icon(
-                              PhosphorIcons.x_circle_light,
-                              color: Color(0xffEB455F),
-                            ),
-                            onPressed: () {
-                              OverlaySupportEntry.of(context)?.dismiss();
-                            }),
-                      ),
-                    ),
-                  ));
-            }, duration: const Duration(seconds: 15));
-            time_.clear();
-            appointment.setStringList("appointment", appointment_notification);
-          }
-        });
+              appointment.setStringList(
+                  "appointment", appointment_notification);
+            }
+          });
+        }
       }
     }
   }
@@ -905,5 +915,9 @@ class _home_pageState extends State<home_page> {
         counter = appointment_notification_list.length;
       });
     }
+  }
+
+  notification(temp1) {
+    print(count);
   }
 }

@@ -11,7 +11,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:oxo/constants.dart';
-import 'package:oxo/screens/sales/home_page.dart';
+import 'package:oxo/screens/Home%20Page/home_page.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
