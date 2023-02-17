@@ -355,7 +355,9 @@ class _LoginState extends State<Login> {
         SharedPreferences token = await SharedPreferences.getInstance();
         print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         print(json.decode(response.body)['token']);
+        print(json.decode(response.body)['roll']);
         token.setString('token', json.decode(response.body)['token'] ?? "");
+        token.setString('roll', json.decode(response.body)['roll'] ?? "");
         token.setString(
             'full_name', json.decode(response.body)['full_name'] ?? "");
         print("ujsfjsksdkd");

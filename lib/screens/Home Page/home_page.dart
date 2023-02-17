@@ -53,17 +53,17 @@ class _home_pageState extends State<home_page> {
     print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     print(myElement);
     player = AudioPlayer();
-    Timer.periodic(const Duration(seconds: 1), (timer) async {
-      appointmentnotification();
-    });
+    // Timer.periodic(const Duration(seconds: 1), (timer) async {
+    //   appointmentnotification();
+    // });
     // appointmentnotification();
     distributor_list();
     // timer_notify =
     //     Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
 
-    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
-      appointmentnotification_List();
-    });
+    // timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+    //   appointmentnotification_List();
+    // });
 
     user();
     tz.initializeTimeZones();

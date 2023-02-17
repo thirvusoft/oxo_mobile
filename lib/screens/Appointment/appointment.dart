@@ -12,7 +12,6 @@ import 'package:searchfield/searchfield.dart';
 import 'package:date_field/date_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class appointment extends StatefulWidget {
   @override
   State<appointment> createState() => _appointmentState();
@@ -78,61 +77,70 @@ class _appointmentState extends State<appointment> {
             child: Form(
                 key: appointment_name_key,
                 child: Column(children: [
-                  Container(
-                    child: SearchField(
-                      controller: appointment_delear_name,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please select Delear';
-                        }
-                        return null;
-                      },
-                      suggestions: customer_list
-                          .map((String) => SearchFieldListItem(String,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 15.0, top: 10),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    String,
-                                    style: TextStyle(color: Colors.black),
-                                  ),
+                  SearchField(
+                    controller: appointment_delear_name,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select Delear';
+                      }
+                      return null;
+                    },
+                    suggestions: customer_list
+                        .map((String) => SearchFieldListItem(String,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 2, top: 10),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  String,
+                                  style: TextStyle(color: Colors.black),
                                 ),
-                              )))
-                          .toList(),
-                      suggestionState: Suggestion.expand,
-                      textInputAction: TextInputAction.next,
-                      hasOverlay: false,
-                      searchStyle: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black.withOpacity(0.8),
+                              ),
+                            )))
+                        .toList(),
+                    suggestionState: Suggestion.expand,
+                    textInputAction: TextInputAction.next,
+                    marginColor: Colors.white,
+                    hasOverlay: false,
+                    searchStyle: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black.withOpacity(0.8),
+                    ),
+                    searchInputDecoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFF808080)),
                       ),
-                      searchInputDecoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(
-                                color: Color(0xFFEB455F), width: 2.0),
-                          ),
-                          hintText: "Select Delear"),
+                      counterText: "",
+                      // border: OutlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        // borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      labelText: "Dealer",
+                      // hintText: "Enter dealer mobile number"
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                    width: 10,
+                  const SizedBox(
+                    height: 40,
                   ),
                   DateTimeFormField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        suffixIcon: Icon(Icons.event_note),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(
-                            color: Color(0xFFEB455F),
-                            width: 2.0,
-                          ),
-                        ),
-                        hintText: "Select Date and Time"),
+                    decoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFF808080)),
+                      ),
+                      counterText: "",
+                      // border: OutlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        // borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      labelText: " Date/Time ",
+                      // hintText: "Enter dealer mobile number"
+                    ),
                     // initialValue: DateTime.now().add(const Duration(days: 0)),
                     // autovalidateMode: AutovalidateMode.always,
                     // validator: (DateTime e) =>
@@ -142,8 +150,8 @@ class _appointmentState extends State<appointment> {
                       print(datetime);
                     },
                   ),
-                  SizedBox(
-                    height: 10,
+                  const SizedBox(
+                    height: 40,
                   ),
                   TextFormField(
                     controller: appointment_emailid,
@@ -154,16 +162,23 @@ class _appointmentState extends State<appointment> {
                       return null;
                     },
                     decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        hintText: "Enter email id"),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFF808080)),
+                      ),
+                      counterText: "",
+                      // border: OutlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        // borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      labelText: " Email ",
+                      // hintText: "Enter dealer mobile number"
+                    ),
                   ),
-                  SizedBox(
-                    height: 10,
+                  const SizedBox(
+                    height: 40,
                   ),
                   AnimatedButton(
                     text: 'Submit',
@@ -203,6 +218,8 @@ class _appointmentState extends State<appointment> {
     SharedPreferences token = await SharedPreferences.getInstance();
 
     print(token.getString("token"));
+    print("++++++++++++++++++++++++++++++++++++++++++++++++++");
+    print(token.getString("roll"));
 
     var response = await http.get(
         Uri.parse(
