@@ -20,7 +20,17 @@ class appointment extends StatefulWidget {
 class _appointmentState extends State<appointment> {
   @override
   void initState() {
+    print(role_);
     customer_delear_list();
+    if (role_ == "super_admin") {
+      visibilitytype = true;
+    } else if (role_ == "sales_executive") {
+      visibilitytype = false;
+      visibilitdealer = true;
+      visibilitydistributorsales = true;
+    }
+    print(visibilitdealer);
+    print(visibilitydistributorsales);
   }
 
   var datetime;
@@ -77,53 +87,182 @@ class _appointmentState extends State<appointment> {
             child: Form(
                 key: appointment_name_key,
                 child: Column(children: [
-                  SearchField(
-                    controller: appointment_delear_name,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please select Delear';
-                      }
-                      return null;
-                    },
-                    suggestions: customer_list
-                        .map((String) => SearchFieldListItem(String,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 2, top: 10),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  String,
-                                  style: TextStyle(color: Colors.black),
+                  Visibility(
+                    visible: visibilitytype,
+                    child: SearchField(
+                      controller: typecontroller,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please select Delear';
+                        }
+                        return null;
+                      },
+                      suggestions: type
+                          .map((String) => SearchFieldListItem(String,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 2, top: 10),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    String,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
                                 ),
-                              ),
-                            )))
-                        .toList(),
-                    suggestionState: Suggestion.expand,
-                    textInputAction: TextInputAction.next,
-                    marginColor: Colors.white,
-                    hasOverlay: false,
-                    searchStyle: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black.withOpacity(0.8),
-                    ),
-                    searchInputDecoration: const InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(width: 1, color: Color(0xFF808080)),
+                              )))
+                          .toList(),
+                      suggestionState: Suggestion.expand,
+                      onSuggestionTap: (x) {
+                        print("object");
+                        FocusScope.of(context).unfocus();
+                        if (typecontroller.text == "Distributor") {
+                          setState(() {
+                            visibilitydistributor = true;
+                            visibilitydistributorsales = false;
+                          });
+                        } else if (typecontroller.text == "Dealer") {
+                          setState(() {
+                            visibilitydistributor = false;
+                            visibilitydistributorsales = true;
+                            visibilitdealer = true;
+                          });
+                        }
+                      },
+                      textInputAction: TextInputAction.next,
+                      marginColor: Colors.white,
+                      hasOverlay: false,
+                      searchStyle: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black.withOpacity(0.8),
                       ),
-                      counterText: "",
-                      // border: OutlineInputBorder(),
-                      focusedBorder: UnderlineInputBorder(
-                        // borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide:
-                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                      searchInputDecoration: const InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1, color: Color(0xFF808080)),
+                        ),
+                        counterText: "",
+                        // border: OutlineInputBorder(),
+                        focusedBorder: UnderlineInputBorder(
+                          // borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide:
+                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                        ),
+                        labelText: "Type",
+                        // hintText: "Enter dealer mobile number"
                       ),
-                      labelText: "Dealer",
-                      // hintText: "Enter dealer mobile number"
                     ),
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: 10,
+                  ),
+                  (visibilitdealer)
+                      ? (visibilitydistributorsales)
+                          ? SearchField(
+                              controller: appointment_delear_name,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please select Delear';
+                                }
+                                return null;
+                              },
+                              suggestions: customer_list
+                                  .map((String) => SearchFieldListItem(String,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 2, top: 10),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            String,
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ),
+                                      )))
+                                  .toList(),
+                              suggestionState: Suggestion.expand,
+                              textInputAction: TextInputAction.next,
+                              marginColor: Colors.white,
+                              hasOverlay: false,
+                              searchStyle: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black.withOpacity(0.8),
+                              ),
+                              onSuggestionTap: (x) {
+                                TextInputAction.next;
+                              },
+                              searchInputDecoration: const InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1, color: Color(0xFF808080)),
+                                ),
+                                counterText: "",
+                                // border: OutlineInputBorder(),
+                                focusedBorder: UnderlineInputBorder(
+                                  // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(
+                                      color: Color(0xFFEB455F), width: 2.0),
+                                ),
+                                labelText: "Dealer",
+                                // hintText: "Enter dealer mobile number"
+                              ),
+                            )
+                          : const SizedBox()
+                      : const SizedBox(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Visibility(
+                    visible: visibilitydistributor,
+                    child: SearchField(
+                      controller: distributornameappoint,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please select Delear';
+                        }
+                        return null;
+                      },
+                      suggestions: customer_list
+                          .map((String) => SearchFieldListItem(String,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 2, top: 10),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    String,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              )))
+                          .toList(),
+                      suggestionState: Suggestion.expand,
+                      textInputAction: TextInputAction.next,
+                      marginColor: Colors.white,
+                      hasOverlay: false,
+                      searchStyle: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black.withOpacity(0.8),
+                      ),
+                      searchInputDecoration: const InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1, color: Color(0xFF808080)),
+                        ),
+                        counterText: "",
+                        // border: OutlineInputBorder(),
+                        focusedBorder: UnderlineInputBorder(
+                          // borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide:
+                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                        ),
+                        labelText: "Distributor",
+                        // hintText: "Enter dealer mobile number"
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   DateTimeFormField(
                     decoration: const InputDecoration(
@@ -151,7 +290,7 @@ class _appointmentState extends State<appointment> {
                     },
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: 20,
                   ),
                   TextFormField(
                     controller: appointment_emailid,
@@ -178,7 +317,7 @@ class _appointmentState extends State<appointment> {
                     ),
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: 20,
                   ),
                   AnimatedButton(
                     text: 'Submit',
