@@ -9,7 +9,10 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:location/location.dart';
+import 'package:oxo/constants.dart';
+import 'package:oxo/constants.dart';
 import 'package:oxo/constants.dart';
 import 'package:oxo/screens/Home%20Page/home_page.dart';
 import 'package:path_provider/path_provider.dart';
@@ -94,6 +97,52 @@ class _dealerState extends State<dealer> {
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
               child: Column(
                 children: [
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Dealer type",
+                        style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              fontSize: 17,
+                              letterSpacing: .2,
+                              color: Color(0xFF21232c)),
+                        ),
+                      )),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 10,
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: CheckboxListTile(
+                          title: const Text('New Dealer'),
+                          value: newdealer,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          onChanged: (value) {
+                            setState(() {
+                              existingdealer = false;
+                              newdealer = value!;
+                              print(newdealer);
+                            });
+                          },
+                        )),
+                        Expanded(
+                            child: CheckboxListTile(
+                          title: const Text('Existing Dealer'),
+                          shape: CircleBorder(),
+                          value: existingdealer,
+                          onChanged: (value) {
+                            setState(() {
+                              existingdealer = value!;
+                              newdealer = false;
+                              print(existingdealer);
+                            });
+                          },
+                        )),
+                      ],
+                    ),
+                  ),
                   TextFormField(
                     textCapitalization: TextCapitalization.characters,
                     controller: dealername,
@@ -123,33 +172,78 @@ class _dealerState extends State<dealer> {
                   ),
                   TextFormField(
                     controller: dealermobile,
-                    maxLength: 10,
+                    // maxLength: 10,
                     keyboardType: TextInputType.number,
+                    onChanged: (String str) {
+                      setState(() {
+                        singlenumber = dealermobile.text;
+                        print(singlenumber);
+                      });
+                    },
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter mobile number';
-                      } else if (!RegExp(
-                              r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
-                          .hasMatch(value)) {
-                        return "Please enter a valid nhone number";
+                      if (mobilenumber.isEmpty) {
+                        return 'Please add mobile number';
                       }
                       return null;
                     },
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       enabledBorder: UnderlineInputBorder(
                         borderSide:
                             BorderSide(width: 1, color: Color(0xFF808080)),
                       ),
                       counterText: "",
                       // border: OutlineInputBorder(),
-                      focusedBorder: UnderlineInputBorder(
+                      focusedBorder: const UnderlineInputBorder(
                         // borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide:
                             BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
+                      suffixIcon: IconButton(
+                        icon: const Icon(LineIcons.plusCircle),
+                        onPressed: () {
+                          print("object");
+                          if (dealermobile.text.isNotEmpty) {
+                            setState(() {
+                              mobilenumber.add(dealermobile.text);
+                            });
+                            dealermobile.clear();
+                          }
+                        },
+                      ),
                       labelText: "Mobile Number",
                       // hintText: "Enter dealer mobile number"
                     ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height /
+                        12 *
+                        mobilenumber.length,
+                    child: ListView.builder(
+                        itemCount: mobilenumber.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          int newindex = index + 1;
+                          return Card(
+                              elevation: 15,
+                              shadowColor: Colors.black,
+                              child: ListTile(
+                                  leading: Text(newindex.toString()),
+                                  trailing: IconButton(
+                                    icon: const Icon(
+                                      PhosphorIcons.trash_light,
+                                      color: Color(0xFFEB455F),
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        mobilenumber.removeAt(index);
+                                      });
+                                    },
+                                  ),
+                                  title: Text(mobilenumber[index].toString())));
+                        }),
                   ),
                   const SizedBox(
                     height: 20,
@@ -354,7 +448,7 @@ class _dealerState extends State<dealer> {
                     height: 20,
                   ),
                   TextFormField(
-                    // readOnly: true,
+                    readOnly: true,
                     controller: pincode_text,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -479,7 +573,7 @@ class _dealerState extends State<dealer> {
 
                           customer_creation(
                             dealername.text,
-                            dealermobile.text,
+                            json.encode(mobilenumber),
                             dealerdoorno.text,
                             dealercity.text,
                             dealerarea.text,
@@ -501,7 +595,7 @@ class _dealerState extends State<dealer> {
 
   Future customer_creation(
     fullName,
-    phoneNumber,
+    mobilenumber,
     dealerdoorno,
     dealercity,
     tity,
@@ -514,18 +608,20 @@ class _dealerState extends State<dealer> {
       username = token.getString('full_name');
     });
 
-    print(dealertype);
     var response = await http.get(
         Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&user=${username}&pincode=${pincode}"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number={"p":${mobilenumber}}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&customer_group=${newdealer ? "New Dealer" : "Existing Dealer"}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&user=${username}&pincode=${pincode}"""),
         headers: {"Authorization": token.getString("token") ?? ""});
     print(token.getString("token"));
     print(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${phoneNumber}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&user=${username}&pincode=${pincode}""");
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number={"p":${mobilenumber}}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&user=${username}&pincode=${pincode}""");
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      celar_text();
+      Timer mytimer = Timer.periodic(const Duration(seconds: 3), (timer) {
+        celar_text();
+      });
+
       print(json.decode(response.body)['customer']);
       var docName = json.decode(response.body)['customer'];
       setState(() {
@@ -550,7 +646,7 @@ class _dealerState extends State<dealer> {
       });
     } else {
       Fluttertoast.showToast(
-          msg: (json.decode(response.body)['message']),
+          msg: (json.decode(response.body)['exception']),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 2,
@@ -572,6 +668,9 @@ class _dealerState extends State<dealer> {
     dealerpincode.clear();
     pincode_text.clear();
     Manualdata_.clear();
+    mobilenumber.clear();
+    newdealer = false;
+    existingdealer = false;
   }
 
   Future territory_list(String state) async {

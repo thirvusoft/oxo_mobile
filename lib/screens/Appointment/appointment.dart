@@ -362,7 +362,8 @@ class _appointmentState extends State<appointment> {
 
     var response = await http.get(
         Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.Appointment_creation?customer_name=${delear_name}&date_time=${date_time}&email=${email}"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.Appointment_creation?customer_name=${delear_name}&date_time=${date_time}&email=${email}&sales_executive=""&user="""
+            ""),
         headers: {"Authorization": token.getString("token") ?? ""});
     print(
         """"${dotenv.env['API_URL']}/api/method/oxo.custom.api.Appointment_creation?customer_name=${delear_name}&date_time=${date_time}&email=${email}""");

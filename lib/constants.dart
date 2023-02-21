@@ -213,3 +213,8 @@ bool visibilitydistributor = false;
 TextEditingController distributornameappoint = TextEditingController();
 
 List type = ["Dealer", "Distributor"];
+
+List mobilenumber = [];
+bool newdealer = false;
+bool existingdealer = false;
+var singlenumber;
