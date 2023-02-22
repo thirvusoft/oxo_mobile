@@ -46,24 +46,20 @@ class _home_pageState extends State<home_page> {
   late Timer timer;
   late AudioPlayer player;
   void initState() {
-    // territory_list();
     final myList = [1, 2, 3];
 
     final myElement = myList.firstWhereOrNull((a) => a == 3);
     print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     print(myElement);
     player = AudioPlayer();
-    // Timer.periodic(const Duration(seconds: 1), (timer) async {
-    //   appointmentnotification();
-    // });
-    // appointmentnotification();
-    distributor_list();
-    // timer_notify =
-    //     Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
 
-    // timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
-    //   appointmentnotification_List();
-    // });
+    Timer.periodic(const Duration(seconds: 1), (timer) async {
+      appointmentnotification();
+    });
+    distributor_list();
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+      appointmentnotification_List();
+    });
 
     user();
     tz.initializeTimeZones();
