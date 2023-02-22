@@ -173,7 +173,7 @@ class _dealerState extends State<dealer> {
                   TextFormField(
                     controller: dealermobile,
                     // maxLength: 10,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.phone,
                     onChanged: (String str) {
                       setState(() {
                         singlenumber = dealermobile.text;
@@ -456,7 +456,7 @@ class _dealerState extends State<dealer> {
                       }
                       return null;
                     },
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.phone,
                     decoration: const InputDecoration(
                       enabledBorder: UnderlineInputBorder(
                         borderSide:
@@ -618,10 +618,7 @@ class _dealerState extends State<dealer> {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      Timer mytimer = Timer.periodic(const Duration(seconds: 3), (timer) {
-        celar_text();
-      });
-
+      celar_text();
       print(json.decode(response.body)['customer']);
       var docName = json.decode(response.body)['customer'];
       setState(() {
@@ -657,7 +654,7 @@ class _dealerState extends State<dealer> {
   }
 
   celar_text() {
-    print("teststetstete");
+    print("object");
     districts.clear();
     dealername.clear();
     dealermobile.clear();

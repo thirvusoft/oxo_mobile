@@ -159,7 +159,7 @@ class _LoginState extends State<Login> {
                 }
                 return null;
               },
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.phone,
               cursorColor: const Color(0xFF151624),
               decoration: InputDecoration(
                 counterText: "",
@@ -363,7 +363,7 @@ class _LoginState extends State<Login> {
         print("ujsfjsksdkd");
         print(token.getString("token"));
         print(token.getString("full_name"));
-        
+
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
