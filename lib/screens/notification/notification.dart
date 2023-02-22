@@ -82,7 +82,7 @@ class _notificationState extends State<notification> {
       ),
       body: ListView.builder(
         itemCount: appointment_notification_lists.length,
-        itemBuilder: (BuildContext context, int index) {
+        itemBuilder: (BuildContext context, index) {
           var newIndex = index + 1;
           return Card(
               elevation: 2.5,
@@ -99,7 +99,7 @@ class _notificationState extends State<notification> {
                   ),
                 ),
                 title: Text(
-                  appointment_notification_lists[index]["name"],
+                  appointment_notification_lists[index]["name"].toString(),
                   style: GoogleFonts.inter(
                     fontSize: 15.0,
                     color: const Color(0xFF151624),

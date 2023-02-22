@@ -46,7 +46,6 @@ class _home_pageState extends State<home_page> {
   late Timer timer;
   late AudioPlayer player;
   void initState() {
-    // territory_list();
     final myList = [1, 2, 3];
 
     final myElement = myList.firstWhereOrNull((a) => a == 3);
@@ -56,11 +55,7 @@ class _home_pageState extends State<home_page> {
     Timer.periodic(const Duration(seconds: 1), (timer) async {
       appointmentnotification();
     });
-    // appointmentnotification();
     distributor_list();
-    // timer_notify =
-    //     Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
-
     timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
       appointmentnotification_List();
     });
