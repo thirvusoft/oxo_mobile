@@ -53,9 +53,9 @@ class _home_pageState extends State<home_page> {
     print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     print(myElement);
     player = AudioPlayer();
-    Timer.periodic(const Duration(seconds: 1), (timer) async {
-      appointmentnotification();
-    });
+    // Timer.periodic(const Duration(seconds: 1), (timer) async {
+    //   appointmentnotification();
+    // });
     // appointmentnotification();
     distributor_list();
     // timer_notify =

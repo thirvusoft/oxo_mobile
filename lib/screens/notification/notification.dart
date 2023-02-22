@@ -99,7 +99,7 @@ class _notificationState extends State<notification> {
                   ),
                 ),
                 title: Text(
-                  appointment_notification_lists[index]["name"],
+                  appointment_notification_lists[index]["name"].toString(),
                   style: GoogleFonts.inter(
                     fontSize: 15.0,
                     color: const Color(0xFF151624),
@@ -111,7 +111,7 @@ class _notificationState extends State<notification> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
                         const Color(0xFF2B3467), // background (button) color
-                    foregroundColor: Colors.white, // foreground (text) color
+                    foregroundColor: Colors.white, // foreground (text) colorR
                   ),
                   onPressed: () {
                     print(appointment_notification_lists[index]["name"]);

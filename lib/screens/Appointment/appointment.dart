@@ -33,6 +33,8 @@ class _appointmentState extends State<appointment> {
     print(visibilitydistributorsales);
   }
 
+  GlobalKey<FormState> myFormKey = GlobalKey<FormState>();
+
   var datetime;
 
   @override
@@ -85,7 +87,7 @@ class _appointmentState extends State<appointment> {
         padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
         child: SizedBox(
             child: Form(
-                key: appointment_name_key,
+                key: myFormKey,
                 child: Column(children: [
                   Visibility(
                     visible: visibilitytype,
