@@ -52,6 +52,7 @@ class _home_pageState extends State<home_page> {
     print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     print(myElement);
     player = AudioPlayer();
+
     Timer.periodic(const Duration(seconds: 1), (timer) async {
       appointmentnotification();
     });
@@ -87,7 +88,10 @@ class _home_pageState extends State<home_page> {
     SharedPreferences token = await SharedPreferences.getInstance();
     setState(() {
       username = token.getString('full_name');
+      role_ = token.getString('roll')!;
     });
+    print('gggggggggggggggggggggggggggggggggggggggggggg');
+    print(role_);
   }
 
   Widget build(BuildContext context) {
@@ -879,8 +883,8 @@ class _home_pageState extends State<home_page> {
                 onPressed: () async {
                   final token = await SharedPreferences.getInstance();
                   print(token.getString("token"));
-                  // await token.clear();
-                  await token.remove('token');
+                  await token.clear();
+                  // await token.remove('token');
                   print(token.getString("token"));
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => Login()));

@@ -112,6 +112,7 @@ TextEditingController customer_search = TextEditingController();
 List notification_list = [];
 
 TextEditingController appointment_delear_name = TextEditingController();
+TextEditingController typecontroller = TextEditingController();
 GlobalKey<FormState> appointment_name_key = GlobalKey<FormState>();
 TextEditingController appointment_emailid = TextEditingController();
 
@@ -203,4 +204,17 @@ FocusNode pincode_ = FocusNode();
 FocusNode maunalpincode_ = FocusNode();
 bool showbtn = false;
 List areafinallist_ = [];
+var role_ = "";
+String dropdownValue = '';
+bool visibilitytype = false;
+bool visibilitdealer = false;
+bool visibilitydistributorsales = false;
+bool visibilitydistributor = false;
+TextEditingController distributornameappoint = TextEditingController();
 
+List type = ["Dealer", "Distributor"];
+
+List mobilenumber = [];
+bool newdealer = false;
+bool existingdealer = false;
+var singlenumber;

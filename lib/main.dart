@@ -34,11 +34,13 @@ class MyHomePage extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         //google fonts lato theme...
-        textTheme: GoogleFonts.latoTextTheme(
+        textTheme: GoogleFonts.poppinsTextTheme(
           Theme.of(context).textTheme,
         ),
-        primarySwatch: createMaterialColor(const Color(0xFFEB455F)),
+        // primarySwatch: createMaterialColor(const Color(0xFF273b69)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        primarySwatch: createMaterialColor(const Color(0xFFEB455F)),
+        // visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: const splashscreen(),
       // builder: EasyLoading.init(),
