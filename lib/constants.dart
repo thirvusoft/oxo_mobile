@@ -211,6 +211,7 @@ bool visibilitdealer = false;
 bool visibilitydistributorsales = false;
 bool visibilitydistributor = false;
 TextEditingController distributornameappoint = TextEditingController();
+TextEditingController salesexcutivenameappoint = TextEditingController();
 
 List type = ["Dealer", "Distributor"];
 
