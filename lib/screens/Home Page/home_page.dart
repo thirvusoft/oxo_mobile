@@ -227,7 +227,7 @@ class _home_pageState extends State<home_page> {
                     const SizedBox(
                       width: 20,
                     ),
-                    // getCardItem5(height),
+                    getCardItem5(height),
                     const SizedBox(
                       width: 5,
                     ),

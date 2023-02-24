@@ -112,7 +112,7 @@ class _dealerState extends State<dealer> {
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
               child: Column(
                 children: [
-                  Text(offlineList.toString()),
+                  
                   Align(
                       alignment: Alignment.centerLeft,
                       child: Text(

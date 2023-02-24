@@ -35,8 +35,13 @@ class _appointmentState extends State<appointment> {
   }
 
   GlobalKey<FormState> myFormKey = GlobalKey<FormState>();
-
+  bool you = false;
+  bool others = false;
+  List userlist = [];
+  List salespartner = [];
+  var usertype = "Customer";
   var datetime;
+  var roles;
 
   @override
   Widget build(BuildContext context) {
@@ -90,77 +95,343 @@ class _appointmentState extends State<appointment> {
             child: Form(
                 key: myFormKey,
                 child: Column(children: [
-                  Visibility(
-                    visible: visibilitytype,
-                    child: SearchField(
-                      controller: typecontroller,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please select Delear';
-                        }
-                        return null;
-                      },
-                      suggestions: type
-                          .map((String) => SearchFieldListItem(String,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 2, top: 10),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    String,
-                                    style: TextStyle(color: Colors.black),
-                                  ),
+                  (role_ == "super_admin")
+                      ? CheckboxListTile(
+                          title: const Text('Click here to assign others'),
+                          value: others,
+                          onChanged: (value) {
+                            setState(() {
+                              print(others);
+                              others = value!;
+                              if (others) {
+                                setState(() {
+                                  roles = "super";
+                                });
+                              } else {
+                                setState(() {
+                                  roles = "super_admin";
+                                });
+                              }
+                              print(roles);
+                            });
+                          },
+                        )
+                      : const SizedBox(),
+                  // SizedBox(
+                  //   height: MediaQuery.of(context).size.height / 10,
+                  //   width: MediaQuery.of(context).size.width,
+                  //   child: Row(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Expanded(
+                  //           child:
+                  //     ],
+                  //   ),
+                  // ),
+                  (others)
+                      ? Column(
+                          children: [
+                            Visibility(
+                              visible: visibilitytype,
+                              child: SearchField(
+                                controller: typecontroller,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please select Delear';
+                                  }
+                                  return null;
+                                },
+                                suggestions: type
+                                    .map((String) => SearchFieldListItem(String,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 2, top: 10),
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              String,
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        )))
+                                    .toList(),
+                                suggestionState: Suggestion.expand,
+                                onSuggestionTap: (x) {
+                                  print("object");
+                                  FocusScope.of(context).unfocus();
+                                  if (typecontroller.text == "Distributor") {
+                                    setState(() {
+                                      appointment_delear_name.clear();
+
+                                      usertype = "Sales Partner";
+                                      visibilitydistributor = true;
+                                      visibilitydistributorsales = false;
+                                    });
+                                  } else if (typecontroller.text == "Dealer") {
+                                    setState(() {
+                                      appointment_delear_name.clear();
+
+                                      usertype = "Customer";
+                                      visibilitydistributor = false;
+                                      visibilitydistributorsales = true;
+                                      visibilitdealer = true;
+                                    });
+                                  }
+                                },
+                                textInputAction: TextInputAction.next,
+                                marginColor: Colors.white,
+                                hasOverlay: false,
+                                searchStyle: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black.withOpacity(0.8),
                                 ),
-                              )))
-                          .toList(),
-                      suggestionState: Suggestion.expand,
-                      onSuggestionTap: (x) {
-                        print("object");
-                        FocusScope.of(context).unfocus();
-                        if (typecontroller.text == "Distributor") {
-                          setState(() {
-                            visibilitydistributor = true;
-                            visibilitydistributorsales = false;
-                          });
-                        } else if (typecontroller.text == "Dealer") {
-                          setState(() {
-                            visibilitydistributor = false;
-                            visibilitydistributorsales = true;
-                            visibilitdealer = true;
-                          });
-                        }
-                      },
-                      textInputAction: TextInputAction.next,
-                      marginColor: Colors.white,
-                      hasOverlay: false,
-                      searchStyle: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black.withOpacity(0.8),
-                      ),
-                      searchInputDecoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(width: 1, color: Color(0xFF808080)),
-                        ),
-                        counterText: "",
-                        // border: OutlineInputBorder(),
-                        focusedBorder: UnderlineInputBorder(
-                          // borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        labelText: "Type",
-                        // hintText: "Enter dealer mobile number"
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  (visibilitdealer)
-                      ? (visibilitydistributorsales)
-                          ? SearchField(
+                                searchInputDecoration: const InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 1, color: Color(0xFF808080)),
+                                  ),
+                                  counterText: "",
+                                  // border: OutlineInputBorder(),
+                                  focusedBorder: UnderlineInputBorder(
+                                    // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    borderSide: BorderSide(
+                                        color: Color(0xFFEB455F), width: 2.0),
+                                  ),
+                                  labelText: "Type",
+                                  // hintText: "Enter dealer mobile number"
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            SearchField(
+                              controller: salesexcutivenameappoint,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please select Delear';
+                                }
+                                return null;
+                              },
+                              suggestions: userlist
+                                  .map((String) => SearchFieldListItem(String,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 2, top: 10),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            String,
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ),
+                                      )))
+                                  .toList(),
+                              suggestionState: Suggestion.expand,
+                              onSuggestionTap: (x) {},
+                              textInputAction: TextInputAction.next,
+                              marginColor: Colors.white,
+                              hasOverlay: false,
+                              searchStyle: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black.withOpacity(0.8),
+                              ),
+                              searchInputDecoration: const InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1, color: Color(0xFF808080)),
+                                ),
+                                counterText: "",
+                                // border: OutlineInputBorder(),
+                                focusedBorder: UnderlineInputBorder(
+                                  // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(
+                                      color: Color(0xFFEB455F), width: 2.0),
+                                ),
+                                labelText: "Sales Executive ",
+                                // hintText: "Enter dealer mobile number"
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            (visibilitdealer)
+                                ? (visibilitydistributorsales)
+                                    ? SearchField(
+                                        controller: appointment_delear_name,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please select Delear';
+                                          }
+                                          return null;
+                                        },
+                                        suggestions: customer_list
+                                            .map((String) =>
+                                                SearchFieldListItem(String,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 2, top: 10),
+                                                      child: Align(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: Text(
+                                                          String,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black),
+                                                        ),
+                                                      ),
+                                                    )))
+                                            .toList(),
+                                        suggestionState: Suggestion.expand,
+                                        textInputAction: TextInputAction.next,
+                                        marginColor: Colors.white,
+                                        hasOverlay: false,
+                                        searchStyle: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.black.withOpacity(0.8),
+                                        ),
+                                        onSuggestionTap: (x) {
+                                          TextInputAction.next;
+                                          distributornameappoint.clear();
+                                        },
+                                        searchInputDecoration:
+                                            const InputDecoration(
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 1,
+                                                color: Color(0xFF808080)),
+                                          ),
+                                          counterText: "",
+                                          // border: OutlineInputBorder(),
+                                          focusedBorder: UnderlineInputBorder(
+                                            // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                            borderSide: BorderSide(
+                                                color: Color(0xFFEB455F),
+                                                width: 2.0),
+                                          ),
+                                          labelText: "Dealer",
+                                          // hintText: "Enter dealer mobile number"
+                                        ),
+                                      )
+                                    : const SizedBox(height: 0.01)
+                                : const SizedBox(height: 0.01),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Visibility(
+                              visible: visibilitydistributor,
+                              child: SearchField(
+                                controller: appointment_delear_name,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please select Delear';
+                                  }
+                                  return null;
+                                },
+                                suggestions: salespartner
+                                    .map((String) => SearchFieldListItem(String,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 2, top: 10),
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              String,
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        )))
+                                    .toList(),
+                                suggestionState: Suggestion.expand,
+                                textInputAction: TextInputAction.next,
+                                marginColor: Colors.white,
+                                hasOverlay: false,
+                                searchStyle: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black.withOpacity(0.8),
+                                ),
+                                searchInputDecoration: const InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 1, color: Color(0xFF808080)),
+                                  ),
+                                  counterText: "",
+                                  // border: OutlineInputBorder(),
+                                  focusedBorder: UnderlineInputBorder(
+                                    // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    borderSide: BorderSide(
+                                        color: Color(0xFFEB455F), width: 2.0),
+                                  ),
+                                  labelText: "Distributor",
+                                  // hintText: "Enter dealer mobile number"
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            DateTimeFormField(
+                              decoration: const InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1, color: Color(0xFF808080)),
+                                ),
+                                counterText: "",
+                                // border: OutlineInputBorder(),
+                                focusedBorder: UnderlineInputBorder(
+                                  // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(
+                                      color: Color(0xFFEB455F), width: 2.0),
+                                ),
+                                labelText: " Date/Time ",
+                                // hintText: "Enter dealer mobile number"
+                              ),
+                              // initialValue: DateTime.now().add(const Duration(days: 0)),
+                              // autovalidateMode: AutovalidateMode.always,
+                              // validator: (DateTime e) =>
+                              //     (e.day ?? 0) == 1 ? 'Select Date and Time' : null,
+                              onDateSelected: (DateTime datetime_value) {
+                                datetime = datetime_value;
+                                print(datetime);
+                              },
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              controller: appointment_emailid,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter email id';
+                                }
+                                return null;
+                              },
+                              decoration: const InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1, color: Color(0xFF808080)),
+                                ),
+                                counterText: "",
+                                // border: OutlineInputBorder(),
+                                focusedBorder: UnderlineInputBorder(
+                                  // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(
+                                      color: Color(0xFFEB455F), width: 2.0),
+                                ),
+                                labelText: " Email ",
+                                // hintText: "Enter dealer mobile number"
+                              ),
+                            ),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            SearchField(
                               controller: appointment_delear_name,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -193,6 +464,7 @@ class _appointmentState extends State<appointment> {
                               ),
                               onSuggestionTap: (x) {
                                 TextInputAction.next;
+                                distributornameappoint.clear();
                               },
                               searchInputDecoration: const InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
@@ -209,116 +481,64 @@ class _appointmentState extends State<appointment> {
                                 labelText: "Dealer",
                                 // hintText: "Enter dealer mobile number"
                               ),
-                            )
-                          : const SizedBox(height: 0.01)
-                      : const SizedBox(height: 0.01),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Visibility(
-                    visible: visibilitydistributor,
-                    child: SearchField(
-                      controller: distributornameappoint,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please select Delear';
-                        }
-                        return null;
-                      },
-                      suggestions: customer_list
-                          .map((String) => SearchFieldListItem(String,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 2, top: 10),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    String,
-                                    style: TextStyle(color: Colors.black),
-                                  ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            DateTimeFormField(
+                              decoration: const InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1, color: Color(0xFF808080)),
                                 ),
-                              )))
-                          .toList(),
-                      suggestionState: Suggestion.expand,
-                      textInputAction: TextInputAction.next,
-                      marginColor: Colors.white,
-                      hasOverlay: false,
-                      searchStyle: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black.withOpacity(0.8),
-                      ),
-                      searchInputDecoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(width: 1, color: Color(0xFF808080)),
+                                counterText: "",
+                                // border: OutlineInputBorder(),
+                                focusedBorder: UnderlineInputBorder(
+                                  // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(
+                                      color: Color(0xFFEB455F), width: 2.0),
+                                ),
+                                labelText: " Date/Time ",
+                                // hintText: "Enter dealer mobile number"
+                              ),
+                              // initialValue: DateTime.now().add(const Duration(days: 0)),
+                              // autovalidateMode: AutovalidateMode.always,
+                              // validator: (DateTime e) =>
+                              //     (e.day ?? 0) == 1 ? 'Select Date and Time' : null,
+                              onDateSelected: (DateTime datetime_value) {
+                                datetime = datetime_value;
+                                print(datetime);
+                              },
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              controller: appointment_emailid,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter email id';
+                                }
+                                return null;
+                              },
+                              decoration: const InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1, color: Color(0xFF808080)),
+                                ),
+                                counterText: "",
+                                // border: OutlineInputBorder(),
+                                focusedBorder: UnderlineInputBorder(
+                                  // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(
+                                      color: Color(0xFFEB455F), width: 2.0),
+                                ),
+                                labelText: " Email ",
+                                // hintText: "Enter dealer mobile number"
+                              ),
+                            ),
+                          ],
                         ),
-                        counterText: "",
-                        // border: OutlineInputBorder(),
-                        focusedBorder: UnderlineInputBorder(
-                          // borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide:
-                              BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                        ),
-                        labelText: "Distributor",
-                        // hintText: "Enter dealer mobile number"
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  DateTimeFormField(
-                    decoration: const InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(width: 1, color: Color(0xFF808080)),
-                      ),
-                      counterText: "",
-                      // border: OutlineInputBorder(),
-                      focusedBorder: UnderlineInputBorder(
-                        // borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide:
-                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                      ),
-                      labelText: " Date/Time ",
-                      // hintText: "Enter dealer mobile number"
-                    ),
-                    // initialValue: DateTime.now().add(const Duration(days: 0)),
-                    // autovalidateMode: AutovalidateMode.always,
-                    // validator: (DateTime e) =>
-                    //     (e.day ?? 0) == 1 ? 'Select Date and Time' : null,
-                    onDateSelected: (DateTime datetime_value) {
-                      datetime = datetime_value;
-                      print(datetime);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    controller: appointment_emailid,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter email id';
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(width: 1, color: Color(0xFF808080)),
-                      ),
-                      counterText: "",
-                      // border: OutlineInputBorder(),
-                      focusedBorder: UnderlineInputBorder(
-                        // borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide:
-                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                      ),
-                      labelText: " Email ",
-                      // hintText: "Enter dealer mobile number"
-                    ),
-                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -326,35 +546,49 @@ class _appointmentState extends State<appointment> {
                     text: 'Submit',
                     color: Color(0xFFEB455F),
                     pressEvent: () {
-                      appointment_creation(appointment_delear_name.text,
-                          datetime, appointment_emailid.text);
+                      appointment_creation(
+                          usertype,
+                          appointment_delear_name.text,
+                          datetime,
+                          appointment_emailid.text,
+                          salesexcutivenameappoint.text);
                     },
                   ),
                 ]))));
   }
 
-  Future customer_delear_list() async {
+  Future<void> customer_delear_list() async {
+    SharedPreferences token = await SharedPreferences.getInstance();
     customer_list = [];
-    var response = await http.get(
-      Uri.parse(
-          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.customer_list"""),
-      // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
-    );
-    print(response.statusCode);
-    print(response.body);
-    print('qqqqqqqqqqqqqqqqqqqqqqqqqqqq');
-    if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
-      setState(() {
-        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
-          customer_list.add((json.decode(response.body)['message'][i]));
-        }
-      });
+    try {
+      final response = await Dio().get(
+          '${dotenv.env['API_URL']}/api/method/oxo.custom.api.customer_list',
+          options: Options(
+            headers: {'Authorization': token.getString("token") ?? ""},
+          ));
+      print(response.statusCode);
+      print(response.data);
+      print('qqqqqqqqqqqqqqqqqqqqqqqqqqqq');
+      if (response.statusCode == 200) {
+        setState(() {
+          for (var i = 0; i < response.data['Dealer'].length; i++) {
+            customer_list.add(response.data['Dealer'][i]);
+          }
+          for (var i = 0; i < response.data['User'].length; i++) {
+            userlist.add(response.data['User'][i]);
+          }
+          for (var i = 0; i < response.data['sales_partner'].length; i++) {
+            salespartner.add(response.data['sales_partner'][i]);
+          }
+        });
+      }
+    } catch (error) {
+      print(error);
     }
   }
 
-  Future<void> appointment_creation(
-      String dealerName, dateTime, String email) async {
+  Future<void> appointment_creation(String usertype, String dealerName,
+      dateTime, String email, String salesexecutive) async {
     print("object");
     print(dateTime);
     print(dealerName);
@@ -378,8 +612,9 @@ class _appointmentState extends State<appointment> {
             "customer_name": dealerName,
             "date_time": dateTime,
             "email": email,
-            "sales_executive": "",
-            "user": "",
+            "sales_executive": salesexecutive,
+            "user": roles,
+            "usertype": usertype
           });
       print("check");
       print(response);
@@ -389,6 +624,7 @@ class _appointmentState extends State<appointment> {
       var responseData = response.data;
       print(responseData);
       if (response.statusCode == 200) {
+        clear();
         await Future.delayed(Duration(milliseconds: 500));
         setState(() {
           AwesomeDialog(
@@ -420,9 +656,22 @@ class _appointmentState extends State<appointment> {
           onDismissCallback: (type) {},
         ).show();
       }
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print(e.response!.data);
+      } else {
+        print(e.message);
+      }
     } catch (e) {
       print(e);
-      // Handle error
     }
+  }
+
+  clear() {
+    typecontroller.clear();
+    salesexcutivenameappoint.clear();
+    appointment_delear_name.clear();
+    appointment_emailid.clear();
+    datetime = "";
   }
 }
