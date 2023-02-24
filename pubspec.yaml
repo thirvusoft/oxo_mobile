@@ -76,6 +76,7 @@ dependencies:
   just_audio: ^0.9.31
   hive: ^2.2.3
   line_icons: ^2.0.1
+  sqflite: ^2.2.4+1
 
 
 dev_dependencies:

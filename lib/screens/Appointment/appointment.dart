@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:oxo/constants.dart';
 
@@ -209,10 +210,10 @@ class _appointmentState extends State<appointment> {
                                 // hintText: "Enter dealer mobile number"
                               ),
                             )
-                          : const SizedBox()
-                      : const SizedBox(),
+                          : const SizedBox(height: 0.01)
+                      : const SizedBox(height: 0.01),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Visibility(
                     visible: visibilitydistributor,
@@ -352,59 +353,76 @@ class _appointmentState extends State<appointment> {
     }
   }
 
-  Future appointment_creation(delear_name, date_time, email) async {
+  Future<void> appointment_creation(
+      String dealerName, dateTime, String email) async {
     print("object");
-    print(date_time);
-    print(delear_name);
+    print(dateTime);
+    print(dealerName);
     SharedPreferences token = await SharedPreferences.getInstance();
 
     print(token.getString("token"));
     print("++++++++++++++++++++++++++++++++++++++++++++++++++");
     print(token.getString("roll"));
 
-    var response = await http.get(
-        Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.Appointment_creation?customer_name=${delear_name}&date_time=${date_time}&email=${email}&sales_executive=""&user="""
-            ""),
-        headers: {"Authorization": token.getString("token") ?? ""});
-    print(
-        """"${dotenv.env['API_URL']}/api/method/oxo.custom.api.Appointment_creation?customer_name=${delear_name}&date_time=${date_time}&email=${email}""");
-    print(response);
-    print(response.statusCode);
-    print(response.body);
-    if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
-      setState(() {
+    Dio dio = Dio(BaseOptions(
+      baseUrl: dotenv.env['API_URL'] ?? "",
+      headers: {
+        "Authorization": token.getString("token") ?? "",
+      },
+    ));
+
+    try {
+      Response response = await dio.get(
+          "/api/method/oxo.custom.api.Appointment_creation",
+          queryParameters: {
+            "customer_name": dealerName,
+            "date_time": dateTime,
+            "email": email,
+            "sales_executive": "",
+            "user": "",
+          });
+      print("check");
+      print(response);
+      print(response.statusCode);
+      // print(json.decode(response.data)['message']);
+      // print(response.data);
+      var responseData = response.data;
+      print(responseData);
+      if (response.statusCode == 200) {
+        await Future.delayed(Duration(milliseconds: 500));
+        setState(() {
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.leftSlide,
+            headerAnimationLoop: false,
+            dialogType: DialogType.success,
+            title: (responseData['message']),
+            btnOkOnPress: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const home_page()));
+            },
+            btnOkIcon: Icons.check_circle,
+            onDismissCallback: (type) {},
+          ).show();
+        });
+      } else {
         AwesomeDialog(
           context: context,
           animType: AnimType.leftSlide,
           headerAnimationLoop: false,
-          dialogType: DialogType.success,
-          title: (json.decode(response.body)['message']),
+          dialogType: DialogType.error,
+          title: (responseData['message']),
           btnOkOnPress: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const home_page()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => home_page()));
           },
           btnOkIcon: Icons.check_circle,
           onDismissCallback: (type) {},
         ).show();
-      });
-    } else {
-      AwesomeDialog(
-        context: context,
-        animType: AnimType.leftSlide,
-        headerAnimationLoop: false,
-        dialogType: DialogType.error,
-        title: (json.decode(response.body)['message']),
-        btnOkOnPress: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => home_page()),
-          );
-        },
-        btnOkIcon: Icons.check_circle,
-        onDismissCallback: (type) {},
-      ).show();
+      }
+    } catch (e) {
+      print(e);
+      // Handle error
     }
   }
 }
