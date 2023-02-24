@@ -11,6 +11,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:location/location.dart';
+import 'package:oxo/Db/data.dart';
 import 'package:oxo/constants.dart';
 import 'package:oxo/constants.dart';
 import 'package:oxo/constants.dart';
@@ -28,6 +29,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'dart:math';
 import 'package:hive/hive.dart';
+import 'package:sqflite/sqflite.dart';
+
+import '../../Db/dpheper.dart';
 
 class dealer extends StatefulWidget {
   const dealer({super.key});
@@ -38,10 +42,13 @@ class dealer extends StatefulWidget {
 
 class _dealerState extends State<dealer> {
   @override
+  DatabaseHelper? dbHelper;
+  late Future<List<offline>> notesList;
+
   File? _image;
 
   late File imageFile;
-
+  List<offline> offlineList = [];
   final ImagePicker _picker = ImagePicker();
   var currentAddress;
   GlobalKey<FormState> dealerkey_ = GlobalKey<FormState>();
@@ -62,8 +69,16 @@ class _dealerState extends State<dealer> {
     // TODO: implement initState
     // territory_list();
     _getCurrentLocation();
-
+    dbHelper = DatabaseHelper();
+    test();
     district_list();
+  }
+
+  test() async {
+    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    offlineList = await dbHelper!.getlist();
+
+    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
   }
 
   Widget build(BuildContext context) {
@@ -97,6 +112,7 @@ class _dealerState extends State<dealer> {
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
               child: Column(
                 children: [
+                  Text(offlineList.toString()),
                   Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -641,9 +657,9 @@ class _dealerState extends State<dealer> {
           uploadimage(imageFile, docName);
         }
       });
-    } else {
+    } else if ((response.statusCode == 408)) {
       Fluttertoast.showToast(
-          msg: (json.decode(response.body)['exception']),
+          msg: (json.decode(response.body)['message']),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 2,
@@ -823,10 +839,26 @@ class _dealerState extends State<dealer> {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      setState(() {
+      setState(() async {
         for (var i = 0; i < json.decode(response.body)['state'].length; i++) {
+          dbHelper!
+              .insert(offline(
+            name: json.decode(response.body)['state'].toString() ?? "",
+          ))
+              .then((value) {
+            print("daaaa");
+            setState(() {
+              notesList = dbHelper!.getlist();
+              print("tttttttttttt");
+              print(notesList);
+              print(notesList);
+            });
+          }).onError((error, stackTrace) {
+            print(error.toString());
+          });
           state.add((json.decode(response.body)['state'][i]));
         }
+
         state.sort();
       });
     }
