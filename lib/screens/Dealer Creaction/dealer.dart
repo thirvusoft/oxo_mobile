@@ -11,7 +11,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:location/location.dart';
-import 'package:oxo/Db/data.dart';
+
 import 'package:oxo/constants.dart';
 import 'package:oxo/constants.dart';
 import 'package:oxo/constants.dart';
@@ -31,8 +31,6 @@ import 'dart:math';
 import 'package:hive/hive.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../Db/dpheper.dart';
-
 class dealer extends StatefulWidget {
   const dealer({super.key});
 
@@ -42,15 +40,13 @@ class dealer extends StatefulWidget {
 
 class _dealerState extends State<dealer> {
   @override
-  DatabaseHelper? dbHelper;
-  late Future<List<offline>> notesList;
-
   File? _image;
 
   late File imageFile;
-  List<offline> offlineList = [];
+
   final ImagePicker _picker = ImagePicker();
   var currentAddress;
+  List hive_state = [];
   GlobalKey<FormState> dealerkey_ = GlobalKey<FormState>();
 
   void determinateIndicator() {
@@ -68,17 +64,11 @@ class _dealerState extends State<dealer> {
   void initState() {
     // TODO: implement initState
     // territory_list();
+    final location = Hive.box('customer_details');
+    hive_state = location.toMap().values.toList();
     _getCurrentLocation();
-    dbHelper = DatabaseHelper();
-    test();
     district_list();
-  }
-
-  test() async {
-    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-    offlineList = await dbHelper!.getlist();
-
-    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    dealerdoorno.text = "N/A";
   }
 
   Widget build(BuildContext context) {
@@ -112,7 +102,6 @@ class _dealerState extends State<dealer> {
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
               child: Column(
                 children: [
-                  
                   Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -188,17 +177,18 @@ class _dealerState extends State<dealer> {
                   ),
                   TextFormField(
                     controller: dealermobile,
-                    // maxLength: 10,
+                    maxLength: 10,
                     keyboardType: TextInputType.phone,
                     onChanged: (String str) {
+                      print(mobilenumber);
                       setState(() {
                         singlenumber = dealermobile.text;
                         print(singlenumber);
                       });
                     },
                     validator: (value) {
-                      if (mobilenumber.isEmpty) {
-                        return 'Please add mobile number';
+                      if (dealermobile.text.isEmpty) {
+                        return 'Please enter mobile number';
                       }
                       return null;
                     },
@@ -207,60 +197,101 @@ class _dealerState extends State<dealer> {
                         borderSide:
                             BorderSide(width: 1, color: Color(0xFF808080)),
                       ),
-                      counterText: "",
+
                       // border: OutlineInputBorder(),
                       focusedBorder: const UnderlineInputBorder(
                         // borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide:
                             BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
-                      suffixIcon: IconButton(
-                        icon: const Icon(LineIcons.plusCircle),
-                        onPressed: () {
-                          print("object");
-                          if (dealermobile.text.isNotEmpty) {
-                            setState(() {
-                              mobilenumber.add(dealermobile.text);
-                            });
-                            dealermobile.clear();
-                          }
-                        },
-                      ),
+                      // suffixIcon: IconButton(
+                      //   icon: const Icon(LineIcons.plusCircle),
+                      //   onPressed: () {
+                      //     print("object");
+                      //     if (dealermobile.text.isNotEmpty &&
+                      //         dealermobile.text.length >= 10) {
+                      //       setState(() {
+                      //         mobile_errortext = false;
+                      //         mobilenumber.add(dealermobile.text);
+                      //       });
+                      //       dealermobile.clear();
+                      //     } else {
+                      //       setState(() {
+                      //         mobile_errortext = true;
+                      //       });
+                      //     }
+                      //   },
+                      // ),
                       labelText: "Mobile Number",
                       // hintText: "Enter dealer mobile number"
                     ),
                   ),
+                  // Visibility(
+                  //     visible: mobile_errortext,
+                  //     child: const Align(
+                  //       alignment: Alignment.bottomLeft,
+                  //       child: Text(
+                  //           "Mobile number must be greater than 10 digits.",
+                  //           style: TextStyle(
+                  //               color: Color.fromARGB(255, 189, 34, 23),
+                  //               fontSize: 12)),
+                  //     )),
                   const SizedBox(
                     height: 10,
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height /
-                        12 *
-                        mobilenumber.length,
-                    child: ListView.builder(
-                        itemCount: mobilenumber.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          int newindex = index + 1;
-                          return Card(
-                              elevation: 15,
-                              shadowColor: Colors.black,
-                              child: ListTile(
-                                  leading: Text(newindex.toString()),
-                                  trailing: IconButton(
-                                    icon: const Icon(
-                                      PhosphorIcons.trash_light,
-                                      color: Color(0xFFEB455F),
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        mobilenumber.removeAt(index);
-                                      });
-                                    },
-                                  ),
-                                  title: Text(mobilenumber[index].toString())));
-                        }),
+                  TextFormField(
+                    keyboardType: TextInputType.phone,
+                    controller: Landline,
+
+                    // validator: (value) {
+                    //   if (value == null || value.isEmpty) {
+                    //     return 'Please enter doorno';
+                    //   }
+                    //   return null;
+                    // },
+                    decoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFF808080)),
+                      ),
+                      // border: OutlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        // borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide:
+                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                      ),
+                      labelText: "Landline Number",
+                      // hintText: "Enter door no"
+                    ),
                   ),
+                  // SizedBox(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   height: MediaQuery.of(context).size.height /
+                  //       12 *
+                  //       mobilenumber.length,
+                  //   child: ListView.builder(
+                  //       itemCount: mobilenumber.length,
+                  //       itemBuilder: (BuildContext context, int index) {
+                  //         int newindex = index + 1;
+                  //         return Card(
+                  //             elevation: 15,
+                  //             shadowColor: Colors.black,
+                  //             child: ListTile(
+                  //                 leading: Text(newindex.toString()),
+                  //                 trailing: IconButton(
+                  //                   icon: const Icon(
+                  //                     PhosphorIcons.trash_light,
+                  //                     color: Color(0xFFEB455F),
+                  //                   ),
+                  //                   onPressed: () {
+                  //                     setState(() {
+                  //                       mobilenumber.removeAt(index);
+                  //                     });
+                  //                   },
+                  //                 ),
+                  //                 title: Text(mobilenumber[index].toString())));
+                  //       }),
+                  // ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -589,13 +620,14 @@ class _dealerState extends State<dealer> {
 
                           customer_creation(
                             dealername.text,
-                            json.encode(mobilenumber),
+                            dealermobile.text,
                             dealerdoorno.text,
                             dealercity.text,
                             dealerarea.text,
                             dealerstate.text,
                             districts.text,
                             pincode_text.text,
+                            Landline.text,
                           );
                         }
                       }),
@@ -618,6 +650,7 @@ class _dealerState extends State<dealer> {
     state,
     districts,
     pincode,
+    landline_number,
   ) async {
     SharedPreferences token = await SharedPreferences.getInstance();
     setState(() {
@@ -626,11 +659,11 @@ class _dealerState extends State<dealer> {
 
     var response = await http.get(
         Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number={"p":${mobilenumber}}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&customer_group=${newdealer ? "New Dealer" : "Existing Dealer"}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&user=${username}&pincode=${pincode}"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${mobilenumber}&landline_number=${landline_number}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&customer_group=${newdealer ? "New Dealer" : "Existing Dealer"}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&user=${username}&pincode=${pincode}"""),
         headers: {"Authorization": token.getString("token") ?? ""});
     print(token.getString("token"));
     print(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number={"p":${mobilenumber}}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&user=${username}&pincode=${pincode}""");
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${mobilenumber}&landline_number=${landline_number}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&customer_group=${newdealer ? "New Dealer" : "Existing Dealer"}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&user=${username}&pincode=${pincode}""");
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -653,7 +686,7 @@ class _dealerState extends State<dealer> {
           btnOkIcon: Icons.check_circle,
           onDismissCallback: (type) {},
         ).show();
-        if (pathttt.isNotEmpty) {
+        if (pathttt != null && pathttt.isNotEmpty) {
           uploadimage(imageFile, docName);
         }
       });
@@ -682,6 +715,7 @@ class _dealerState extends State<dealer> {
     pincode_text.clear();
     Manualdata_.clear();
     mobilenumber.clear();
+    Landline.clear();
     newdealer = false;
     existingdealer = false;
   }
@@ -841,25 +875,18 @@ class _dealerState extends State<dealer> {
     if (response.statusCode == 200) {
       setState(() async {
         for (var i = 0; i < json.decode(response.body)['state'].length; i++) {
-          dbHelper!
-              .insert(offline(
-            name: json.decode(response.body)['state'].toString() ?? "",
-          ))
-              .then((value) {
-            print("daaaa");
-            setState(() {
-              notesList = dbHelper!.getlist();
-              print("tttttttttttt");
-              print(notesList);
-              print(notesList);
-            });
-          }).onError((error, stackTrace) {
-            print(error.toString());
-          });
           state.add((json.decode(response.body)['state'][i]));
         }
-
+        final location = Hive.box('customer_details');
         state.sort();
+        for (var i in state) {
+          print(i);
+          print("2");
+          await location.add(i);
+          print("check");
+        }
+        print("ssssssssssssssssssssssssss");
+        print(location.values);
       });
     }
   }

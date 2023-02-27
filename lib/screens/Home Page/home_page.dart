@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'package:intl/intl.dart';
 import 'dart:developer';
 import 'package:just_audio/just_audio.dart';
@@ -40,12 +41,15 @@ class home_page extends StatefulWidget {
 
 class _home_pageState extends State<home_page> {
   @override
+  double _offset = 0.0;
+
   int count = 0;
   late Timer timer_notify;
 
   late Timer timer;
   late AudioPlayer player;
   void initState() {
+    _startAnimation();
     // territory_list();
     final myList = [1, 2, 3];
 
@@ -53,17 +57,17 @@ class _home_pageState extends State<home_page> {
     print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     print(myElement);
     player = AudioPlayer();
-    // Timer.periodic(const Duration(seconds: 1), (timer) async {
-    //   appointmentnotification();
-    // });
+    Timer.periodic(const Duration(seconds: 1), (timer) async {
+      appointmentnotification();
+    });
     // appointmentnotification();
     distributor_list();
     // timer_notify =
-    //     Timer.periodic(Duration(seconds: 10), (Timer t) => notification());
+    //     Timer.periodic(Duration(seconds: 10), (Timer t) => notification(););
 
-    // timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
-    //   appointmentnotification_List();
-    // });
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+      appointmentnotification_List();
+    });
 
     user();
     tz.initializeTimeZones();
@@ -84,6 +88,15 @@ class _home_pageState extends State<home_page> {
     } else {
       setState(() {
         day_status = "Good Night ";
+      });
+    }
+  }
+
+  void _startAnimation() async {
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      setState(() {
+        _offset = Random().nextDouble() * 10 - 5;
       });
     }
   }
@@ -160,14 +173,14 @@ class _home_pageState extends State<home_page> {
               child: RichText(
                 text: TextSpan(children: [
                   TextSpan(
-                      text: day_status,
+                      text: day_status + " $username",
                       style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
                               fontSize: 20,
                               letterSpacing: .2,
                               color: Color(0xffffffff)))),
                   TextSpan(
-                      text: " $username",
+                      text: " 👋",
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
                               fontSize: 20,
@@ -722,7 +735,7 @@ class _home_pageState extends State<home_page> {
     // print(now);
 
     // print(now);
-    DateTime fiftyDaysAgo = now.subtract(new Duration(minutes: 50));
+    DateTime fiftyDaysAgo = now.subtract(new Duration(days: 1));
     // print("subtraction");
     // print(fiftyDaysAgo);
     var data = DateFormat('yyyy-MM-dd kk:mm:ss:00').format(now);
@@ -736,20 +749,6 @@ class _home_pageState extends State<home_page> {
 
     SharedPreferences appointment = await SharedPreferences.getInstance();
 
-    // Timer.periodic(const Duration(seconds: 5), (timer) async {
-    //   // print(DateTime.now());
-    //   DateTime now = new DateTime.now();
-    //   var formatter = new DateFormat('yyyy-MM-dd');
-    //   String formattedDate = formatter.format(now);
-    //   print(formattedDate);
-    //   print(timer.tick);
-    //   print("clear");
-    //   List<String> tags = appointment.getStringList("appointment") ?? [];
-    //   print(tags);
-    //   await appointment.remove('appointment');
-    //   // appointment.clear();
-    //   print(tags);
-    // });
     appointment_notification = [];
 
     List<String> tags = appointment.getStringList("appointment") ?? [];
@@ -807,7 +806,9 @@ class _home_pageState extends State<home_page> {
           setState(() {
             check = DateTime.parse(temp!);
             // DateTime fiftyDaysAgo = check.subtract(const Duration(hours: 1));
-            data1 = DateFormat('yyyy-MM-dd kk:mm:15:00').format(check);
+            DateTime fiftyDaysAgo = check.subtract(new Duration(days: 1));
+
+            data1 = DateFormat('yyyy-MM-dd kk:mm:15:00').format(fiftyDaysAgo);
             // print(check.toString() + " " + data1);
             // print(check);
             // print(check.runtimeType);
