@@ -82,7 +82,7 @@ class _notificationState extends State<notification> {
       ),
       body: ListView.builder(
         itemCount: appointment_notification_lists.length,
-        itemBuilder: (BuildContext context, int index) {
+        itemBuilder: (BuildContext context, index) {
           var newIndex = index + 1;
           return Card(
               elevation: 2.5,
