@@ -87,6 +87,7 @@ TextEditingController dealercity = TextEditingController();
 TextEditingController dealerstate = TextEditingController();
 TextEditingController dealerpincode = TextEditingController();
 TextEditingController dealerdoorno = TextEditingController();
+TextEditingController Landline = TextEditingController();
 
 GlobalKey<FormState> delear_type = GlobalKey<FormState>();
 
@@ -219,3 +220,4 @@ List mobilenumber = [];
 bool newdealer = false;
 bool existingdealer = false;
 var singlenumber;
+bool mobile_errortext = false;

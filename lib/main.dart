@@ -1,6 +1,8 @@
 // @dart=2.9
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:oxo/screens/Sales%20Order/order_page.dart';
 import 'package:oxo/screens/login.dart';
@@ -9,12 +11,21 @@ import 'package:oxo/screens/notification/notification.dart';
 import 'package:oxo/screens/splashscreen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:path_provider/path_provider.dart';
+import 'Db/customer.dart';
 import 'Widget /bottomnaviagtion.dart';
 import 'screens/Home Page/home_page.dart';
 import 'screens/Sales Order/sales_order.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  var appDocumentDir = await getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDir.path);
+  await Hive.initFlutter();
+  Box customer;
+  customer = await Hive.openBox('customer_details');
   await dotenv.load(fileName: ".env");
+  Hive.registerAdapter(itemlistAdapter());
   runApp(MyHomePage());
 }
 
@@ -26,7 +37,7 @@ class MyHomePage extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         'test': (context) => sales_order(),
-        'bottom': (context) => MainPage(),
+        'bottom': (context) => const MainPage(),
         'homepage': (context) => const home_page(),
         'category_groups': (context) => category_group(),
         "notification": (context) => const notification(),
