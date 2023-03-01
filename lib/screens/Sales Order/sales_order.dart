@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:oxo/constants.dart';
 import 'package:oxo/screens/Home%20Page/home_page.dart';
 import 'package:oxo/screens/Sales%20Order/item_category_list.dart';
@@ -27,22 +28,17 @@ class sales_order extends StatefulWidget {
 
 class _sales_orderState extends State<sales_order> {
   @override
+  List districts = [];
+  TextEditingController district_list_text = TextEditingController();
+
   void initState() {
     dealername_list();
-    district_list();
+    district();
     super.initState();
-    print(
-        '00000000000000000000000000000000000000000000000000000000000000000000000000000');
-    print(
-        '00000000000000000000000000000000000000000000000000000000000000000000000000000');
-    print(
-        '00000000000000000000000000000000000000000000000000000000000000000000000000000');
-    print(values_dict);
+
     total_qty = 0.0;
     for (var i = 0; i < values_dict.length; i++) {
       total_qty += double.parse(values_dict[i]['qty']);
-      print(values_dict[i]['qty'].runtimeType);
-      print(total_qty);
     }
     employeeDataSource = EmployeeDataSource(employeeData: values_dict);
   }
@@ -65,7 +61,7 @@ class _sales_orderState extends State<sales_order> {
           ),
           // backgroundColor: Colors(O),
           title: Text(
-            'ORDER FORM',
+            'ORDER FORMs',
             style: GoogleFonts.poppins(
               textStyle: TextStyle(
                   fontSize: 20, letterSpacing: .2, color: Colors.white),
@@ -86,71 +82,7 @@ class _sales_orderState extends State<sales_order> {
                         const SizedBox(
                           height: 10,
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: SearchField(
-                            controller: district_list_text,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please select dealer name';
-                              }
-                              return null;
-                            },
-                            suggestions: districts_list
-                                .map((String) => SearchFieldListItem(String,
-                                    child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20.0),
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            String,
-                                            style:
-                                                TextStyle(color: Colors.black),
-                                          ),
-                                        ))))
-                                .toList(),
-                            suggestionState: Suggestion.expand,
-                            onSuggestionTap: (x) {
-                              FocusScope.of(context).unfocus();
 
-                              distributor_list(district_list_text.text);
-                              // Navigator.pop(context);
-                              // _showMyDialog();
-                            },
-                            textInputAction: TextInputAction.next,
-                            hasOverlay: false,
-                            searchStyle: TextStyle(
-                              fontSize: 15,
-                              color: Colors.black.withOpacity(0.8),
-                            ),
-                            searchInputDecoration: InputDecoration(
-                              hintText: 'Select District',
-                              hintStyle: GoogleFonts.inter(
-                                fontSize: 16.0,
-                                color: const Color(0xFF151624).withOpacity(0.5),
-                              ),
-                              filled: true,
-                              fillColor: customer_name.text.isEmpty
-                                  ? const Color.fromRGBO(248, 247, 251, 1)
-                                  : Colors.transparent,
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: customer_name.text.isEmpty
-                                        ? Colors.transparent
-                                        : const Color(0xff19183e),
-                                  )),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(
-                                    color: const Color(0xff19183e),
-                                  )),
-                            ),
-                            maxSuggestionsInViewPort: 5,
-                            itemHeight: 35,
-                          ),
-                        ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -286,19 +218,11 @@ class _sales_orderState extends State<sales_order> {
 
                         employeeDataSource.updateDataGridSource();
                         setState(() {
-                          print('lllllllllllllllllllllllllll');
-                          print(values_dict);
                           index_value = rowIndex;
-                          print(index_value);
-
-                          print('12345676544');
-                          print(values_dict[index_value]['qty']);
 
                           total_qty -=
                               double.parse(values_dict[index_value]['qty']);
                           values_dict.removeAt(index_value);
-
-                          print(values_dict);
                         });
                       },
                       child: Container(
@@ -315,7 +239,7 @@ class _sales_orderState extends State<sales_order> {
                   Container(
                       child: Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                           child: Center(
                               child: Text(
                         'TOTAL',
@@ -484,14 +408,98 @@ class _sales_orderState extends State<sales_order> {
                 return Form(
                     key: sales_order_key,
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height / 3,
-                      width: MediaQuery.of(context).size.width / 1,
+                      height: MediaQuery.of(context).size.height / 2.3,
+                      width: MediaQuery.of(context).size.width,
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
                             const SizedBox(
                               height: 10,
                               width: 10,
+                            ),
+                            SearchField(
+                              controller: district_list_text,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please select District';
+                                }
+                                if (!districts.contains(value)) {
+                                  return 'District not found';
+                                }
+                                return null;
+                              },
+                              suggestions: districts
+                                  .map((String) => SearchFieldListItem(String))
+                                  .toList(),
+                              suggestionState: Suggestion.expand,
+                              textInputAction: TextInputAction.next,
+                              hasOverlay: false,
+                              marginColor: Colors.white,
+                              searchStyle: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black.withOpacity(0.8),
+                              ),
+                              onSuggestionTap: (x) {
+                                FocusScope.of(context).unfocus();
+                                distributor_list(district_list_text.text);
+                              },
+                              searchInputDecoration: const InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1, color: Color(0xFF808080)),
+                                ),
+                                // border: OutlineInputBorder(),
+                                focusedBorder: UnderlineInputBorder(
+                                  // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(
+                                      color: Color(0xFFEB455F), width: 2.0),
+                                ),
+                                labelText: "District",
+                                // hintText: "State"
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            SearchField(
+                              controller: distributor_name,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please select distributor name';
+                                }
+                                return null;
+                              },
+                              suggestions: districts_
+                                  .map((String) => SearchFieldListItem(String))
+                                  .toList(),
+                              suggestionState: Suggestion.expand,
+                              textInputAction: TextInputAction.next,
+                              hasOverlay: false,
+                              searchStyle: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black.withOpacity(0.8),
+                              ),
+                              marginColor: Colors.white,
+                              searchInputDecoration: const InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1, color: Color(0xFF808080)),
+                                ),
+                                // border: OutlineInputBorder(),
+                                focusedBorder: UnderlineInputBorder(
+                                  // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(
+                                      color: Color(0xFFEB455F), width: 2.0),
+                                ),
+                                labelText: "Distributor Name",
+                                // hintText: "State"
+                              ),
+                              maxSuggestionsInViewPort: 5,
+                              suggestionsDecoration: null,
+                              itemHeight: 40,
+                            ),
+                            const SizedBox(
+                              height: 10,
                             ),
                             SizedBox(
                               // width: MediaQuery.of(context).size.width / 1.2,
@@ -518,6 +526,7 @@ class _sales_orderState extends State<sales_order> {
                                         )))
                                     .toList(),
                                 suggestionState: Suggestion.expand,
+                                marginColor: Colors.white,
                                 onSuggestionTap: (x) {},
                                 textInputAction: TextInputAction.next,
                                 hasOverlay: false,
@@ -525,29 +534,19 @@ class _sales_orderState extends State<sales_order> {
                                   fontSize: 15,
                                   color: Colors.black.withOpacity(0.8),
                                 ),
-                                searchInputDecoration: InputDecoration(
-                                  hintText: 'Select Dealer name',
-                                  hintStyle: GoogleFonts.inter(
-                                    fontSize: 16.0,
-                                    color: const Color(0xFF151624)
-                                        .withOpacity(0.5),
+                                searchInputDecoration: const InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 1, color: Color(0xFF808080)),
                                   ),
-                                  filled: true,
-                                  fillColor: customer_name.text.isEmpty
-                                      ? const Color.fromRGBO(248, 247, 251, 1)
-                                      : Colors.transparent,
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: customer_name.text.isEmpty
-                                            ? Colors.transparent
-                                            : const Color(0xff19183e),
-                                      )),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(
-                                        color: const Color(0xff19183e),
-                                      )),
+                                  // border: OutlineInputBorder(),
+                                  focusedBorder: UnderlineInputBorder(
+                                    // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    borderSide: BorderSide(
+                                        color: Color(0xFFEB455F), width: 2.0),
+                                  ),
+                                  labelText: "Dealer name",
+                                  // hintText: "State"
                                 ),
                                 maxSuggestionsInViewPort: 5,
                                 suggestionsDecoration: null,
@@ -556,57 +555,6 @@ class _sales_orderState extends State<sales_order> {
                             ),
                             const SizedBox(
                               height: 10,
-                              width: 10,
-                            ),
-                            SearchField(
-                              controller: distributor_name,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please select distributor name';
-                                }
-                                return null;
-                              },
-                              suggestions: districts_
-                                  .map((String) => SearchFieldListItem(String))
-                                  .toList(),
-                              suggestionState: Suggestion.expand,
-                              textInputAction: TextInputAction.next,
-                              hasOverlay: false,
-                              searchStyle: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black.withOpacity(0.8),
-                              ),
-                              searchInputDecoration: InputDecoration(
-                                hintText: 'Select Distributor name',
-                                hintStyle: GoogleFonts.inter(
-                                  fontSize: 16.0,
-                                  color:
-                                      const Color(0xFF151624).withOpacity(0.5),
-                                ),
-                                filled: true,
-                                fillColor: distributor_name.text.isEmpty
-                                    ? const Color.fromRGBO(248, 247, 251, 1)
-                                    : Colors.transparent,
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
-                                      color: distributor_name.text.isEmpty
-                                          ? Colors.transparent
-                                          : const Color(0xff19183e),
-                                    )),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: const Color(0xff19183e),
-                                    )),
-                              ),
-                              maxSuggestionsInViewPort: 5,
-                              suggestionsDecoration: null,
-                              itemHeight: 40,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                              width: 10,
                             ),
                             TextFormField(
                               textInputAction: TextInputAction.next,
@@ -618,29 +566,19 @@ class _sales_orderState extends State<sales_order> {
 
                                 return null;
                               },
-                              decoration: InputDecoration(
-                                hintText: 'Delivery Date',
-                                hintStyle: GoogleFonts.inter(
-                                  fontSize: 16.0,
-                                  color:
-                                      const Color(0xFF151624).withOpacity(0.5),
+                              decoration: const InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1, color: Color(0xFF808080)),
                                 ),
-                                filled: true,
-                                fillColor: delivery_date.text.isEmpty
-                                    ? const Color.fromRGBO(248, 247, 251, 1)
-                                    : Colors.transparent,
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
-                                      color: delivery_date.text.isEmpty
-                                          ? Colors.transparent
-                                          : const Color(0xff19183e),
-                                    )),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: const Color(0xff19183e),
-                                    )),
+                                // border: OutlineInputBorder(),
+                                focusedBorder: UnderlineInputBorder(
+                                  //                           // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(
+                                      color: Color(0xFFEB455F), width: 2.0),
+                                ),
+                                labelText: "Delivery date",
+                                // hintText: "Pincode"
                               ),
                               readOnly: true,
                               onTap: () async {
@@ -679,10 +617,6 @@ class _sales_orderState extends State<sales_order> {
                                       distributor_name.text,
                                       username);
                                   Navigator.pop(context);
-                                  customer_name.clear();
-                                  district_list_text.clear();
-                                  distributor_name.clear();
-                                  delivery_date.clear();
                                 }
                               },
                             ),
@@ -700,64 +634,52 @@ class _sales_orderState extends State<sales_order> {
     var response = await http.get(Uri.parse(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.customer_list"""));
     // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
-    print(response.statusCode);
-    print(response.body);
+
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
       setState(() {
-        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
-          dealer_name.add((json.decode(response.body)['message'][i]));
+        for (var i = 0; i < json.decode(response.body)['Dealer'].length; i++) {
+          dealer_name.add((json.decode(response.body)['Dealer'][i]));
         }
       });
     }
   }
 
   Future distributor_list(list) async {
-    print("object");
     districts_ = [];
-    print(list);
+
     var response = await http.get(
       Uri.parse(
           """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_partner?area=${list}"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
-    print(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_partner?area=${list}""");
-    print(response.statusCode);
-    print(response.body);
+
     if (response.statusCode == 200) {
       setState(() {
         for (var i = 0;
             i < json.decode(response.body)['messege_1'].length;
             i++) {
-          print((json.decode(response.body)['messege_1'][i]));
           districts_.add((json.decode(response.body)['messege_1'][i]));
           // distributor.add((json.decode(response.body)['message'][i]));
         }
-        print(districts_);
-        print(districts_.length);
       });
     }
   }
 
-  Future district_list() async {
-    print("object");
-    districts_list = [];
+  Future district() async {
+    districts = [];
     SharedPreferences token = await SharedPreferences.getInstance();
     var response = await http.get(
         Uri.parse(
             """${dotenv.env['API_URL']}/api/method/oxo.custom.api.district_list"""),
         headers: {"Authorization": token.getString("token") ?? ""});
 
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       setState(() {
         for (var i = 0;
-            i < json.decode(response.body)['district'].length;
+            i < json.decode(response.body)['district_list'].length;
             i++) {
-          // print((json.decode(response.body)['messege'][i]));
-          districts_list.add((json.decode(response.body)['district'][i]));
+          districts.add((json.decode(response.body)['district_list'][i]));
         }
       });
     }
@@ -765,17 +687,16 @@ class _sales_orderState extends State<sales_order> {
 
   Future sales_order(
       customerName, deliveryDate, valuesDict, distributorName, username) async {
-    print("object");
-    print(user_name);
-    print(valuesDict);
     valuesDict = jsonEncode(valuesDict);
-    print(valuesDict);
+    SharedPreferences token = await SharedPreferences.getInstance();
+    var user;
+    setState(() {
+      user = token.getString('full_name');
+    });
     var response = await http.get(Uri.parse(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customerName}&due_date=${deliveryDate}&items=${valuesDict}&distributor=${distributorName}&sales_person=${username}"""));
-    print(response.statusCode);
     print(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customerName}&due_date=${deliveryDate}&items=${valuesDict}&distributor=${distributorName}&sales_person=${username}""");
-    print(response.body);
     if (response.statusCode == 200) {
       setState(() {
         AwesomeDialog(
@@ -788,14 +709,14 @@ class _sales_orderState extends State<sales_order> {
             valuesDict = [];
             values = {};
 
-            print(valuesDict);
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => const home_page()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const home_page()));
           },
           btnOkIcon: Icons.check_circle,
           onDismissCallback: (type) {},
         ).show();
       });
+      clear();
     } else {
       AwesomeDialog(
         context: context,
@@ -806,7 +727,7 @@ class _sales_orderState extends State<sales_order> {
         btnOkOnPress: () {
           valuesDict = [];
           values = {};
-          print(valuesDict);
+
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => home_page()),
@@ -817,12 +738,18 @@ class _sales_orderState extends State<sales_order> {
       ).show();
     }
   }
+
+  void clear() {
+    district_list_text.clear();
+    customer_name.clear();
+    district_list_text.clear();
+    distributor_name.clear();
+    delivery_date.clear();
+  }
 }
 
 class EmployeeDataSource extends DataGridSource {
   EmployeeDataSource({required List employeeData}) {
-    print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
-    print(employeeData);
     _employeeData = employeeData
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell(
@@ -831,7 +758,6 @@ class EmployeeDataSource extends DataGridSource {
                   columnName: 'qty', value: e['qty'].toString()),
             ]))
         .toList();
-    print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
   }
 
   List<DataGridRow> _employeeData = [];

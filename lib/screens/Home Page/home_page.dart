@@ -17,7 +17,6 @@ import 'package:oxo/screens/Appointment/customer_list.dart';
 import 'package:oxo/screens/Dealer%20Creaction/dealer.dart';
 import 'package:oxo/screens/Location%20Map%20page/locationpin.dart';
 import 'package:oxo/screens/Sales%20Order/item_category_list.dart';
-import 'package:oxo/screens/Sales%20Order/orderlist.dart';
 import 'package:oxo/screens/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:oxo/screens/distributor/distributor.dart';
@@ -49,7 +48,6 @@ class _home_pageState extends State<home_page> {
   late Timer timer;
   late AudioPlayer player;
   void initState() {
-
     final myList = [1, 2, 3];
 
     final myElement = myList.firstWhereOrNull((a) => a == 3);
@@ -57,22 +55,21 @@ class _home_pageState extends State<home_page> {
     print(myElement);
     player = AudioPlayer();
 
-    Timer.periodic(const Duration(seconds: 1), (timer) async {
-      appointmentnotification();
-    });
+    // Timer.periodic(const Duration(seconds: 1), (timer) async {
+    //   appointmentnotification();
+    // });
     // appointmentnotification();
     distributor_list();
     // timer_notify =
     //     Timer.periodic(Duration(seconds: 10), (Timer t) => notification(););
 
+    // Timer.periodic(const Duration(seconds: 1), (timer) async {
+    //   appointmentnotification();
+    // });
 
-    Timer.periodic(const Duration(seconds: 1), (timer) async {
-      appointmentnotification();
-    });
-
-    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
-      appointmentnotification_List();
-    });
+    // timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+    //   appointmentnotification_List();
+    // });
 
     user();
     tz.initializeTimeZones();
@@ -572,11 +569,11 @@ class _home_pageState extends State<home_page> {
 
   Widget getCardItem6(height) {
     ContainerTransitionType containerTransitionType =
-        ContainerTransitionType.fade;
+        ContainerTransitionType.fadeThrough;
     return OpenContainer(
       transitionType: containerTransitionType,
       transitionDuration: Duration(milliseconds: 500),
-      openBuilder: (context, _) => order_list(),
+      openBuilder: (context, _) => home_page(),
       closedElevation: 0,
       closedShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(32),
@@ -689,7 +686,6 @@ class _home_pageState extends State<home_page> {
   }
 
   Future distributor_list() async {
-    print("object");
     distributor_home = [];
     var response = await http.get(
       Uri.parse(

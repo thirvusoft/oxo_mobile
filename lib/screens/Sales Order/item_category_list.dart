@@ -28,52 +28,48 @@ class _categoryState extends State<category> {
 
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: DefaultTabController(
-            length: 3,
-            child: Scaffold(
-              appBar: AppBar(
-                centerTitle: true,
-                leading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(Icons.arrow_back_outlined),
-                ),
-                automaticallyImplyLeading: true,
-                backgroundColor: Color(0xFFEB455F),
-                title: Text(
-                  'ORDER FORM',
-                  style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        fontSize: 20, letterSpacing: .2, color: Colors.white),
-                  ),
-                ),
-                bottom: TabBar(
-                  isScrollable: true,
-                  indicatorColor: Colors.white,
-                  tabs: [
-                    Tab(icon: Icon(Icons.person), text: "SHIRT DHOTI SEGMENT"),
-                    Tab(
-                        icon: Icon(Icons.person_outline),
-                        text: "INNER SEGMENT"),
-                    Tab(icon: Icon(Icons.person_pin), text: "OUTER SEGMENT"),
-                    // Tab(
-                    //     icon: Icon(Icons.person_pin_sharp),
-                    //     text: "PREMIUM RANGE"),
-                  ],
-                ),
+    return DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back_outlined),
+            ),
+            automaticallyImplyLeading: true,
+            backgroundColor: Color(0xFFEB455F),
+            title: Text(
+              'ORDER FORM',
+              style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                    fontSize: 20, letterSpacing: .2, color: Colors.white),
               ),
-              body: TabBarView(
-                children: [
-                  shirt(size),
-                  inner(size),
-                  outer(size),
-                  // primium(size),
-                ],
-              ),
-            )));
+            ),
+            bottom: TabBar(
+              isScrollable: true,
+              indicatorColor: Colors.white,
+              tabs: [
+                Tab(icon: Icon(Icons.person), text: "SHIRT DHOTI SEGMENT"),
+                Tab(icon: Icon(Icons.person_outline), text: "INNER SEGMENT"),
+                Tab(icon: Icon(Icons.person_pin), text: "OUTER SEGMENT"),
+                // Tab(
+                //     icon: Icon(Icons.person_pin_sharp),
+                //     text: "PREMIUM RANGE"),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            children: [
+              shirt(size),
+              inner(size),
+              outer(size),
+              // primium(size),
+            ],
+          ),
+        ));
   }
 
   Widget shirt(Size size) {
@@ -156,7 +152,7 @@ class _categoryState extends State<category> {
                   values_dict.sort(
                       (a, b) => (a['item_group']).compareTo(b['item_group']));
                   print('**********************************');
-  
+
                   print(values_dict);
 
                   values_dict.removeAt(index_value);
@@ -643,12 +639,6 @@ class _categoryState extends State<category> {
                                                 category_name, item_group_name);
                                             print('00000000000000000000000');
                                             print(category_item_list);
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      category_group()),
-                                            );
                                           },
                                         ),
                                       ),
@@ -694,7 +684,7 @@ class _categoryState extends State<category> {
   }
 
   Future template_list(category_name, item_group_name) async {
-    print("object");
+    print("fkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
     category_item_list = [];
     var response = await http.get(
       Uri.parse(
@@ -704,12 +694,18 @@ class _categoryState extends State<category> {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
       setState(() {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           category_item_list.add((json.decode(response.body)['message'][i]));
         }
       });
+      if (category_item_list.isNotEmpty) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => category_group()),
+        );
+      }
+      print(category_item_list);
     }
   }
 }

@@ -28,7 +28,6 @@ class _splashscreenState extends State<splashscreen> {
   }
 
   Future time() async {
-    print("object");
 
     SharedPreferences token = await SharedPreferences.getInstance();
     print(token.getString("token"));

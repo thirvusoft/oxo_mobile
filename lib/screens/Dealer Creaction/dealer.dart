@@ -209,7 +209,6 @@ class _dealerState extends State<dealer> {
                       // suffixIcon: IconButton(
                       //   icon: const Icon(LineIcons.plusCircle),
                       //   onPressed: () {
-                      //     print("object");
                       //     if (dealermobile.text.isNotEmpty &&
                       //         dealermobile.text.length >= 10) {
                       //       setState(() {
@@ -705,7 +704,7 @@ class _dealerState extends State<dealer> {
   }
 
   celar_text() {
-    print("object");
+    
     districts.clear();
     dealername.clear();
     dealermobile.clear();
@@ -860,7 +859,7 @@ class _dealerState extends State<dealer> {
   }
 
   Future district_list() async {
-    print("object");
+  
     district_lists = [];
     state = [];
     SharedPreferences token = await SharedPreferences.getInstance();
@@ -918,7 +917,6 @@ class _dealerState extends State<dealer> {
                 PhosphorIcons.camera,
               ),
               onPressed: () {
-                print("object");
                 pickImage(ImageSource.camera);
               },
               label: const Text("Camera"),

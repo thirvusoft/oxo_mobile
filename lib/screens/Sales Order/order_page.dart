@@ -9,7 +9,6 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:oxo/screens/Sales%20Order/item_group.dart';
 import 'package:oxo/screens/Sales%20Order/sales_order.dart';
 
-
 import '../../constants.dart';
 
 class category_group extends StatefulWidget {
@@ -18,7 +17,11 @@ class category_group extends StatefulWidget {
 }
 
 class _category_groupState extends State<category_group> {
-  @override
+  void initState() {
+    print("tetstststststststs");
+    print(category_item_list);
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -120,7 +123,12 @@ class _category_groupState extends State<category_group> {
                 values_dict = [];
                 values.forEach((key, value) {
                   values_dict.add(
-                    {'item_code': key, 'qty': value[1], 'item_group': value[0],'item_name': value[2]},
+                    {
+                      'item_code': key,
+                      'qty': value[1],
+                      'item_group': value[0],
+                      'item_name': value[2]
+                    },
                   );
                 });
                 values_dict.sort(
@@ -147,7 +155,7 @@ class _category_groupState extends State<category_group> {
 
   Widget itemlist(Size size) {
     return AnimationLimiter(
-        child: (category_item_list.length == 0)
+        child: (category_item_list.isEmpty)
             ? Center(
                 child: LoadingAnimationWidget.fourRotatingDots(
                   color: Color(0xFFEB455F),
@@ -197,7 +205,8 @@ class _category_groupState extends State<category_group> {
                                                     backgroundColor:
                                                         const Color(0xFF2B3467),
                                                     child: Text(
-                                                      count.toString(),
+                                                      "3",
+                                                      // count.toString(),
                                                       style: TextStyle(
                                                         color: Colors.white,
                                                       ),
@@ -234,7 +243,8 @@ class _category_groupState extends State<category_group> {
   }
 
   Future varient_list(item_name) async {
-    print("object");
+    print(
+        "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
     print(item_name);
     varient_item_list = [];
     var response = await http.get(

@@ -158,7 +158,7 @@ class _appointmentState extends State<appointment> {
                                     .toList(),
                                 suggestionState: Suggestion.expand,
                                 onSuggestionTap: (x) {
-                                  print("object");
+                                  
                                   FocusScope.of(context).unfocus();
                                   if (typecontroller.text == "Distributor") {
                                     setState(() {
@@ -589,7 +589,6 @@ class _appointmentState extends State<appointment> {
 
   Future<void> appointment_creation(String usertype, String dealerName,
       dateTime, String email, String salesexecutive) async {
-    print("object");
     print(dateTime);
     print(dealerName);
     SharedPreferences token = await SharedPreferences.getInstance();
