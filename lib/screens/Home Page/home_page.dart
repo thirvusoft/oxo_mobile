@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
+import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'dart:developer';
 import 'package:just_audio/just_audio.dart';
@@ -177,17 +178,17 @@ class _home_pageState extends State<home_page> {
                   TextSpan(
                       text: day_status + " $username",
                       style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                              fontSize: 20,
+                          textStyle: TextStyle(
+                              fontSize: (username.length >= 5) ? 18 : 20,
                               letterSpacing: .2,
                               color: Color(0xffffffff)))),
                   TextSpan(
                       text: " 👋",
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                              fontSize: 20,
-                              letterSpacing: .2,
-                              color: Color(0xFFfffffffff)))),
+                        fontSize: (username.length >= 5) ? 18 : 20,
+                        letterSpacing: .2,
+                      ))),
                 ]),
 
                 // Text(
@@ -922,7 +923,5 @@ class _home_pageState extends State<home_page> {
     }
   }
 
-  notification(temp1) {
-    print(count);
-  }
+ 
 }
