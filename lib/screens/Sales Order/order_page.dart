@@ -205,8 +205,7 @@ class _category_groupState extends State<category_group> {
                                                     backgroundColor:
                                                         const Color(0xFF2B3467),
                                                     child: Text(
-                                                      "3",
-                                                      // count.toString(),
+                                                      count.toString(),
                                                       style: TextStyle(
                                                         color: Colors.white,
                                                       ),

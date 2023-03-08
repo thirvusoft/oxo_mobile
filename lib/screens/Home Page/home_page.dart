@@ -25,6 +25,7 @@ import 'package:searchfield/searchfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants.dart';
 import '../Appointment/appointment.dart';
+import '../Orders/Orderlist.dart';
 import '../notification/appointment_notification.dart';
 import '../notification/notificationservice.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -262,7 +263,7 @@ class _home_pageState extends State<home_page> {
                     const SizedBox(
                       width: 5,
                     ),
-                    // getCardItem6(height),
+                    getCardItem6(height),
                     // getCardItem4(height),
                   ]),
                 ),
@@ -554,7 +555,7 @@ class _home_pageState extends State<home_page> {
               child: Padding(
                 padding: EdgeInsets.all(8),
                 child: Text(
-                  "Fix Appointment",
+                  "  Appointment  ",
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
                         fontSize: 15, letterSpacing: .2, color: Colors.white),
@@ -574,7 +575,7 @@ class _home_pageState extends State<home_page> {
     return OpenContainer(
       transitionType: containerTransitionType,
       transitionDuration: Duration(milliseconds: 500),
-      openBuilder: (context, _) => home_page(),
+      openBuilder: (context, _) => TabLayoutExample(),
       closedElevation: 0,
       closedShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(32),
@@ -922,6 +923,4 @@ class _home_pageState extends State<home_page> {
       });
     }
   }
-
- 
 }
