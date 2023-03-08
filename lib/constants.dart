@@ -23,6 +23,7 @@ TextEditingController delivery_date = TextEditingController();
 TextEditingController distributor_name = TextEditingController();
 
 List cus_name = ['Barath', 'Ram', 'vig'];
+List order_lists = [];
 
 // child table
 
@@ -221,3 +222,5 @@ bool newdealer = false;
 bool existingdealer = false;
 var singlenumber;
 bool mobile_errortext = false;
+List orderLists = [];
+List dispatched = [];

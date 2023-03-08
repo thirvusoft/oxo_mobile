@@ -694,9 +694,11 @@ class _sales_orderState extends State<sales_order> {
       user = token.getString('full_name');
     });
     var response = await http.get(Uri.parse(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customerName}&due_date=${deliveryDate}&items=${valuesDict}&distributor=${distributorName}&sales_person=${username}"""));
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customerName}&due_date=${deliveryDate}&items=${valuesDict}&distributor=${distributorName}&sales_person=${username}"""),
+          headers: {"Authorization": token.getString("token") ?? ""});
     print(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customerName}&due_date=${deliveryDate}&items=${valuesDict}&distributor=${distributorName}&sales_person=${username}""");
+    print(response.body);
     if (response.statusCode == 200) {
       setState(() {
         AwesomeDialog(
