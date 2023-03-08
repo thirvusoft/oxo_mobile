@@ -1,7 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:oxo/constants.dart';
 import 'package:oxo/screens/notification/notificationservice.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TabLayoutExample extends StatefulWidget {
   @override
@@ -16,6 +20,7 @@ class _TabLayoutExampleState extends State<TabLayoutExample>
 
   @override
   void initState() {
+    orderList();
     super.initState();
     _tabController = TabController(length: 6, vsync: this);
     _tabController.animateTo(2);
@@ -26,12 +31,7 @@ class _TabLayoutExampleState extends State<TabLayoutExample>
     const Tab(icon: Icon(Icons.looks_two), text: '       Dispatched      '),
   ];
 
-  static List<Widget> _views = [
-    myListView(),
-    myListView()
-    // Center(child: Text('Content of Tab One')),
-    // Center(child: Text('Content of Tab Two')),
-  ];
+  List<Widget> _views = [];
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +89,43 @@ class _TabLayoutExampleState extends State<TabLayoutExample>
     );
   }
 
+  Future<void> orderList() async {
+    final SharedPreferences token = await SharedPreferences.getInstance();
 
-  
+    final Dio dio = Dio();
+    print("tttttttttttttttttttttttt");
+    print(token.getString('full_name'));
+    final Map<String, dynamic> data = {
+      'distributor': token.getString('full_name')
+    };
+    final String url =
+        '${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order_list';
+
+    final Options options =
+        Options(headers: {'Authorization': token.getString('token') ?? ''});
+
+    try {
+      final Response response =
+          await dio.get(url, queryParameters: data, options: options);
+
+      if (response.statusCode == 200) {
+        final dynamic responseData = response.data;
+        print("object");
+        print(responseData);
+        setState(() {
+          orderLists = responseData['Order'] ?? [];
+          dispatched = responseData['Dispatched'] ?? [];
+          _views = [
+            myListView(false, orderLists),
+            myListView(true, dispatched),
+          ];
+        });
+        print(dispatched);
+      } else {
+        print('Request failed with status: ${response.statusCode}.');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 }

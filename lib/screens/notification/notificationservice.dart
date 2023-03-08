@@ -54,23 +54,48 @@
 import 'package:flutter/material.dart';
 
 Widget myListView(
-  // String title,
-  // String image,
+  bool value,
+  List item,
 ) {
-  return ListView(
-    children: <Widget>[
-      ListTile(
-        leading: Icon(Icons.wb_sunny),
-        title: Text('Sun'),
-      ),
-      ListTile(
-        leading: Icon(Icons.brightness_3),
-        title: Text('Moon'),
-      ),
-      ListTile(
-        leading: Icon(Icons.star),
-        title: Text('Star'),
-      ),
-    ],
-  );
+  return ListView.builder(
+      itemCount: item.length,
+      itemBuilder: (BuildContext context, int index) {
+        var index_value = index + 1;
+        print(item);
+        return Card(
+            elevation: 2,
+            child: ListTile(
+                leading: CircleAvatar(
+                  radius: 12.5,
+                  backgroundColor: const Color(0xFF2B3467),
+                  child: Text(
+                    index_value.toString(),
+                    style: const TextStyle(
+                      fontSize: 15.0,
+                      color: Color(0xFFffffff),
+                    ),
+                  ),
+                ),
+                trailing: Visibility(
+                  visible: value,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(
+                              0xFF2B3467), // background (button) color
+                          foregroundColor:
+                              Colors.white, // foreground (text) colorR
+                        ),
+                        onPressed: () {
+                          
+                        },
+                        child: const Text('Dispatched'),
+                      ),
+                    ],
+                  ),
+                ),
+                title: Text(item[index]["name"].toString())));
+      });
 }

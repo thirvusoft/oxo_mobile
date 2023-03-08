@@ -107,7 +107,8 @@ class _notificationState extends State<notification> {
                 ),
                 subtitle: Text(
                     appointment_notification_lists[index]['scheduled_time']),
-                trailing: ElevatedButton(
+                trailing:
+                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
                         const Color(0xFF2B3467), // background (button) color
