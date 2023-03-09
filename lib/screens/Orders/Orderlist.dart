@@ -32,6 +32,12 @@ class _TabLayoutExampleState extends State<TabLayoutExample>
   ];
 
   List<Widget> _views = [];
+  void _dispatchedCallback(dynamic responseData) {
+    // update the state of the widget using setState
+    setState(() {
+      // update the _items list or any other state variables
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +97,6 @@ class _TabLayoutExampleState extends State<TabLayoutExample>
 
   Future<void> orderList() async {
     final SharedPreferences token = await SharedPreferences.getInstance();
-
     final Dio dio = Dio();
     print("tttttttttttttttttttttttt");
     print(token.getString('full_name'));
@@ -115,9 +120,28 @@ class _TabLayoutExampleState extends State<TabLayoutExample>
         setState(() {
           orderLists = responseData['Order'] ?? [];
           dispatched = responseData['Dispatched'] ?? [];
+
           _views = [
-            myListView(false, orderLists),
-            myListView(true, dispatched),
+            (orderLists.isNotEmpty)
+                ? myListView(false, orderLists)
+                : const Center(
+                    child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text("You did not create any order.",
+                        style:
+                            TextStyle(fontSize: 18, color: Color(0xFF2B3467))),
+                  )),
+            (dispatched.isNotEmpty)
+                ? myListView(true, dispatched)
+                : const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                          "Orders are not being accepted by the distributor.",
+                          style: TextStyle(
+                              fontSize: 18, color: Color(0xFF2B3467))),
+                    ),
+                  ),
           ];
         });
         print(dispatched);
