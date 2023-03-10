@@ -3,6 +3,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:oxo/constants.dart';
 import 'package:oxo/screens/notification/notificationservice.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,8 +29,8 @@ class _TabLayoutExampleState extends State<TabLayoutExample>
   }
 
   static const List<Tab> _tabs = [
-    const Tab(icon: Icon(Icons.looks_one), child: Text('         Order    ')),
-    const Tab(icon: Icon(Icons.looks_two), text: '       Dispatched      '),
+    Tab(icon: Icon(PhosphorIcons.shopping_bag_light), child: Text('Order')),
+    Tab(icon: Icon(PhosphorIcons.package_light), text: 'Dispatched'),
   ];
 
   List<Widget> _views = [];
