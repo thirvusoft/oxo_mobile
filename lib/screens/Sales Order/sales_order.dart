@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:oxo/constants.dart';
@@ -30,6 +31,7 @@ class _sales_orderState extends State<sales_order> {
   @override
   List districts = [];
   TextEditingController district_list_text = TextEditingController();
+  TextEditingController Competitors = TextEditingController();
 
   void initState() {
     dealername_list();
@@ -303,7 +305,18 @@ class _sales_orderState extends State<sales_order> {
                           padding: EdgeInsets.only(right: 8.0),
                           child: ElevatedButton.icon(
                             onPressed: () {
-                              _showMyDialog();
+                              if (values_dict.isNotEmpty) {
+                                _showMyDialog();
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: "Please add the item",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 2,
+                                    backgroundColor: Color(0xFF2B3467),
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(
@@ -605,6 +618,26 @@ class _sales_orderState extends State<sales_order> {
                             const SizedBox(
                               height: 10,
                             ),
+                            TextFormField(
+                              controller: Competitors,
+                              decoration: const InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1, color: Color(0xFF808080)),
+                                ),
+                                // border: OutlineInputBorder(),
+                                focusedBorder: UnderlineInputBorder(
+                                  //                           // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(
+                                      color: Color(0xFFEB455F), width: 2.0),
+                                ),
+                                labelText: "Competitors",
+                                // hintText: "Pincode"
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             AnimatedButton(
                               text: 'Submit',
                               color: Color.fromARGB(255, 49, 47, 92),
@@ -615,7 +648,8 @@ class _sales_orderState extends State<sales_order> {
                                       delivery_date.text,
                                       values_dict,
                                       distributor_name.text,
-                                      username);
+                                      username,
+                                      Competitors.text);
                                   Navigator.pop(context);
                                 }
                               },
@@ -685,19 +719,20 @@ class _sales_orderState extends State<sales_order> {
     }
   }
 
-  Future sales_order(
-      customerName, deliveryDate, valuesDict, distributorName, username) async {
+  Future sales_order(customerName, deliveryDate, valuesDict, distributorName,
+      username, Competitors) async {
     valuesDict = jsonEncode(valuesDict);
     SharedPreferences token = await SharedPreferences.getInstance();
     var user;
     setState(() {
       user = token.getString('full_name');
     });
-    var response = await http.get(Uri.parse(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customerName}&due_date=${deliveryDate}&items=${valuesDict}&distributor=${distributorName}&sales_person=${username}"""),
-          headers: {"Authorization": token.getString("token") ?? ""});
+    var response = await http.get(
+        Uri.parse(
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customerName}&due_date=${deliveryDate}&items=${valuesDict}&distributor=${distributorName}&sales_person=${username}&Competitors=${Competitors}"""),
+        headers: {"Authorization": token.getString("token") ?? ""});
     print(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customerName}&due_date=${deliveryDate}&items=${valuesDict}&distributor=${distributorName}&sales_person=${username}""");
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customerName}&due_date=${deliveryDate}&items=${valuesDict}&distributor=${distributorName}&sales_person=${username}&Competitors=${Competitors}""");
     print(response.body);
     if (response.statusCode == 200) {
       setState(() {

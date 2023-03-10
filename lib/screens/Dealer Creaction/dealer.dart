@@ -243,8 +243,6 @@ class _dealerState extends State<dealer> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter dealer name';
-                      } else if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
-                        return 'please enter the alphabet value only';
                       }
                       return null;
                     },

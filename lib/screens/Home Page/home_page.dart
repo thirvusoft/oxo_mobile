@@ -171,6 +171,7 @@ class _home_pageState extends State<home_page> {
                 ),
               ),
             ],
+
             // centerTitle: true,
             title: Align(
               alignment: Alignment.topCenter,

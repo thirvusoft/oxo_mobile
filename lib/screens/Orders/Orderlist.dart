@@ -3,6 +3,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:oxo/constants.dart';
 import 'package:oxo/screens/notification/notificationservice.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,11 +29,17 @@ class _TabLayoutExampleState extends State<TabLayoutExample>
   }
 
   static const List<Tab> _tabs = [
-    const Tab(icon: Icon(Icons.looks_one), child: Text('         Order    ')),
-    const Tab(icon: Icon(Icons.looks_two), text: '       Dispatched      '),
+    Tab(icon: Icon(PhosphorIcons.shopping_bag_light), child: Text('Order')),
+    Tab(icon: Icon(PhosphorIcons.package_light), text: 'Dispatched'),
   ];
 
   List<Widget> _views = [];
+  void _dispatchedCallback(dynamic responseData) {
+    // update the state of the widget using setState
+    setState(() {
+      // update the _items list or any other state variables
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +99,6 @@ class _TabLayoutExampleState extends State<TabLayoutExample>
 
   Future<void> orderList() async {
     final SharedPreferences token = await SharedPreferences.getInstance();
-
     final Dio dio = Dio();
     print("tttttttttttttttttttttttt");
     print(token.getString('full_name'));
@@ -115,9 +122,28 @@ class _TabLayoutExampleState extends State<TabLayoutExample>
         setState(() {
           orderLists = responseData['Order'] ?? [];
           dispatched = responseData['Dispatched'] ?? [];
+
           _views = [
-            myListView(false, orderLists),
-            myListView(true, dispatched),
+            (orderLists.isNotEmpty)
+                ? myListView(false, orderLists)
+                : const Center(
+                    child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text("You did not create any order.",
+                        style:
+                            TextStyle(fontSize: 18, color: Color(0xFF2B3467))),
+                  )),
+            (dispatched.isNotEmpty)
+                ? myListView(true, dispatched)
+                : const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                          "Orders are not being accepted by the distributor.",
+                          style: TextStyle(
+                              fontSize: 18, color: Color(0xFF2B3467))),
+                    ),
+                  ),
           ];
         });
         print(dispatched);
