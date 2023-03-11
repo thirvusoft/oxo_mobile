@@ -47,7 +47,7 @@ Dart programming language
 - [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons)
 
 ## Screenshots
-[![Alt text for the video](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID/0.jpg)](https://drive.google.com/file/d/1SidaSUwd9Z_PklbD4N0RaOjWSJ-_Iazn/view?usp=sharing) file:///home/vicky/Downloads/demo.mp4
+[![Alt text for the video]([https://img.youtube.com/vi/YOUTUBE_VIDEO_ID/0.jpg](https://drive.google.com/file/d/1CxnrHfS5cJ_9WtXW7bmKMAgDWJHIPZa0/view?usp=sharing))](https://drive.google.com/file/d/1SidaSUwd9Z_PklbD4N0RaOjWSJ-_Iazn/view?usp=sharing)
 
 ## Getting Started
 To get started with this app project, follow these steps:
