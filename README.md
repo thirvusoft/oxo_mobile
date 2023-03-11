@@ -1,16 +1,32 @@
-# oxo
+App Name
+The name of the app is [INSERT APP NAME HERE].
 
-A new Flutter project.
+App Description
+[INSERT APP DESCRIPTION HERE].
 
-## Getting Started
+Features
+[INSERT FEATURE 1]
+[INSERT FEATURE 2]
+[INSERT FEATURE 3]
+[INSERT FEATURE 4]
+Screenshots
+[INSERT SCREENSHOTS HERE]
 
-This project is a starting point for a Flutter application.
+Getting Started
+To run this app on your local machine, follow these steps:
 
-A few resources to get you started if this is your first Flutter project:
+Clone this repository
+Make sure you have Flutter installed on your machine
+Run flutter pub get to install dependencies
+Run flutter run to launch the app on your device or emulator
+Dependencies
+This app uses the following dependencies:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+[INSERT DEPENDENCY 1]
+[INSERT DEPENDENCY 2]
+[INSERT DEPENDENCY 3]
+Contributing
+If you would like to contribute to this app, please submit a pull request.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+License
+[INSERT LICENSE HERE]
