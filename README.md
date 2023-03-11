@@ -54,13 +54,25 @@ https://user-images.githubusercontent.com/95606753/224484778-34bd24d1-693f-4e37-
 
 
 
-## Getting Started
-To get started with this app project, follow these steps:
-Clone the repository to your local machine.
-Install the Flutter SDK and Dart programming language if they are not already installed on your machine.
-Install any additional packages or libraries required for the app development.
-Set up Firebase Authentication and Cloud Firestore for database storage.
-Run the app using a supported IDE (e.g., Android Studio, Visual Studio Code, etc.) or using the command line.
+### Getting Started
+## How to Use 
+
+**Step 1:**
+
+Download or clone this repo by using the link below:
+
+```
+https://github.com/thirvusoft/oxo_mobile.git
+```
+
+**Step 2:**
+
+Go to project root and execute the following command in console to get the required dependencies: 
+
+```
+flutter pub get 
+flutter run
+```
 
 ## Contributing
 Contributions to this app project are welcome. If you would like to contribute, please fork the repository and create a pull request with your changes.
