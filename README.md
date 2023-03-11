@@ -49,7 +49,10 @@ Dart programming language
 
 ## Screenshots
 
-[![Alt text for the video]([![photo_2023-03-11_17-49-00](https://user-images.githubusercontent.com/95606753/224484591-cb0268c9-9beb-43d7-8f2a-b29ee3df1945.jpg)](https://drive.google.com/file/d/1CxnrHfS5cJ_9WtXW7bmKMAgDWJHIPZa0/view?usp=sharing))](https://drive.google.com/file/d/1SidaSUwd9Z_PklbD4N0RaOjWSJ-_Iazn/view?usp=sharing)
+
+https://user-images.githubusercontent.com/95606753/224484778-34bd24d1-693f-4e37-b4aa-187e7c7f7845.mp4
+
+
 
 ## Getting Started
 To get started with this app project, follow these steps:
