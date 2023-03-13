@@ -1,55 +1,49 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
-class DropdownDemo extends StatefulWidget {
-  const DropdownDemo({Key? key}) : super(key: key);
+class MyWidget extends StatefulWidget {
+  const MyWidget({super.key});
+
   @override
-  State<DropdownDemo> createState() => _DropdownDemoState();
+  State<MyWidget> createState() => _MyWidgetState();
 }
 
-class _DropdownDemoState extends State<DropdownDemo> {
-  String dropdownValue = 'Dog';
+class _MyWidgetState extends State<MyWidget> {
   @override
+  Location location = new Location();
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
+  LocationData _locationData;
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 50,
-            ),
-            // Step 2.
-            DropdownButton<String>(
-              // Step 3.
-              value: dropdownValue,
-              // Step 4.
-              items: <String>['Dog', 'Cat', 'Tiger', 'Lion']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: TextStyle(fontSize: 30),
-                  ),
-                );
-              }).toList(),
-              // Step 5.
-              onChanged: (String? newValue) {
-                setState(() {
-                  dropdownValue = newValue!;
-                });
-              },
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              'Selected Value: $dropdownValue',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            )
-          ],
-        ),
+      body: Column(
+        children: [Text(_locationData.toString())],
       ),
     );
+  }
+
+  test() async {
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        // Handle the case when the user does not enable the location service.
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        // Handle the case when the user does not grant location permission.
+        return;
+      }
+    }
+    setState(() {
+          _locationData = await location.getLocation();
+
+    });
+
   }
 }
