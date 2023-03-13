@@ -46,15 +46,26 @@ Dart programming language
 - [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons)
 
 ## Screenshots
-[![Alt text for the video](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID/0.jpg)](https://drive.google.com/file/d/1SidaSUwd9Z_PklbD4N0RaOjWSJ-_Iazn/view?usp=sharing)
+[![Alt text for the video](https://drive.google.com/file/d/1CxnrHfS5cJ_9WtXW7bmKMAgDWJHIPZa0/view?usp=sharing)](https://drive.google.com/file/d/1SidaSUwd9Z_PklbD4N0RaOjWSJ-_Iazn/view?usp=sharing)
 
-## Getting Started
-To get started with this app project, follow these steps:
-Clone the repository to your local machine.
-Install the Flutter SDK and Dart programming language if they are not already installed on your machine.
-Install any additional packages or libraries required for the app development.
-Set up Firebase Authentication and Cloud Firestore for database storage.
-Run the app using a supported IDE (e.g., Android Studio, Visual Studio Code, etc.) or using the command line.
+## How to Use 
+
+**Step 1:**
+
+Download or clone this repo by using the link below:
+
+```
+https://github.com/thirvusoft/oxo_mobile.git
+```
+
+**Step 2:**
+
+Go to project root and execute the following command in console to get the required dependencies: 
+
+```
+flutter pub get 
+flutter run
+```
 
 ## Contributing
 Contributions to this app project are welcome. If you would like to contribute, please fork the repository and create a pull request with your changes.
@@ -63,4 +74,4 @@ Contributions to this app project are welcome. If you would like to contribute, 
 This app project is licensed under the [insert license here] license. Please see the LICENSE file for more information.
 
 ## Contact
-For any questions or concerns related to this app project, please contact [insert contact information here].
+For any questions or concerns related to this app project, please contact [insert contact information here].    
