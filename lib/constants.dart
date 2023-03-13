@@ -225,3 +225,9 @@ bool mobile_errortext = false;
 List orderLists = [];
 List dispatched = [];
 bool launchAnimation = true;
+var address;
+
+List locations = [];
+double km = 0.0;
+
+var test;

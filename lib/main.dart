@@ -55,7 +55,7 @@ class MyHomePage extends StatelessWidget {
         primarySwatch: createMaterialColor(const Color(0xFFEB455F)),
         // visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const MyWidget(),
+      home: const splashscreen(),
       // builder: EasyLoading.init(),
     ));
   }
