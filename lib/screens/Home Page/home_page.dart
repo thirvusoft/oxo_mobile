@@ -25,6 +25,7 @@ import 'package:searchfield/searchfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants.dart';
 import '../Appointment/appointment.dart';
+import '../Location Map page/distance_clac.dart';
 import '../Orders/Orderlist.dart';
 import '../notification/appointment_notification.dart';
 import '../notification/notificationservice.dart';
@@ -265,6 +266,10 @@ class _home_pageState extends State<home_page> {
                       width: 5,
                     ),
                     getCardItem6(height),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    getCardItem7(height)
                     // getCardItem4(height),
                   ]),
                 ),
@@ -609,6 +614,58 @@ class _home_pageState extends State<home_page> {
                 padding: EdgeInsets.all(8),
                 child: Text(
                   "  Order List  ",
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                        fontSize: 15, letterSpacing: .2, color: Colors.white),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getCardItem7(height) {
+    ContainerTransitionType containerTransitionType =
+        ContainerTransitionType.fadeThrough;
+    return OpenContainer(
+      transitionType: containerTransitionType,
+      transitionDuration: Duration(milliseconds: 500),
+      openBuilder: (context, _) => distance(),
+      closedElevation: 0,
+      closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(32),
+          side: const BorderSide(color: Colors.white, width: 1)),
+      closedColor: Colors.white,
+      closedBuilder: (context, _) => Container(
+        alignment: Alignment.center,
+        height: 180,
+        width: 180,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 15,
+            ),
+            Image.asset(
+              "assets/Km.png",
+              height: 75,
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: const Color(0xFF2B3467),
+                  border: Border.all(
+                    color: const Color(0xFF2B3467),
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  "  Km calculator  ",
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
                         fontSize: 15, letterSpacing: .2, color: Colors.white),
