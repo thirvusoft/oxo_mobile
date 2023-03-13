@@ -1,4 +1,5 @@
-# oxo
+**OXO**
+
 
 ## Description
 
@@ -45,9 +46,15 @@ Dart programming language
 - [persistent_bottom_nav_bar](https://pub.dev/packages/persistent_bottom_nav_bar)
 - [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons)
 
-## Screenshots
-[![Alt text for the video](https://drive.google.com/file/d/1CxnrHfS5cJ_9WtXW7bmKMAgDWJHIPZa0/view?usp=sharing)](https://drive.google.com/file/d/1SidaSUwd9Z_PklbD4N0RaOjWSJ-_Iazn/view?usp=sharing)
 
+
+
+
+https://user-images.githubusercontent.com/95606753/224484778-34bd24d1-693f-4e37-b4aa-187e7c7f7845.mp4
+
+
+
+### Getting Started
 ## How to Use 
 
 **Step 1:**
@@ -74,4 +81,5 @@ Contributions to this app project are welcome. If you would like to contribute, 
 This app project is licensed under the [insert license here] license. Please see the LICENSE file for more information.
 
 ## Contact
-For any questions or concerns related to this app project, please contact [insert contact information here].    
+
+For any questions or concerns related to this app project, please contact [insert contact information here].
