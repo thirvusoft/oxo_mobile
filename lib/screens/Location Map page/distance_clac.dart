@@ -17,6 +17,8 @@ class distance extends StatefulWidget {
 class _distanceState extends State<distance> {
   Position? position;
   double roundDistanceInKM = 0.0;
+  var temps;
+  bool start = true;
   @override
   void dispose() {
     // Cancel any asynchronous operation that is still running
@@ -39,25 +41,42 @@ class _distanceState extends State<distance> {
                 child: Text("1"),
               ),
               title: Text(roundDistanceInKM.toString()),
-              // subtitle: Text("dummyList"),
+              subtitle: Text((temps != null) ? temps : ""),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  IconButton(
-                      onPressed: () {
-                        getloc(false);
-                      },
-                      icon: const Icon(PhosphorIcons.play_bold)),
-                  IconButton(
-                      onPressed: () {
-                        getloc(true);
-                      },
-                      icon: const Icon(PhosphorIcons.pause_bold)),
-                  IconButton(
-                      onPressed: () {
-                        locations.clear();
-                      },
-                      icon: const Icon(PhosphorIcons.arrow_clockwise_bold)),
+                  CircleAvatar(
+                      child: IconButton(
+                          onPressed: (start)
+                              ? () {
+                                  getloc(false);
+                                }
+                              : null,
+                          icon: const Icon(
+                            PhosphorIcons.play_bold,
+                            color: Colors.white,
+                          ))),
+                  CircleAvatar(
+                      child: IconButton(
+                          onPressed: () {
+                            getloc(true);
+                          },
+                          icon: const Icon(
+                            PhosphorIcons.pause_bold,
+                            color: Colors.white,
+                          ))),
+                  CircleAvatar(
+                      child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              locations.clear();
+                              temps = "";
+                            });
+                          },
+                          icon: const Icon(
+                            PhosphorIcons.arrow_clockwise_bold,
+                            color: Colors.white,
+                          ))),
                 ],
               ),
             ),
@@ -78,20 +97,29 @@ class _distanceState extends State<distance> {
     des["lat"] = position!.latitude;
     des["long"] = position!.longitude;
     if (locations.length <= 1) {
-      locations.add(position!.latitude);
-      locations.add(position!.longitude);
+      setState(() {
+        temps = "start";
+        locations.add(position!.latitude);
+        locations.add(position!.longitude);
+        start = false;
+      });
     }
     print(locations);
     print(locations.first);
     print(locations.first);
     if (temp) {
+      setState(() {
+        temps = "ends";
+      });
       double distanceInMeters = Geolocator.distanceBetween(position!.latitude,
           position!.longitude, locations.first, locations.last);
 
       print(distanceInMeters);
       double distanceInKiloMeters = distanceInMeters / 1000;
-      roundDistanceInKM =
-          double.parse((distanceInKiloMeters).toStringAsFixed(2));
+      setState(() {
+        roundDistanceInKM =
+            double.parse((distanceInKiloMeters).toStringAsFixed(2));
+      });
 
       print(distanceInMeters);
       print("xxxxxxxxxxxx");
