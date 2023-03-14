@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:oxo/constants.dart';
 
 import '../../Widget /apiservice.dart';
@@ -22,6 +23,8 @@ class _distanceState extends State<distance> {
   double roundDistanceInKM = 0.0;
   var temps;
   bool start = true;
+  final location = Hive.box('location');
+
   @override
   void dispose() {
     // Cancel any asynchronous operation that is still running
@@ -30,11 +33,7 @@ class _distanceState extends State<distance> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
-    // print(locationController.latitude.toString());
-    // print(locationController.longitude.toString());
   }
 
   Widget build(BuildContext context) {
@@ -53,11 +52,16 @@ class _distanceState extends State<distance> {
                 child: Text("1"),
               ),
               title: Text("${roundDistanceInKM} KM"),
-              subtitle: Text((temps != null) ? temps : ""),
+              subtitle: (location.isNotEmpty)
+                  ? Text(location.values.toString())
+                  : Text(""),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CircleAvatar(
+                      backgroundColor: (location.isEmpty)
+                          ? const Color(0xFF2B3467)
+                          : const Color(0Xffcccccc),
                       child: IconButton(
                           onPressed: (start)
                               ? () {
@@ -68,7 +72,11 @@ class _distanceState extends State<distance> {
                             PhosphorIcons.play_bold,
                             color: Colors.white,
                           ))),
+                  const SizedBox(
+                    width: 5,
+                  ),
                   CircleAvatar(
+                      backgroundColor: const Color(0xFF2B3467),
                       child: IconButton(
                           onPressed: () {
                             getloc(true);
@@ -77,11 +85,18 @@ class _distanceState extends State<distance> {
                             PhosphorIcons.pause_bold,
                             color: Colors.white,
                           ))),
+                  const SizedBox(
+                    width: 5,
+                  ),
                   CircleAvatar(
+                      backgroundColor: const Color(0xFF2B3467),
                       child: IconButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            await Hive.box('location').clear();
                             setState(() {
+                              final location = Hive.box('location');
                               locations.clear();
+                              print(location.length);
                               temps = "";
                               roundDistanceInKM = 0.0;
                             });
@@ -104,21 +119,28 @@ class _distanceState extends State<distance> {
     print(locationController.longitude.toString());
     print(locationController.address.toString());
     print(locationController.longitude.value.runtimeType);
+    if (location.length <= 1) {}
 
     var des = {};
     des["lat"] = locationController.latitude;
     des["long"] = locationController.longitude;
-    if (locations.length <= 1) {
+    if (location.length <= 1) {
       setState(() {
         temps = "start";
-        locations.add(locationController.latitude.value);
-        locations.add(locationController.longitude.value);
-        start = false;
+        // locations.add(locationController.latitude.value);
+        // locations.add(locationController.longitude.value);
+        location.add(locationController.latitude.value);
+        location.add(locationController.longitude.value);
       });
     }
-    print(locations);
-    print(locations.first);
-    print(locations.last);
+    print("llllllllllll");
+    print(location.values.first);
+    print(location.values.last);
+    print("llllllllllll");
+
+    // print(locations);
+    // print(locations.first);
+    // print(locations.last);
     if (temp) {
       setState(() {
         temps = "ends";
@@ -126,14 +148,14 @@ class _distanceState extends State<distance> {
       double distanceInMeters = Geolocator.distanceBetween(
           locationController.latitude.value,
           locationController.longitude.value,
-          locations.first,
-          locations.last);
+          location.values.first,
+          location.values.last);
 
       print(distanceInMeters);
       double distanceInKiloMeters = distanceInMeters / 1000;
       setState(() {
         roundDistanceInKM =
-            double.parse((distanceInKiloMeters).toStringAsFixed(2));
+            double.parse((distanceInKiloMeters).toStringAsFixed(3));
       });
 
       print(distanceInMeters);

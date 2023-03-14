@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:oxo/constants.dart';
@@ -54,16 +55,13 @@ class _sales_orderState extends State<sales_order> {
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const home_page()),
-              );
+              Get.to(home_page());
             },
             icon: const Icon(Icons.arrow_back_outlined),
           ),
           // backgroundColor: Colors(O),
           title: Text(
-            'ORDER FORMs',
+            'ORDER FORMS',
             style: GoogleFonts.poppins(
               textStyle: TextStyle(
                   fontSize: 20, letterSpacing: .2, color: Colors.white),

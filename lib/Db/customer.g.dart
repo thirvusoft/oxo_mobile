@@ -6,27 +6,25 @@ part of 'customer.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class itemlistAdapter extends TypeAdapter<itemlist> {
+class ItemListAdapter extends TypeAdapter<ItemList> {
   @override
   final int typeId = 0;
 
   @override
-  itemlist read(BinaryReader reader) {
+  ItemList read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return itemlist(
-      (fields[0] as List).cast<dynamic>(),
-    );
+    return ItemList()..itemList = (fields[0] as List).cast<String>();
   }
 
   @override
-  void write(BinaryWriter writer, itemlist obj) {
+  void write(BinaryWriter writer, ItemList obj) {
     writer
       ..writeByte(1)
       ..writeByte(0)
-      ..write(obj.item_list);
+      ..write(obj.itemList);
   }
 
   @override
@@ -35,7 +33,41 @@ class itemlistAdapter extends TypeAdapter<itemlist> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is itemlistAdapter &&
+      other is ItemListAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class LocationAdapter extends TypeAdapter<Location> {
+  @override
+  final int typeId = 1;
+
+  @override
+  Location read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return Location(
+      (fields[0] as List).cast<String>(),
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, Location obj) {
+    writer
+      ..writeByte(1)
+      ..writeByte(0)
+      ..write(obj.locationList);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LocationAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

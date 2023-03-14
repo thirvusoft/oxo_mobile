@@ -2,11 +2,14 @@ import 'package:hive/hive.dart';
 part 'customer.g.dart';
 
 @HiveType(typeId: 0)
-class itemlist extends HiveObject {
-  itemlist(
-    this.item_list,
-  );
-
+class ItemList extends HiveObject {
   @HiveField(0)
-  List item_list;
+  late List<String> itemList;
+}
+
+@HiveType(typeId: 1)
+class Location extends HiveObject {
+  @HiveField(0)
+  late List<String> locationList;
+  Location(this.locationList);
 }
