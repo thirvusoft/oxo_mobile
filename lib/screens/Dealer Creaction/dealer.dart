@@ -69,6 +69,7 @@ class _dealerState extends State<dealer> {
     });
   }
 
+  @override
   void initState() {
     // TODO: implement initState
     // territory_list();
@@ -80,6 +81,23 @@ class _dealerState extends State<dealer> {
     print(locationController.latitude.toString());
     print(locationController.longitude.toString());
     print(locationController.address.value);
+  }
+
+  @override
+  void dispose() {
+    districts.dispose();
+    dealername.dispose();
+    dealermobile.dispose();
+    dealerdoorno.dispose();
+    dealercity.dispose();
+    dealerstate.dispose();
+    dealerarea.dispose();
+    dealerpincode.dispose();
+    pincode_text.dispose();
+    Manualdata_.dispose();
+    Landline.dispose();
+    print('Dispose used');
+    super.dispose();
   }
 
   Widget build(BuildContext context) {
