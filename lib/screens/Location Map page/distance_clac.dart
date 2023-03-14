@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 import 'package:oxo/constants.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../../Widget /apiservice.dart';
 
@@ -104,6 +102,7 @@ class _distanceState extends State<distance> {
   getloc(bool temp) async {
     print(locationController.latitude.toString());
     print(locationController.longitude.toString());
+    print(locationController.address.toString());
     print(locationController.longitude.value.runtimeType);
 
     var des = {};

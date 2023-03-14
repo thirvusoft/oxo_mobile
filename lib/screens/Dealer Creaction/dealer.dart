@@ -30,6 +30,8 @@ import 'package:dio/dio.dart';
 import 'dart:math';
 import 'package:hive/hive.dart';
 import 'package:sqflite/sqflite.dart';
+import '../../Widget /apiservice.dart';
+import 'package:get/get.dart' as GET;
 
 class dealer extends StatefulWidget {
   const dealer({super.key});
@@ -40,6 +42,9 @@ class dealer extends StatefulWidget {
 
 class _dealerState extends State<dealer> {
   @override
+  final LocationController locationController =
+      GET.Get.put(LocationController());
+
   File? _image;
   bool name_ = false;
   List existing_customer_details = [];
@@ -70,9 +75,11 @@ class _dealerState extends State<dealer> {
 
     final location = Hive.box('customer_details');
     hive_state = location.toMap().values.toList();
-    _getCurrentLocation();
     district_list();
     dealerdoorno.text = "N/A";
+    print(locationController.latitude.toString());
+    print(locationController.longitude.toString());
+    print(locationController.address.value);
   }
 
   Widget build(BuildContext context) {
@@ -625,8 +632,6 @@ class _dealerState extends State<dealer> {
                       color: const Color(0xFFEB455F),
                       pressEvent: () {
                         if (dealerkey_.currentState!.validate()) {
-                          _getCurrentLocation();
-
                           customer_creation(
                             dealername.text,
                             dealermobile.text,
@@ -665,10 +670,13 @@ class _dealerState extends State<dealer> {
     setState(() {
       username = token.getString('full_name');
     });
+    print(locationController.latitude.toString());
+    print(locationController.longitude.toString());
+    print(locationController.address.toString());
 
     var response = await http.get(
         Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${mobilenumber}&landline_number=${landline_number}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&customer_group=${newdealer ? "New Dealer" : "Existing Dealer"}&state=${state}&latitude=${current_position!.latitude}&longitude=${current_position!.longitude}&auto_pincode=${auto_pincode}&user=${username}&pincode=${pincode}"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.new_customer?&full_name=${fullName}&phone_number=${mobilenumber}&landline_number=${landline_number}&doorno=${dealerdoorno}&address=${dealercity}&districts=${districts}&territory=${tity}&customer_group=${newdealer ? "New Dealer" : "Existing Dealer"}&state=${state}&latitude=${locationController.latitude.value}&longitude=${locationController.longitude.value}&auto_pincode=${locationController.address.value}&user=${username}&pincode=${pincode}"""),
         headers: {"Authorization": token.getString("token") ?? ""});
 
     if (response.statusCode == 200) {
@@ -740,48 +748,6 @@ class _dealerState extends State<dealer> {
         }
       });
     }
-  }
-
-  Position? _position;
-  void _getCurrentLocation() async {
-    Position position = await _determinePosition();
-    _getAddressFromLatLng(position);
-    setState(() {
-      _position = position;
-      current_position = _position!;
-    });
-  }
-
-  Future<Position> _determinePosition() async {
-    LocationPermission permission;
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    return await Geolocator.getCurrentPosition();
-  }
-
-  Future<void> _getAddressFromLatLng(Position position) async {
-    await placemarkFromCoordinates(position.latitude, position.longitude)
-        .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      setState(() {
-        currentAddress =
-            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
-
-        auto_pincode = ' ${place.postalCode}';
-      });
-    }).catchError((e) {
-      debugPrint(e);
-    });
   }
 
   Future pickImage(ImageSource source) async {
@@ -898,19 +864,22 @@ class _dealerState extends State<dealer> {
     print(
         "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++===");
     print(response.statusCode);
+    print(response.data);
     if (response.statusCode == 200) {
       setState(() {
         existingcustomer_ = false;
       });
       responseData = response.data;
       var des = {};
-      var Dealer_group = responseData["customer"][0]['customer_group'];
+      print(responseData["address"]);
+
       var Doorno = responseData["address"][0]['address_line1'];
       var Street = responseData["address"][0]['address_line2'];
       var State = responseData["address"][0]['state'];
       var District = responseData["address"][0]['city'];
-      var Area = responseData["customer"][0]['territory'];
 
+      var Dealer_group = responseData["customer"][0]['customer_group'];
+      var Area = responseData["customer"][0]['territory'];
       var Dealername = responseData["customer"][0]['customer_name'];
       existing_customer_details.add("Dealername : $Dealername");
       existing_customer_details.add("Dealergroup : $Dealer_group");

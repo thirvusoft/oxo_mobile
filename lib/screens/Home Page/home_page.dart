@@ -114,6 +114,7 @@ class _home_pageState extends State<home_page> {
     });
     print('gggggggggggggggggggggggggggggggggggggggggggg');
     print(role_);
+    print(token.getString("token"));
   }
 
   Widget build(BuildContext context) {
