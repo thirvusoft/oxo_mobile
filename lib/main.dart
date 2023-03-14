@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:oxo/constants.dart';
 import 'package:oxo/screens/Home%20Page/test.dart';
 import 'package:oxo/screens/Sales%20Order/order_page.dart';
 import 'package:oxo/screens/login.dart';
@@ -26,9 +27,11 @@ void main() async {
   Hive.init(appDocumentDir.path);
   await Hive.initFlutter();
   Box customer;
+  Box location;
   customer = await Hive.openBox('customer_details');
+  location = await Hive.openBox('location');
   await dotenv.load(fileName: ".env");
-  Hive.registerAdapter(itemlistAdapter());
+  Hive.registerAdapter(LocationAdapter());
   runApp(MyHomePage());
 }
 
