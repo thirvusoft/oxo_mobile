@@ -18,6 +18,7 @@ import 'Widget /bottomnaviagtion.dart';
 import 'screens/Home Page/home_page.dart';
 import 'screens/Sales Order/sales_order.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +36,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OverlaySupport.global(
-        child: MaterialApp(
+        child: GetMaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
         'test': (context) => sales_order(),

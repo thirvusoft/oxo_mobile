@@ -3,9 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:get/get.dart';
+import 'package:oxo/constants.dart';
 
-import '../../constants.dart';
+import '../../Widget /apiservice.dart';
 
 class distance extends StatefulWidget {
   const distance({super.key});
@@ -15,6 +16,8 @@ class distance extends StatefulWidget {
 }
 
 class _distanceState extends State<distance> {
+  final LocationController locationController = Get.put(LocationController());
+
   Position? position;
   double roundDistanceInKM = 0.0;
   var temps;
@@ -23,6 +26,15 @@ class _distanceState extends State<distance> {
   void dispose() {
     // Cancel any asynchronous operation that is still running
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    // print(locationController.latitude.toString());
+    // print(locationController.longitude.toString());
   }
 
   Widget build(BuildContext context) {
@@ -40,7 +52,7 @@ class _distanceState extends State<distance> {
                 // backgroundColor: Colors.purple,
                 child: Text("1"),
               ),
-              title: Text(roundDistanceInKM.toString()),
+              title: Text("${roundDistanceInKM} KM"),
               subtitle: Text((temps != null) ? temps : ""),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -71,6 +83,7 @@ class _distanceState extends State<distance> {
                             setState(() {
                               locations.clear();
                               temps = "";
+                              roundDistanceInKM = 0.0;
                             });
                           },
                           icon: const Icon(
@@ -87,32 +100,34 @@ class _distanceState extends State<distance> {
   }
 
   getloc(bool temp) async {
-    Position position = await _determinePosition();
-    position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    print(position!.latitude);
-    print(position!.longitude);
+    print(locationController.latitude.toString());
+    print(locationController.longitude.toString());
+    print(locationController.address.toString());
+    print(locationController.longitude.value.runtimeType);
 
     var des = {};
-    des["lat"] = position!.latitude;
-    des["long"] = position!.longitude;
+    des["lat"] = locationController.latitude;
+    des["long"] = locationController.longitude;
     if (locations.length <= 1) {
       setState(() {
         temps = "start";
-        locations.add(position!.latitude);
-        locations.add(position!.longitude);
+        locations.add(locationController.latitude.value);
+        locations.add(locationController.longitude.value);
         start = false;
       });
     }
     print(locations);
     print(locations.first);
-    print(locations.first);
+    print(locations.last);
     if (temp) {
       setState(() {
         temps = "ends";
       });
-      double distanceInMeters = Geolocator.distanceBetween(position!.latitude,
-          position!.longitude, locations.first, locations.last);
+      double distanceInMeters = Geolocator.distanceBetween(
+          locationController.latitude.value,
+          locationController.longitude.value,
+          locations.first,
+          locations.last);
 
       print(distanceInMeters);
       double distanceInKiloMeters = distanceInMeters / 1000;
@@ -127,29 +142,5 @@ class _distanceState extends State<distance> {
       print("xxxxxxxxxxxx");
       print(roundDistanceInKM);
     }
-  }
-
-  Future<Position> _determinePosition() async {
-    LocationPermission permission;
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-// When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
   }
 }

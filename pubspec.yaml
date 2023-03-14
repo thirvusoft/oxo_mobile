@@ -83,6 +83,7 @@ dependencies:
   animate_do: ^3.0.2
   maps_toolkit: ^2.0.1
   provider: ^6.0.5
+  get: ^4.6.5
 
 
 dev_dependencies:
