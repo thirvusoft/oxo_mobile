@@ -74,30 +74,13 @@ class _dealerState extends State<dealer> {
     // TODO: implement initState
     // territory_list();
 
-    final location = Hive.box('customer_details');
-    hive_state = location.toMap().values.toList();
+    // final location = Hive.box('customer_details');
+    // hive_state = location.toMap().values.toList();
     district_list();
     dealerdoorno.text = "N/A";
     print(locationController.latitude.toString());
     print(locationController.longitude.toString());
     print(locationController.address.value);
-  }
-
-  @override
-  void dispose() {
-    districts.dispose();
-    dealername.dispose();
-    dealermobile.dispose();
-    dealerdoorno.dispose();
-    dealercity.dispose();
-    dealerstate.dispose();
-    dealerarea.dispose();
-    dealerpincode.dispose();
-    pincode_text.dispose();
-    Manualdata_.dispose();
-    Landline.dispose();
-    print('Dispose used');
-    super.dispose();
   }
 
   Widget build(BuildContext context) {
