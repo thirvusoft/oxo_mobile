@@ -47,6 +47,8 @@ class _dealerState extends State<dealer> {
 
   File? _image;
   bool name_ = false;
+  bool newnumber = false;
+  var contactid;
   List existing_customer_details = [];
   late File imageFile;
   bool existingcustomer_ = false;
@@ -166,6 +168,8 @@ class _dealerState extends State<dealer> {
                     keyboardType: TextInputType.phone,
                     onChanged: (String str) {
                       print(mobilenumber);
+                      print(str);
+                      print(dealermobile.text);
                       setState(() {
                         existingcustomer_ = true;
                         singlenumber = dealermobile.text;
@@ -175,6 +179,11 @@ class _dealerState extends State<dealer> {
 
                         if (dealermobile.text.length == 10) {
                           existingcustomer(dealermobile.text);
+                        } else {
+                          print("check");
+                          setState(() {
+                            newnumber = false;
+                          });
                         }
                       });
                     },
@@ -244,7 +253,43 @@ class _dealerState extends State<dealer> {
                               letterSpacing: .2,
                               color: Color(0xFF2B3467))),
                     ),
-
+                  (newnumber)
+                      ? TextFormField(
+                          textCapitalization: TextCapitalization.characters,
+                          controller: newnumber_,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter dealer name';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              icon: const Icon(
+                                PhosphorIcons.plus_circle_bold,
+                                color: Color(0xFF2B3467),
+                              ),
+                              // iconSize: 48,
+                              onPressed: () {
+                                add_number(contactid, newnumber_.text);
+                                print(contactid);
+                              },
+                            ),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  width: 1, color: Color(0xFF808080)),
+                            ),
+                            // border: OutlineInputBorder(),
+                            focusedBorder: const UnderlineInputBorder(
+                              // borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(
+                                  color: Color(0xFFEB455F), width: 2.0),
+                            ),
+                            labelText: "Add Mobile Number",
+                            // hintText: "Enter dealer name"
+                          ),
+                        )
+                      : const SizedBox(),
                   TextFormField(
                     textCapitalization: TextCapitalization.characters,
                     controller: dealername,
@@ -852,6 +897,7 @@ class _dealerState extends State<dealer> {
   }
 
   Future existingcustomer(mobile_number) async {
+    contactid = "";
     existing_customer_details = [];
     SharedPreferences token = await SharedPreferences.getInstance();
     print(
@@ -872,6 +918,7 @@ class _dealerState extends State<dealer> {
       });
       responseData = response.data;
       var des = {};
+
       print(responseData["address"]);
 
       var Doorno = responseData["address"][0]['address_line1'];
@@ -891,11 +938,52 @@ class _dealerState extends State<dealer> {
       existing_customer_details.add("Area : $Area");
       if (existing_customer_details.isNotEmpty) {
         setState(() {
+          contactid = responseData["customer"][0]['name'];
           name_ = true;
+          newnumber = true;
         });
       }
-      print(existing_customer_details);
       print("ddddddddddddddddddddddddddddddddddd");
+      print(contactid);
+      print("ddddddddddddddddddddddddddddddddddd");
+      print(existing_customer_details);
+    } else {
+      print('Request failed with status code ${response.statusCode}');
+    }
+  }
+
+  Future add_number(customerid, mobilenumber) async {
+    existing_customer_details = [];
+    SharedPreferences token = await SharedPreferences.getInstance();
+    print(
+        "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++===");
+    final dio = Dio();
+    dio.options.headers = {"Authorization": token.getString('token') ?? ''};
+
+    final response = await dio.get(
+        '${dotenv.env['API_URL']}/api/method/oxo.custom.api.add_phone_number',
+        queryParameters: {
+          'contact_id': customerid,
+          "new_number": mobilenumber,
+          "user": token.getString('full_name')
+        });
+    print(
+        "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++===");
+    print(response.statusCode);
+    print(response.data);
+    if (response.statusCode == 200) {
+      var responseData = response.data;
+      Fluttertoast.showToast(
+          msg: responseData['Message'].toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 2,
+          backgroundColor: const Color(0xFF2B3467),
+          textColor: Colors.white,
+          fontSize: 16.0);
+      newnumber_.clear();
+
+      print(response);
     } else {
       print('Request failed with status code ${response.statusCode}');
     }

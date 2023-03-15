@@ -79,6 +79,7 @@ List state = [];
 TextEditingController dealertype = TextEditingController();
 
 TextEditingController dealername = TextEditingController();
+TextEditingController newnumber_ = TextEditingController();
 TextEditingController dealermobile = TextEditingController();
 TextEditingController dealeraddress = TextEditingController();
 TextEditingController dealerterritory = TextEditingController();
