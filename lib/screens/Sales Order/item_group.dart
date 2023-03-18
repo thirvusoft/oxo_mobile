@@ -56,7 +56,7 @@ class _item_groupState extends State<item_group> {
                   'item_code': key,
                   'qty': value[1],
                   'item_group': value[0],
-                  'item_name':value[2]
+                  'item_name': value[2]
                 });
               });
               values_dict
@@ -203,9 +203,15 @@ class _item_groupState extends State<item_group> {
                                                   searchcontroller_varient
                                                           .text.isEmpty
                                                       ? row_varient[index]
-                                                          ['item_name']
+                                                              ['item_name'] +
+                                                          "   " +
+                                                          row_varient[index]
+                                                              ['item_code']
                                                       : row_varient[index]
-                                                          ['item_name'],
+                                                              ['item_name'] +
+                                                          "   " +
+                                                          row_varient[index]
+                                                              ['item_code'],
                                                   style: GoogleFonts.poppins(
                                                     textStyle: TextStyle(
                                                         letterSpacing: .1,
@@ -261,7 +267,7 @@ class _item_groupState extends State<item_group> {
                                                                           index]
                                                                       [
                                                                       "item_group"];
-                                                                        var item_name_list =
+                                                              var item_name_list =
                                                                   varient_item_list[
                                                                           index]
                                                                       [
@@ -274,12 +280,13 @@ class _item_groupState extends State<item_group> {
                                                                     test = [];
                                                                 test.add(item_group
                                                                     .toString());
-                                                          
+
                                                                 test.add(qty
                                                                     .toString());
-                                                                    
-                                                                  test.add(item_name_list
-                                                                    .toString());
+
+                                                                test.add(
+                                                                    item_name_list
+                                                                        .toString());
                                                                 values[item_name] =
                                                                     test;
                                                                 // values[item_name] =

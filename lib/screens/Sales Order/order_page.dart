@@ -213,10 +213,14 @@ class _category_groupState extends State<category_group> {
                                                 title: Text(
                                                   searchcontroller_category
                                                           .text.isEmpty
-                                                      ? row_template[index]
-                                                          ['item_name']
-                                                      : row_template[index]
-                                                          ['item_name'],
+                                                      ? row_template[index] 
+                                                              ['item_name'] +"  "+
+                                                          row_template[index]
+                                                              ['item_code']
+                                                      : row_template[index] 
+                                                              ['item_name'] +"  "+
+                                                          row_template[index]
+                                                              ['item_code'],
                                                   style: GoogleFonts.poppins(
                                                     textStyle: TextStyle(
                                                         letterSpacing: .1,
@@ -244,13 +248,15 @@ class _category_groupState extends State<category_group> {
   Future varient_list(item_name) async {
     print(
         "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
-    print(item_name);
+    print(Uri.encodeComponent(item_name));
     varient_item_list = [];
     var response = await http.get(
       Uri.parse(
-          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.varient_list?item=${item_name}"""),
+          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.varient_list?item=${Uri.encodeComponent(item_name)}"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
+    print(
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.varient_list?item=${item_name}""");
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -260,10 +266,12 @@ class _category_groupState extends State<category_group> {
           varient_item_list.add((json.decode(response.body)['message'][i]));
         }
       });
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => item_group()),
-      );
+      if (varient_item_list.isNotEmpty) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => item_group()),
+        );
+      }
     }
   }
 }

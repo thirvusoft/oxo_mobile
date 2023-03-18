@@ -546,12 +546,6 @@ class _categoryState extends State<category> {
                                             });
                                             template_list(
                                                 category_name, item_group_name);
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      category_group()),
-                                            );
                                           },
                                         ),
                                       ),
@@ -684,11 +678,15 @@ class _categoryState extends State<category> {
   }
 
   Future template_list(category_name, item_group_name) async {
+    print("ggggggggggggggggggggggg");
     print("fkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+    print(item_group_name);
+    print(category_name);
+
     category_item_list = [];
     var response = await http.get(
       Uri.parse(
-          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.template_list?category=${category_name}&item_group=${item_group_name}"""),
+          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.template_list?category=${item_group_name}&item_group=${category_name}"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
     print(response.statusCode);
@@ -699,6 +697,7 @@ class _categoryState extends State<category> {
           category_item_list.add((json.decode(response.body)['message'][i]));
         }
       });
+      print(category_item_list);
       if (category_item_list.isNotEmpty) {
         Navigator.push(
           context,
