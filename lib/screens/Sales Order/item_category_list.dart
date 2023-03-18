@@ -255,12 +255,6 @@ class _categoryState extends State<category> {
 
                                             template_list(
                                                 category_name, item_group_name);
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      category_group()),
-                                            );
                                           },
                                         ),
                                       ),

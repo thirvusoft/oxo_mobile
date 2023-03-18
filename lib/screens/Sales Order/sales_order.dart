@@ -719,7 +719,7 @@ class _sales_orderState extends State<sales_order> {
 
   Future sales_order(customerName, deliveryDate, valuesDict, distributorName,
       username, Competitors) async {
-    valuesDict = jsonEncode(valuesDict);
+    valuesDict = Uri.encodeComponent(jsonEncode(valuesDict));
     SharedPreferences token = await SharedPreferences.getInstance();
     var user;
     setState(() {
@@ -732,6 +732,7 @@ class _sales_orderState extends State<sales_order> {
     print(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customerName}&due_date=${deliveryDate}&items=${valuesDict}&distributor=${distributorName}&sales_person=${username}&Competitors=${Competitors}""");
     print(response.body);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       setState(() {
         AwesomeDialog(
