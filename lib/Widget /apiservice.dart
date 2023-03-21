@@ -14,10 +14,10 @@ class LocationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _getLocation();
+    getLocation();
   }
 
-  Future<void> _getLocation() async {
+  Future<void> getLocation() async {
     try {
       bool serviceEnabled;
       LocationPermission permission;
