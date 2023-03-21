@@ -26,6 +26,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants.dart';
 import '../Appointment/appointment.dart';
 import '../Location Map page/distance_clac.dart';
+import '../Location Map page/neartestlocation.dart';
 import '../Orders/Orderlist.dart';
 import '../notification/appointment_notification.dart';
 import '../notification/notificationservice.dart';
@@ -634,7 +635,7 @@ class _home_pageState extends State<home_page> {
     return OpenContainer(
       transitionType: containerTransitionType,
       transitionDuration: Duration(milliseconds: 500),
-      openBuilder: (context, _) => distance(),
+      openBuilder: (context, _) => nearest_location(),
       closedElevation: 0,
       closedShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(32),
