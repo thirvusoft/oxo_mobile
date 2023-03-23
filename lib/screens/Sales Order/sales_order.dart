@@ -719,7 +719,7 @@ class _sales_orderState extends State<sales_order> {
 
   Future sales_order(customerName, deliveryDate, valuesDict, distributorName,
       username, Competitors) async {
-    valuesDict = jsonEncode(valuesDict);
+    valuesDict = Uri.encodeComponent(jsonEncode(valuesDict));
     SharedPreferences token = await SharedPreferences.getInstance();
     var user;
     setState(() {
