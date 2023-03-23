@@ -85,6 +85,7 @@ dependencies:
   provider: ^6.0.5
   get: ^4.6.5
   url_launcher: ^6.1.10
+  simple_ripple_animation: ^0.0.7
 
 
 dev_dependencies:
