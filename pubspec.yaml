@@ -84,6 +84,7 @@ dependencies:
   maps_toolkit: ^2.0.1
   provider: ^6.0.5
   get: ^4.6.5
+  url_launcher: ^6.1.10
 
 
 dev_dependencies:
