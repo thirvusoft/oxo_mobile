@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -29,6 +30,9 @@ class nearest_location extends StatefulWidget {
 List fianllist = [];
 double totalDistance = 0.0;
 List d = [];
+bool radius_ = false;
+bool sortlist = true;
+
 var lat;
 var long;
 final DistrictController DistrictControllers = Get.put(DistrictController());
@@ -68,128 +72,168 @@ class _nearest_locationState extends State<nearest_location> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: const Color(0xffEB455F),
-          // title: const Text('Location'),
-        ),
+            title: Text("Nearest location"),
+            centerTitle: true,
+            leading: IconButton(
+              onPressed: () {
+                sortlist = true;
+                Navigator.pop(context);
+                kms.clear();
+              },
+              icon: const Icon(Icons.arrow_back_ios),
+              //replace with our own icon data.
+            )),
         body: SingleChildScrollView(
             child: Padding(
-          padding: EdgeInsets.only(left: 15, right: 15),
+          padding: EdgeInsets.only(left: 20, right: 20),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 100,
-                ),
-                child: (kms.isEmpty)
-                    ? Center(
-                        child: GestureDetector(
-                        onTap: () {},
-                        child: Image.asset(
-                          "assets/nearby.png",
-                          height: MediaQuery.of(context).size.height / 3,
-                        ),
-                      ))
-                    : SizedBox(
-                        height:
-                            MediaQuery.of(context).size.height / 5 * kms.length,
-                        child: ListView.builder(
-                            itemCount: kms.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                  onTap: () async {
-                                    print(kms[index]["lat"]);
-                                    print(kms[index]["long"]);
+              (sortlist)
+                  ? Center(
+                      child: Padding(
+                      padding: const EdgeInsets.only(top: 150),
+                      child: GestureDetector(
+                          onTap: () {
+                            radius_ = true;
+                            print(locationController.latitude.value);
+                            print(locationController.longitude.value);
+                            if (locationController.longitude.value != 0.0 &&
+                                locationController.latitude.value != 0.0) {
+                              area_list(locationController.latitude.value,
+                                  locationController.longitude.value);
+                            }
+                          },
+                          child: (kms.isEmpty)
+                              ? SizedBox(
+                                  child: Card(
+                                  elevation: 10.0, // add shadow to the card
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(300.0),
+                                  ),
+                                  child: SizedBox(
+                                    width:
+                                        200.0, // set the desired width of the image
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.circular(300.0),
+                                      child: Image.asset(
+                                        'assets/nearby.png',
+                                        fit: BoxFit
+                                            .cover, // fit the image within the clip area
+                                      ),
+                                    ),
+                                  ),
+                                ))
+                              : const RippleAnimation(
+                                  repeat: true,
+                                  color: Color.fromRGBO(235, 69, 95, 1),
+                                  minRadius: 80,
+                                  ripplesCount: 15,
+                                  child: CircleAvatar(
+                                    radius: 100,
+                                    backgroundImage:
+                                        AssetImage('assets/nearby.png'),
+                                  ))),
+                    ))
+                  : SizedBox(
+                      height: MediaQuery.of(context).size.height / 1.15,
+                      child: ListView.builder(
+                          itemCount: kms.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                                onTap: () async {
+                                  print(kms[index]["lat"]);
+                                  print(kms[index]["long"]);
+                                  setState(() {
                                     var lat = kms[index]["lat"];
                                     var long = kms[index]["long"];
-                                    // "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude";
-                                    String googleUrl =
-                                        "https://www.google.com/maps/search/?api=1&query=$lat,$long";
-                                    final String encodedURl =
-                                        Uri.encodeFull(googleUrl);
+                                  });
 
-                                    if (await canLaunch(googleUrl)) {
-                                      await launch(googleUrl);
-                                    } else
-                                      throw ("Couldn't open google maps");
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: Stack(children: <Widget>[
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(
-                                            20), // Image border
-                                        // Image radius
-                                        child: Image.asset(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              4.9,
-                                          'assets/background.jpg',
-                                          fit: BoxFit.fill,
-                                        ),
+                                  String googleUrl =
+                                      "https://www.google.com/maps/search/?api=1&query=$lat,$long";
+                                  final String encodedURl =
+                                      Uri.encodeFull(googleUrl);
+
+                                  if (await canLaunch(googleUrl)) {
+                                    await launch(googleUrl);
+                                  } else
+                                    throw ("Couldn't open google maps");
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Stack(children: <Widget>[
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                          20), // Image border
+                                      // Image radius
+                                      child: Image.asset(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                4.9,
+                                        'assets/background.jpg',
+                                        fit: BoxFit.fill,
                                       ),
-                                      Positioned(
-                                        bottom: 0,
-                                        left: 0,
-                                        right: 0,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Card(
-                                              color: Colors.white70,
-                                              child: ListTile(
-                                                subtitle: Text.rich(
-                                                  TextSpan(
-                                                    children: [
-                                                      const WidgetSpan(
-                                                          child: Icon(
-                                                        PhosphorIcons
-                                                            .map_pin_fill,
-                                                        color:
-                                                            Color(0xffEB455F),
-                                                        size: 22,
-                                                      )),
-                                                      TextSpan(
-                                                          text:
-                                                              "${kms[index]["km"]} KM away",
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontSize:
-                                                                      15)),
-                                                    ],
-                                                  ),
+                                    ),
+                                    Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      right: 0,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Card(
+                                            color: Colors.white70,
+                                            child: ListTile(
+                                              subtitle: Text.rich(
+                                                TextSpan(
+                                                  children: [
+                                                    const WidgetSpan(
+                                                        child: Icon(
+                                                      PhosphorIcons
+                                                          .map_pin_fill,
+                                                      color: Color(0xffEB455F),
+                                                      size: 22,
+                                                    )),
+                                                    TextSpan(
+                                                        text:
+                                                            "${kms[index]["km"]} KM away",
+                                                        style: const TextStyle(
+                                                            fontSize: 15)),
+                                                  ],
                                                 ),
-                                                title: Text(
-                                                    " " + kms[index]["name"]),
-                                                trailing: const Text(
-                                                    "Map View >",
-                                                    style: const TextStyle(
-                                                        color:
-                                                            Color(0xFF2B3467),
-                                                        fontSize: 15)),
-                                              )),
-                                        ),
-                                      )
-                                    ]),
-                                  ));
-                            }),
-                      ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 9.5),
-                child: AnimatedButton(
-                    text: 'Find',
-                    color: const Color(0xFF2B3467),
-                    pressEvent: () {
-                      print(locationController.latitude.value);
-                      print(locationController.longitude.value);
-                      area_list(locationController.latitude.value,
-                          locationController.longitude.value);
-                    }),
-              ),
+                                              ),
+                                              title: Text(
+                                                  " " + kms[index]["name"]),
+                                              trailing: const Text("Map View >",
+                                                  style: const TextStyle(
+                                                      color: Color(0xFF2B3467),
+                                                      fontSize: 15)),
+                                            )),
+                                      ),
+                                    )
+                                  ]),
+                                ));
+                          }),
+                    ),
+              // Padding(
+              //   padding: EdgeInsets.only(
+              //       top: MediaQuery.of(context).size.height / 9.5),
+              //   child: AnimatedButton(
+              //       text: 'Find',
+              //       color: const Color(0xFF2B3467),
+              //       pressEvent: () {
+              //         radius_ = true;
+
+              //         print(locationController.latitude.value);
+              //         print(locationController.longitude.value);
+              //         if (locationController.longitude.value != 0.0 &&
+              //             locationController.latitude.value != 0.0) {
+              //           area_list(locationController.latitude.value,
+              //               locationController.longitude.value);
+              //         }
+              //       }),
+              // ),
             ],
           ),
         )));
@@ -226,8 +270,8 @@ class _nearest_locationState extends State<nearest_location> {
               locationController.longitude.value,
               d[i]["latitude"],
               d[i]["longitude"]);
-          var p = 0.017453292519943295;
-          var distance = distanceInMeters?.round().toInt();
+          // var p = 0.017453292519943295;
+          // var distance = distanceInMeters?.round().toInt();
 
           // totalDistance += calculateDistance(
           //     locationController.latitude.value,
@@ -237,22 +281,26 @@ class _nearest_locationState extends State<nearest_location> {
           print(distanceInMeters);
           double distanceInKiloMeters = distanceInMeters / 1000;
           double roundDistanceInKM = 0.00;
+          print("$roundDistanceInKM km");
           setState(() {
             roundDistanceInKM =
                 double.parse((distanceInKiloMeters).toStringAsFixed(2));
+            var des = {};
+            des["name"] = d[i]["name"];
+            des["lat"] = d[i]["latitude"];
+            des["long"] = d[i]["longitude"];
+            des["km"] = roundDistanceInKM;
+            kms.add(des);
+            kms.sort((a, b) => a["km"].compareTo(b["km"]));
+            print(kms.length);
+            print("pdppdpdpdpdpdpdpdpdpdpdpd");
+            print(kms);
+            Timer(const Duration(seconds: 4), () {
+              setState(() {
+                sortlist = false;
+              });
+            });
           });
-          print("$roundDistanceInKM km");
-
-          var des = {};
-          des["name"] = d[i]["name"];
-          des["lat"] = d[i]["latitude"];
-          des["long"] = d[i]["longitude"];
-          des["km"] = roundDistanceInKM;
-          kms.add(des);
-          kms.sort((a, b) => a["km"].compareTo(b["km"]));
-          print(kms.length);
-          print("pdppdpdpdpdpdpdpdpdpdpdpd");
-          print(kms);
         }
       }
     } on DioError catch (e) {
