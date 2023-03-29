@@ -30,6 +30,8 @@ class sales_order extends StatefulWidget {
 
 class _sales_orderState extends State<sales_order> {
   @override
+  final ScrollController controller = ScrollController();
+
   List districts = [];
   TextEditingController district_list_text = TextEditingController();
   TextEditingController Competitors = TextEditingController();
@@ -60,90 +62,100 @@ class _sales_orderState extends State<sales_order> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFEB455F),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Get.to(home_page());
-          },
-          icon: const Icon(Icons.arrow_back_outlined),
-        ),
-        // backgroundColor: Colors(O),
-        title: Text(
-          'ORDER FORMS',
-          style: GoogleFonts.poppins(
-            textStyle:
-                TextStyle(fontSize: 20, letterSpacing: .2, color: Colors.white),
+        appBar: AppBar(
+          backgroundColor: const Color(0xFFEB455F),
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () {
+              Get.to(home_page());
+            },
+            icon: const Icon(Icons.arrow_back_outlined),
+          ),
+          // backgroundColor: Colors(O),
+          title: Text(
+            'ORDER FORMS',
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 20, letterSpacing: .2, color: Colors.white),
+            ),
           ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              Positioned(
-                // bottom: 20.0,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child: Column(
+        body: Scrollbar(
+            controller: controller,
+            trackVisibility: true,
+            thickness: 8,
+            radius: Radius.circular(20),
+            thumbVisibility: true,
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                    minHeight: MediaQuery.of(context).size.height),
+                child: SafeArea(
+                  child: Stack(
+                    alignment: Alignment.center,
                     children: <Widget>[
-                      // customer_details(size),
-                      SearchField(
-                        controller: district_list_text,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please select District';
-                          }
-                          if (!districts.contains(value)) {
-                            return 'District not found';
-                          }
-                          return null;
-                        },
-                        suggestions: districts
-                            .map((String) => SearchFieldListItem(String))
-                            .toList(),
-                        suggestionState: Suggestion.expand,
-                        textInputAction: TextInputAction.next,
-                        hasOverlay: false,
-                        marginColor: Colors.white,
-                        searchStyle: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black.withOpacity(0.8),
-                        ),
-                        onSuggestionTap: (x) {
-                          FocusScope.of(context).unfocus();
-                          distributor_list(district_list_text.text);
-                        },
-                        searchInputDecoration: const InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1, color: Color(0xFF808080)),
+                      Positioned(
+                        // bottom: 20.0,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Column(
+                            children: <Widget>[
+                              // customer_details(size),
+                              SearchField(
+                                controller: district_list_text,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please select District';
+                                  }
+                                  if (!districts.contains(value)) {
+                                    return 'District not found';
+                                  }
+                                  return null;
+                                },
+                                suggestions: districts
+                                    .map(
+                                        (String) => SearchFieldListItem(String))
+                                    .toList(),
+                                suggestionState: Suggestion.expand,
+                                textInputAction: TextInputAction.next,
+                                hasOverlay: false,
+                                marginColor: Colors.white,
+                                searchStyle: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black.withOpacity(0.8),
+                                ),
+                                onSuggestionTap: (x) {
+                                  FocusScope.of(context).unfocus();
+                                  distributor_list(district_list_text.text);
+                                },
+                                searchInputDecoration: const InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 1, color: Color(0xFF808080)),
+                                  ),
+                                  // border: OutlineInputBorder(),
+                                  focusedBorder: UnderlineInputBorder(
+                                    // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    borderSide: BorderSide(
+                                        color: Color(0xFFEB455F), width: 2.0),
+                                  ),
+                                  labelText: "District",
+                                  // hintText: "State"
+                                ),
+                              ),
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: item(size))
+                              // buildFooter(size),
+                            ],
                           ),
-                          // border: OutlineInputBorder(),
-                          focusedBorder: UnderlineInputBorder(
-                            // borderRadius: BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(
-                                color: Color(0xFFEB455F), width: 2.0),
-                          ),
-                          labelText: "District",
-                          // hintText: "State"
                         ),
                       ),
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: item(size))
-                      // buildFooter(size),
                     ],
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            )));
   }
 
   Widget item(Size size) {
