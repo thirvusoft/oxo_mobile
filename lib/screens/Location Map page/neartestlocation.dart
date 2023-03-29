@@ -260,6 +260,7 @@ class _nearest_locationState extends State<nearest_location> {
         kms = [];
         var responseData = response.data;
         d = responseData["State"];
+        print("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
         print(d);
         print(locationController.latitude.value);
         print(locationController.longitude.value);

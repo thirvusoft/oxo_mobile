@@ -213,12 +213,14 @@ class _category_groupState extends State<category_group> {
                                                 title: Text(
                                                   searchcontroller_category
                                                           .text.isEmpty
-                                                      ? row_template[index] 
-                                                              ['item_name'] +"  "+
+                                                      ? row_template[index]
+                                                              ['item_name'] +
+                                                          "  " +
                                                           row_template[index]
                                                               ['item_code']
-                                                      : row_template[index] 
-                                                              ['item_name'] +"  "+
+                                                      : row_template[index]
+                                                              ['item_name'] +
+                                                          "  " +
                                                           row_template[index]
                                                               ['item_code'],
                                                   style: GoogleFonts.poppins(
@@ -265,6 +267,7 @@ class _category_groupState extends State<category_group> {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           varient_item_list.add((json.decode(response.body)['message'][i]));
         }
+        print(varient_item_list);
       });
       if (varient_item_list.isNotEmpty) {
         Navigator.push(

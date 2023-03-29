@@ -151,6 +151,8 @@ class _categoryState extends State<category> {
                   print('**********************************');
                   values_dict.sort(
                       (a, b) => (a['item_group']).compareTo(b['item_group']));
+                  // values_dict.sort(
+                  //     (a, b) => (a['item_name']).compareTo(b['item_name']));
                   print('**********************************');
 
                   print(values_dict);

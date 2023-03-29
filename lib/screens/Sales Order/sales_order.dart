@@ -35,76 +35,122 @@ class _sales_orderState extends State<sales_order> {
   TextEditingController Competitors = TextEditingController();
 
   void initState() {
-    dealername_list();
     district();
     super.initState();
-
     total_qty = 0.0;
     for (var i = 0; i < values_dict.length; i++) {
       total_qty += double.parse(values_dict[i]['qty']);
     }
+    // values_dict.sort((a, b) => (a['item_group']).compareTo(b['item_group']));
+    // values_dict.sort((a, b) {
+    //   int aNum = int.parse(a['item_name'].split('-').last);
+    //   int bNum = int.parse(b['item_name'].split('-').last);
+    //   return aNum.compareTo(bNum);
+    // });
+    values_dict.sort((a, b) => a["item_group"].compareTo(b["item_group"]));
+
+    print('pppppppppppppppppppppppppppppppppppppppppppppppppppppdddppppppppp');
+    print(values_dict);
     employeeDataSource = EmployeeDataSource(employeeData: values_dict);
+    print("xxxxxxxxxxxxxxxxxxxxxx");
+    print(json.encode(values_dict));
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color(0xFFEB455F),
-          centerTitle: true,
-          leading: IconButton(
-            onPressed: () {
-              Get.to(home_page());
-            },
-            icon: const Icon(Icons.arrow_back_outlined),
-          ),
-          // backgroundColor: Colors(O),
-          title: Text(
-            'ORDER FORMS',
-            style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                  fontSize: 20, letterSpacing: .2, color: Colors.white),
-            ),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFEB455F),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Get.to(home_page());
+          },
+          icon: const Icon(Icons.arrow_back_outlined),
+        ),
+        // backgroundColor: Colors(O),
+        title: Text(
+          'ORDER FORMS',
+          style: GoogleFonts.poppins(
+            textStyle:
+                TextStyle(fontSize: 20, letterSpacing: .2, color: Colors.white),
           ),
         ),
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: SizedBox(
-              child: Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  Positioned(
-                    // bottom: 20.0,
-                    child: Column(
-                      children: <Widget>[
-                        // customer_details(size),
-                        const SizedBox(
-                          height: 10,
+      ),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Positioned(
+                // bottom: 20.0,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  child: Column(
+                    children: <Widget>[
+                      // customer_details(size),
+                      SearchField(
+                        controller: district_list_text,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please select District';
+                          }
+                          if (!districts.contains(value)) {
+                            return 'District not found';
+                          }
+                          return null;
+                        },
+                        suggestions: districts
+                            .map((String) => SearchFieldListItem(String))
+                            .toList(),
+                        suggestionState: Suggestion.expand,
+                        textInputAction: TextInputAction.next,
+                        hasOverlay: false,
+                        marginColor: Colors.white,
+                        searchStyle: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black.withOpacity(0.8),
                         ),
-
-                        const SizedBox(
-                          height: 10,
+                        onSuggestionTap: (x) {
+                          FocusScope.of(context).unfocus();
+                          distributor_list(district_list_text.text);
+                        },
+                        searchInputDecoration: const InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 1, color: Color(0xFF808080)),
+                          ),
+                          // border: OutlineInputBorder(),
+                          focusedBorder: UnderlineInputBorder(
+                            // borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(
+                                color: Color(0xFFEB455F), width: 2.0),
+                          ),
+                          labelText: "District",
+                          // hintText: "State"
                         ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: item(size))
-                        // buildFooter(size),
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: item(size))
+                      // buildFooter(size),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget item(Size size) {
     return Container(
       child: Column(
         children: [
-          itemtable(size),
+          SingleChildScrollView(child: itemtable(size)),
           SizedBox(
             height: size.height * 0.02,
           ),
@@ -182,227 +228,237 @@ class _sales_orderState extends State<sales_order> {
 
   Widget itemtable(Size size) {
     final size = MediaQuery.of(context).size;
-    return
-        // Padding(
-        //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        //     child:
-        SizedBox(
-            height: size.height * 0.9,
-            child: SfDataGridTheme(
-              data: SfDataGridThemeData(
-                  headerColor: const Color.fromARGB(255, 248, 255, 254)),
+    return SingleChildScrollView(
+        child:
+            // Padding(
+            //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            //     child:
+            SizedBox(
+                height: size.height * 0.9,
+                child: SfDataGridTheme(
+                  data: SfDataGridThemeData(
+                      headerColor: const Color.fromARGB(255, 248, 255, 254)),
 
-              child: SfDataGrid(
-                source: employeeDataSource,
-                startSwipeActionsBuilder:
-                    (BuildContext context, DataGridRow row, int rowIndex) {
-                  return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => category()),
-                        );
-                      },
-                      child: Container(
-                          color: const Color(0xFFEB455F),
-                          child: Center(
-                            child: Icon(Icons.add),
-                          )));
-                },
-                footerFrozenRowsCount: 1,
-                endSwipeActionsBuilder:
-                    (BuildContext context, DataGridRow row, int rowIndex) {
-                  return GestureDetector(
-                      onTap: () {
-                        employeeDataSource._employeeData.removeAt(rowIndex);
+                  child: SfDataGrid(
+                    allowPullToRefresh: true,
 
-                        employeeDataSource.updateDataGridSource();
-                        setState(() {
-                          index_value = rowIndex;
+                    source: employeeDataSource,
+                    columnWidthMode: ColumnWidthMode.fill,
 
-                          total_qty -=
-                              double.parse(values_dict[index_value]['qty']);
-                          values_dict.removeAt(index_value);
-                        });
-                      },
-                      child: Container(
-                          color: const Color(0xffe8effc),
-                          child: const Center(
-                            child: Icon(
-                              Icons.delete,
-                              color: Color(0xFFEB455F),
-                            ),
-                          )));
-                },
-                footerHeight: 100.0,
-                footer: Column(children: [
-                  Container(
-                      child: Row(
-                    children: [
-                      const Expanded(
-                          child: Center(
-                              child: Text(
-                        'TOTAL',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ))),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          child: Center(
-                              child: Text(total_qty.toString(),
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)))),
-                    ],
-                  )),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                      child: Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 8.0),
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => category()),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 5.0, vertical: 15.0),
-                              backgroundColor: const Color(0xFF2B3467),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0)),
-                            ),
-                            icon: Icon(
-                              Icons.add,
-                              size: 24.0,
-                            ),
-                            label: Text(
-                              'Add item',
-                              style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(
-                                    letterSpacing: .5,
-                                    fontSize: 15,
-                                    color: Color(0xFFffffff)),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 8.0),
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              if (values_dict.isNotEmpty) {
-                                _showMyDialog();
-                              } else {
-                                Fluttertoast.showToast(
-                                    msg: "Please add the item",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 2,
-                                    backgroundColor: Color(0xFF2B3467),
-                                    textColor: Colors.white,
-                                    fontSize: 16.0);
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 5.0, vertical: 15.0),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              primary: const Color(0xFF2B3467),
-                            ),
-                            icon: Icon(
-                              Icons.check,
-                              size: 24.0,
-                            ),
-                            label: Text(
-                              'Submit',
-                              style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(
-                                    letterSpacing: .5,
-                                    fontSize: 15,
-                                    color: Color(0xFFffffff)),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ))
-                ]),
-                allowSwiping: true,
-                isScrollbarAlwaysShown: true,
-                columnWidthMode: ColumnWidthMode.fill,
-                columns: <GridColumn>[
-                  GridColumn(
-                      columnName: 'name',
-                      label: Container(
-                          decoration:
-                              const BoxDecoration(color: Color(0xffe8effc)),
-                          child: Center(
-                            child: Text(
-                              'Item Name',
-                              // overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(
-                                    letterSpacing: .5,
-                                    fontSize: 17,
-                                    color: Color(0xFF2B3467)),
-                              ),
-                            ),
+                    allowSorting: true,
+                    // allowMultiColumnSorting: true,
+                    startSwipeActionsBuilder:
+                        (BuildContext context, DataGridRow row, int rowIndex) {
+                      return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => category()),
+                            );
+                          },
+                          child: Container(
+                              color: const Color(0xFFEB455F),
+                              child: Center(
+                                child: Icon(Icons.add),
+                              )));
+                    },
+                    footerFrozenRowsCount: 1,
+                    endSwipeActionsBuilder:
+                        (BuildContext context, DataGridRow row, int rowIndex) {
+                      return GestureDetector(
+                          onTap: () {
+                            employeeDataSource._employeeData.removeAt(rowIndex);
+
+                            employeeDataSource.updateDataGridSource();
+                            setState(() {
+                              index_value = rowIndex;
+
+                              total_qty -=
+                                  double.parse(values_dict[index_value]['qty']);
+                              values_dict.removeAt(index_value);
+                            });
+                          },
+                          child: Container(
+                              color: const Color(0xffe8effc),
+                              child: const Center(
+                                child: Icon(
+                                  Icons.delete,
+                                  color: Color(0xFFEB455F),
+                                ),
+                              )));
+                    },
+                    footerHeight: 100.0,
+                    footer: Column(children: [
+                      Container(
+                          child: Row(
+                        children: [
+                          const Expanded(
+                              child: Center(
+                                  child: Text(
+                            'TOTAL',
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ))),
-                  // GridColumn(
-                  //     columnName: 'item_group',
-                  //     label: Container(
-                  //         padding: EdgeInsets.all(20.0),
-                  //         child: Text(
-                  //           'Item Group',
-                  //           overflow: TextOverflow.ellipsis,
-                  //           style: TextStyle(fontWeight: FontWeight.bold),
-                  //         ))),
-                  GridColumn(
-                    columnName: 'qty',
-                    label: Container(
-                        decoration:
-                            const BoxDecoration(color: Color(0xffe8effc)),
-                        child: Center(
-                          child: Text(
-                            'Quantity',
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
-                              textStyle: const TextStyle(
-                                  letterSpacing: .5,
-                                  fontSize: 17,
-                                  color: Color(0xFF2B3467)),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                              child: Center(
+                                  child: Text(total_qty.toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)))),
+                        ],
+                      )),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                          child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => category()),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5.0, vertical: 15.0),
+                                  backgroundColor: const Color(0xFF2B3467),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                ),
+                                icon: Icon(
+                                  Icons.add,
+                                  size: 24.0,
+                                ),
+                                label: Text(
+                                  'Add item',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                        letterSpacing: .5,
+                                        fontSize: 15,
+                                        color: Color(0xFFffffff)),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        )),
-                  ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 8.0),
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  if (values_dict.isNotEmpty) {
+                                    _showMyDialog();
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg: "Please add the item",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 2,
+                                        backgroundColor: Color(0xFF2B3467),
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 5.0, vertical: 15.0),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                  primary: const Color(0xFF2B3467),
+                                ),
+                                icon: Icon(
+                                  Icons.check,
+                                  size: 24.0,
+                                ),
+                                label: Text(
+                                  'Submit',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                        letterSpacing: .5,
+                                        fontSize: 15,
+                                        color: Color(0xFFffffff)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ))
+                    ]),
+                    allowSwiping: true,
+                    isScrollbarAlwaysShown: true,
 
-                  // GridColumn(
-                  //     columnName: 'designation',
-                  //     label: Container(
-                  //         padding: EdgeInsets.all(20.0),
-                  //         child: Text(
-                  //           'Designation',
-                  //           overflow: TextOverflow.ellipsis,
-                  //         ))),
-                ],
-              ),
-              // )
-            ));
+                    columns: <GridColumn>[
+                      GridColumn(
+                          columnName: 'name',
+                          label: Container(
+                              decoration:
+                                  const BoxDecoration(color: Color(0xffe8effc)),
+                              child: Center(
+                                child: Text(
+                                  'Item Name',
+                                  // overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                        letterSpacing: .5,
+                                        fontSize: 17,
+                                        color: Color(0xFF2B3467)),
+                                  ),
+                                ),
+                              ))),
+                      // GridColumn(
+                      //     columnName: 'item_group',
+                      //     label: Container(
+                      //         padding: EdgeInsets.all(20.0),
+                      //         child: Text(
+                      //           'Item Group',
+                      //           overflow: TextOverflow.ellipsis,
+                      //           style: TextStyle(fontWeight: FontWeight.bold),
+                      //         ))),
+                      GridColumn(
+                        columnName: 'qty',
+                        label: Container(
+                            decoration:
+                                const BoxDecoration(color: Color(0xffe8effc)),
+                            child: Center(
+                              child: Text(
+                                'Quantity',
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(
+                                      letterSpacing: .5,
+                                      fontSize: 17,
+                                      color: Color(0xFF2B3467)),
+                                ),
+                              ),
+                            )),
+                      ),
+
+                      // GridColumn(
+                      //     columnName: 'designation',
+                      //     label: Container(
+                      //         padding: EdgeInsets.all(20.0),
+                      //         child: Text(
+                      //           'Designation',
+                      //           overflow: TextOverflow.ellipsis,
+                      //         ))),
+                    ],
+                  ),
+                  // )
+                )));
   }
 
   Future<void> _showMyDialog() async {
@@ -424,51 +480,6 @@ class _sales_orderState extends State<sales_order> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            const SizedBox(
-                              height: 10,
-                              width: 10,
-                            ),
-                            SearchField(
-                              controller: district_list_text,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please select District';
-                                }
-                                if (!districts.contains(value)) {
-                                  return 'District not found';
-                                }
-                                return null;
-                              },
-                              suggestions: districts
-                                  .map((String) => SearchFieldListItem(String))
-                                  .toList(),
-                              suggestionState: Suggestion.expand,
-                              textInputAction: TextInputAction.next,
-                              hasOverlay: false,
-                              marginColor: Colors.white,
-                              searchStyle: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black.withOpacity(0.8),
-                              ),
-                              onSuggestionTap: (x) {
-                                FocusScope.of(context).unfocus();
-                                distributor_list(district_list_text.text);
-                              },
-                              searchInputDecoration: const InputDecoration(
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      width: 1, color: Color(0xFF808080)),
-                                ),
-                                // border: OutlineInputBorder(),
-                                focusedBorder: UnderlineInputBorder(
-                                  // borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(
-                                      color: Color(0xFFEB455F), width: 2.0),
-                                ),
-                                labelText: "District",
-                                // hintText: "State"
-                              ),
-                            ),
                             const SizedBox(
                               height: 10,
                             ),
@@ -660,40 +671,46 @@ class _sales_orderState extends State<sales_order> {
         });
   }
 
-  Future dealername_list() async {
-    dealer_name = [];
+  // Future dealername_list() async {
+  //   dealer_name = [];
 
-    var response = await http.get(Uri.parse(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.customer_list"""));
-    // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+  //   var response = await http.get(Uri.parse(
+  //       """${dotenv.env['API_URL']}/api/method/oxo.custom.api.customer_list"""));
+  //   // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
 
-    if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 500));
-      setState(() {
-        for (var i = 0; i < json.decode(response.body)['Dealer'].length; i++) {
-          dealer_name.add((json.decode(response.body)['Dealer'][i]));
-        }
-      });
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     await Future.delayed(Duration(milliseconds: 500));
+  //     setState(() {
+  //       for (var i = 0; i < json.decode(response.body)['Dealer'].length; i++) {
+  //         dealer_name.add((json.decode(response.body)['Dealer'][i]));
+  //       }
+  //     });
+  //   }
+  // }
 
   Future distributor_list(list) async {
     districts_ = [];
-
+    dealer_name = [];
     var response = await http.get(
       Uri.parse(
           """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_partner?area=${list}"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
-
+    print(response.body);
     if (response.statusCode == 200) {
       setState(() {
         for (var i = 0;
-            i < json.decode(response.body)['messege_1'].length;
+            i < json.decode(response.body)['sales_partner'].length;
             i++) {
-          districts_.add((json.decode(response.body)['messege_1'][i]));
+          districts_.add((json.decode(response.body)['sales_partner'][i]));
           // distributor.add((json.decode(response.body)['message'][i]));
         }
+        districts_.sort();
+        for (var j = 0; j < json.decode(response.body)['Dealer'].length; j++) {
+          dealer_name.add((json.decode(response.body)['Dealer'][j]));
+          // distributor.add((json.decode(response.body)['message'][i]));
+        }
+        dealer_name.sort();
       });
     }
   }
@@ -713,6 +730,7 @@ class _sales_orderState extends State<sales_order> {
             i++) {
           districts.add((json.decode(response.body)['district_list'][i]));
         }
+        districts.sort();
       });
     }
   }
