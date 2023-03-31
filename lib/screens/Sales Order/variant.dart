@@ -33,7 +33,7 @@ class _item_groupState extends State<item_group> {
             Navigator.pop(context);
           },
           icon: const Icon(Icons.arrow_back_outlined),
-        ),
+        ), 
         // backgroundColor: const Color(0xFFEB455F),
         title: Text(
           item_name_list,

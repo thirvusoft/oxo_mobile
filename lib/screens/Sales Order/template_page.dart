@@ -6,9 +6,8 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:oxo/screens/Sales%20Order/item_group.dart';
 import 'package:oxo/screens/Sales%20Order/sales_order.dart';
-
+import 'package:oxo/screens/Sales%20Order/variant.dart';
 import '../../constants.dart';
 
 class category_group extends StatefulWidget {
@@ -170,7 +169,7 @@ class _category_groupState extends State<category_group> {
                     shrinkWrap: true,
                     itemBuilder: (context, int index) {
                       var row_template = [];
-                      if (icon_nameOnSearch_category.length != 0) {
+                      if (icon_nameOnSearch_category.isNotEmpty) {
                         row_template = icon_nameOnSearch_category;
                       } else {
                         row_template = category_item_list;

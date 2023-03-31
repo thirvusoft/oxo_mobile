@@ -19,7 +19,6 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:http/http.dart' as http;
 
-import 'order_page.dart';
 
 class sales_order extends StatefulWidget {
   const sales_order({super.key});
@@ -811,6 +810,7 @@ class _sales_orderState extends State<sales_order> {
     district_list_text.clear();
     distributor_name.clear();
     delivery_date.clear();
+    Competitors.clear();
   }
 }
 

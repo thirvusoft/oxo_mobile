@@ -232,4 +232,7 @@ double km = 0.0;
 
 var test;
 TextEditingController nearest_disterict = TextEditingController();
-List kms=[];
+List kms = [];
+List temp1_ = [];
+List temp2_ = [];
+List temp3_ = [];
