@@ -667,7 +667,7 @@ class _home_pageState extends State<home_page> {
               child: Padding(
                 padding: EdgeInsets.all(8),
                 child: Text(
-                  "  Km calculator  ",
+                  "  Nearest location  ",
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
                         fontSize: 15, letterSpacing: .2, color: Colors.white),

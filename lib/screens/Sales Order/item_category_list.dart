@@ -10,8 +10,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:oxo/screens/Sales%20Order/sales_order.dart';
 
-import 'item_group.dart';
-import 'order_page.dart';
+import 'template_page.dart';
 
 class category extends StatefulWidget {
   const category({super.key});
@@ -122,10 +121,9 @@ class _categoryState extends State<category> {
                 )),
           ),
         ),
-        Expanded(
-            child: Container(
+        Container(
           child: itemlist(),
-        )),
+        ),
         Container(
           child: Padding(
             padding: EdgeInsets.only(right: 10, bottom: 7),
@@ -151,6 +149,8 @@ class _categoryState extends State<category> {
                   print('**********************************');
                   values_dict.sort(
                       (a, b) => (a['item_group']).compareTo(b['item_group']));
+                  // values_dict.sort(
+                  //     (a, b) => (a['item_name']).compareTo(b['item_name']));
                   print('**********************************');
 
                   print(values_dict);
@@ -314,10 +314,9 @@ class _categoryState extends State<category> {
                 )),
           ),
         ),
-        Expanded(
-            child: Container(
+        Container(
           child: itemlist2(),
-        )),
+        ),
         Container(
           child: Padding(
             padding: EdgeInsets.only(right: 10, bottom: 7),
@@ -414,10 +413,9 @@ class _categoryState extends State<category> {
                 )),
           ),
         ),
-        Expanded(
-            child: Container(
+        Container(
           child: itemlist3(),
-        )),
+        ),
         Container(
           child: Padding(
             padding: EdgeInsets.only(right: 10, bottom: 7),

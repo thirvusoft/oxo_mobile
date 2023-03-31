@@ -33,7 +33,7 @@ class _item_groupState extends State<item_group> {
             Navigator.pop(context);
           },
           icon: const Icon(Icons.arrow_back_outlined),
-        ),
+        ), 
         // backgroundColor: const Color(0xFFEB455F),
         title: Text(
           item_name_list,
@@ -59,11 +59,8 @@ class _item_groupState extends State<item_group> {
                   'item_name': value[2]
                 });
               });
-              values_dict
-                  .sort((a, b) => (a['item_group']).compareTo(b['item_group']));
-              print(
-                  'pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp');
-              print(values_dict);
+
+              
             },
             style: ElevatedButton.styleFrom(
               primary: const Color(0xFFEB455F),
@@ -181,7 +178,7 @@ class _item_groupState extends State<item_group> {
                                           child: Card(
                                               color: Color(0xffffffff),
                                               shape: RoundedRectangleBorder(
-                                                side: BorderSide(
+                                                side: const BorderSide(
                                                     color: Color(0xfff7f7f7),
                                                     width: 1),
                                                 borderRadius:
