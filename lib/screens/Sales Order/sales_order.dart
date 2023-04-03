@@ -364,48 +364,6 @@ class _sales_orderState extends State<sales_order> {
                           const SizedBox(
                             width: 10,
                           ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  if (values_dict.isNotEmpty) {
-                                    _showMyDialog();
-                                  } else {
-                                    Fluttertoast.showToast(
-                                        msg: "Please add the item",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 2,
-                                        backgroundColor: const Color(0xFF2B3467),
-                                        textColor: Colors.white,
-                                        fontSize: 16.0);
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0, vertical: 15.0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10.0)),
-                                  primary: const Color(0xFF2B3467),
-                                ),
-                                icon: const Icon(
-                                  Icons.check,
-                                  size: 24.0,
-                                ),
-                                label: Text(
-                                  'Submit',
-                                  style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                        letterSpacing: .5,
-                                        fontSize: 15,
-                                        color: Color(0xFFffffff)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
                         ],
                       ))
                     ]),
@@ -518,18 +476,15 @@ class _sales_orderState extends State<sales_order> {
                                   borderSide: BorderSide(
                                       width: 1, color: Color(0xFF808080)),
                                 ),
-                                // border: OutlineInputBorder(),
                                 focusedBorder: UnderlineInputBorder(
-                                  // borderRadius: BorderRadius.all(Radius.circular(8)),
                                   borderSide: BorderSide(
                                       color: Color(0xFFEB455F), width: 2.0),
                                 ),
                                 labelText: "Distributor Name",
-                                // hintText: "State"
                               ),
-                              maxSuggestionsInViewPort: 5,
+                              maxSuggestionsInViewPort: 10,
                               suggestionsDecoration: null,
-                              itemHeight: 40,
+                              itemHeight: 50,
                             ),
                             const SizedBox(
                               height: 10,
@@ -547,7 +502,8 @@ class _sales_orderState extends State<sales_order> {
                                 suggestions: dealer_name
                                     .map((String) => SearchFieldListItem(String,
                                         child: Padding(
-                                          padding: const EdgeInsets.only(left: 5.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 5.0),
                                           child: Align(
                                             alignment: Alignment.centerLeft,
                                             child: Text(
@@ -640,6 +596,13 @@ class _sales_orderState extends State<sales_order> {
                             ),
                             TextFormField(
                               controller: Competitors,
+                              validator: (x) {
+                                if (x!.isEmpty) {
+                                  return " Date can't be empty";
+                                }
+
+                                return null;
+                              },
                               decoration: const InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
@@ -682,23 +645,6 @@ class _sales_orderState extends State<sales_order> {
         });
   }
 
-  // Future dealername_list() async {
-  //   dealer_name = [];
-
-  //   var response = await http.get(Uri.parse(
-  //       """${dotenv.env['API_URL']}/api/method/oxo.custom.api.customer_list"""));
-  //   // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
-
-  //   if (response.statusCode == 200) {
-  //     await Future.delayed(Duration(milliseconds: 500));
-  //     setState(() {
-  //       for (var i = 0; i < json.decode(response.body)['Dealer'].length; i++) {
-  //         dealer_name.add((json.decode(response.body)['Dealer'][i]));
-  //       }
-  //     });
-  //   }
-  // }
-
   Future distributor_list(list) async {
     distributorname = [];
 
@@ -714,15 +660,21 @@ class _sales_orderState extends State<sales_order> {
         for (var i = 0;
             i < json.decode(response.body)['sales_partner'].length;
             i++) {
-          distributorname.add((json.decode(response.body)['sales_partner'][i]));
-          // distributor.add((json.decode(response.body)['message'][i]));
+          setState(() {
+            distributorname
+                .add((json.decode(response.body)['sales_partner'][i]));
+          });
+          distributorname.sort();
         }
         distributorname.sort();
         for (var j = 0; j < json.decode(response.body)['Dealer'].length; j++) {
-          dealer_name.add((json.decode(response.body)['Dealer'][j]));
+          setState(() {
+            dealer_name.add((json.decode(response.body)['Dealer'][j]));
+          });
           // distributor.add((json.decode(response.body)['message'][i]));
         }
         dealer_name.sort();
+        _showMyDialog();
       });
     }
   }
