@@ -101,7 +101,7 @@ class _categoryState extends State<category> {
                       }
                     });
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide:
@@ -121,55 +121,54 @@ class _categoryState extends State<category> {
                 )),
           ),
         ),
-        Container(
-          child: itemlist(),
-        ),
-        Container(
-          child: Padding(
-            padding: EdgeInsets.only(right: 10, bottom: 7),
+        Expanded(
             child: Container(
-              alignment: Alignment.bottomRight,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => sales_order()),
+          child: itemlist(),
+        )),
+        Padding(
+          padding: EdgeInsets.only(right: 10, bottom: 7),
+          child: Container(
+            alignment: Alignment.bottomRight,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => sales_order()),
+                );
+                values_dict = [];
+                values.forEach((key, value) {
+                  values_dict.add(
+                    {
+                      'item_code': key,
+                      'qty': value[1],
+                      'item_group': value[0],
+                      'item_name': value[2]
+                    },
                   );
-                  values_dict = [];
-                  values.forEach((key, value) {
-                    values_dict.add(
-                      {
-                        'item_code': key,
-                        'qty': value[1],
-                        'item_group': value[0],
-                        'item_name': value[2]
-                      },
-                    );
-                  });
-                  print('**********************************');
-                  values_dict.sort(
-                      (a, b) => (a['item_group']).compareTo(b['item_group']));
-                  // values_dict.sort(
-                  //     (a, b) => (a['item_name']).compareTo(b['item_name']));
-                  print('**********************************');
+                });
+                print('**********************************');
+                values_dict.sort(
+                    (a, b) => (a['item_group']).compareTo(b['item_group']));
+                // values_dict.sort(
+                //     (a, b) => (a['item_name']).compareTo(b['item_name']));
+                print('**********************************');
 
-                  print(values_dict);
+                print(values_dict);
 
-                  values_dict.removeAt(index_value);
-                },
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  primary: Color(0xFFEB455F),
-                ),
-                icon: Icon(
-                  Icons.add,
-                  size: 24.0,
-                ),
-                label: Text('View order item'),
+                values_dict.removeAt(index_value);
+              },
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+                backgroundColor: const Color(0xFFEB455F),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
               ),
+              icon: Icon(
+                Icons.add,
+                size: 24.0,
+              ),
+              label: Text('View order item'),
             ),
           ),
         )
@@ -314,9 +313,10 @@ class _categoryState extends State<category> {
                 )),
           ),
         ),
-        Container(
+        Expanded(
+            child: Container(
           child: itemlist2(),
-        ),
+        )),
         Container(
           child: Padding(
             padding: EdgeInsets.only(right: 10, bottom: 7),
@@ -413,9 +413,10 @@ class _categoryState extends State<category> {
                 )),
           ),
         ),
-        Container(
+        Expanded(
+            child: Container(
           child: itemlist3(),
-        ),
+        )),
         Container(
           child: Padding(
             padding: EdgeInsets.only(right: 10, bottom: 7),
