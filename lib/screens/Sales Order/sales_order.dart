@@ -19,7 +19,6 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:http/http.dart' as http;
 
-
 class sales_order extends StatefulWidget {
   const sales_order({super.key});
 
@@ -32,6 +31,7 @@ class _sales_orderState extends State<sales_order> {
   final ScrollController controller = ScrollController();
 
   List districts = [];
+  List distributorname = [];
   TextEditingController district_list_text = TextEditingController();
   TextEditingController Competitors = TextEditingController();
 
@@ -66,7 +66,7 @@ class _sales_orderState extends State<sales_order> {
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
-              Get.to(home_page());
+              Get.to(const home_page());
             },
             icon: const Icon(Icons.arrow_back_outlined),
           ),
@@ -74,7 +74,7 @@ class _sales_orderState extends State<sales_order> {
           title: Text(
             'ORDER FORMS',
             style: GoogleFonts.poppins(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                   fontSize: 20, letterSpacing: .2, color: Colors.white),
             ),
           ),
@@ -83,7 +83,7 @@ class _sales_orderState extends State<sales_order> {
             controller: controller,
             trackVisibility: true,
             thickness: 8,
-            radius: Radius.circular(20),
+            radius: const Radius.circular(20),
             thumbVisibility: true,
             child: SingleChildScrollView(
               child: ConstrainedBox(
@@ -212,7 +212,7 @@ class _sales_orderState extends State<sales_order> {
                     color: const Color(0xFFEB455F),
                   )),
             ),
-            style: TextStyle(),
+            style: const TextStyle(),
             readOnly: true,
             onTap: () async {
               var date = await showDatePicker(
@@ -225,7 +225,7 @@ class _sales_orderState extends State<sales_order> {
               (BuildContext context, Widget child) {
                 return Theme(
                   data: ThemeData().copyWith(
-                      colorScheme: ColorScheme.dark(
+                      colorScheme: const ColorScheme.dark(
                           primary: Color(0xff19183e),
                           surface: Color(0xff19183e))),
                   child: child,
@@ -265,12 +265,12 @@ class _sales_orderState extends State<sales_order> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => category()),
+                                  builder: (context) => const category()),
                             );
                           },
                           child: Container(
                               color: const Color(0xFFEB455F),
-                              child: Center(
+                              child: const Center(
                                 child: Icon(Icons.add),
                               )));
                     },
@@ -310,13 +310,13 @@ class _sales_orderState extends State<sales_order> {
                             'TOTAL',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ))),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Expanded(
                               child: Center(
                                   child: Text(total_qty.toString(),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold)))),
                         ],
                       )),
@@ -328,13 +328,13 @@ class _sales_orderState extends State<sales_order> {
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(left: 8.0),
+                              padding: const EdgeInsets.only(left: 8.0),
                               child: ElevatedButton.icon(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => category()),
+                                        builder: (context) => const category()),
                                   );
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -345,7 +345,7 @@ class _sales_orderState extends State<sales_order> {
                                       borderRadius:
                                           BorderRadius.circular(10.0)),
                                 ),
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.add,
                                   size: 24.0,
                                 ),
@@ -361,12 +361,12 @@ class _sales_orderState extends State<sales_order> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(right: 8.0),
+                              padding: const EdgeInsets.only(right: 8.0),
                               child: ElevatedButton.icon(
                                 onPressed: () {
                                   if (values_dict.isNotEmpty) {
@@ -377,20 +377,20 @@ class _sales_orderState extends State<sales_order> {
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.BOTTOM,
                                         timeInSecForIosWeb: 2,
-                                        backgroundColor: Color(0xFF2B3467),
+                                        backgroundColor: const Color(0xFF2B3467),
                                         textColor: Colors.white,
                                         fontSize: 16.0);
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 5.0, vertical: 15.0),
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(10.0)),
                                   primary: const Color(0xFF2B3467),
                                 ),
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.check,
                                   size: 24.0,
                                 ),
@@ -502,7 +502,7 @@ class _sales_orderState extends State<sales_order> {
                                 }
                                 return null;
                               },
-                              suggestions: districts_
+                              suggestions: distributorname
                                   .map((String) => SearchFieldListItem(String))
                                   .toList(),
                               suggestionState: Suggestion.expand,
@@ -547,12 +547,12 @@ class _sales_orderState extends State<sales_order> {
                                 suggestions: dealer_name
                                     .map((String) => SearchFieldListItem(String,
                                         child: Padding(
-                                          padding: EdgeInsets.only(left: 5.0),
+                                          padding: const EdgeInsets.only(left: 5.0),
                                           child: Align(
                                             alignment: Alignment.centerLeft,
                                             child: Text(
                                               String,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: Colors.black),
                                             ),
                                           ),
@@ -660,7 +660,7 @@ class _sales_orderState extends State<sales_order> {
                             ),
                             AnimatedButton(
                               text: 'Submit',
-                              color: Color.fromARGB(255, 49, 47, 92),
+                              color: const Color.fromARGB(255, 49, 47, 92),
                               pressEvent: () {
                                 if (sales_order_key.currentState!.validate()) {
                                   sales_order(
@@ -700,7 +700,8 @@ class _sales_orderState extends State<sales_order> {
   // }
 
   Future distributor_list(list) async {
-    districts_ = [];
+    distributorname = [];
+
     dealer_name = [];
     var response = await http.get(
       Uri.parse(
@@ -713,10 +714,10 @@ class _sales_orderState extends State<sales_order> {
         for (var i = 0;
             i < json.decode(response.body)['sales_partner'].length;
             i++) {
-          districts_.add((json.decode(response.body)['sales_partner'][i]));
+          distributorname.add((json.decode(response.body)['sales_partner'][i]));
           // distributor.add((json.decode(response.body)['message'][i]));
         }
-        districts_.sort();
+        distributorname.sort();
         for (var j = 0; j < json.decode(response.body)['Dealer'].length; j++) {
           dealer_name.add((json.decode(response.body)['Dealer'][j]));
           // distributor.add((json.decode(response.body)['message'][i]));
@@ -795,7 +796,7 @@ class _sales_orderState extends State<sales_order> {
 
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => home_page()),
+            MaterialPageRoute(builder: (context) => const home_page()),
           );
         },
         btnOkIcon: Icons.check_circle,
