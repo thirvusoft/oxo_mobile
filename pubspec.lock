@@ -253,10 +253,10 @@ packages:
     dependency: "direct main"
     description:
       name: date_field
-      sha256: e3e80e0aad4b97d5593dd1f45a722d90f910d142436ccea51fd595dc31139292
+      sha256: b744781eb565bb9abd2d22c7aa19ff436c03be05cb8289da73a16958fe6b4322
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.5"
+    version: "3.0.2"
   dbus:
     dependency: transitive
     description:
@@ -684,10 +684,10 @@ packages:
     dependency: transitive
     description:
       name: intl
-      sha256: a3715e3bc90294e971cb7dc063fbf3cd9ee0ebf8604ffeafabd9e6f16abbdbe6
+      sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.0"
+    version: "0.17.0"
   io:
     dependency: transitive
     description:
