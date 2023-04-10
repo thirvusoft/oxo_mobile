@@ -54,6 +54,9 @@ class _category_groupState extends State<category_group> {
 
   Widget item_template(Size size) {
     return Column(children: [
+      const SizedBox(
+        height: 10,
+      ),
       Container(
         padding: EdgeInsets.all(15),
         child: Theme(
@@ -214,14 +217,17 @@ class _category_groupState extends State<category_group> {
                                                           .text.isEmpty
                                                       ? row_template[index]
                                                               ['item_name'] +
-                                                          "  " +
-                                                          row_template[index]
-                                                              ['item_code']
+                                                          "  "
+                                                      // +
+                                                      // row_template[index]
+                                                      //     ['item_code']
                                                       : row_template[index]
                                                               ['item_name'] +
-                                                          "  " +
-                                                          row_template[index]
-                                                              ['item_code'],
+                                                          "  "
+                                                  // +
+                                                  // row_template[index]
+                                                  //     ['item_code'],
+                                                  ,
                                                   style: GoogleFonts.poppins(
                                                     textStyle: TextStyle(
                                                         letterSpacing: .1,

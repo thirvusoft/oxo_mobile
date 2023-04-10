@@ -33,7 +33,7 @@ class _item_groupState extends State<item_group> {
             Navigator.pop(context);
           },
           icon: const Icon(Icons.arrow_back_outlined),
-        ), 
+        ),
         // backgroundColor: const Color(0xFFEB455F),
         title: Text(
           item_name_list,
@@ -59,8 +59,6 @@ class _item_groupState extends State<item_group> {
                   'item_name': value[2]
                 });
               });
-
-              
             },
             style: ElevatedButton.styleFrom(
               primary: const Color(0xFFEB455F),
@@ -83,6 +81,9 @@ class _item_groupState extends State<item_group> {
 
   Widget item_varients(Size size) {
     return Column(children: [
+      const SizedBox(
+        height: 10,
+      ),
       Container(
         padding: EdgeInsets.all(15),
         child: Theme(
@@ -112,16 +113,16 @@ class _item_groupState extends State<item_group> {
                     }
                   });
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: const Color(0xFFEB455F), width: 2.0),
+                      borderSide:
+                          BorderSide(color: Color(0xFFEB455F), width: 2.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: const Color(0xFFEB455F), width: 2.0),
+                      borderSide:
+                          BorderSide(color: Color(0xFFEB455F), width: 2.0),
                     ),
                     contentPadding: EdgeInsets.all(15),
                     hintText: "Search",
@@ -200,15 +201,20 @@ class _item_groupState extends State<item_group> {
                                                   searchcontroller_varient
                                                           .text.isEmpty
                                                       ? row_varient[index]
-                                                              ['item_name'] +
-                                                          "   " +
-                                                          row_varient[index]
-                                                              ['item_code']
+                                                          ['item_name']
+                                                      // +
+                                                      // "   "
+                                                      // +
+                                                      // row_varient[index]
+                                                      //     ['item_code']
                                                       : row_varient[index]
-                                                              ['item_name'] +
-                                                          "   " +
-                                                          row_varient[index]
-                                                              ['item_code'],
+                                                          ['item_name']
+                                                  // +
+                                                  // "   "
+                                                  //  +
+                                                  // row_varient[index]
+                                                  //     ['item_code']
+                                                  ,
                                                   style: GoogleFonts.poppins(
                                                     textStyle: TextStyle(
                                                         letterSpacing: .1,
