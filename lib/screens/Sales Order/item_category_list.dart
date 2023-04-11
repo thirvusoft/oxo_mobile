@@ -19,10 +19,15 @@ class category extends StatefulWidget {
   State<category> createState() => _categoryState();
 }
 
-class _categoryState extends State<category> {
+class _categoryState extends State<category> with TickerProviderStateMixin {
+  TabController? _tabController__;
+
   @override
   initState() {
     categorieslist_();
+    print(
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    print(_tabController__.toString());
     all_item();
   }
 
@@ -44,24 +49,32 @@ class _categoryState extends State<category> {
             title: Text(
               'ORDER FORM',
               style: GoogleFonts.poppins(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                     fontSize: 20, letterSpacing: .2, color: Colors.white),
               ),
             ),
             bottom: TabBar(
-              isScrollable: true,
-              indicatorColor: Colors.white,
-              tabs: [
-                Tab(icon: Icon(Icons.person), text: "SHIRT DHOTI SEGMENT"),
-                Tab(icon: Icon(Icons.person_outline), text: "INNER SEGMENT"),
-                Tab(icon: Icon(Icons.person_pin), text: "OUTER SEGMENT"),
-                // Tab(
-                //     icon: Icon(Icons.person_pin_sharp),
-                //     text: "PREMIUM RANGE"),
-              ],
-            ),
+                controller: _tabController__,
+                isScrollable: true,
+                indicatorColor: Colors.white,
+                tabs:
+                    List<Widget>.generate(categorieslist__.length, (int index) {
+                  return Tab(
+                    text: categorieslist__[index],
+                  );
+                })
+                //  [
+                //   Tab(icon: Icon(Icons.person), text: "SHIRT DHOTI SEGMENT"),
+                //   Tab(icon: Icon(Icons.person_outline), text: "INNER SEGMENT"),
+                //   Tab(icon: Icon(Icons.person_pin), text: "OUTER SEGMENT"),
+                //   // Tab(
+                //   //     icon: Icon(Icons.person_pin_sharp),
+                //   //     text: "PREMIUM RANGE"),
+                // ],
+                ),
           ),
           body: TabBarView(
+            controller: _tabController__,
             children: [
               shirt(size),
               inner(size),
@@ -653,38 +666,34 @@ class _categoryState extends State<category> {
             i++) {
           shirt_list.add((json.decode(response.body)['message1'][i]));
         }
+        shirt_list.sort((a, b) => a["name"].compareTo(b["name"]));
+
         for (var i = 0;
             i < json.decode(response.body)['message2'].length;
             i++) {
           inner_list.add((json.decode(response.body)['message2'][i]));
         }
+        inner_list.sort((a, b) => a["name"].compareTo(b["name"]));
         for (var i = 0;
             i < json.decode(response.body)['message3'].length;
             i++) {
           outer_list.add((json.decode(response.body)['message3'][i]));
         }
+        outer_list.sort((a, b) => a["name"].compareTo(b["name"]));
       });
-      print('33333333333333333333333333333');
-      print(shirt_list);
     } else {
       return json.decode(response.body)['message'];
     }
   }
 
   Future template_list(category_name, item_group_name) async {
-    print("ggggggggggggggggggggggg");
-    print("fkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
-    print(item_group_name);
-    print(category_name);
-
     category_item_list = [];
     var response = await http.get(
       Uri.parse(
           """${dotenv.env['API_URL']}/api/method/oxo.custom.api.template_list?category=${item_group_name}&item_group=${category_name}"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
-    print(response.statusCode);
-    print(response.body);
+
     if (response.statusCode == 200) {
       setState(() {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
@@ -717,6 +726,9 @@ class _categoryState extends State<category> {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           categorieslist__.add((json.decode(response.body)['message'][i]));
         }
+        categorieslist__.sort();
+        _tabController__ =
+            TabController(length: categorieslist__.length, vsync: this);
       });
       print(categorieslist__);
     }

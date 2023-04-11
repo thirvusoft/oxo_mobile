@@ -303,8 +303,7 @@ class _LoginState extends State<Login> {
     return Container(
       height: size.height / 13,
       width: size.width * 0.7,
-      child:
-       ElevatedButton(
+      child: ElevatedButton(
         onPressed: () {
           setState(() {
             login_loading = true;
