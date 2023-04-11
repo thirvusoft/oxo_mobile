@@ -458,6 +458,9 @@ class _sales_orderState extends State<sales_order> {
                                 if (value == null || value.isEmpty) {
                                   return 'Please select distributor name';
                                 }
+                                if (!distributorname.contains(value)) {
+                                  return 'Distributor not found';
+                                }
                                 return null;
                               },
                               suggestions: distributorname
@@ -496,6 +499,9 @@ class _sales_orderState extends State<sales_order> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please select dealer name';
+                                  }
+                                  if (!dealer_name.contains(value)) {
+                                    return 'Dealer name not found';
                                   }
                                   return null;
                                 },
