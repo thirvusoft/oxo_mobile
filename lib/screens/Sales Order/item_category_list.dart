@@ -22,13 +22,14 @@ class category extends StatefulWidget {
 class _categoryState extends State<category> {
   @override
   initState() {
+    categorieslist_();
     all_item();
   }
 
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return DefaultTabController(
-        length: 3,
+        length: categorieslist__.length,
         child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -698,6 +699,26 @@ class _categoryState extends State<category> {
         );
       }
       print(category_item_list);
+    }
+  }
+
+  Future categorieslist_() async {
+    categorieslist__ = [];
+
+    var response = await http.get(
+      Uri.parse(
+          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.categories_list"""),
+      // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+    );
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      setState(() {
+        for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
+          categorieslist__.add((json.decode(response.body)['message'][i]));
+        }
+      });
+      print(categorieslist__);
     }
   }
 }
