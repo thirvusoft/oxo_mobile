@@ -1048,6 +1048,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.2"
+  responsive_flutter:
+    dependency: "direct main"
+    description:
+      name: responsive_flutter
+      sha256: b85785784e3a6f2985d9e5a882e1cde94168d981025a59e4a967281dc5ab0735
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   rive:
     dependency: transitive
     description:
