@@ -1,5 +1,6 @@
 // @dart=2.9
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -19,11 +20,15 @@ import 'screens/Home Page/home_page.dart';
 import 'screens/Sales Order/sales_order.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:get/get.dart';
-
 import 'screens/Sales Order/template_page.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   var appDocumentDir = await getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
   await Hive.initFlutter();

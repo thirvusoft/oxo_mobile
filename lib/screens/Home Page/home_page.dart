@@ -51,7 +51,9 @@ class _home_pageState extends State<home_page> {
 
   late Timer timer;
   late AudioPlayer player;
+  @override
   void initState() {
+    super.initState();
     final myList = [1, 2, 3];
 
     final myElement = myList.firstWhereOrNull((a) => a == 3);
@@ -136,6 +138,8 @@ class _home_pageState extends State<home_page> {
               new Stack(
                 children: <Widget>[
                   new IconButton(
+                      iconSize:
+                          (MediaQuery.of(context).size.width <= 400) ? 18 : 20,
                       icon: const Icon(
                         PhosphorIcons.bell,
                       ),
@@ -167,6 +171,8 @@ class _home_pageState extends State<home_page> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 6),
                 child: IconButton(
+                  iconSize:
+                      (MediaQuery.of(context).size.width <= 400) ? 18 : 20,
                   onPressed: () {
                     _delete(context);
                   },
@@ -181,12 +187,17 @@ class _home_pageState extends State<home_page> {
               child: RichText(
                 text: TextSpan(children: [
                   TextSpan(
-                      text: day_status + " $username",
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: (username.length >= 5) ? 18 : 20,
-                              letterSpacing: .2,
-                              color: Color(0xffffffff)))),
+                    text: day_status + " $username",
+                    // text: MediaQuery.of(context).size.toString(),
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: (MediaQuery.of(context).size.width <= 400)
+                              ? 18
+                              : 23,
+                          letterSpacing: .2,
+                          color: Colors.white),
+                    ),
+                  ),
                   TextSpan(
                       text: " 👋",
                       style: GoogleFonts.poppins(
@@ -294,10 +305,10 @@ class _home_pageState extends State<home_page> {
   }
 
   Widget getCardItem(height) {
-    ContainerTransitionType _containerTransitionType =
+    ContainerTransitionType containerTransitionType =
         ContainerTransitionType.fade;
     return OpenContainer(
-      transitionType: _containerTransitionType,
+      transitionType: containerTransitionType,
       transitionDuration: Duration(milliseconds: 500),
       openBuilder: (context, _) => dealer(),
       closedElevation: 0,
@@ -307,8 +318,10 @@ class _home_pageState extends State<home_page> {
       closedColor: Colors.white,
       closedBuilder: (context, _) => Container(
         alignment: Alignment.center,
-        height: 180,
-        width: 180,
+        height: MediaQuery.of(context).size.height * .25,
+        width: (MediaQuery.of(context).size.width <= 400)
+            ? MediaQuery.of(context).size.width / 2.2
+            : 180,
         child: Column(
           children: [
             const SizedBox(
@@ -333,8 +346,12 @@ class _home_pageState extends State<home_page> {
                 child: Text(
                   " Add Dealer ",
                   style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15, letterSpacing: .2, color: Colors.white),
+                    textStyle: TextStyle(
+                        fontSize: (MediaQuery.of(context).size.width <= 400)
+                            ? 12.5
+                            : 15,
+                        letterSpacing: .2,
+                        color: Colors.white),
                   ),
                 ),
               ),
@@ -360,8 +377,10 @@ class _home_pageState extends State<home_page> {
       closedColor: Colors.white,
       closedBuilder: (context, _) => Container(
         alignment: Alignment.center,
-        height: 180,
-        width: 180,
+        height: MediaQuery.of(context).size.height * .25,
+        width: (MediaQuery.of(context).size.width <= 400)
+            ? MediaQuery.of(context).size.width / 2.2
+            : 180,
         child: Column(
           children: [
             const SizedBox(
@@ -386,8 +405,12 @@ class _home_pageState extends State<home_page> {
                 child: Text(
                   "Create Order",
                   style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15, letterSpacing: .2, color: Colors.white),
+                    textStyle: TextStyle(
+                        fontSize: (MediaQuery.of(context).size.width <= 400)
+                            ? 12.5
+                            : 15,
+                        letterSpacing: .2,
+                        color: Colors.white),
                   ),
                 ),
               ),
@@ -412,8 +435,10 @@ class _home_pageState extends State<home_page> {
       closedColor: Colors.white,
       closedBuilder: (context, _) => Container(
         alignment: Alignment.center,
-        height: 180,
-        width: 180,
+        height: MediaQuery.of(context).size.height * .25,
+        width: (MediaQuery.of(context).size.width <= 400)
+            ? MediaQuery.of(context).size.width / 2.2
+            : 180,
         child: Column(
           children: [
             const SizedBox(
@@ -438,8 +463,12 @@ class _home_pageState extends State<home_page> {
                 child: Text(
                   "Dealer Location ",
                   style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15, letterSpacing: .2, color: Colors.white),
+                    textStyle: TextStyle(
+                        fontSize: (MediaQuery.of(context).size.width <= 400)
+                            ? 12.5
+                            : 15,
+                        letterSpacing: .2,
+                        color: Colors.white),
                   ),
                 ),
               ),
@@ -539,8 +568,10 @@ class _home_pageState extends State<home_page> {
       closedColor: Colors.white,
       closedBuilder: (context, _) => Container(
         alignment: Alignment.center,
-        height: 180,
-        width: 180,
+        height: MediaQuery.of(context).size.height * .25,
+        width: (MediaQuery.of(context).size.width <= 400)
+            ? MediaQuery.of(context).size.width / 2.2
+            : 180,
         child: Column(
           children: [
             const SizedBox(
@@ -565,8 +596,12 @@ class _home_pageState extends State<home_page> {
                 child: Text(
                   "  Appointment  ",
                   style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15, letterSpacing: .2, color: Colors.white),
+                    textStyle: TextStyle(
+                        fontSize: (MediaQuery.of(context).size.width <= 400)
+                            ? 12.5
+                            : 15,
+                        letterSpacing: .2,
+                        color: Colors.white),
                   ),
                 ),
               ),
@@ -591,8 +626,10 @@ class _home_pageState extends State<home_page> {
       closedColor: Colors.white,
       closedBuilder: (context, _) => Container(
         alignment: Alignment.center,
-        height: 180,
-        width: 180,
+        height: MediaQuery.of(context).size.height * .25,
+        width: (MediaQuery.of(context).size.width <= 400)
+            ? MediaQuery.of(context).size.width / 2.2
+            : 180,
         child: Column(
           children: [
             const SizedBox(
@@ -617,8 +654,12 @@ class _home_pageState extends State<home_page> {
                 child: Text(
                   "  Order List  ",
                   style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15, letterSpacing: .2, color: Colors.white),
+                    textStyle: TextStyle(
+                        fontSize: (MediaQuery.of(context).size.width <= 400)
+                            ? 12.5
+                            : 15,
+                        letterSpacing: .2,
+                        color: Colors.white),
                   ),
                 ),
               ),
@@ -643,8 +684,10 @@ class _home_pageState extends State<home_page> {
       closedColor: Colors.white,
       closedBuilder: (context, _) => Container(
         alignment: Alignment.center,
-        height: 180,
-        width: 180,
+        height: MediaQuery.of(context).size.height * .25,
+        width: (MediaQuery.of(context).size.width <= 400)
+            ? MediaQuery.of(context).size.width / 2.2
+            : 180,
         child: Column(
           children: [
             const SizedBox(
@@ -669,8 +712,12 @@ class _home_pageState extends State<home_page> {
                 child: Text(
                   "  Nearest location  ",
                   style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15, letterSpacing: .2, color: Colors.white),
+                    textStyle: TextStyle(
+                        fontSize: (MediaQuery.of(context).size.width <= 400)
+                            ? 12.5
+                            : 15,
+                        letterSpacing: .2,
+                        color: Colors.white),
                   ),
                 ),
               ),
