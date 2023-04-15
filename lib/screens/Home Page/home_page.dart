@@ -216,92 +216,88 @@ class _home_pageState extends State<home_page> {
               ),
             )),
         body: SingleChildScrollView(
-            child: Padding(
-          padding: const EdgeInsets.only(top: 15.0),
-          child: Container(
-            // color: Color(0xffeff4fd),
-            height: height,
-            decoration: const BoxDecoration(
-                color: Color(0xffe8effc),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(50),
-                  topRight: Radius.circular(50),
-                )),
-            child: SingleChildScrollView(
-                child: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 15.0),
+            child: Container(
+                // color: Color(0xffeff4fd),
+                height: height,
+                decoration: const BoxDecoration(
+                    color: Color(0xffe8effc),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50),
+                    )),
+                child: SingleChildScrollView(
                     child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: size.width / 5),
-                  child: Row(children: <Widget>[
-                    const SizedBox(
-                      width: 5,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: size.width / 5, left: 2.5),
+                      child: Row(children: <Widget>[
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        getCardItem(height),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        getCardItem2(height),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                      ]),
                     ),
-                    getCardItem(height),
                     const SizedBox(
-                      width: 20,
+                      height: 10,
                     ),
-                    getCardItem2(height),
+                    Padding(
+                      padding: EdgeInsets.only(top: size.width / 28, left: 2.5),
+                      child: Row(children: <Widget>[
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        getCardItem3(height),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        getCardItem5(height),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        // getCardItem4(height),
+                      ]),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: size.width / 15, left: 2.5),
+                      child: Row(children: <Widget>[
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        getCardItem6(height),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        getCardItem7(height)
+                        // getCardItem4(height),
+                      ]),
+                    ),
                     const SizedBox(
-                      width: 5,
+                      height: 10,
                     ),
-                  ]),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: size.width / 28,
-                  ),
-                  child: Row(children: <Widget>[
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    getCardItem3(height),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    getCardItem5(height),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    // getCardItem4(height),
-                  ]),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: size.width / 15,
-                  ),
-                  child: Row(children: <Widget>[
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    getCardItem6(height),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    getCardItem7(height)
-                    // getCardItem4(height),
-                  ]),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                // Container(
-                //     child: Padding(
-                //   padding: EdgeInsets.only(
-                //     top: size.width / 5,
-                //   ),
-                //   child: Row(children: <Widget>[
-                //     getCardItem5(height),
-                //   ]),
-                // ))
-              ],
-            ))),
+                    // Container(
+                    //     child: Padding(
+                    //   padding: EdgeInsets.only(
+                    //     top: size.width / 5,
+                    //   ),
+                    //   child: Row(children: <Widget>[
+                    //     getCardItem5(height),
+                    //   ]),
+                    // ))
+                  ],
+                ))),
           ),
-        )));
+        ));
   }
 
   Widget getCardItem(height) {
@@ -318,10 +314,12 @@ class _home_pageState extends State<home_page> {
       closedColor: Colors.white,
       closedBuilder: (context, _) => Container(
         alignment: Alignment.center,
-        height: MediaQuery.of(context).size.height * .25,
+        height: (MediaQuery.of(context).size.width <= 900)
+            ? MediaQuery.of(context).size.height * .20
+            : MediaQuery.of(context).size.height * .25,
         width: (MediaQuery.of(context).size.width <= 400)
             ? MediaQuery.of(context).size.width / 2.2
-            : 180,
+            : 190,
         child: Column(
           children: [
             const SizedBox(
@@ -377,10 +375,12 @@ class _home_pageState extends State<home_page> {
       closedColor: Colors.white,
       closedBuilder: (context, _) => Container(
         alignment: Alignment.center,
-        height: MediaQuery.of(context).size.height * .25,
+        height: (MediaQuery.of(context).size.width <= 900)
+            ? MediaQuery.of(context).size.height * .20
+            : MediaQuery.of(context).size.height * .25,
         width: (MediaQuery.of(context).size.width <= 400)
             ? MediaQuery.of(context).size.width / 2.2
-            : 180,
+            : 190,
         child: Column(
           children: [
             const SizedBox(
@@ -435,10 +435,12 @@ class _home_pageState extends State<home_page> {
       closedColor: Colors.white,
       closedBuilder: (context, _) => Container(
         alignment: Alignment.center,
-        height: MediaQuery.of(context).size.height * .25,
+        height: (MediaQuery.of(context).size.width <= 900)
+            ? MediaQuery.of(context).size.height * .20
+            : MediaQuery.of(context).size.height * .25,
         width: (MediaQuery.of(context).size.width <= 400)
             ? MediaQuery.of(context).size.width / 2.2
-            : 180,
+            : 190,
         child: Column(
           children: [
             const SizedBox(
@@ -484,8 +486,8 @@ class _home_pageState extends State<home_page> {
       child: Padding(
         padding: EdgeInsets.only(left: height / 45),
         child: Container(
-          height: 180,
-          width: 180,
+          height: 190,
+          width: 190,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Colors.white,
@@ -568,10 +570,12 @@ class _home_pageState extends State<home_page> {
       closedColor: Colors.white,
       closedBuilder: (context, _) => Container(
         alignment: Alignment.center,
-        height: MediaQuery.of(context).size.height * .25,
+        height: (MediaQuery.of(context).size.width <= 900)
+            ? MediaQuery.of(context).size.height * .20
+            : MediaQuery.of(context).size.height * .25,
         width: (MediaQuery.of(context).size.width <= 400)
             ? MediaQuery.of(context).size.width / 2.2
-            : 180,
+            : 190,
         child: Column(
           children: [
             const SizedBox(
@@ -626,10 +630,12 @@ class _home_pageState extends State<home_page> {
       closedColor: Colors.white,
       closedBuilder: (context, _) => Container(
         alignment: Alignment.center,
-        height: MediaQuery.of(context).size.height * .25,
+        height: (MediaQuery.of(context).size.width <= 900)
+            ? MediaQuery.of(context).size.height * .20
+            : MediaQuery.of(context).size.height * .25,
         width: (MediaQuery.of(context).size.width <= 400)
             ? MediaQuery.of(context).size.width / 2.2
-            : 180,
+            : 190,
         child: Column(
           children: [
             const SizedBox(
@@ -684,10 +690,12 @@ class _home_pageState extends State<home_page> {
       closedColor: Colors.white,
       closedBuilder: (context, _) => Container(
         alignment: Alignment.center,
-        height: MediaQuery.of(context).size.height * .25,
+        height: (MediaQuery.of(context).size.width <= 900)
+            ? MediaQuery.of(context).size.height * .20
+            : MediaQuery.of(context).size.height * .25,
         width: (MediaQuery.of(context).size.width <= 400)
             ? MediaQuery.of(context).size.width / 2.2
-            : 180,
+            : 190,
         child: Column(
           children: [
             const SizedBox(
