@@ -188,7 +188,9 @@ class _item_groupState extends State<item_group> {
                                               elevation: 5,
                                               child: ListTile(
                                                 leading: CircleAvatar(
-                                                    radius: 12.5,
+                                                    radius: (count > 99)
+                                                        ? 14
+                                                        : 12.5,
                                                     backgroundColor:
                                                         const Color(0xFF2B3467),
                                                     child: Text(

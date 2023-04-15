@@ -87,6 +87,7 @@ dependencies:
   url_launcher: ^6.1.10
   simple_ripple_animation: ^0.0.7
   responsive_flutter: ^0.0.4
+  device_preview: ^1.1.0
 
 
 dev_dependencies:
