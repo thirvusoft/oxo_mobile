@@ -1,4 +1,6 @@
 // @dart=2.9
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,6 +26,12 @@ import 'screens/Sales Order/template_page.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 
 void main() async {
+  runApp(
+    DevicePreview(
+      builder: (context) => MyHomePage(), // Wrap your app
+    ),
+  );
+
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -38,7 +46,6 @@ void main() async {
   location = await Hive.openBox('location');
   await dotenv.load(fileName: ".env");
   Hive.registerAdapter(LocationAdapter());
-  runApp(MyHomePage());
 }
 
 class MyHomePage extends StatelessWidget {
@@ -46,6 +53,9 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return OverlaySupport.global(
         child: GetMaterialApp(
+      useInheritedMediaQuery: true,
+
+      builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
       routes: {
         'test': (context) => sales_order(),
