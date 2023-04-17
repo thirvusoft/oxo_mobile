@@ -25,8 +25,7 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
   @override
   initState() {
     categorieslist_();
-    print(
-        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+
     print(_tabController__.toString());
     all_item();
   }

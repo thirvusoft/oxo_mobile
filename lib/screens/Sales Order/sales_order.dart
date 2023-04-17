@@ -323,49 +323,44 @@ class _sales_orderState extends State<sales_order> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Container(
-                          child: Row(
+                      Row(
                         children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const category()),
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0, vertical: 15.0),
-                                  backgroundColor: const Color(0xFF2B3467),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10.0)),
-                                ),
-                                icon: const Icon(
-                                  Icons.add,
-                                  size: 24.0,
-                                ),
-                                label: Text(
-                                  'Add item',
-                                  style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                        letterSpacing: .5,
-                                        fontSize: 15,
-                                        color: Color(0xFFffffff)),
-                                  ),
-                                ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 5.0, vertical: 15.0),
+                              backgroundColor: const Color(0xFF2B3467),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(10.0)),
+                            ),
+                            icon: const Icon(
+                              Icons.add,
+                              size: 24.0,
+                            ),
+                            label: Text(
+                              'Add item',
+                              style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                    letterSpacing: .5,
+                                    fontSize: 15,
+                                    color: Color(0xFFffffff)),
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
                         ],
-                      ))
+                      )
                     ]),
                     allowSwiping: true,
                     isScrollbarAlwaysShown: true,

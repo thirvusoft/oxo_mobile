@@ -28,7 +28,7 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 void main() async {
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (context) => MyHomePage(), // Wrap your app
     ),
   );

@@ -322,8 +322,8 @@ class _home_pageState extends State<home_page> {
             : 190,
         child: Column(
           children: [
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: (MediaQuery.of(context).size.width <= 900) ?  8 : 15,
             ),
             Image.asset(
               "assets/add_friends.png",
@@ -383,8 +383,8 @@ class _home_pageState extends State<home_page> {
             : 190,
         child: Column(
           children: [
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: (MediaQuery.of(context).size.width <= 900) ?  8 : 15,
             ),
             Image.asset(
               "assets/Order_confirmed.png",
@@ -443,8 +443,8 @@ class _home_pageState extends State<home_page> {
             : 190,
         child: Column(
           children: [
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: (MediaQuery.of(context).size.width <= 900) ?  8 : 15,
             ),
             Image.asset(
               "assets/Current_location.png",
@@ -578,8 +578,8 @@ class _home_pageState extends State<home_page> {
             : 190,
         child: Column(
           children: [
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: (MediaQuery.of(context).size.width <= 900) ?  8 : 15,
             ),
             Image.asset(
               "assets/Booking.png",
@@ -638,8 +638,8 @@ class _home_pageState extends State<home_page> {
             : 190,
         child: Column(
           children: [
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: (MediaQuery.of(context).size.width <= 900) ?  8 : 15,
             ),
             Image.asset(
               "assets/order_list.png",
@@ -698,8 +698,8 @@ class _home_pageState extends State<home_page> {
             : 190,
         child: Column(
           children: [
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: (MediaQuery.of(context).size.width <= 900) ?  8 : 15,
             ),
             Image.asset(
               "assets/Km.png",
