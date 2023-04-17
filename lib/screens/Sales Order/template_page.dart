@@ -17,7 +17,11 @@ class category_group extends StatefulWidget {
 
 class _category_groupState extends State<category_group> {
   void initState() {
+    varient_item_list = [];
     print("tetstststststststs");
+    setState(() {
+      searchcontroller_category.text = "";
+    });
     print(category_item_list);
   }
 
@@ -87,16 +91,16 @@ class _category_groupState extends State<category_group> {
                     }
                   });
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: const Color(0xFFEB455F), width: 2.0),
+                      borderSide:
+                          BorderSide(color: Color(0xFFEB455F), width: 2.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: const Color(0xFFEB455F), width: 2.0),
+                      borderSide:
+                          BorderSide(color: Color(0xFFEB455F), width: 2.0),
                     ),
                     contentPadding: EdgeInsets.all(15),
                     hintText: "Search",
@@ -107,48 +111,46 @@ class _category_groupState extends State<category_group> {
               )),
         ),
       ),
-      Container(
+      SizedBox(
         height: size.height * .73,
         child: itemlist(size),
       ),
-      Container(
-        child: Padding(
-          padding: EdgeInsets.only(right: 10, bottom: 7),
-          child: Container(
-            alignment: Alignment.bottomRight,
-            child: ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => sales_order()),
+      Padding(
+        padding: EdgeInsets.only(right: 10, bottom: 7),
+        child: Container(
+          alignment: Alignment.bottomRight,
+          child: ElevatedButton.icon(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => sales_order()),
+              );
+              values_dict = [];
+              values.forEach((key, value) {
+                values_dict.add(
+                  {
+                    'item_code': key,
+                    'qty': value[1],
+                    'item_group': value[0],
+                    'item_name': value[2]
+                  },
                 );
-                values_dict = [];
-                values.forEach((key, value) {
-                  values_dict.add(
-                    {
-                      'item_code': key,
-                      'qty': value[1],
-                      'item_group': value[0],
-                      'item_name': value[2]
-                    },
-                  );
-                });
-                values_dict.sort(
-                    (a, b) => (a['item_group']).compareTo(b['item_group']));
-                values_dict.removeAt(index_value);
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                primary: Color(0xFFEB455F),
-              ),
-              icon: Icon(
-                Icons.add,
-                size: 24.0,
-              ),
-              label: Text('View order item'),
+              });
+              values_dict
+                  .sort((a, b) => (a['item_group']).compareTo(b['item_group']));
+              values_dict.removeAt(index_value);
+            },
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              primary: Color(0xFFEB455F),
             ),
+            icon: Icon(
+              Icons.add,
+              size: 24.0,
+            ),
+            label: Text('View order item'),
           ),
         ),
       )
@@ -245,6 +247,8 @@ class _category_groupState extends State<category_group> {
                                                         row_template[index]
                                                             ["item_name"];
                                                   });
+                                                  print(varient_item_list);
+                                                  varient_item_list = [];
                                                   varient_list(item_name);
                                                 },
                                               )))))));
@@ -253,10 +257,21 @@ class _category_groupState extends State<category_group> {
   }
 
   Future varient_list(item_name) async {
-    print(
-        "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+    setState(() {
+      rowVarient.clear();
+      print(
+          "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+      varient_item_list = [];
+      icon_nameOnSearch_varient = [];
+      print(varient_item_list);
+      print(icon_nameOnSearch_varient);
+      icon_nameOnSearch_varient = [];
+    });
+
+    print(item_name);
+
     print(Uri.encodeComponent(item_name));
-    varient_item_list = [];
+
     var response = await http.get(
       Uri.parse(
           """${dotenv.env['API_URL']}/api/method/oxo.custom.api.varient_list?item=${Uri.encodeComponent(item_name)}"""),
@@ -264,8 +279,7 @@ class _category_groupState extends State<category_group> {
     );
     print(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.varient_list?item=${item_name}""");
-    print(response.statusCode);
-    print(response.body);
+
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
       setState(() {
