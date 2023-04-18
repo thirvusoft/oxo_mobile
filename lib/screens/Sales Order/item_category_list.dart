@@ -30,6 +30,7 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
     all_item();
   }
 
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return DefaultTabController(
@@ -41,7 +42,7 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: const Icon(Icons.arrow_back_outlined),
+              icon: const Icon(Icons.arrow_back_ios),
             ),
             automaticallyImplyLeading: true,
             backgroundColor: Color(0xFFEB455F),

@@ -18,11 +18,9 @@ class category_group extends StatefulWidget {
 class _category_groupState extends State<category_group> {
   void initState() {
     varient_item_list = [];
-    print("tetstststststststs");
     setState(() {
       searchcontroller_category.text = "";
     });
-    print(category_item_list);
   }
 
   @override
@@ -36,7 +34,7 @@ class _category_groupState extends State<category_group> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_outlined),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
 
         // backgroundColor: const Color(0xFFEB455F),
@@ -247,7 +245,6 @@ class _category_groupState extends State<category_group> {
                                                         row_template[index]
                                                             ["item_name"];
                                                   });
-                                                  print(varient_item_list);
                                                   varient_item_list = [];
                                                   varient_list(item_name);
                                                 },
@@ -259,26 +256,18 @@ class _category_groupState extends State<category_group> {
   Future varient_list(item_name) async {
     setState(() {
       rowVarient.clear();
-      print(
-          "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+
       varient_item_list = [];
       icon_nameOnSearch_varient = [];
-      print(varient_item_list);
-      print(icon_nameOnSearch_varient);
+
       icon_nameOnSearch_varient = [];
     });
-
-    print(item_name);
-
-    print(Uri.encodeComponent(item_name));
 
     var response = await http.get(
       Uri.parse(
           """${dotenv.env['API_URL']}/api/method/oxo.custom.api.varient_list?item=${Uri.encodeComponent(item_name)}"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
-    print(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.varient_list?item=${item_name}""");
 
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 500));
@@ -286,7 +275,6 @@ class _category_groupState extends State<category_group> {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           varient_item_list.add((json.decode(response.body)['message'][i]));
         }
-        print(varient_item_list);
       });
       if (varient_item_list.isNotEmpty) {
         Navigator.push(

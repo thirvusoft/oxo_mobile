@@ -97,7 +97,7 @@ class _dealerState extends State<dealer> {
               MaterialPageRoute(builder: (context) => const home_page()),
             );
           },
-          icon: const Icon(Icons.arrow_back_outlined),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
         // backgroundColor: const Color(0xFFEB455F),
         title: Text(

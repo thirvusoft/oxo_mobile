@@ -28,15 +28,15 @@ class _order_statusState extends State<order_status> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_outlined),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
         automaticallyImplyLeading: false,
         // backgroundColor: Color.fromRGBO(44, 185, 176, 1),
         title: Text(
           'Order Status',
           style: GoogleFonts.poppins(
-            textStyle:
-                const TextStyle(fontSize: 20, letterSpacing: .2, color: Colors.white),
+            textStyle: const TextStyle(
+                fontSize: 20, letterSpacing: .2, color: Colors.white),
           ),
         ),
       ),
@@ -183,7 +183,8 @@ class _order_statusState extends State<order_status> {
                                         style: ElevatedButton.styleFrom(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 5.0, vertical: 5.0),
-                                          backgroundColor: const Color(0xFF21899C),
+                                          backgroundColor:
+                                              const Color(0xFF21899C),
                                         ),
                                       ),
                                     )),
