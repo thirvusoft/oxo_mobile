@@ -49,12 +49,7 @@ class _sales_orderState extends State<sales_order> {
     //   return aNum.compareTo(bNum);
     // });
     values_dict.sort((a, b) => a["item_group"].compareTo(b["item_group"]));
-
-    print('pppppppppppppppppppppppppppppppppppppppppppppppppppppdddppppppppp');
-    print(values_dict);
     employeeDataSource = EmployeeDataSource(employeeData: values_dict);
-    print("xxxxxxxxxxxxxxxxxxxxxx");
-    print(json.encode(values_dict));
   }
 
   @override
@@ -68,7 +63,7 @@ class _sales_orderState extends State<sales_order> {
             onPressed: () {
               Get.to(const home_page());
             },
-            icon: const Icon(Icons.arrow_back_outlined),
+            icon: const Icon(Icons.arrow_back_ios),
           ),
           // backgroundColor: Colors(O),
           title: Text(
@@ -325,40 +320,40 @@ class _sales_orderState extends State<sales_order> {
                       ),
                       Row(
                         children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 5.0, vertical: 15.0),
-                              backgroundColor: const Color(0xFF2B3467),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(10.0)),
-                            ),
-                            icon: const Icon(
-                              Icons.add,
-                              size: 24.0,
-                            ),
-                            label: Text(
-                              'Add item',
-                              style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(
-                                    letterSpacing: .5,
-                                    fontSize: 15,
-                                    color: Color(0xFFffffff)),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5.0, vertical: 15.0),
+                                  backgroundColor: const Color(0xFF2B3467),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                ),
+                                icon: const Icon(
+                                  Icons.add,
+                                  size: 24.0,
+                                ),
+                                label: Text(
+                                  'Add item',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                        letterSpacing: .5,
+                                        fontSize: 15,
+                                        color: Color(0xFFffffff)),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
+                          const SizedBox(
+                            width: 10,
+                          ),
                         ],
                       )
                     ]),
@@ -655,7 +650,6 @@ class _sales_orderState extends State<sales_order> {
           """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_partner?area=${list}"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
-    print(response.body);
     if (response.statusCode == 200) {
       setState(() {
         for (var i = 0;
@@ -712,10 +706,7 @@ class _sales_orderState extends State<sales_order> {
         Uri.parse(
             """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customerName}&due_date=${deliveryDate}&items=${valuesDict}&distributor=${distributorName}&sales_person=${username}&Competitors=${Competitors}"""),
         headers: {"Authorization": token.getString("token") ?? ""});
-    print(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customerName}&due_date=${deliveryDate}&items=${valuesDict}&distributor=${distributorName}&sales_person=${username}&Competitors=${Competitors}""");
-    print(response.body);
-    print(response.statusCode);
+
     if (response.statusCode == 200) {
       setState(() {
         AwesomeDialog(

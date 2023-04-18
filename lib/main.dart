@@ -28,7 +28,7 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 void main() async {
   runApp(
     DevicePreview(
-      enabled: true,
+      enabled: false,
       builder: (context) => MyHomePage(), // Wrap your app
     ),
   );
@@ -50,6 +50,8 @@ void main() async {
 }
 
 class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return OverlaySupport.global(
@@ -76,7 +78,7 @@ class MyHomePage extends StatelessWidget {
         primarySwatch: createMaterialColor(const Color(0xFFEB455F)),
         // visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: splashscreen(),
+      home: const splashscreen(),
       // builder: EasyLoading.init(),
     ));
   }

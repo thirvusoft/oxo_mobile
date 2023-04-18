@@ -38,7 +38,7 @@ class _item_groupState extends State<item_group> {
             Navigator.pop(context);
             icon_nameOnSearch_varient.clear();
           },
-          icon: const Icon(Icons.arrow_back_outlined),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
         // backgroundColor: const Color(0xFFEB455F),
         title: Text(
@@ -93,7 +93,9 @@ class _item_groupState extends State<item_group> {
       Container(
         padding: const EdgeInsets.all(15),
         child: Theme(
-          data: Theme.of(context).copyWith(accentColor: Colors.white),
+          data: Theme.of(context).copyWith(
+              colorScheme:
+                  ColorScheme.fromSwatch().copyWith(secondary: Colors.white)),
           child: Container(
               height: 48.0,
               alignment: Alignment.center,
@@ -105,16 +107,51 @@ class _item_groupState extends State<item_group> {
                     value.trimLeft();
                     icon_nameOnSearch_varient = [];
                     for (var i = 0; i < varient_item_list.length; i++) {
-                      var des_vari = {};
-                      des_vari["item_name"] = varient_item_list[i]["item_name"];
-                      item_search_list_varient.add(des_vari);
+                      var desVari = {};
+                      desVari["item_name"] = varient_item_list[i]["item_name"];
+                      item_search_list_varient.add(desVari);
                       if ((item_search_list_varient[i]["item_name"]
                           .toLowerCase()
                           .contains(value.trim().toLowerCase()))) {
-                        var d_va = {};
-                        d_va["item_name"] =
+                        var dVa = {};
+                        dVa["item_name"] =
                             item_search_list_varient[i]["item_name"];
-                        icon_nameOnSearch_varient.add(d_va);
+                        icon_nameOnSearch_varient.add(dVa);
+                        icon_nameOnSearch_varient.sort((a, b) {
+                          String aSize =
+                              a["item_name"].split("-").last.toLowerCase();
+                          String bSize =
+                              b["item_name"].split("-").last.toLowerCase();
+                          List<String> sizes = [
+                            "s",
+                            "m",
+                            "l",
+                            "xl",
+                            "2xl",
+                            "3xl"
+                          ];
+                          int aIndex = sizes.indexOf(aSize);
+                          int bIndex = sizes.indexOf(bSize);
+                          return aIndex.compareTo(bIndex);
+                        });
+
+                        // icon_nameOnSearch_varient.sort((a, b) {
+                        //   String aSize =
+                        //       a["item_name"].split("-").last.toLowerCase();
+                        //   String bSize =
+                        //       b["item_name"].split("-").last.toLowerCase();
+                        //   if (aSize == "s" && bSize != "s") {
+                        //     return -1;
+                        //   } else if (aSize != "s" && bSize == "s") {
+                        //     return 1;
+                        //   } else if (aSize == "m" && bSize != "m") {
+                        //     return -1;
+                        //   } else if (aSize != "m" && bSize == "m") {
+                        //     return 1;
+                        //   } else {
+                        //     return 0;
+                        //   }
+                        // });
                       }
                     }
                   });
@@ -268,42 +305,37 @@ class _item_groupState extends State<item_group> {
                                                     keyboardType:
                                                         TextInputType.number,
                                                     onChanged: ((qty) {
-                                                      var item_name =
+                                                      var itemName =
                                                           varient_item_list[
                                                                   index]
                                                               ["item_code"];
-                                                      var item_group =
+                                                      var itemGroup =
                                                           varient_item_list[
                                                                   index]
                                                               ["item_group"];
-                                                      var item_name_list =
+                                                      var itemNameList =
                                                           varient_item_list[
                                                                   index]
                                                               ["item_name"];
-                                                      print(
-                                                          '111111111111111111111111111111111111111111111111111111111111111111111111111');
-                                                      print(item_group);
+
                                                       if (qty != '') {
                                                         List<String> test = [];
-                                                        test.add(item_group
+                                                        test.add(itemGroup
                                                             .toString());
 
                                                         test.add(
                                                             qty.toString());
 
-                                                        test.add(item_name_list
+                                                        test.add(itemNameList
                                                             .toString());
-                                                        values[item_name] =
-                                                            test;
+                                                        values[itemName] = test;
                                                         // values[item_name] =
                                                         //     test;
                                                       } else {
-                                                        values[item_name] = 0;
+                                                        values[itemName] = 0;
                                                       }
                                                       varient_item_list[index]
                                                           ["qty"] = qty;
-
-                                                      print(values);
                                                     }),
                                                     decoration: InputDecoration(
                                                       counterText: "",

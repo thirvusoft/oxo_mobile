@@ -57,7 +57,7 @@ class _appointmentState extends State<appointment> {
                 MaterialPageRoute(builder: (context) => const home_page()),
               );
             },
-            icon: const Icon(Icons.arrow_back_outlined),
+            icon: const Icon(Icons.arrow_back_ios),
           ),
           automaticallyImplyLeading: false,
           // backgroundColor: Color(0xFFEB455F),
@@ -158,7 +158,6 @@ class _appointmentState extends State<appointment> {
                                     .toList(),
                                 suggestionState: Suggestion.expand,
                                 onSuggestionTap: (x) {
-                                  
                                   FocusScope.of(context).unfocus();
                                   if (typecontroller.text == "Distributor") {
                                     setState(() {
