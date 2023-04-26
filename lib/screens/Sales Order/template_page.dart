@@ -275,6 +275,23 @@ class _category_groupState extends State<category_group> {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           varient_item_list.add((json.decode(response.body)['message'][i]));
         }
+        varient_item_list.sort((a, b) {
+          String aSize = a["item_name"].split("-").last.toLowerCase();
+          String bSize = b["item_name"].split("-").last.toLowerCase();
+          List<String> sizes = [
+            "s",
+            "m",
+            "l",
+            "xl",
+            "2xl",
+            "3xl",
+            "4xl",
+            "5xl"
+          ];
+          int aIndex = sizes.indexOf(aSize);
+          int bIndex = sizes.indexOf(bSize);
+          return aIndex.compareTo(bIndex);
+        });
       });
       if (varient_item_list.isNotEmpty) {
         Navigator.push(
