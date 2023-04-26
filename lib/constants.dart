@@ -9,7 +9,6 @@ import 'screens/Sales Order/sales_order.dart';
 
 TextEditingController mobilenumcontroller = TextEditingController();
 TextEditingController passController = TextEditingController();
-GlobalKey<FormState> formkey_mobile = GlobalKey<FormState>();
 GlobalKey<FormState> formkey_pass = GlobalKey<FormState>();
 var user_name;
 

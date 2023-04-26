@@ -52,6 +52,7 @@ class _item_groupState extends State<item_group> {
           ElevatedButton.icon(
             onPressed: () {
               list.clear();
+              print(values_dict);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const category()),
@@ -67,7 +68,7 @@ class _item_groupState extends State<item_group> {
               });
             },
             style: ElevatedButton.styleFrom(
-              primary: const Color(0xFFEB455F),
+              backgroundColor: const Color(0xFFEB455F),
             ),
             icon: const Icon(
               Icons.add,
@@ -117,6 +118,23 @@ class _item_groupState extends State<item_group> {
                         dVa["item_name"] =
                             item_search_list_varient[i]["item_name"];
                         icon_nameOnSearch_varient.add(dVa);
+                        print(icon_nameOnSearch_varient);
+
+                        icon_nameOnSearch_varient.sort((a, b) {
+                          int comparison = a['item_name']
+                              .split('(')[1]
+                              .split(')')[0]
+                              .compareTo(
+                                  b['item_name'].split('(')[1].split(')')[0]);
+                          if (comparison == 0) {
+                            comparison = a['item_name']
+                                .split('-')
+                                .last
+                                .compareTo(b['item_name'].split('-').last);
+                          }
+                          return comparison;
+                        });
+
                         icon_nameOnSearch_varient.sort((a, b) {
                           String aSize =
                               a["item_name"].split("-").last.toLowerCase();
@@ -134,24 +152,6 @@ class _item_groupState extends State<item_group> {
                           int bIndex = sizes.indexOf(bSize);
                           return aIndex.compareTo(bIndex);
                         });
-
-                        // icon_nameOnSearch_varient.sort((a, b) {
-                        //   String aSize =
-                        //       a["item_name"].split("-").last.toLowerCase();
-                        //   String bSize =
-                        //       b["item_name"].split("-").last.toLowerCase();
-                        //   if (aSize == "s" && bSize != "s") {
-                        //     return -1;
-                        //   } else if (aSize != "s" && bSize == "s") {
-                        //     return 1;
-                        //   } else if (aSize == "m" && bSize != "m") {
-                        //     return -1;
-                        //   } else if (aSize != "m" && bSize == "m") {
-                        //     return 1;
-                        //   } else {
-                        //     return 0;
-                        //   }
-                        // });
                       }
                     }
                   });

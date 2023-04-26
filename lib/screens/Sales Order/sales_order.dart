@@ -48,7 +48,46 @@ class _sales_orderState extends State<sales_order> {
     //   int bNum = int.parse(b['item_name'].split('-').last);
     //   return aNum.compareTo(bNum);
     // });
+    // values_dict.sort((a, b) {
+    //   String aSize = a["item_name"].split("-").last.toLowerCase();
+    //   String bSize = b["item_name"].split("-").last.toLowerCase();
+    //   List<String> sizes = ["s", "m", "l", "xl", "2xl", "3xl"];
+    //   int aIndex = sizes.indexOf(aSize);
+    //   int bIndex = sizes.indexOf(bSize);
+    //   return aIndex.compareTo(bIndex);
+    // });
+    // values_dict.sort((a, b) {
+    //   int comparison = a['item_name']
+    //       .split('(')[1]
+    //       .split(')')[0]
+    //       .compareTo(b['item_name'].split('(')[1].split(')')[0]);
+    //   if (comparison == 0) {
+    //     comparison = a['item_name']
+    //         .split('-')
+    //         .last
+    //         .compareTo(b['item_name'].split('-').last);
+    //   }
+    //   return comparison;
+    // });
+
     values_dict.sort((a, b) => a["item_group"].compareTo(b["item_group"]));
+    // values_dict.sort((a, b) {
+    //   int comparison = a['item_group'].compareTo(b['item_group']);
+    //   if (comparison == 0) {
+    //     comparison = a['item_name']
+    //         .split('(')[1]
+    //         .split(')')[0]
+    //         .compareTo(b['item_name'].split('(')[1].split(')')[0]);
+    //     if (comparison == 0) {
+    //       comparison = a['item_name']
+    //           .split('-')
+    //           .last
+    //           .compareTo(b['item_name'].split('-').last);
+    //     }
+    //   }
+    //   return comparison;
+    // });
+
     employeeDataSource = EmployeeDataSource(employeeData: values_dict);
   }
 
@@ -647,7 +686,7 @@ class _sales_orderState extends State<sales_order> {
     dealer_name = [];
     var response = await http.get(
       Uri.parse(
-          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_partner?area=${list}"""),
+          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_partner?area=$list"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
     if (response.statusCode == 200) {
@@ -702,11 +741,14 @@ class _sales_orderState extends State<sales_order> {
     setState(() {
       user = token.getString('full_name');
     });
+
     var response = await http.get(
         Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=${customerName}&due_date=${deliveryDate}&items=${valuesDict}&distributor=${distributorName}&sales_person=${username}&Competitors=${Competitors}"""),
+            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=$customerName&due_date=$deliveryDate&items=$valuesDict&distributor=$distributorName&sales_person=$username&Competitors=$Competitors"""),
         headers: {"Authorization": token.getString("token") ?? ""});
-
+    print(
+        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=$customerName&due_date=$deliveryDate&items=$valuesDict&distributor=$distributorName&sales_person=$username&Competitors=$Competitors""");
+    print(response.body);
     if (response.statusCode == 200) {
       setState(() {
         AwesomeDialog(

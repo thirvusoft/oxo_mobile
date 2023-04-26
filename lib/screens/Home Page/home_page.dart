@@ -4,6 +4,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'dart:developer';
 import 'package:just_audio/just_audio.dart';
@@ -323,7 +325,7 @@ class _home_pageState extends State<home_page> {
         child: Column(
           children: [
             SizedBox(
-              height: (MediaQuery.of(context).size.width <= 900) ?  8 : 15,
+              height: (MediaQuery.of(context).size.width <= 900) ? 8 : 15,
             ),
             Image.asset(
               "assets/add_friends.png",
@@ -384,7 +386,7 @@ class _home_pageState extends State<home_page> {
         child: Column(
           children: [
             SizedBox(
-              height: (MediaQuery.of(context).size.width <= 900) ?  8 : 15,
+              height: (MediaQuery.of(context).size.width <= 900) ? 8 : 15,
             ),
             Image.asset(
               "assets/Order_confirmed.png",
@@ -444,7 +446,7 @@ class _home_pageState extends State<home_page> {
         child: Column(
           children: [
             SizedBox(
-              height: (MediaQuery.of(context).size.width <= 900) ?  8 : 15,
+              height: (MediaQuery.of(context).size.width <= 900) ? 8 : 15,
             ),
             Image.asset(
               "assets/Current_location.png",
@@ -579,7 +581,7 @@ class _home_pageState extends State<home_page> {
         child: Column(
           children: [
             SizedBox(
-              height: (MediaQuery.of(context).size.width <= 900) ?  8 : 15,
+              height: (MediaQuery.of(context).size.width <= 900) ? 8 : 15,
             ),
             Image.asset(
               "assets/Booking.png",
@@ -639,7 +641,7 @@ class _home_pageState extends State<home_page> {
         child: Column(
           children: [
             SizedBox(
-              height: (MediaQuery.of(context).size.width <= 900) ?  8 : 15,
+              height: (MediaQuery.of(context).size.width <= 900) ? 8 : 15,
             ),
             Image.asset(
               "assets/order_list.png",
@@ -699,7 +701,7 @@ class _home_pageState extends State<home_page> {
         child: Column(
           children: [
             SizedBox(
-              height: (MediaQuery.of(context).size.width <= 900) ?  8 : 15,
+              height: (MediaQuery.of(context).size.width <= 900) ? 8 : 15,
             ),
             Image.asset(
               "assets/Km.png",
@@ -1009,8 +1011,16 @@ class _home_pageState extends State<home_page> {
                   await token.clear();
                   // await token.remove('token');
                   print(token.getString("token"));
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Login()));
+                  Get.offAll(() => Login());
+                  // Navigator.pushAndRemoveUntil(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => Login(),
+                  //   ),
+                  //   (route) => false,
+                  // );
+                  // Navigator.pushReplacement(context,
+                  //     MaterialPageRoute(builder: (context) => Login()));
                 },
                 child: const Text("Yes"),
               ),
