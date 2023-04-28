@@ -41,10 +41,6 @@ class _location_pinState extends State<location_pin> {
         .asUint8List();
   }
 
-// Use await to wait for the future to resolve
-
-// Add the marker with the custom icon to the map
-
   void _onMapTypeButtonPressed() {
     setState(() {
       _currentMapType = _currentMapType == MapType.normal
@@ -57,7 +53,7 @@ class _location_pinState extends State<location_pin> {
     _controller.complete(controller);
   }
 
-  static LatLng _center =
+  static final LatLng _center =
       LatLng(location[0]["latitude"], location[0]["longitude"]);
   @override
   Widget build(BuildContext context) {
@@ -90,7 +86,6 @@ class _location_pinState extends State<location_pin> {
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.location_list"""));
 
     final Uint8List markerIcon = await getBytesFromAsset("assets/Pin.png", 300);
-    // final Marker marker = Marker(icon: BitmapDescriptor.fromBytes(markerIcon));
     if (response.statusCode == 200) {
       setState(() {
         status = false;
