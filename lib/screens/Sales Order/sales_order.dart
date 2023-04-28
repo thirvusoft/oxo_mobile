@@ -735,17 +735,35 @@ class _sales_orderState extends State<sales_order> {
 
   Future sales_order(customerName, deliveryDate, valuesDict, distributorName,
       username, Competitors) async {
-    valuesDict = Uri.encodeComponent(jsonEncode(valuesDict));
+    print(jsonEncode(valuesDict));
+    // valuesDict = Uri.encodeComponent(jsonEncode(valuesDict));
+
+    print(
+        "lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
     SharedPreferences token = await SharedPreferences.getInstance();
     var user;
     setState(() {
       user = token.getString('full_name');
     });
 
-    var response = await http.get(
-        Uri.parse(
-            """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=$customerName&due_date=$deliveryDate&items=$valuesDict&distributor=$distributorName&sales_person=$username&Competitors=$Competitors"""),
-        headers: {"Authorization": token.getString("token") ?? ""});
+    var response = await http.post(
+      Uri.parse(
+          '${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order'),
+      headers: {"Authorization": token.getString("token") ?? ""},
+      body: {
+        'cus_name': customerName,
+        'due_date': deliveryDate,
+        'items': (jsonEncode(valuesDict)),
+        'distributor': distributorName,
+        'sales_person': username,
+        'Competitors': Competitors,
+      },
+    );
+
+    // var response = await http.get(
+    //     Uri.parse(
+    //         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=$customerName&due_date=$deliveryDate&items=$valuesDict&distributor=$distributorName&sales_person=$username&Competitors=$Competitors"""),
+    //     headers: {"Authorization": token.getString("token") ?? ""});
     print(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=$customerName&due_date=$deliveryDate&items=$valuesDict&distributor=$distributorName&sales_person=$username&Competitors=$Competitors""");
     print(response.body);
@@ -756,7 +774,7 @@ class _sales_orderState extends State<sales_order> {
           animType: AnimType.leftSlide,
           headerAnimationLoop: false,
           dialogType: DialogType.success,
-          title: 'Orderd Sucessfully',
+          title: 'Ordered Successfully',
           btnOkOnPress: () {
             valuesDict = [];
             values = {};
