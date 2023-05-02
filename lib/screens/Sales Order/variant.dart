@@ -66,6 +66,8 @@ class _item_groupState extends State<item_group> {
                   'item_name': value[2]
                 });
               });
+              print("eeeeeeeeeeeeeeeee");
+              print(values_dict);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFEB455F),
@@ -110,6 +112,9 @@ class _item_groupState extends State<item_group> {
                     for (var i = 0; i < varient_item_list.length; i++) {
                       var desVari = {};
                       desVari["item_name"] = varient_item_list[i]["item_name"];
+                      desVari["item_code"] = varient_item_list[i]["item_code"];
+                      desVari["item_group"] =
+                          varient_item_list[i]["item_group"];
                       item_search_list_varient.add(desVari);
                       if ((item_search_list_varient[i]["item_name"]
                           .toLowerCase()
@@ -117,8 +122,12 @@ class _item_groupState extends State<item_group> {
                         var dVa = {};
                         dVa["item_name"] =
                             item_search_list_varient[i]["item_name"];
-                        icon_nameOnSearch_varient.add(dVa);
+                        dVa["item_code"] =
+                            item_search_list_varient[i]["item_code"];
+                        dVa["item_group"] =
+                            item_search_list_varient[i]["item_group"];
                         print(icon_nameOnSearch_varient);
+                        icon_nameOnSearch_varient.add(dVa);
 
                         icon_nameOnSearch_varient.sort((a, b) {
                           int comparison = a['item_name']
@@ -306,16 +315,13 @@ class _item_groupState extends State<item_group> {
                                                         TextInputType.number,
                                                     onChanged: ((qty) {
                                                       var itemName =
-                                                          varient_item_list[
-                                                                  index]
+                                                          rowVarient[index]
                                                               ["item_code"];
                                                       var itemGroup =
-                                                          varient_item_list[
-                                                                  index]
+                                                          rowVarient[index]
                                                               ["item_group"];
                                                       var itemNameList =
-                                                          varient_item_list[
-                                                                  index]
+                                                          rowVarient[index]
                                                               ["item_name"];
 
                                                       if (qty != '') {

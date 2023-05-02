@@ -230,10 +230,11 @@ var address;
 List locations = [];
 double km = 0.0;
 
-var test;
+// var test;
 TextEditingController nearest_disterict = TextEditingController();
 List kms = [];
 List temp1_ = [];
 List temp2_ = [];
 List temp3_ = [];
 var rowVarient = [];
+List<String> test = [];
