@@ -42,52 +42,7 @@ class _sales_orderState extends State<sales_order> {
     for (var i = 0; i < values_dict.length; i++) {
       total_qty += double.parse(values_dict[i]['qty']);
     }
-    // values_dict.sort((a, b) => (a['item_group']).compareTo(b['item_group']));
-    // values_dict.sort((a, b) {
-    //   int aNum = int.parse(a['item_name'].split('-').last);
-    //   int bNum = int.parse(b['item_name'].split('-').last);
-    //   return aNum.compareTo(bNum);
-    // });
-    // values_dict.sort((a, b) {
-    //   String aSize = a["item_name"].split("-").last.toLowerCase();
-    //   String bSize = b["item_name"].split("-").last.toLowerCase();
-    //   List<String> sizes = ["s", "m", "l", "xl", "2xl", "3xl"];
-    //   int aIndex = sizes.indexOf(aSize);
-    //   int bIndex = sizes.indexOf(bSize);
-    //   return aIndex.compareTo(bIndex);
-    // });
-    // values_dict.sort((a, b) {
-    //   int comparison = a['item_name']
-    //       .split('(')[1]
-    //       .split(')')[0]
-    //       .compareTo(b['item_name'].split('(')[1].split(')')[0]);
-    //   if (comparison == 0) {
-    //     comparison = a['item_name']
-    //         .split('-')
-    //         .last
-    //         .compareTo(b['item_name'].split('-').last);
-    //   }
-    //   return comparison;
-    // });
-
     values_dict.sort((a, b) => a["item_group"].compareTo(b["item_group"]));
-    // values_dict.sort((a, b) {
-    //   int comparison = a['item_group'].compareTo(b['item_group']);
-    //   if (comparison == 0) {
-    //     comparison = a['item_name']
-    //         .split('(')[1]
-    //         .split(')')[0]
-    //         .compareTo(b['item_name'].split('(')[1].split(')')[0]);
-    //     if (comparison == 0) {
-    //       comparison = a['item_name']
-    //           .split('-')
-    //           .last
-    //           .compareTo(b['item_name'].split('-').last);
-    //     }
-    //   }
-    //   return comparison;
-    // });
-
     employeeDataSource = EmployeeDataSource(employeeData: values_dict);
   }
 
@@ -735,11 +690,6 @@ class _sales_orderState extends State<sales_order> {
 
   Future sales_order(customerName, deliveryDate, valuesDict, distributorName,
       username, Competitors) async {
-    print(jsonEncode(valuesDict));
-    // valuesDict = Uri.encodeComponent(jsonEncode(valuesDict));
-
-    print(
-        "lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
     SharedPreferences token = await SharedPreferences.getInstance();
     var user;
     setState(() {
@@ -759,14 +709,6 @@ class _sales_orderState extends State<sales_order> {
         'Competitors': Competitors,
       },
     );
-
-    // var response = await http.get(
-    //     Uri.parse(
-    //         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=$customerName&due_date=$deliveryDate&items=$valuesDict&distributor=$distributorName&sales_person=$username&Competitors=$Competitors"""),
-    //     headers: {"Authorization": token.getString("token") ?? ""});
-    print(
-        """${dotenv.env['API_URL']}/api/method/oxo.custom.api.sales_order?cus_name=$customerName&due_date=$deliveryDate&items=$valuesDict&distributor=$distributorName&sales_person=$username&Competitors=$Competitors""");
-    print(response.body);
     if (response.statusCode == 200) {
       setState(() {
         AwesomeDialog(

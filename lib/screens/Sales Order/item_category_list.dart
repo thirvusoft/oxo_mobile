@@ -26,7 +26,6 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
   initState() {
     categorieslist_();
 
-    print(_tabController__.toString());
     all_item();
   }
 
@@ -160,14 +159,11 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
                     },
                   );
                 });
-                print('**********************************');
                 values_dict.sort(
                     (a, b) => (a['item_group']).compareTo(b['item_group']));
                 // values_dict.sort(
                 //     (a, b) => (a['item_name']).compareTo(b['item_name']));
-                print('**********************************');
 
-                print(values_dict);
 
                 values_dict.removeAt(index_value);
               },
@@ -638,8 +634,6 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
                                             });
                                             template_list(
                                                 category_name, item_group_name);
-                                            print('00000000000000000000000');
-                                            print(category_item_list);
                                           },
                                         ),
                                       ),
@@ -656,8 +650,6 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
 
     var response = await http.get(Uri.parse(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.category_list"""));
-    print('1111111111111111111111111');
-    print(response.body);
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 1000));
       setState(() {
@@ -700,14 +692,12 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
           category_item_list.add((json.decode(response.body)['message'][i]));
         }
       });
-      print(category_item_list);
       if (category_item_list.isNotEmpty) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => category_group()),
         );
       }
-      print(category_item_list);
     }
   }
 
@@ -719,8 +709,6 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
           """${dotenv.env['API_URL']}/api/method/oxo.custom.api.categories_list"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       setState(() {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
@@ -730,7 +718,6 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
         _tabController__ =
             TabController(length: categorieslist__.length, vsync: this);
       });
-      print(categorieslist__);
     }
   }
 }

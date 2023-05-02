@@ -293,6 +293,12 @@ class _category_groupState extends State<category_group> {
           return aIndex.compareTo(bIndex);
         });
       });
+      // varient_item_list.sort((a, b) {
+      //   int aCode = int.parse(a["item_code"].split("-")[1]);
+      //   int bCode = int.parse(b["item_code"].split("-")[1]);
+      //   return aCode.compareTo(bCode);
+      // });
+
       if (varient_item_list.isNotEmpty) {
         Navigator.push(
           context,
