@@ -5,7 +5,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/constants.dart';
 import 'package:http/http.dart' as http;
-import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:oxo/screens/Sales%20Order/sales_order.dart';
@@ -89,50 +88,47 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
       children: <Widget>[
         Container(
           padding: EdgeInsets.all(15),
-          child: Theme(
-            data: Theme.of(context).copyWith(accentColor: Colors.white),
-            child: Container(
-                height: 48.0,
-                alignment: Alignment.center,
-                child: TextField(
-                  controller: searchcontroller_shirt,
-                  onChanged: (value) {
-                    setState(() {
-                      value.trimLeft();
-                      icon_nameOnSearch_shirt = [];
-                      for (var i = 0; i < shirt_list.length; i++) {
-                        var des = {};
-                        des["name"] = shirt_list[i]["name"];
-                        item_search_list_shirt.add(des);
-                        if ((item_search_list_shirt[i]["name"]
-                            .toLowerCase()
-                            .contains(value.trim().toLowerCase()))) {
-                          var d = {};
-                          d["name"] = item_search_list_shirt[i]["name"];
-                          icon_nameOnSearch_shirt.add(d);
-                        }
+          child: Container(
+              height: 48.0,
+              alignment: Alignment.center,
+              child: TextField(
+                controller: searchcontroller_shirt,
+                onChanged: (value) {
+                  setState(() {
+                    value.trimLeft();
+                    icon_nameOnSearch_shirt = [];
+                    for (var i = 0; i < shirt_list.length; i++) {
+                      var des = {};
+                      des["name"] = shirt_list[i]["name"];
+                      item_search_list_shirt.add(des);
+                      if ((item_search_list_shirt[i]["name"]
+                          .toLowerCase()
+                          .contains(value.trim().toLowerCase()))) {
+                        var d = {};
+                        d["name"] = item_search_list_shirt[i]["name"];
+                        icon_nameOnSearch_shirt.add(d);
                       }
-                    });
-                  },
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide:
-                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide:
-                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                      ),
-                      contentPadding: EdgeInsets.all(15),
-                      hintText: "Search",
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Color.fromARGB(252, 4, 0, 0),
-                      )),
-                )),
-          ),
+                    }
+                  });
+                },
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide:
+                          BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide:
+                          BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                    ),
+                    contentPadding: EdgeInsets.all(15),
+                    hintText: "Search",
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Color.fromARGB(252, 4, 0, 0),
+                    )),
+              )),
         ),
         Expanded(
             child: Container(
@@ -163,7 +159,6 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
                     (a, b) => (a['item_group']).compareTo(b['item_group']));
                 // values_dict.sort(
                 //     (a, b) => (a['item_name']).compareTo(b['item_name']));
-
 
                 values_dict.removeAt(index_value);
               },
@@ -278,50 +273,47 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
       children: <Widget>[
         Container(
           padding: EdgeInsets.all(15),
-          child: Theme(
-            data: Theme.of(context).copyWith(accentColor: Colors.white),
-            child: Container(
-                height: 48.0,
-                alignment: Alignment.center,
-                child: TextField(
-                  controller: searchcontroller_inner,
-                  onChanged: (value) {
-                    setState(() {
-                      value.trimLeft();
-                      icon_nameOnSearch_inner = [];
-                      for (var i = 0; i < inner_list.length; i++) {
-                        var des2 = {};
-                        des2["name"] = inner_list[i]["name"];
-                        item_search_list_inner.add(des2);
-                        if ((item_search_list_inner[i]["name"]
-                            .toLowerCase()
-                            .contains(value.trim().toLowerCase()))) {
-                          var d2 = {};
-                          d2["name"] = item_search_list_inner[i]["name"];
-                          icon_nameOnSearch_inner.add(d2);
-                        }
+          child: Container(
+              height: 48.0,
+              alignment: Alignment.center,
+              child: TextField(
+                controller: searchcontroller_inner,
+                onChanged: (value) {
+                  setState(() {
+                    value.trimLeft();
+                    icon_nameOnSearch_inner = [];
+                    for (var i = 0; i < inner_list.length; i++) {
+                      var des2 = {};
+                      des2["name"] = inner_list[i]["name"];
+                      item_search_list_inner.add(des2);
+                      if ((item_search_list_inner[i]["name"]
+                          .toLowerCase()
+                          .contains(value.trim().toLowerCase()))) {
+                        var d2 = {};
+                        d2["name"] = item_search_list_inner[i]["name"];
+                        icon_nameOnSearch_inner.add(d2);
                       }
-                    });
-                  },
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide:
-                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide:
-                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                      ),
-                      contentPadding: EdgeInsets.all(15),
-                      hintText: "Search",
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Color.fromARGB(252, 4, 0, 0),
-                      )),
-                )),
-          ),
+                    }
+                  });
+                },
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide:
+                          BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide:
+                          BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                    ),
+                    contentPadding: EdgeInsets.all(15),
+                    hintText: "Search",
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Color.fromARGB(252, 4, 0, 0),
+                    )),
+              )),
         ),
         Expanded(
             child: Container(
@@ -378,50 +370,47 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
       children: <Widget>[
         Container(
           padding: EdgeInsets.all(15),
-          child: Theme(
-            data: Theme.of(context).copyWith(accentColor: Colors.white),
-            child: Container(
-                height: 48.0,
-                alignment: Alignment.center,
-                child: TextField(
-                  controller: searchcontroller_outer,
-                  onChanged: (value) {
-                    setState(() {
-                      value.trimLeft();
-                      icon_nameOnSearch_outer = [];
-                      for (var i = 0; i < outer_list.length; i++) {
-                        var des3 = {};
-                        des3["name"] = outer_list[i]["name"];
-                        item_search_list_outer.add(des3);
-                        if ((item_search_list_outer[i]["name"]
-                            .toLowerCase()
-                            .contains(value.trim().toLowerCase()))) {
-                          var d3 = {};
-                          d3["name"] = item_search_list_outer[i]["name"];
-                          icon_nameOnSearch_outer.add(d3);
-                        }
+          child: Container(
+              height: 48.0,
+              alignment: Alignment.center,
+              child: TextField(
+                controller: searchcontroller_outer,
+                onChanged: (value) {
+                  setState(() {
+                    value.trimLeft();
+                    icon_nameOnSearch_outer = [];
+                    for (var i = 0; i < outer_list.length; i++) {
+                      var des3 = {};
+                      des3["name"] = outer_list[i]["name"];
+                      item_search_list_outer.add(des3);
+                      if ((item_search_list_outer[i]["name"]
+                          .toLowerCase()
+                          .contains(value.trim().toLowerCase()))) {
+                        var d3 = {};
+                        d3["name"] = item_search_list_outer[i]["name"];
+                        icon_nameOnSearch_outer.add(d3);
                       }
-                    });
-                  },
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide:
-                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide:
-                            BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                      ),
-                      contentPadding: EdgeInsets.all(15),
-                      hintText: "Search",
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Color.fromARGB(252, 4, 0, 0),
-                      )),
-                )),
-          ),
+                    }
+                  });
+                },
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide:
+                          BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide:
+                          BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                    ),
+                    contentPadding: EdgeInsets.all(15),
+                    hintText: "Search",
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Color.fromARGB(252, 4, 0, 0),
+                    )),
+              )),
         ),
         Expanded(
             child: Container(

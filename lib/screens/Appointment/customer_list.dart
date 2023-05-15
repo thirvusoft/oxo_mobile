@@ -13,10 +13,8 @@ class customerlist extends StatefulWidget {
 }
 
 class _customerlistState extends State<customerlist> {
-   initState(){
-    }
+  initState() {}
   Widget build(BuildContext context) {
-   
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -49,50 +47,47 @@ class _customerlistState extends State<customerlist> {
     return Column(children: [
       Container(
         padding: EdgeInsets.all(15),
-        child: Theme(
-          data: Theme.of(context).copyWith(accentColor: Colors.white),
-          child: Container(
-              height: 48.0,
-              alignment: Alignment.center,
-              child: TextField(
-                controller: customer_search,
-                onChanged: (value) {
-                  setState(() {
-                    value.trimLeft();
-                    icon_nameOnSearch_customer = [];
-                    for (var i = 0; i < customer_list.length; i++) {
-                      var des_customer = {};
-                      des_customer["name"] = customer_list[i]["name"];
-                      item_search_list_customer.add(des_customer);
-                      if ((item_search_list_customer[i]["name"]
-                          .toLowerCase()
-                          .contains(value.trim().toLowerCase()))) {
-                        var d_cus = {};
-                        d_cus["name"] = item_search_list_customer[i]["name"];
-                        icon_nameOnSearch_customer.add(d_cus);
-                      }
+        child: Container(
+            height: 48.0,
+            alignment: Alignment.center,
+            child: TextField(
+              controller: customer_search,
+              onChanged: (value) {
+                setState(() {
+                  value.trimLeft();
+                  icon_nameOnSearch_customer = [];
+                  for (var i = 0; i < customer_list.length; i++) {
+                    var des_customer = {};
+                    des_customer["name"] = customer_list[i]["name"];
+                    item_search_list_customer.add(des_customer);
+                    if ((item_search_list_customer[i]["name"]
+                        .toLowerCase()
+                        .contains(value.trim().toLowerCase()))) {
+                      var d_cus = {};
+                      d_cus["name"] = item_search_list_customer[i]["name"];
+                      icon_nameOnSearch_customer.add(d_cus);
                     }
-                  });
-                },
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
-                    ),
-                    contentPadding: EdgeInsets.all(15),
-                    hintText: "Search",
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Color.fromARGB(252, 4, 0, 0),
-                    )),
-              )),
-        ),
+                  }
+                });
+              },
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                        color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                        color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                  ),
+                  contentPadding: EdgeInsets.all(15),
+                  hintText: "Search",
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Color.fromARGB(252, 4, 0, 0),
+                  )),
+            )),
       ),
       Container(
         height: size.height * 0.9,
@@ -157,15 +152,10 @@ class _customerlistState extends State<customerlist> {
                                       color: Color(0xff19183e)),
                                 ),
                               ),
-               
                             ),
                           ),
                         )))));
           }),
     ));
   }
-
-
-
-
 }
