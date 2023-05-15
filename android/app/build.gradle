@@ -1,4 +1,9 @@
 def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+def googleMapsApiKey = localProperties.getProperty('googleMapsApiKey')
+if (googleMapsApiKey == null) {
+   googleMapsApiKey = System.getenv("AIzaSyD5gb0pOPHou2VEwsrR8Rs_EXUIr5708xM")
+}
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
@@ -51,7 +56,9 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        
     }
+   
 
     buildTypes {
         release {
@@ -69,3 +76,4 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
+

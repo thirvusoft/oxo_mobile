@@ -13,8 +13,9 @@
         android:label="oxo"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-         <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyD5gb0pOPHou2VEwsrR8Rs_EXUIr5708xM"/>
+         <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyD5gb0pOPHou2VEwsrR8Rs_EXUIr5708xM" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

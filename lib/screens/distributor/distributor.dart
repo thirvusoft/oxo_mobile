@@ -58,50 +58,47 @@ class _order_statusState extends State<order_status> {
     return Column(children: [
       Container(
         padding: const EdgeInsets.all(15),
-        child: Theme(
-          data: Theme.of(context).copyWith(accentColor: Colors.white),
-          child: Container(
-              height: 48.0,
-              alignment: Alignment.center,
-              child: TextField(
-                controller: status_search,
-                onChanged: (value) {
-                  setState(() {
-                    value.trimLeft();
-                    icon_nameOnSearch_status = [];
-                    for (var i = 0; i < sales_order_status.length; i++) {
-                      var des_status = {};
-                      des_status["Name"] = sales_order_status[i]["Name"];
-                      item_search_list_status.add(des_status);
-                      if ((item_search_list_status[i]["Name"]
-                          .toLowerCase()
-                          .contains(value.trim().toLowerCase()))) {
-                        var d_status = {};
-                        d_status["Name"] = item_search_list_status[i]["Name"];
-                        icon_nameOnSearch_status.add(d_status);
-                      }
+        child: Container(
+            height: 48.0,
+            alignment: Alignment.center,
+            child: TextField(
+              controller: status_search,
+              onChanged: (value) {
+                setState(() {
+                  value.trimLeft();
+                  icon_nameOnSearch_status = [];
+                  for (var i = 0; i < sales_order_status.length; i++) {
+                    var des_status = {};
+                    des_status["Name"] = sales_order_status[i]["Name"];
+                    item_search_list_status.add(des_status);
+                    if ((item_search_list_status[i]["Name"]
+                        .toLowerCase()
+                        .contains(value.trim().toLowerCase()))) {
+                      var d_status = {};
+                      d_status["Name"] = item_search_list_status[i]["Name"];
+                      icon_nameOnSearch_status.add(d_status);
                     }
-                  });
-                },
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(
-                          color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
-                    ),
-                    contentPadding: EdgeInsets.all(15),
-                    hintText: "Search",
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Color.fromARGB(252, 4, 0, 0),
-                    )),
-              )),
-        ),
+                  }
+                });
+              },
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                        color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                        color: Color.fromRGBO(44, 185, 176, 1), width: 2.0),
+                  ),
+                  contentPadding: EdgeInsets.all(15),
+                  hintText: "Search",
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Color.fromARGB(252, 4, 0, 0),
+                  )),
+            )),
       ),
       Container(
         height: size.height * 0.9,

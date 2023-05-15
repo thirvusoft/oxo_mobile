@@ -60,7 +60,7 @@ class _dealerState extends State<dealer> {
   GlobalKey<FormState> dealerkey_ = GlobalKey<FormState>();
 
   void determinateIndicator() {
-    new Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
         if (value == 1) {
           timer.cancel();
@@ -85,6 +85,7 @@ class _dealerState extends State<dealer> {
     print(locationController.address.value);
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -149,7 +150,7 @@ class _dealerState extends State<dealer> {
                         Expanded(
                             child: CheckboxListTile(
                           title: const Text('Existing Dealer'),
-                          shape: CircleBorder(),
+                          shape: const CircleBorder(),
                           value: existingdealer,
                           onChanged: (value) {
                             setState(() {
@@ -167,9 +168,6 @@ class _dealerState extends State<dealer> {
                     maxLength: 10,
                     keyboardType: TextInputType.phone,
                     onChanged: (String str) {
-                      print(mobilenumber);
-                      print(str);
-                      print(dealermobile.text);
                       setState(() {
                         existingcustomer_ = true;
                         singlenumber = dealermobile.text;
@@ -180,7 +178,6 @@ class _dealerState extends State<dealer> {
                         if (dealermobile.text.length == 10) {
                           existingcustomer(dealermobile.text);
                         } else {
-                          print("check");
                           setState(() {
                             newnumber = false;
                           });
@@ -218,25 +215,8 @@ class _dealerState extends State<dealer> {
                         borderSide:
                             BorderSide(color: Color(0xFFEB455F), width: 2.0),
                       ),
-                      // suffixIcon: IconButton(
-                      //   icon: const Icon(LineIcons.plusCircle),
-                      //   onPressed: () {
-                      //     if (dealermobile.text.isNotEmpty &&
-                      //         dealermobile.text.length >= 10) {
-                      //       setState(() {
-                      //         mobile_errortext = false;
-                      //         mobilenumber.add(dealermobile.text);
-                      //       });
-                      //       dealermobile.clear();
-                      //     } else {
-                      //       setState(() {
-                      //         mobile_errortext = true;
-                      //       });
-                      //     }
-                      //   },
-                      // ),
+
                       labelText: "Mobile Number",
-                      // hintText: "Enter dealer mobile number"
                     ),
                   ),
 
@@ -269,7 +249,6 @@ class _dealerState extends State<dealer> {
                                 PhosphorIcons.plus_circle_bold,
                                 color: Color(0xFF2B3467),
                               ),
-                              // iconSize: 48,
                               onPressed: () {
                                 add_number(contactid, newnumber_.text);
                                 print(contactid);
@@ -279,7 +258,6 @@ class _dealerState extends State<dealer> {
                               borderSide: BorderSide(
                                   width: 1, color: Color(0xFF808080)),
                             ),
-                            // border: OutlineInputBorder(),
                             focusedBorder: const UnderlineInputBorder(
                               // borderRadius: BorderRadius.all(Radius.circular(8)),
                               borderSide: BorderSide(

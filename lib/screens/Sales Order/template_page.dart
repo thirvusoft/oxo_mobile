@@ -61,53 +61,49 @@ class _category_groupState extends State<category_group> {
       ),
       Container(
         padding: EdgeInsets.all(15),
-        child: Theme(
-          data: Theme.of(context).copyWith(accentColor: Colors.white),
-          child: Container(
-              height: 48.0,
-              alignment: Alignment.center,
-              child: TextField(
-                cursorColor: const Color(0xFFEB455F),
-                controller: searchcontroller_category,
-                onChanged: (value) {
-                  setState(() {
-                    value.trimLeft();
-                    icon_nameOnSearch_category = [];
-                    for (var i = 0; i < category_item_list.length; i++) {
-                      var des_vari = {};
-                      des_vari["item_name"] =
-                          category_item_list[i]["item_name"];
-                      item_search_list_category.add(des_vari);
-                      if ((item_search_list_category[i]["item_name"]
-                          .toLowerCase()
-                          .contains(value.trim().toLowerCase()))) {
-                        var d_va = {};
-                        d_va["item_name"] =
-                            item_search_list_category[i]["item_name"];
-                        icon_nameOnSearch_category.add(d_va);
-                      }
+        child: Container(
+            height: 48.0,
+            alignment: Alignment.center,
+            child: TextField(
+              cursorColor: const Color(0xFFEB455F),
+              controller: searchcontroller_category,
+              onChanged: (value) {
+                setState(() {
+                  value.trimLeft();
+                  icon_nameOnSearch_category = [];
+                  for (var i = 0; i < category_item_list.length; i++) {
+                    var des_vari = {};
+                    des_vari["item_name"] = category_item_list[i]["item_name"];
+                    item_search_list_category.add(des_vari);
+                    if ((item_search_list_category[i]["item_name"]
+                        .toLowerCase()
+                        .contains(value.trim().toLowerCase()))) {
+                      var d_va = {};
+                      d_va["item_name"] =
+                          item_search_list_category[i]["item_name"];
+                      icon_nameOnSearch_category.add(d_va);
                     }
-                  });
-                },
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide:
-                          BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide:
-                          BorderSide(color: Color(0xFFEB455F), width: 2.0),
-                    ),
-                    contentPadding: EdgeInsets.all(15),
-                    hintText: "Search",
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Color.fromARGB(252, 4, 0, 0),
-                    )),
-              )),
-        ),
+                  }
+                });
+              },
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide:
+                        BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide:
+                        BorderSide(color: Color(0xFFEB455F), width: 2.0),
+                  ),
+                  contentPadding: EdgeInsets.all(15),
+                  hintText: "Search",
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Color.fromARGB(252, 4, 0, 0),
+                  )),
+            )),
       ),
       SizedBox(
         height: size.height * .73,
