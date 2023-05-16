@@ -125,7 +125,7 @@ class _TabLayoutExampleState extends State<TabLayoutExample>
 
           _views = [
             (orderLists.isNotEmpty)
-                ? myListView(false, orderLists)
+                ? myListView(true, orderLists)
                 : const Center(
                     child: Padding(
                     padding: EdgeInsets.all(8.0),
@@ -134,7 +134,7 @@ class _TabLayoutExampleState extends State<TabLayoutExample>
                             TextStyle(fontSize: 18, color: Color(0xFF2B3467))),
                   )),
             (dispatched.isNotEmpty)
-                ? myListView(true, dispatched)
+                ? myListView(false, dispatched)
                 : const Center(
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
