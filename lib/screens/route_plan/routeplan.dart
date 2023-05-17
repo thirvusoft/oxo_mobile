@@ -29,7 +29,7 @@ class _RoutePlanState extends State<RoutePlan> {
   }
 
   final DistrictController DistrictControllers = Get.put(DistrictController());
-
+  bool _isShow = false;
   bool _isChecked = false;
   bool _isChecked_1 = false;
   var customer_name;
@@ -351,6 +351,8 @@ class _RoutePlanState extends State<RoutePlan> {
                               value: _isChecked,
                               onChanged: (newValue) {
                                 setState(() {
+                                  _isShow = false;
+
                                   _isChecked = newValue!;
                                   if (newValue == true) {
                                     _isChecked_1 = false;
@@ -366,6 +368,7 @@ class _RoutePlanState extends State<RoutePlan> {
                               value: _isChecked_1,
                               onChanged: (newValue) {
                                 setState(() {
+                                  _isShow = true;
                                   _isChecked_1 = newValue!;
                                   if (newValue == true) {
                                     _isChecked = false;
@@ -373,28 +376,31 @@ class _RoutePlanState extends State<RoutePlan> {
                                 });
                               },
                             ),
-                            TextFormField(
-                              controller: reason,
-                              validator: (x) {
-                                if (x!.isEmpty) {
-                                  return " Date can't be empty";
-                                }
+                            Visibility(
+                              visible: _isShow,
+                              child: TextFormField(
+                                controller: reason,
+                                validator: (x) {
+                                  if (x!.isEmpty) {
+                                    return " Reason can't be empty";
+                                  }
 
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      width: 1, color: Color(0xFF808080)),
+                                  return null;
+                                },
+                                decoration: const InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 1, color: Color(0xFF808080)),
+                                  ),
+                                  // border: OutlineInputBorder(),
+                                  focusedBorder: UnderlineInputBorder(
+                                    //                           // borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    borderSide: BorderSide(
+                                        color: Color(0xFFEB455F), width: 2.0),
+                                  ),
+                                  labelText: "Reason",
+                                  // hintText: "Pincode"
                                 ),
-                                // border: OutlineInputBorder(),
-                                focusedBorder: UnderlineInputBorder(
-                                  //                           // borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(
-                                      color: Color(0xFFEB455F), width: 2.0),
-                                ),
-                                labelText: "Reason",
-                                // hintText: "Pincode"
                               ),
                             ),
                             const SizedBox(
@@ -421,9 +427,10 @@ class _RoutePlanState extends State<RoutePlan> {
                                 var value = _isChecked ? 1 : 0;
                                 var value1 = _isChecked ? 1 : 0;
                                 print('object');
-
-                                route_plan(customer_name, territort_area.text,
-                                    value, value1, reason.text);
+                                if (visited_key.currentState!.validate()) {
+                                  route_plan(customer_name, territort_area.text,
+                                      value, value1, reason.text);
+                                }
                               },
                             ),
                           ],
