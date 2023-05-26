@@ -11,6 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../Widget /bottomnaviagtion.dart';
 import 'Home Page/home_page.dart';
+import 'Orders/Orderlist.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -364,14 +365,24 @@ class _LoginState extends State<Login> {
         print("ujsfjsksdkd");
         print(token.getString("token"));
         print(token.getString("full_name"));
-
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const home_page(),
-          ),
-          (route) => false,
-        );
+        print(json.decode(response.body)['roll']);
+        if (json.decode(response.body)['roll'] == "Distributor") {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TabLayoutExample(),
+            ),
+            (route) => false,
+          );
+        } else { 
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const home_page(),
+            ),
+            (route) => false,
+          );
+        }
 
         Fluttertoast.showToast(
             msg: (json.decode(response.body)['message']),

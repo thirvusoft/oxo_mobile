@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -36,6 +37,8 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:cron/cron.dart';
 import 'package:collection/collection.dart';
+
+import '../route_plan/routeplan.dart';
 
 class home_page extends StatefulWidget {
   const home_page({super.key});
@@ -129,177 +132,178 @@ class _home_pageState extends State<home_page> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-        // drawer: createDrawerHeader(context),
+      // drawer: createDrawerHeader(context),
 
-        backgroundColor: const Color(0xffEB455F),
-        appBar: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: const Color(0xffEB455F),
-            elevation: 0,
-            actions: [
-              new Stack(
-                children: <Widget>[
-                  new IconButton(
-                      iconSize:
-                          (MediaQuery.of(context).size.width <= 400) ? 18 : 20,
-                      icon: const Icon(
-                        PhosphorIcons.bell,
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, 'notification');
-                        setState(() {
-                          counter = 0;
-                        });
-                      }),
-                  (counter != 0 && counter != null)
-                      ? new Positioned(
-                          right: 22,
-                          top: 11,
-                          child: new Container(
-                            padding: const EdgeInsets.all(1),
-                            decoration: new BoxDecoration(
-                              color: const Color(0xFF2B3467),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            constraints: const BoxConstraints(
-                              minWidth: 10,
-                              minHeight: 10,
-                            ),
+      backgroundColor: const Color(0xffEB455F),
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: const Color(0xffEB455F),
+          elevation: 0,
+          actions: [
+            new Stack(
+              children: <Widget>[
+                new IconButton(
+                    iconSize:
+                        (MediaQuery.of(context).size.width <= 400) ? 18 : 20,
+                    icon: const Icon(
+                      PhosphorIcons.bell,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'notification');
+                      setState(() {
+                        counter = 0;
+                      });
+                    }),
+                (counter != 0 && counter != null)
+                    ? new Positioned(
+                        right: 22,
+                        top: 11,
+                        child: new Container(
+                          padding: const EdgeInsets.all(1),
+                          decoration: new BoxDecoration(
+                            color: const Color(0xFF2B3467),
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                        )
-                      : new Container()
-                ],
+                          constraints: const BoxConstraints(
+                            minWidth: 10,
+                            minHeight: 10,
+                          ),
+                        ),
+                      )
+                    : new Container()
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: IconButton(
+                iconSize: (MediaQuery.of(context).size.width <= 400) ? 18 : 20,
+                onPressed: () {
+                  _delete(context);
+                },
+                icon: const Icon(PhosphorIcons.sign_out),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 6),
-                child: IconButton(
-                  iconSize:
-                      (MediaQuery.of(context).size.width <= 400) ? 18 : 20,
-                  onPressed: () {
-                    _delete(context);
-                  },
-                  icon: const Icon(PhosphorIcons.sign_out),
-                ),
-              ),
-            ],
+            ),
+          ],
 
-            // centerTitle: true,
-            title: Align(
-              alignment: Alignment.topCenter,
-              child: RichText(
-                text: TextSpan(children: [
-                  TextSpan(
-                    text: day_status + " $username",
-                    // text: MediaQuery.of(context).size.toString(),
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: (MediaQuery.of(context).size.width <= 400)
-                              ? 18
-                              : 23,
-                          letterSpacing: .2,
-                          color: Colors.white),
-                    ),
-                  ),
-                  TextSpan(
-                      text: " 👋",
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                        fontSize: (username.length >= 5) ? 18 : 20,
+          // centerTitle: true,
+          title: Align(
+            alignment: Alignment.topCenter,
+            child: RichText(
+              text: TextSpan(children: [
+                TextSpan(
+                  text: day_status + " $username",
+                  // text: MediaQuery.of(context).size.toString(),
+                  style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        fontSize: (MediaQuery.of(context).size.width <= 400)
+                            ? 18
+                            : 23,
                         letterSpacing: .2,
-                      ))),
-                ]),
+                        color: Colors.white),
+                  ),
+                ),
+                TextSpan(
+                    text: " 👋",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                      fontSize: (username.length >= 5) ? 18 : 20,
+                      letterSpacing: .2,
+                    ))),
+              ]),
 
-                // Text(
-                //   day_status,
-                //   style: GoogleFonts.poppins(
-                //     textStyle: const TextStyle(
-                //         fontSize: 15, letterSpacing: .2, color: Color(0xFFfffffffff)),
-                //   ),
-              ),
-            )),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 15.0),
-            child: Container(
-                // color: Color(0xffeff4fd),
-                height: height,
-                decoration: const BoxDecoration(
-                    color: Color(0xffe8effc),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(50),
-                      topRight: Radius.circular(50),
-                    )),
-                child: SingleChildScrollView(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: size.width / 5, left: 2.5),
-                      child: Row(children: <Widget>[
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        getCardItem(height),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        getCardItem2(height),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                      ]),
-                    ),
+              // Text(
+              //   day_status,
+              //   style: GoogleFonts.poppins(
+              //     textStyle: const TextStyle(
+              //         fontSize: 15, letterSpacing: .2, color: Color(0xFFfffffffff)),
+              //   ),
+            ),
+          )),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 15.0),
+        child: Container(
+            // color: Color(0xffeff4fd),
+            height: height,
+            decoration: const BoxDecoration(
+                color: Color(0xffe8effc),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(50),
+                  topRight: Radius.circular(50),
+                )),
+            child: SingleChildScrollView(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: size.width / 5, left: 2.5),
+                  child: Row(children: <Widget>[
                     const SizedBox(
-                      height: 10,
+                      width: 5,
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: size.width / 28, left: 2.5),
-                      child: Row(children: <Widget>[
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        getCardItem3(height),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        getCardItem5(height),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        // getCardItem4(height),
-                      ]),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: size.width / 15, left: 2.5),
-                      child: Row(children: <Widget>[
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        getCardItem6(height),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        getCardItem7(height)
-                        // getCardItem4(height),
-                      ]),
-                    ),
+                    getCardItem(height),
                     const SizedBox(
-                      height: 10,
+                      width: 20,
                     ),
-                    // Container(
-                    //     child: Padding(
-                    //   padding: EdgeInsets.only(
-                    //     top: size.width / 5,
-                    //   ),
-                    //   child: Row(children: <Widget>[
-                    //     getCardItem5(height),
-                    //   ]),
-                    // ))
-                  ],
-                ))),
-          ),
-        ));
+                    getCardItem2(height),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                  ]),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: size.width / 28, left: 2.5),
+                  child: Row(children: <Widget>[
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    getCardItem3(height),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    getCardItem5(height),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    // getCardItem4(height),
+                  ]),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: size.width / 15, left: 2.5),
+                  child: Row(children: <Widget>[
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    getCardItem6(height),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    getCardItem7(height)
+                    // getCardItem4(height),
+                  ]),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: size.width / 15, left: 2.5),
+                  child: Row(children: <Widget>[
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    getCardItem8(height),
+                  ]),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
+            ))),
+      ),
+    );
   }
 
   Widget getCardItem(height) {
@@ -721,6 +725,66 @@ class _home_pageState extends State<home_page> {
                 padding: EdgeInsets.all(8),
                 child: Text(
                   "  Nearest location  ",
+                  style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        fontSize: (MediaQuery.of(context).size.width <= 400)
+                            ? 12.5
+                            : 15,
+                        letterSpacing: .2,
+                        color: Colors.white),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getCardItem8(height) {
+    ContainerTransitionType containerTransitionType =
+        ContainerTransitionType.fadeThrough;
+    return OpenContainer(
+      transitionType: containerTransitionType,
+      transitionDuration: Duration(milliseconds: 500),
+      openBuilder: (context, _) => const RoutePlan(),
+      closedElevation: 0,
+      closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(32),
+          side: const BorderSide(color: Colors.white, width: 1)),
+      closedColor: Colors.white,
+      closedBuilder: (context, _) => Container(
+        alignment: Alignment.center,
+        height: (MediaQuery.of(context).size.width <= 900)
+            ? MediaQuery.of(context).size.height * .20
+            : MediaQuery.of(context).size.height * .25,
+        width: (MediaQuery.of(context).size.width <= 400)
+            ? MediaQuery.of(context).size.width / 2.2
+            : 190,
+        child: Column(
+          children: [
+            SizedBox(
+              height: (MediaQuery.of(context).size.width <= 900) ? 8 : 15,
+            ),
+            Image.asset(
+              "assets/routeplan.png",
+              height: 75,
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: const Color(0xFF2B3467),
+                  border: Border.all(
+                    color: const Color(0xFF2B3467),
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  "  Route Plan  ",
                   style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                         fontSize: (MediaQuery.of(context).size.width <= 400)

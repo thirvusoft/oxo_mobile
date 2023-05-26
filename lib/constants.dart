@@ -15,6 +15,13 @@ var user_name;
 // sales order
 
 GlobalKey<FormState> sales_order_key = GlobalKey<FormState>();
+GlobalKey<FormState> order_list = GlobalKey<FormState>();
+
+TextEditingController dispatch_list = TextEditingController();
+TextEditingController invoice_no = TextEditingController();
+TextEditingController dispatch_date = TextEditingController();
+
+
 
 TextEditingController customer_name = TextEditingController();
 TextEditingController delivery_date = TextEditingController();
@@ -68,6 +75,12 @@ List item_search_list_varient = [];
 GlobalKey<FormState> formkey_salesorder = GlobalKey<FormState>();
 TextEditingController name = TextEditingController();
 List dealer_name = [];
+List route_dealer_name = [];
+TextEditingController territory_district = TextEditingController();
+
+GlobalKey<FormState> visited_key = GlobalKey<FormState>();
+
+
 List distributor = [];
 List row_varient = [];
 
@@ -188,6 +201,8 @@ List pincode_list = [];
 List district_lists = [];
 List districts_ = [];
 List districts_list = [];
+
+
 TextEditingController district_list_text = TextEditingController();
 TextEditingController Manualdata_ = TextEditingController();
 int i = 1;
