@@ -410,11 +410,18 @@ class _RoutePlanState extends State<RoutePlan> {
                               text: 'Fix Appointment',
                               color: const Color.fromARGB(255, 49, 47, 92),
                               pressEvent: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => appointment()),
-                                );
+                                var value = _isChecked ? 1 : 0;
+                                var value1 = _isChecked ? 0 : 1;
+                                print('object');
+                                if (visited_key.currentState!.validate()) {
+                                  route_plan(customer_name, territort_area.text,
+                                      value, value1, reason.text);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => appointment()),
+                                  );
+                                }
                               },
                             ),
                             const SizedBox(
@@ -425,7 +432,7 @@ class _RoutePlanState extends State<RoutePlan> {
                               color: const Color.fromARGB(255, 49, 47, 92),
                               pressEvent: () {
                                 var value = _isChecked ? 1 : 0;
-                                var value1 = _isChecked ? 1 : 0;
+                                var value1 = _isChecked ? 0 : 1;
                                 print('object');
                                 if (visited_key.currentState!.validate()) {
                                   route_plan(customer_name, territort_area.text,
@@ -463,6 +470,8 @@ class _RoutePlanState extends State<RoutePlan> {
         'reason': reason,
       },
     );
+    print(visted);
+    print(not_visited);
     print(response.statusCode);
     print(token.getString("full_name"));
 
@@ -476,11 +485,8 @@ class _RoutePlanState extends State<RoutePlan> {
             animType: AnimType.leftSlide,
             headerAnimationLoop: false,
             dialogType: DialogType.success,
-            title: 'Success',
-            btnOkOnPress: () {
-              // Navigator.pushReplacement(context,
-              //     MaterialPageRoute(builder: (context) => const ()));
-            },
+            title: 'Route Plan Success',
+            btnOkOnPress: () {},
             btnOkIcon: Icons.check_circle,
             onDismissCallback: (type) {},
           ).show();
