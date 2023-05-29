@@ -23,6 +23,7 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
 
   @override
   initState() {
+    super.initState();
     categorieslist_();
 
     all_item();
@@ -668,13 +669,20 @@ class _categoryState extends State<category> with TickerProviderStateMixin {
   }
 
   Future template_list(category_name, item_group_name) async {
+    print(category_name);
+    print(item_group_name);
     category_item_list = [];
     var response = await http.get(
       Uri.parse(
-          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.template_list?category=${item_group_name}&item_group=${category_name}"""),
+          """${dotenv.env['API_URL']}/api/method/oxo.custom.api.item_price_list?name=$category_name"""),
       // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
     );
-
+    // var response = await http.get(
+    //   Uri.parse(
+    //       """${dotenv.env['API_URL']}/api/method/oxo.custom.api.template_list?category=$item_group_name&item_group=$category_name"""),
+    //   // headers: {"Authorization": 'token ddc841db67d4231:bad77ffd922973a'});
+    // );
+    print(response.body);
     if (response.statusCode == 200) {
       setState(() {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {

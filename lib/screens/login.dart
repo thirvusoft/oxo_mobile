@@ -342,6 +342,8 @@ class _LoginState extends State<Login> {
 
   loginup(mobilenum, password) async {
     print('object');
+    await dotenv.load();
+
     var response = await http.post(Uri.parse(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.login?mobile=${mobilenum}&password=${password}"""));
     print(response.statusCode);
@@ -374,7 +376,7 @@ class _LoginState extends State<Login> {
             ),
             (route) => false,
           );
-        } else { 
+        } else {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
