@@ -85,6 +85,7 @@ dependencies:
   simple_ripple_animation: ^0.0.7
   device_preview: ^1.1.0
   google_fonts: ^4.0.4
+  google_maps_flutter_web: ^0.4.0+9
 
 
 dev_dependencies:

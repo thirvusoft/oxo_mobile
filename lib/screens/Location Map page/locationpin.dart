@@ -82,6 +82,8 @@ class _location_pinState extends State<location_pin> {
   }
 
   Future location_list() async {
+    await dotenv.load();
+
     var response = await http.get(Uri.parse(
         """${dotenv.env['API_URL']}/api/method/oxo.custom.api.location_list"""));
 
