@@ -86,6 +86,7 @@ dependencies:
   device_preview: ^1.1.0
   google_fonts: ^4.0.4
   google_maps_flutter_web: ^0.4.0+9
+  syncfusion_flutter_datepicker: ^20.4.54
 
 
 dev_dependencies:

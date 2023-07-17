@@ -278,7 +278,7 @@ class _appointmentState extends State<appointment> {
                                                             .centerLeft,
                                                         child: Text(
                                                           String,
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               color:
                                                                   Colors.black),
                                                         ),

@@ -8,6 +8,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:oxo/constants.dart';
 import 'package:oxo/screens/Home%20Page/test.dart';
+import 'package:oxo/screens/Sales%20Order/report.dart';
 import 'package:oxo/screens/login.dart';
 import 'package:oxo/screens/notification/notification.dart';
 
