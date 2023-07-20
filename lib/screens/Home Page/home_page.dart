@@ -137,6 +137,14 @@ class _home_pageState extends State<home_page> {
 
       backgroundColor: const Color(0xffEB455F),
       appBar: AppBar(
+          leading: IconButton(
+              iconSize: (MediaQuery.of(context).size.width <= 400) ? 18 : 20,
+              icon: const Icon(
+                PhosphorIcons.list_checks,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, 'Visitlog');
+              }),
           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xffEB455F),
           elevation: 0,

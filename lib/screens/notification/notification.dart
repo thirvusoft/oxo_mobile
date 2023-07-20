@@ -1,53 +1,3 @@
-// import 'dart:convert';
-
-// import 'package:flutter/material.dart';
-// import 'package:timezone/timezone.dart' as tz;
-// import 'package:timezone/data/latest.dart' as tz;
-// import 'package:http/http.dart' as http;
-
-// import '../../constants.dart';
-// import 'notificationservice.dart';
-
-// class MainScreen extends StatefulWidget {
-//   const MainScreen({Key? key}) : super(key: key);
-
-//   @override
-//   _MainScreenState createState() => _MainScreenState();
-// }
-
-// class _MainScreenState extends State<MainScreen> {
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     tz.initializeTimeZones();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             ElevatedButton(
-//                 onPressed: () {
-//                   NotificationService().cancelAllNotifications();
-//                 },
-//                 child: Text('cancel')),
-//             ElevatedButton(
-//                 onPressed: () {
-//                   NotificationService().showNotification(1, "Appointment", "The Dealer fix the appointment for the date 12.12.2022 ",1);
-//                 },
-//                 child: Text('show'))
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-// }
 import 'dart:async';
 import 'dart:convert';
 
@@ -57,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oxo/constants.dart';
 import 'package:http/http.dart' as http;
-import 'package:oxo/screens/Appointment/appointment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class notification extends StatefulWidget {
@@ -107,8 +56,7 @@ class _notificationState extends State<notification> {
                 ),
                 subtitle: Text(
                     appointment_notification_lists[index]['scheduled_time']),
-                trailing:
-                 ElevatedButton(
+                trailing: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
                         const Color(0xFF2B3467), // background (button) color

@@ -1,26 +1,20 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:oxo/constants.dart';
-import 'package:oxo/screens/Home%20Page/test.dart';
-import 'package:oxo/screens/Sales%20Order/report.dart';
-import 'package:oxo/screens/login.dart';
 import 'package:oxo/screens/notification/notification.dart';
+import 'package:oxo/screens/route_plan/visit_log.dart';
 
 import 'package:oxo/screens/splashscreen.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:path_provider/path_provider.dart';
 import 'Db/customer.dart';
 import 'Widget /bottomnaviagtion.dart';
 import 'screens/Home Page/home_page.dart';
 import 'screens/Sales Order/sales_order.dart';
-import 'package:animate_do/animate_do.dart';
 import 'package:get/get.dart';
 import 'screens/Sales Order/template_page.dart';
 
@@ -126,6 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
         'homepage': (context) => const home_page(),
         'category_groups': (context) => category_group(),
         "notification": (context) => const notification(),
+        "Visitlog": (context) => const Visitlog(),
       },
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
