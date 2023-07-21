@@ -31,6 +31,7 @@ import '../Appointment/appointment.dart';
 import '../Location Map page/distance_clac.dart';
 import '../Location Map page/neartestlocation.dart';
 import '../Orders/Orderlist.dart';
+import '../Sales Order/report.dart';
 import '../notification/appointment_notification.dart';
 import '../notification/notificationservice.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -136,6 +137,14 @@ class _home_pageState extends State<home_page> {
 
       backgroundColor: const Color(0xffEB455F),
       appBar: AppBar(
+          leading: IconButton(
+              iconSize: (MediaQuery.of(context).size.width <= 400) ? 18 : 20,
+              icon: const Icon(
+                PhosphorIcons.list_checks,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, 'Visitlog');
+              }),
           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xffEB455F),
           elevation: 0,
@@ -295,6 +304,10 @@ class _home_pageState extends State<home_page> {
                       width: 5,
                     ),
                     getCardItem8(height),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    getCardItem9(height)
                   ]),
                 ),
                 const SizedBox(
@@ -785,6 +798,66 @@ class _home_pageState extends State<home_page> {
                 padding: EdgeInsets.all(8),
                 child: Text(
                   "  Route Plan  ",
+                  style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        fontSize: (MediaQuery.of(context).size.width <= 400)
+                            ? 12.5
+                            : 15,
+                        letterSpacing: .2,
+                        color: Colors.white),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getCardItem9(height) {
+    ContainerTransitionType containerTransitionType =
+        ContainerTransitionType.fadeThrough;
+    return OpenContainer(
+      transitionType: containerTransitionType,
+      transitionDuration: Duration(milliseconds: 500),
+      openBuilder: (context, _) => const Itemreport(),
+      closedElevation: 0,
+      closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(32),
+          side: const BorderSide(color: Colors.white, width: 1)),
+      closedColor: Colors.white,
+      closedBuilder: (context, _) => Container(
+        alignment: Alignment.center,
+        height: (MediaQuery.of(context).size.width <= 900)
+            ? MediaQuery.of(context).size.height * .20
+            : MediaQuery.of(context).size.height * .25,
+        width: (MediaQuery.of(context).size.width <= 400)
+            ? MediaQuery.of(context).size.width / 2.2
+            : 190,
+        child: Column(
+          children: [
+            SizedBox(
+              height: (MediaQuery.of(context).size.width <= 900) ? 8 : 15,
+            ),
+            Image.asset(
+              "assets/report.png",
+              height: 75,
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: const Color(0xFF2B3467),
+                  border: Border.all(
+                    color: const Color(0xFF2B3467),
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  "   Report    ",
                   style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                         fontSize: (MediaQuery.of(context).size.width <= 400)

@@ -271,30 +271,38 @@ class _category_groupState extends State<category_group> {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           varient_item_list.add((json.decode(response.body)['message'][i]));
         }
-        varient_item_list.sort((a, b) {
-          String aSize = a["item_name"].split("-").last.toLowerCase();
-          String bSize = b["item_name"].split("-").last.toLowerCase();
-          List<String> sizes = [
-            "s",
-            "m",
-            "l",
-            "xl",
-            "2xl",
-            "3xl",
-            "4xl",
-            "5xl"
-          ];
-          int aIndex = sizes.indexOf(aSize);
-          int bIndex = sizes.indexOf(bSize);
-          return aIndex.compareTo(bIndex);
-        });
-      });
-      // varient_item_list.sort((a, b) {
-      //   int aCode = int.parse(a["item_code"].split("-")[1]);
-      //   int bCode = int.parse(b["item_code"].split("-")[1]);
-      //   return aCode.compareTo(bCode);
-      // });
+        print(varient_item_list);
+        List<String> sizes = ["s", "m", "l", "xl", "2xl", "3xl", "4xl", "5xl"];
 
+        // Sorting based on whether the item code contains a letter or a number
+        varient_item_list.sort((a, b) {
+          String aItemCode = a['item_code'];
+          String bItemCode = b['item_code'];
+
+          bool aContainsLetter =
+              RegExp(r'[a-zA-Z]').hasMatch(aItemCode.split('-').last);
+          bool bContainsLetter =
+              RegExp(r'[a-zA-Z]').hasMatch(bItemCode.split('-').last);
+
+          if (aContainsLetter && bContainsLetter) {
+            String aSize = aItemCode.split("-").last.toLowerCase();
+            String bSize = bItemCode.split("-").last.toLowerCase();
+            int aIndex = sizes.indexOf(aSize);
+            int bIndex = sizes.indexOf(bSize);
+            return aIndex.compareTo(bIndex);
+          } else if (!aContainsLetter && !bContainsLetter) {
+            int itemCodeA = int.parse(aItemCode.split('-')[1]);
+            int itemCodeB = int.parse(bItemCode.split('-')[1]);
+            return itemCodeA.compareTo(itemCodeB);
+          } else {
+            // If one item code contains a letter and the other contains a number, prioritize the one with the number.
+            return aContainsLetter ? 1 : -1;
+          }
+        });
+
+        
+      });
+      
       if (varient_item_list.isNotEmpty) {
         Navigator.push(
           context,

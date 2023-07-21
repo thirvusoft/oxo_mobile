@@ -215,6 +215,7 @@ class _item_groupState extends State<item_group> {
                   list.add(TextEditingController());
 
                   int count = index + 1;
+                  print(varient_item_list);
                   return AnimationConfiguration.staggeredList(
                       position: index,
                       duration: const Duration(milliseconds: 300),
@@ -292,107 +293,121 @@ class _item_groupState extends State<item_group> {
                                             //   ),
                                             // ),
                                             // controller: list[index],
-                                            trailing:
-                                                Wrap(spacing: 12, children: <
-                                                    Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 1.0),
-                                                child: SizedBox(
-                                                  height: 45,
-                                                  width: 70,
-                                                  child: TextFormField(
-                                                    cursorColor:
-                                                        const Color(0xFFEB455F),
-                                                    controller: list[index],
-                                                    style: GoogleFonts.inter(
-                                                      fontSize: 15.0,
-                                                      color: const Color(
-                                                          0xFF151624),
-                                                    ),
-                                                    maxLines: 1,
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    onChanged: ((qty) {
-                                                      var itemName =
-                                                          rowVarient[index]
-                                                              ["item_code"];
-                                                      var itemGroup =
-                                                          rowVarient[index]
-                                                              ["item_group"];
-                                                      var itemNameList =
-                                                          rowVarient[index]
-                                                              ["item_name"];
+                                            trailing: Wrap(
+                                                spacing: 12,
+                                                children: <Widget>[
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 1.0),
+                                                    child: SizedBox(
+                                                      height: 45,
+                                                      width: 70,
+                                                      child: TextFormField(
+                                                        cursorColor:
+                                                            const Color(
+                                                                0xFFEB455F),
+                                                        controller: list[index],
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                          fontSize: 15.0,
+                                                          color: const Color(
+                                                              0xFF151624),
+                                                        ),
+                                                        maxLines: 1,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        onChanged: ((qty) {
+                                                          var itemName =
+                                                              rowVarient[index]
+                                                                  ["item_code"];
+                                                          var itemGroup =
+                                                              rowVarient[index][
+                                                                  "item_group"];
+                                                          var itemNameList =
+                                                              rowVarient[index]
+                                                                  ["item_name"];
 
-                                                      if (qty != '') {
-                                                        List<String> test = [];
-                                                        test.add(itemGroup
-                                                            .toString());
+                                                          if (qty != '') {
+                                                            List<String> test =
+                                                                [];
+                                                            test.add(itemGroup
+                                                                .toString());
 
-                                                        test.add(
-                                                            qty.toString());
+                                                            test.add(
+                                                                qty.toString());
 
-                                                        test.add(itemNameList
-                                                            .toString());
-                                                        values[itemName] = test;
-                                                        // values[item_name] =
-                                                        //     test;
-                                                      } else {
-                                                        values[itemName] = 0;
-                                                      }
-                                                      varient_item_list[index]
-                                                          ["qty"] = qty;
-                                                    }),
-                                                    decoration: InputDecoration(
-                                                      counterText: "",
-                                                      hintText: 'QTY',
-                                                      hintStyle:
-                                                          GoogleFonts.inter(
-                                                        fontSize: 15.0,
-                                                        color: const Color(
-                                                                0xFF151624)
-                                                            .withOpacity(0.5),
-                                                      ),
-                                                      filled: true,
-                                                      fillColor: list[index]
-                                                              .text
-                                                              .isEmpty
-                                                          ? const Color
-                                                                  .fromRGBO(
-                                                              248, 247, 251, 1)
-                                                          : Colors.transparent,
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                              borderSide:
-                                                                  BorderSide(
-                                                                color: list[index]
-                                                                        .text
-                                                                        .isEmpty
-                                                                    ? Colors
-                                                                        .transparent
-                                                                    : const Color(
+                                                            test.add(itemNameList
+                                                                .toString());
+                                                            values[itemName] =
+                                                                test;
+                                                            // values[item_name] =
+                                                            //     test;
+                                                          } else {
+                                                            values[itemName] =
+                                                                0;
+                                                          }
+                                                          varient_item_list[
+                                                                  index]
+                                                              ["qty"] = qty;
+                                                        }),
+                                                        decoration:
+                                                            InputDecoration(
+                                                          counterText: "",
+                                                          hintText: 'QTY',
+                                                          hintStyle:
+                                                              GoogleFonts.inter(
+                                                            fontSize: 15.0,
+                                                            color: const Color(
+                                                                    0xFF151624)
+                                                                .withOpacity(
+                                                                    0.5),
+                                                          ),
+                                                          filled: true,
+                                                          fillColor: list[index]
+                                                                  .text
+                                                                  .isEmpty
+                                                              ? const Color
+                                                                      .fromRGBO(
+                                                                  248,
+                                                                  247,
+                                                                  251,
+                                                                  1)
+                                                              : Colors
+                                                                  .transparent,
+                                                          enabledBorder:
+                                                              OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  borderSide:
+                                                                      BorderSide(
+                                                                    color: list[index]
+                                                                            .text
+                                                                            .isEmpty
+                                                                        ? Colors
+                                                                            .transparent
+                                                                        : const Color(
+                                                                            0xFFEB455F),
+                                                                  )),
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  borderSide:
+                                                                      const BorderSide(
+                                                                    color: Color(
                                                                         0xFFEB455F),
-                                                              )),
-                                                      focusedBorder:
-                                                          OutlineInputBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                              borderSide:
-                                                                  const BorderSide(
-                                                                color: Color(
-                                                                    0xFFEB455F),
-                                                              )),
+                                                                  )),
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ),
-                                            ]),
+                                                ]),
                                           )))))));
                 }));
   }
