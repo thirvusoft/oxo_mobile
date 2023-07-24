@@ -2,8 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:oxo/screens/Dealer%20Creaction/dealer.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -19,9 +22,13 @@ class Visitlog extends StatefulWidget {
 }
 
 class _VisitlogState extends State<Visitlog> {
+  TextEditingController sreachtext = TextEditingController();
+
   List districtslist_ = [];
+  List searchResults = [];
   var sort_ = [];
 
+  @override
   void initState() {
     district();
   }
@@ -44,16 +51,18 @@ class _VisitlogState extends State<Visitlog> {
           icon: const Icon(Icons.arrow_back_ios),
         ),
         title: TextField(
-          // controller: _searchController,
+          controller: sreachtext,
           style: const TextStyle(color: Colors.white),
           cursorColor: Colors.white,
           decoration: const InputDecoration(
             hintText: 'Search...',
-            hintStyle: TextStyle(color: Colors.white54),
+            hintStyle: TextStyle(color: Colors.white),
             border: InputBorder.none,
           ),
           onChanged: (value) {
-            serach(value);
+            List temp = serach(value);
+            print("temp");
+            print(temp);
           },
         ),
       ),
@@ -107,40 +116,81 @@ class _VisitlogState extends State<Visitlog> {
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 1.3,
-                child: ListView.builder(
-                  itemCount: dealer_name.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                        child: ListTile(
-                            title: Text(dealer_name[index]),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF2B3467),
-                                  ),
-                                  onPressed: () {},
-                                  child: const Text('In'),
+                child: (dealer_name.isEmpty)
+                    ? Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.30),
+                          child: const Column(
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    PhosphorIcons.info,
+                                    size: 35,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  )),
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Please select the district to fetch the dealer name.',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF2B3467)),
                                 ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                OutlinedButton(
-                                    style: OutlinedButton.styleFrom(
-                                      foregroundColor: Colors.white,
-                                      side: const BorderSide(
-                                          color: Color(0xFF2B3467)),
-                                    ),
-                                    onPressed: () {},
-                                    child: const Text('Out',
-                                        style: TextStyle(
-                                          color: Color(0xFF2B3467),
-                                        ))),
-                              ],
-                            )));
-                  },
-                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: (sreachtext.text.isEmpty)
+                            ? dealer_name.length
+                            : searchResults.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Card(
+                              child: ListTile(
+                                  title: Text((sreachtext.text.isEmpty)
+                                      ? dealer_name[index]
+                                      : searchResults[index]),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              const Color(0xFF2B3467),
+                                        ),
+                                        onPressed: () {
+                                          checkin((sreachtext.text.isEmpty)
+                                              ? dealer_name[index]
+                                              : searchResults[index]);
+                                        },
+                                        child: const Text('In'),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      OutlinedButton(
+                                          style: OutlinedButton.styleFrom(
+                                            foregroundColor: Colors.white,
+                                            side: const BorderSide(
+                                                color: Color(0xFF2B3467)),
+                                          ),
+                                          onPressed: () {
+                                            checkout((sreachtext.text.isEmpty)
+                                                ? dealer_name[index]
+                                                : searchResults[index]);
+                                          },
+                                          child: const Text('Out',
+                                              style: TextStyle(
+                                                color: Color(0xFF2B3467),
+                                              ))),
+                                    ],
+                                  )));
+                        },
+                      ),
               ),
             ],
           ),
@@ -193,9 +243,67 @@ class _VisitlogState extends State<Visitlog> {
   }
 
   serach(value) {
-    print(dealer_name);
-    sort_ = dealer_name
-        .where((element) => element.toLowerCase().contains(dealer_name))
-        .toList();
+    setState(() {
+      searchResults = dealer_name
+          .where((name) => name.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    });
+
+    return searchResults;
+  }
+
+  checkin(dealername) async {
+    distributorname = [];
+    SharedPreferences token = await SharedPreferences.getInstance();
+
+    dealer_name = [];
+    var response = await http.post(
+      Uri.parse(
+          '${dotenv.env['API_URL']}/api/method/oxo.custom.api.dealer_visit_log'),
+      headers: {"Authorization": token.getString("token") ?? ""},
+      body: {
+        'dealer': dealername,
+        'username': token.getString('full_name'),
+        'check_in': DateTime.now().toString(),
+      },
+    );
+    if (response.statusCode == 200) {
+      Fluttertoast.showToast(
+          msg: (json.decode(response.body)['message']),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Color.fromARGB(255, 43, 52, 103),
+          textColor: Colors.white,
+          fontSize: 15.0);
+      print(json.decode(response.body)["message"]);
+      token.setString('log_docname', json.decode(response.body)['name'] ?? "");
+    }
+  }
+
+  checkout(dealername) async {
+    SharedPreferences token = await SharedPreferences.getInstance();
+    print(token.getString('log_docname'));
+    var response = await http.post(
+      Uri.parse('${dotenv.env['API_URL']}/api/method/oxo.custom.api.check'),
+      headers: {"Authorization": token.getString("token") ?? ""},
+      body: {
+        'doc_name': token.getString('log_docname'),
+        'check_out': DateTime.now().toString(),
+      },
+    );
+    if (response.statusCode == 200) {
+      token.remove("log_docname");
+
+      Fluttertoast.showToast(
+          msg: (json.decode(response.body)['message']),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Color.fromARGB(255, 43, 52, 103),
+          textColor: Colors.white,
+          fontSize: 15.0);
+      print(json.decode(response.body)["message"]);
+    }
   }
 }

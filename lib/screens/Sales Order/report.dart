@@ -81,7 +81,7 @@ class _ItemreportState extends State<Itemreport> {
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
-                                color: Color.fromARGB(252, 253, 236, 0)),
+                                color: Color(0xFF2B3467)),
                           ),
                         ),
                       ],
@@ -91,43 +91,55 @@ class _ItemreportState extends State<Itemreport> {
               : Column(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 1.2,
-                      child: ListView.builder(
-                        itemCount: item.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var count = index + 1;
-                          return SizedBox(
-                            width: 50,
-                            height: 70,
-                            child: Card(
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  radius: (count > 99) ? 14 : 12.5,
+                        height: MediaQuery.of(context).size.height / 1.2,
+                        child: ListView.builder(
+                          itemCount: item.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var itemGroup = item[index];
+                            var groupName = itemGroup['item_group'];
+
+                            List<Widget> templateTiles = [];
+
+                            for (var itemTemplate
+                                in itemGroup['item_template']) {
+                              var templateName = itemTemplate['item_template'];
+                              List<Widget> itemTiles = [];
+
+                              for (var item in itemTemplate['item_list']) {
+                                var itemCode = item['item_code'];
+                                var qty = item['qty'].toString();
+                                itemTiles.add(
+                                  ListTile(
+                                      title: Text("Item Name: $itemCode"),
+                                      trailing: Text(" Qty: $qty")),
+                                );
+                              }
+
+                              var templateTile = ExpansionTile(
+                                title: Text(" $templateName"),
+                                children: itemTiles,
+                              );
+                              templateTiles.add(templateTile);
+                            }
+
+                            return Card(
+                                child: ExpansionTile(
+                              leading: CircleAvatar(
+                                  radius: 12.5,
                                   backgroundColor: const Color(0xFF2B3467),
                                   child: Text(
-                                    count.toString(),
+                                    (index + 1).toString(),
                                     style: const TextStyle(
                                       color: Colors.white,
                                     ),
-                                  ),
-                                ),
-                                title: Text(
-                                  item[index]['item_code'],
-                                  softWrap: false,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.fade,
-                                ),
-                                subtitle:
-                                    Text(item[index]["item_group"].toString()),
-                                trailing: Text(item[index]["qty"].toString()),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                                  )),
+                              title: Text("Item Group : $groupName"),
+                              children: templateTiles,
+                            ));
+                          },
+                        )),
                     (item.isEmpty)
-                        ? SizedBox()
+                        ? const SizedBox()
                         : SizedBox(
                             height: 50,
                             child: Padding(
@@ -138,7 +150,7 @@ class _ItemreportState extends State<Itemreport> {
                                 children: [
                                   Expanded(
                                       child: Text(
-                                    "Invoice Count: ${invoicecount[0]['count']}",
+                                    "  Order Count: ${invoicecount[0]['count']}",
                                     style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
@@ -204,7 +216,7 @@ class _ItemreportState extends State<Itemreport> {
                   Navigator.of(context).pop();
                   print(_startDate);
                   print(_endDate);
-                  itemsummary(_startDate, _endDate);
+                  itemsummary(_startDate, _endDate, setState);
                 },
               ),
             ],
@@ -214,10 +226,7 @@ class _ItemreportState extends State<Itemreport> {
     );
   }
 
-  Future<void> itemsummary(
-    String formdate,
-    String todate,
-  ) async {
+  Future<void> itemsummary(String formdate, String todate, setState) async {
     SharedPreferences token = await SharedPreferences.getInstance();
     Dio dio = Dio(BaseOptions(
       baseUrl: dotenv.env['API_URL'] ?? "",
@@ -235,16 +244,27 @@ class _ItemreportState extends State<Itemreport> {
       });
 
       if (response.statusCode == 200) {
+        print("xxxxxxxxxxxxxxxx");
+        print(response.data);
+        print(response.data["item_list"]);
         setState(() {
           temp = false;
           invoicecount = response.data["order_count"];
           item = response.data["item_list"];
-          total = 0;
-          for (int i = 0; i < item.length; i++) {
-            total = total + item[i]["qty"];
+          for (var item in item) {
+            for (var template in item["item_template"]) {
+              for (var detail in template["item_list"]) {
+                total += detail["qty"];
+              }
+            }
           }
+          // total = 0;
+          // for (int i = 0; i < item.length; i++) {
+          //   total = total + item[i]["qty"] ?? 0;
+          // }
         });
         print(item);
+        print(temp);
       }
     } on DioError catch (e) {
       if (e.response != null) {
