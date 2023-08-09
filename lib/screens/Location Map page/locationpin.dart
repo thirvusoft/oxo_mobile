@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:oxo/constants.dart';
@@ -22,7 +22,6 @@ class location_pin extends StatefulWidget {
 class _location_pinState extends State<location_pin> {
   void initState() {
     location_list();
-    EasyLoading.show(status: 'Loading...');
 
     //
   }
@@ -53,8 +52,9 @@ class _location_pinState extends State<location_pin> {
     _controller.complete(controller);
   }
 
-  static final LatLng _center =
-      LatLng(location[0]["latitude"], location[0]["longitude"]);
+  static final LatLng _center = LatLng(double.parse(location[0]["latitude"]),
+      double.parse(location[0]["longitude"]));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +62,17 @@ class _location_pinState extends State<location_pin> {
         centerTitle: true,
         backgroundColor: Color(0xffEB455F),
         title: const Text('Location'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              PhosphorIcons.arrow_clockwise,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              location_list();
+            },
+          )
+        ],
       ),
       body: (location.isEmpty)
           ? (Container())
@@ -82,6 +93,7 @@ class _location_pinState extends State<location_pin> {
   }
 
   Future location_list() async {
+    print("adddddddddddddddddddddddddddddddddddddddddddddd");
     await dotenv.load();
 
     var response = await http.get(Uri.parse(
@@ -89,9 +101,11 @@ class _location_pinState extends State<location_pin> {
 
     final Uint8List markerIcon = await getBytesFromAsset("assets/Pin.png", 300);
     if (response.statusCode == 200) {
+      location = [];
+      _markers = [];
       setState(() {
         status = false;
-        EasyLoading.dismiss();
+
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           location.add((json.decode(response.body)['message'][i]));
         }
@@ -99,13 +113,13 @@ class _location_pinState extends State<location_pin> {
         for (int j = 0; j <= location.length; j++) {
           setState(() {
             _markers.add(Marker(
-                markerId: MarkerId(location[j]["name"].toString()),
-                position:
-                    LatLng(location[j]["latitude"], location[j]["longitude"]),
+                markerId: MarkerId(location[j]["user"].toString()),
+                position: LatLng(double.parse(location[j]["latitude"]),
+                    double.parse(location[j]["longitude"])),
                 onTap: () {},
                 infoWindow: InfoWindow(
-                  title: location[j]["name"],
-                  snippet: location[j]["pincode"],
+                  title: location[j]["user"],
+                  snippet: location[j]["creation"],
                 ),
                 icon: BitmapDescriptor.fromBytes(markerIcon)));
           });

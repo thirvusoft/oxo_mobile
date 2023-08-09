@@ -692,6 +692,13 @@ class _sales_orderState extends State<sales_order> {
       username, Competitors) async {
     SharedPreferences token = await SharedPreferences.getInstance();
     var user;
+    print(token.getString("token"));
+    print("ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp");
+    print(jsonEncode(valuesDict));
+    print(customerName);
+    print(distributorName);
+    print(username);
+
     setState(() {
       user = token.getString('full_name');
     });
@@ -709,6 +716,7 @@ class _sales_orderState extends State<sales_order> {
         'Competitors': Competitors,
       },
     );
+
     if (response.statusCode == 200) {
       setState(() {
         AwesomeDialog(

@@ -7,6 +7,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:oxo/screens/notification/notification.dart';
 import 'package:oxo/screens/route_plan/visit_log.dart';
+import 'package:oxo/screens/sample.dart';
 
 import 'package:oxo/screens/splashscreen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -55,7 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return OverlaySupport.global(
         child: GetMaterialApp(
       useInheritedMediaQuery: true,
-
       builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
       routes: {
@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
         primarySwatch: createMaterialColor(const Color(0xFFEB455F)),
         // visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const splashscreen(),
+      home: splashscreen(),
       // builder: EasyLoading.init(),
     ));
   }

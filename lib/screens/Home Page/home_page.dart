@@ -26,6 +26,7 @@ import 'package:http/http.dart' as http;
 import 'package:oxo/screens/distributor/distributor.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../Widget /api.dart';
 import '../../constants.dart';
 import '../Appointment/appointment.dart';
 import '../Location Map page/distance_clac.dart';
@@ -121,9 +122,6 @@ class _home_pageState extends State<home_page> {
       username = token.getString('full_name');
       role_ = token.getString('roll')!;
     });
-    print('gggggggggggggggggggggggggggggggggggggggggggg');
-    print(role_);
-    print(token.getString("token"));
   }
 
   Widget build(BuildContext context) {

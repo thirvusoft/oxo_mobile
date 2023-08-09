@@ -48,7 +48,7 @@ dependencies:
   fluttertoast: ^8.1.2
   flutter_local_notifications: ^12.0.4
   timezone: ^0.9.0
-  location: ^4.3.0
+  location: ^5.0.2+1
   geolocator: ^9.0.2
   google_maps_flutter: ^2.2.2
   flutter_easyloading: ^3.0.5
@@ -87,6 +87,7 @@ dependencies:
   google_fonts: ^4.0.4
   google_maps_flutter_web: ^0.4.0+9
   syncfusion_flutter_datepicker: ^20.4.54
+  permission_handler: ^10.4.3
 
 
 dev_dependencies:
