@@ -34,7 +34,6 @@ var long;
 final DistrictController DistrictControllers = Get.put(DistrictController());
 final LocationController locationController = Get.put(LocationController());
 
-// final DistrictController locationController = Get.find<DistrictController>();
 
 class _nearest_locationState extends State<nearest_location> {
   @override

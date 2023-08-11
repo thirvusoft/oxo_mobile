@@ -250,6 +250,7 @@ class _category_groupState extends State<category_group> {
   }
 
   Future varient_list(item_name) async {
+    print(item_name);
     setState(() {
       rowVarient.clear();
 
@@ -271,10 +272,12 @@ class _category_groupState extends State<category_group> {
         for (var i = 0; i < json.decode(response.body)['message'].length; i++) {
           varient_item_list.add((json.decode(response.body)['message'][i]));
         }
-        print(varient_item_list);
         List<String> sizes = ["s", "m", "l", "xl", "2xl", "3xl", "4xl", "5xl"];
-
+        print(jsonEncode(varient_item_list));
         // Sorting based on whether the item code contains a letter or a number
+        if (varient_item_list.contains("F/S")) {
+          print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        }
         varient_item_list.sort((a, b) {
           String aItemCode = a['item_code'];
           String bItemCode = b['item_code'];
@@ -291,18 +294,17 @@ class _category_groupState extends State<category_group> {
             int bIndex = sizes.indexOf(bSize);
             return aIndex.compareTo(bIndex);
           } else if (!aContainsLetter && !bContainsLetter) {
-            int itemCodeA = int.parse(aItemCode.split('-')[1]);
-            int itemCodeB = int.parse(bItemCode.split('-')[1]);
+            // Split the item code using "-" and then extract the numeric part from the last element.
+            int itemCodeA = int.parse(aItemCode.split('-').last);
+            int itemCodeB = int.parse(bItemCode.split('-').last);
             return itemCodeA.compareTo(itemCodeB);
           } else {
             // If one item code contains a letter and the other contains a number, prioritize the one with the number.
             return aContainsLetter ? 1 : -1;
           }
         });
-
-        
       });
-      
+
       if (varient_item_list.isNotEmpty) {
         Navigator.push(
           context,

@@ -180,7 +180,6 @@ class _appointmentState extends State<appointment> {
                                 },
                                 textInputAction: TextInputAction.next,
                                 marginColor: Colors.white,
-                                hasOverlay: false,
                                 searchStyle: TextStyle(
                                   fontSize: 15,
                                   color: Colors.black.withOpacity(0.8),
@@ -232,7 +231,7 @@ class _appointmentState extends State<appointment> {
                               onSuggestionTap: (x) {},
                               textInputAction: TextInputAction.next,
                               marginColor: Colors.white,
-                              hasOverlay: false,
+                              
                               searchStyle: TextStyle(
                                 fontSize: 15,
                                 color: Colors.black.withOpacity(0.8),
@@ -288,7 +287,7 @@ class _appointmentState extends State<appointment> {
                                         suggestionState: Suggestion.expand,
                                         textInputAction: TextInputAction.next,
                                         marginColor: Colors.white,
-                                        hasOverlay: false,
+                                        
                                         searchStyle: TextStyle(
                                           fontSize: 15,
                                           color: Colors.black.withOpacity(0.8),
@@ -349,7 +348,7 @@ class _appointmentState extends State<appointment> {
                                 suggestionState: Suggestion.expand,
                                 textInputAction: TextInputAction.next,
                                 marginColor: Colors.white,
-                                hasOverlay: false,
+                                
                                 searchStyle: TextStyle(
                                   fontSize: 15,
                                   color: Colors.black.withOpacity(0.8),
@@ -456,7 +455,7 @@ class _appointmentState extends State<appointment> {
                               suggestionState: Suggestion.expand,
                               textInputAction: TextInputAction.next,
                               marginColor: Colors.white,
-                              hasOverlay: false,
+                              
                               searchStyle: TextStyle(
                                 fontSize: 15,
                                 color: Colors.black.withOpacity(0.8),

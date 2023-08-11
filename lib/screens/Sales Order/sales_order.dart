@@ -106,7 +106,7 @@ class _sales_orderState extends State<sales_order> {
                                     .toList(),
                                 suggestionState: Suggestion.expand,
                                 textInputAction: TextInputAction.next,
-                                hasOverlay: false,
+                                
                                 marginColor: Colors.white,
                                 searchStyle: TextStyle(
                                   fontSize: 15,
@@ -168,7 +168,9 @@ class _sales_orderState extends State<sales_order> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: SizedBox(
           height: size.height / 12,
-          child: TextFormField(
+          child: 
+          
+          TextFormField(
             textInputAction: TextInputAction.next,
             controller: delivery_date,
             validator: (x) {
@@ -452,7 +454,7 @@ class _sales_orderState extends State<sales_order> {
                                   .toList(),
                               suggestionState: Suggestion.expand,
                               textInputAction: TextInputAction.next,
-                              hasOverlay: false,
+                              
                               searchStyle: TextStyle(
                                 fontSize: 15,
                                 color: Colors.black.withOpacity(0.8),
@@ -508,7 +510,7 @@ class _sales_orderState extends State<sales_order> {
                                 marginColor: Colors.white,
                                 onSuggestionTap: (x) {},
                                 textInputAction: TextInputAction.next,
-                                hasOverlay: false,
+                                
                                 searchStyle: TextStyle(
                                   fontSize: 15,
                                   color: Colors.black.withOpacity(0.8),
@@ -692,6 +694,13 @@ class _sales_orderState extends State<sales_order> {
       username, Competitors) async {
     SharedPreferences token = await SharedPreferences.getInstance();
     var user;
+    print(token.getString("token"));
+    print("ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp");
+    print(jsonEncode(valuesDict));
+    print(customerName);
+    print(distributorName);
+    print(username);
+
     setState(() {
       user = token.getString('full_name');
     });
@@ -709,6 +718,7 @@ class _sales_orderState extends State<sales_order> {
         'Competitors': Competitors,
       },
     );
+
     if (response.statusCode == 200) {
       setState(() {
         AwesomeDialog(

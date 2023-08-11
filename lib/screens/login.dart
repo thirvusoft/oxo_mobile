@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -9,7 +10,7 @@ import 'package:oxo/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../Widget /bottomnaviagtion.dart';
+import '../Widget /api.dart';
 import 'Home Page/home_page.dart';
 import 'Orders/Orderlist.dart';
 
@@ -368,6 +369,7 @@ class _LoginState extends State<Login> {
         print(token.getString("token"));
         print(token.getString("full_name"));
         print(json.decode(response.body)['roll']);
+
         if (json.decode(response.body)['roll'] == "Distributor") {
           Navigator.pushAndRemoveUntil(
             context,
@@ -385,7 +387,9 @@ class _LoginState extends State<Login> {
             (route) => false,
           );
         }
-
+        final DistrictController _checkLocationPermissions =
+            Get.put(DistrictController());
+        print(_checkLocationPermissions.permission);
         Fluttertoast.showToast(
             msg: (json.decode(response.body)['message']),
             toastLength: Toast.LENGTH_SHORT,

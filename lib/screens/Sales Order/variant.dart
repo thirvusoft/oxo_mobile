@@ -52,7 +52,6 @@ class _item_groupState extends State<item_group> {
           ElevatedButton.icon(
             onPressed: () {
               list.clear();
-              print(values_dict);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const category()),
@@ -66,8 +65,7 @@ class _item_groupState extends State<item_group> {
                   'item_name': value[2]
                 });
               });
-              print("eeeeeeeeeeeeeeeee");
-              print(values_dict);
+              
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFEB455F),
@@ -126,7 +124,6 @@ class _item_groupState extends State<item_group> {
                             item_search_list_varient[i]["item_code"];
                         dVa["item_group"] =
                             item_search_list_varient[i]["item_group"];
-                        print(icon_nameOnSearch_varient);
                         icon_nameOnSearch_varient.add(dVa);
 
                         icon_nameOnSearch_varient.sort((a, b) {
@@ -215,7 +212,6 @@ class _item_groupState extends State<item_group> {
                   list.add(TextEditingController());
 
                   int count = index + 1;
-                  print(varient_item_list);
                   return AnimationConfiguration.staggeredList(
                       position: index,
                       duration: const Duration(milliseconds: 300),

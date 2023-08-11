@@ -7,12 +7,12 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:oxo/screens/notification/notification.dart';
 import 'package:oxo/screens/route_plan/visit_log.dart';
+import 'package:oxo/screens/sample.dart';
 
 import 'package:oxo/screens/splashscreen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:path_provider/path_provider.dart';
 import 'Db/customer.dart';
-import 'Widget /bottomnaviagtion.dart';
 import 'screens/Home Page/home_page.dart';
 import 'screens/Sales Order/sales_order.dart';
 import 'package:get/get.dart';
@@ -55,12 +55,10 @@ class _MyHomePageState extends State<MyHomePage> {
     return OverlaySupport.global(
         child: GetMaterialApp(
       useInheritedMediaQuery: true,
-
       builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
       routes: {
         'test': (context) => sales_order(),
-        'bottom': (context) => const MainPage(),
         'homepage': (context) => const home_page(),
         'category_groups': (context) => category_group(),
         "notification": (context) => const notification(),
@@ -77,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
         primarySwatch: createMaterialColor(const Color(0xFFEB455F)),
         // visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const splashscreen(),
+      home: splashscreen(),
       // builder: EasyLoading.init(),
     ));
   }

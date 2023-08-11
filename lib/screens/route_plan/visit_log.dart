@@ -87,7 +87,7 @@ class _VisitlogState extends State<Visitlog> {
                     .toList(),
                 suggestionState: Suggestion.expand,
                 textInputAction: TextInputAction.next,
-                hasOverlay: false,
+                
                 marginColor: Colors.white,
                 searchStyle: TextStyle(
                   fontSize: 15,

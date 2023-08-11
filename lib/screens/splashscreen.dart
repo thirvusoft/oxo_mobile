@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oxo/constants.dart';
 import 'package:oxo/screens/Home%20Page/home_page.dart';
 import 'package:oxo/screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Widget /api.dart';
 
 class splashscreen extends StatefulWidget {
   const splashscreen({super.key});
@@ -36,21 +39,26 @@ class _splashscreenState extends State<splashscreen> {
     });
 
     if (token.getString('token') == null) {
-      timer = Timer(
-          const Duration(seconds: 2),
-          () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Login(),
-              )));
+      timer = Timer(const Duration(seconds: 2), () {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Login(),
+            ));
+      });
     } else {
-      timer = Timer(
-          const Duration(seconds: 2),
-          () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const home_page(),
-              )));
+      timer = Timer(const Duration(seconds: 2), () {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const home_page(),
+            ));
+
+        final DistrictController _checkLocationPermissions =
+            Get.put(DistrictController());
+        print("dfhdsufiuasdgfsdgusdgvsvdhvhkvjdjvbsdvbzkvbzv");
+        print(_checkLocationPermissions.permission);
+      });
     }
   }
 

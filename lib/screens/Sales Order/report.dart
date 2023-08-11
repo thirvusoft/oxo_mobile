@@ -244,6 +244,7 @@ class _ItemreportState extends State<Itemreport> {
       });
 
       if (response.statusCode == 200) {
+        total = 0;
         print("xxxxxxxxxxxxxxxx");
         print(response.data);
         print(response.data["item_list"]);
@@ -258,10 +259,6 @@ class _ItemreportState extends State<Itemreport> {
               }
             }
           }
-          // total = 0;
-          // for (int i = 0; i < item.length; i++) {
-          //   total = total + item[i]["qty"] ?? 0;
-          // }
         });
         print(item);
         print(temp);
