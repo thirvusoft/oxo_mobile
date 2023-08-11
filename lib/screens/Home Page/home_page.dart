@@ -3,21 +3,17 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:dio/dio.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
-import 'dart:developer';
 import 'package:just_audio/just_audio.dart';
 import 'package:animations/animations.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:oxo/screens/Appointment/customer_list.dart';
 import 'package:oxo/screens/Dealer%20Creaction/dealer.dart';
 import 'package:oxo/screens/Location%20Map%20page/locationpin.dart';
 import 'package:oxo/screens/Sales%20Order/item_category_list.dart';
@@ -26,18 +22,12 @@ import 'package:http/http.dart' as http;
 import 'package:oxo/screens/distributor/distributor.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../Widget /api.dart';
 import '../../constants.dart';
 import '../Appointment/appointment.dart';
-import '../Location Map page/distance_clac.dart';
 import '../Location Map page/neartestlocation.dart';
 import '../Orders/Orderlist.dart';
 import '../Sales Order/report.dart';
-import '../notification/appointment_notification.dart';
-import '../notification/notificationservice.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:cron/cron.dart';
 import 'package:collection/collection.dart';
 
 import '../route_plan/routeplan.dart';
@@ -121,6 +111,8 @@ class _home_pageState extends State<home_page> {
     setState(() {
       username = token.getString('full_name');
       role_ = token.getString('roll')!;
+      print("rolllrollroll");
+      print(role_);
     });
   }
 
@@ -267,6 +259,7 @@ class _home_pageState extends State<home_page> {
                     const SizedBox(
                       width: 5,
                     ),
+
                     getCardItem3(height),
                     const SizedBox(
                       width: 20,
@@ -444,7 +437,31 @@ class _home_pageState extends State<home_page> {
     return OpenContainer(
       transitionType: _containerTransitionType,
       transitionDuration: Duration(milliseconds: 500),
-      openBuilder: (context, _) => location_pin(),
+      openBuilder: (context, _) {
+        if (role_ == "super_admin") {
+          return location_pin(); // Return the location_pin widget.
+        } else {
+          return Center(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.30),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(
+                        PhosphorIcons.x_circle_light,
+                        size: 50,
+                        color: Color(0xffe60000),
+                      )),
+                  Text("You did not allow this module")
+                ],
+              ),
+            ),
+          );
+        }
+      },
       closedElevation: 0,
       closedShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(32),
@@ -884,7 +901,6 @@ class _home_pageState extends State<home_page> {
               .toList(),
           suggestionState: Suggestion.expand,
           textInputAction: TextInputAction.next,
-          hasOverlay: false,
           searchStyle: TextStyle(
             fontSize: 15,
             color: Colors.black.withOpacity(0.8),

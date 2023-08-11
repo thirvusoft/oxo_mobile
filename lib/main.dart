@@ -13,7 +13,6 @@ import 'package:oxo/screens/splashscreen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:path_provider/path_provider.dart';
 import 'Db/customer.dart';
-import 'Widget /bottomnaviagtion.dart';
 import 'screens/Home Page/home_page.dart';
 import 'screens/Sales Order/sales_order.dart';
 import 'package:get/get.dart';
@@ -60,7 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
       debugShowCheckedModeBanner: false,
       routes: {
         'test': (context) => sales_order(),
-        'bottom': (context) => const MainPage(),
         'homepage': (context) => const home_page(),
         'category_groups': (context) => category_group(),
         "notification": (context) => const notification(),

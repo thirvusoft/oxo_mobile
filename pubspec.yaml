@@ -39,7 +39,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^1.1.6
   form_field_validator: ^1.1.0
-  searchfield: ^0.7.2
   syncfusion_flutter_datagrid: ^20.3.60
   awesome_dialog: ^3.0.2
   flutter_staggered_animations: ^1.1.1
@@ -88,6 +87,7 @@ dependencies:
   google_maps_flutter_web: ^0.4.0+9
   syncfusion_flutter_datepicker: ^20.4.54
   permission_handler: ^10.4.3
+  searchfield: ^0.8.4
 
 
 dev_dependencies:

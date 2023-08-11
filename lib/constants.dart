@@ -19,8 +19,7 @@ GlobalKey<FormState> order_list = GlobalKey<FormState>();
 TextEditingController dispatch_list = TextEditingController();
 TextEditingController invoice_no = TextEditingController();
 TextEditingController dispatch_date = TextEditingController();
-
-
+List txt_ = [];
 
 TextEditingController customer_name = TextEditingController();
 TextEditingController delivery_date = TextEditingController();
@@ -78,7 +77,6 @@ List route_dealer_name = [];
 TextEditingController territory_district = TextEditingController();
 
 GlobalKey<FormState> visited_key = GlobalKey<FormState>();
-
 
 List distributor = [];
 List row_varient = [];
@@ -200,7 +198,6 @@ List pincode_list = [];
 List district_lists = [];
 List districts_ = [];
 List districts_list = [];
-
 
 TextEditingController district_list_text = TextEditingController();
 TextEditingController Manualdata_ = TextEditingController();

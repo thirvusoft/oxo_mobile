@@ -250,6 +250,7 @@ class _category_groupState extends State<category_group> {
   }
 
   Future varient_list(item_name) async {
+    print(item_name);
     setState(() {
       rowVarient.clear();
 

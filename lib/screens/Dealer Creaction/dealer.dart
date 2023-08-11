@@ -3,33 +3,21 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:location/location.dart';
-
-import 'package:oxo/constants.dart';
-import 'package:oxo/constants.dart';
 import 'package:oxo/constants.dart';
 import 'package:oxo/screens/Home%20Page/home_page.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:convert';
-import 'package:geolocator/geolocator.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:searchfield/searchfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
-import 'dart:math';
 import 'package:hive/hive.dart';
-import 'package:sqflite/sqflite.dart';
 import '../../Widget /apiservice.dart';
 import 'package:get/get.dart' as GET;
 
@@ -412,7 +400,7 @@ class _dealerState extends State<dealer> {
                         .toList(),
                     suggestionState: Suggestion.expand,
                     textInputAction: TextInputAction.next,
-                    hasOverlay: false,
+                    
                     marginColor: Colors.white,
                     searchStyle: TextStyle(
                       fontSize: 15,
@@ -467,7 +455,7 @@ class _dealerState extends State<dealer> {
                       // print(districts.text);
                     },
                     textInputAction: TextInputAction.next,
-                    hasOverlay: false,
+                    
                     searchStyle: TextStyle(
                       fontSize: 15,
                       color: Colors.black.withOpacity(0.8),
@@ -511,7 +499,7 @@ class _dealerState extends State<dealer> {
                       pincode_text.text = dealerarea.text.split("-").last;
                     },
                     textInputAction: TextInputAction.next,
-                    hasOverlay: false,
+                    
                     searchStyle: TextStyle(
                       fontSize: 15,
                       color: Colors.black.withOpacity(0.8),

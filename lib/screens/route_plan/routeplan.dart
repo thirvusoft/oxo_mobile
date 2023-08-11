@@ -241,7 +241,7 @@ class _RoutePlanState extends State<RoutePlan> {
                                   .toList(),
                               suggestionState: Suggestion.expand,
                               textInputAction: TextInputAction.next,
-                              hasOverlay: false,
+                              
                               marginColor: Colors.white,
                               searchStyle: TextStyle(
                                 fontSize: 15,
@@ -282,7 +282,7 @@ class _RoutePlanState extends State<RoutePlan> {
                                   .toList(),
                               suggestionState: Suggestion.expand,
                               textInputAction: TextInputAction.next,
-                              hasOverlay: false,
+                              
                               marginColor: Colors.white,
                               searchStyle: TextStyle(
                                 fontSize: 15,

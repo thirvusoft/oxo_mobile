@@ -16,7 +16,7 @@ class DistrictController extends GetxController {
   LocationData? _currentLocation;
   Location _locationService = Location();
   LocationData? _previousLocation;
-  double significantChangeThreshold = 50;
+  double significantChangeThreshold = 1;
   RxString permission = ''.obs;
 
   @override
@@ -45,6 +45,7 @@ class DistrictController extends GetxController {
   }
 
   Future<void> _checkLocationPermissions() async {
+    print("pooooooooooooooooooooooooooooooooooooooooooooo");
     var status = await Permission.location.status;
 
     var isLoading = true.obs;
@@ -74,6 +75,7 @@ class DistrictController extends GetxController {
           result.latitude,
           result.longitude,
         );
+        print("rrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 
         if (distance >= significantChangeThreshold) {
           _currentLocation = result;
@@ -103,6 +105,7 @@ class DistrictController extends GetxController {
   }
 
   Future<void> _callAPI(currentLocation) async {
+    print("[][][]");
     var now = new DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
@@ -115,7 +118,7 @@ class DistrictController extends GetxController {
 
     var response = await http.post(
       Uri.parse('${dotenv.env['API_URL']}/api/method/oxo.custom.api.lat'),
-      // headers: {"Authorization": token.getString("token") ?? ""},
+      headers: {"Authorization": token.getString("token") ?? ""},
       body: {
         'lat': lat,
         'long': long,
@@ -125,6 +128,7 @@ class DistrictController extends GetxController {
       },
     );
 
+    print(response.body);
     if (response.statusCode == 200) {
       // If the API call is successful, parse the response data
       final responseData = json.decode(response.body);
